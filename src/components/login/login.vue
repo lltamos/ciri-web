@@ -18,7 +18,7 @@
       <div class="iconWrap" v-show="showEmail">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="phone" @blur="verifyEmail" @focus="Focus">
+            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email" @blur="verifyEmail" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-email"></i>
@@ -72,7 +72,7 @@
         formMess : {
           phone : this.phone,
           email : this.email,
-          password : this.password
+          password : this.password,
         },
         loginData:[],
         position:'',
@@ -149,9 +149,8 @@
       },
       //初始化数据
       login () {
-
-        var params = new URLSearchParams();
-        params.append('key', this.aisle==0 ? this.phone : this.email);
+        let params = new URLSearchParams();
+        params.append('key', this.aisle==1 ? this.email : this.phone);
         params.append('pwd', this.password);
         params.append('aisle', this.aisle+"");
 
@@ -233,7 +232,7 @@
         }
         .pswIconShow{
           @include bg-image('./img/psw-show');
-         }
+        }
         .pswIconClose{
           @include bg-image('./img/psw-close');
         }
