@@ -51,14 +51,17 @@
 </template>
 
 <script>
+  import Tool from  "@/api/common.js"
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
+
   export default {
     components: {
       HeaderBar,
       BottomImg,
       CrossLine
+
     },
     data () {
       return {
@@ -149,7 +152,7 @@
       },
       //初始化数据
       login () {
-
+       alert( Tool.domind());
         var params = new URLSearchParams();
         params.append('key', this.aisle==0 ? this.phone : this.email);
         params.append('pwd', this.password);
