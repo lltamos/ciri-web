@@ -57,6 +57,7 @@
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "../../api/tool";
   export default {
     components: {
       HeaderBar,
@@ -89,6 +90,7 @@
     methods: {
       //初始化数据
       login () {
+
         this.axios.post('http://192.168.1.25:8080/gateway/app/sys/login', {
           phone : this.phone,
           email : this.email,
