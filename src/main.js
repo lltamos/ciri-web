@@ -18,6 +18,7 @@ import '@/assets/scss/reset.scss'
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(Mint)
+import Tool from "./api/tool";
 
 // 图片懒加载
 import VueLazyload from 'vue-lazyload'
