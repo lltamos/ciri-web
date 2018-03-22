@@ -75,24 +75,13 @@
           password : this.password
         },
         loginData:[],
-        position:''
+        position:'',
+        aisle : 0
       }
     },
     props: {},
     watch: {},
     methods: {
-      //初始化数据
-      login () {
-        this.axios.post('http://192.168.1.25:8080/gateway/app/sys/login', {
-          phone : this.phone,
-          email : this.email,
-          password : this.password
-        }).then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      },
       back() {
         this.$router.push({
           path:this.$router.go(-1)
@@ -109,6 +98,13 @@
         this.errorShow = false;
         this.showPhone = !this.showPhone;
         this.showEmail = !this.showEmail;
+        if(this.showPhone){
+          this.aisle = 0;
+          // this.key = this.phone;
+        }else {
+          this.aisle = 1;
+          // this.key = this.email;
+        }
         if (this.showPhone) {
           this.error = '手机号错误，请重新输入'
         }else {
@@ -150,6 +146,18 @@
       },
       fixImg () {
         this.position = 'fixImg';
+      },
+      //初始化数据
+      login () {
+        this.axios.post('http://localhost:8080/gateway/app/sys/login', {
+          aisle :this.aisle,
+          key : this.aisle==0 ? this.phone : this.email,
+          pwd : this.password
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
       }
     },
     filters: {},
