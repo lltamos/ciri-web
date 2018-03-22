@@ -19,7 +19,7 @@ import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(Mint)
 
-// 图片懒加载111
+// 图片懒加载
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
   // loading: '/static/loading-bars.svg'
