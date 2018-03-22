@@ -190,17 +190,17 @@
           display: block;
           width: 20px;
           height: 20px;
-          background: url('./img/phone.png') no-repeat;
+          @include bg-image('./img/phone');
           background-size: 20px auto;
         }
         .icon-phone {
-          background-image: url('./img/phone.png');
+          @include bg-image('./img/phone');
         }
         .icon-password {
-          background-image: url('./img/password.png');
+          @include bg-image('./img/password');
         }
         .icon-email {
-          background-image: url('./img/email.png');
+          @include bg-image('./img/email');
         }
         .iconImg{
           position: absolute;
@@ -221,10 +221,10 @@
           display: block;
         }
         .pswIconShow{
-           background-image: url('./img/psw-show.png');
+          @include bg-image('./img/psw-show');
          }
         .pswIconClose{
-          background-image: url('./img/psw-close.png');
+          @include bg-image('./img/psw-close');
         }
       }
       .regiPwd{

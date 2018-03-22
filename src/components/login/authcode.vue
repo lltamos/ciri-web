@@ -140,11 +140,11 @@
           display: block;
           width: 20px;
           height: 20px;
-          background: url('./img/phone.png') no-repeat;
+          @include bg-image('./img/phone');
           background-size: 20px auto;
         }
         .icon-authcode {
-          background-image: url('./img/authcode.png');
+          @include bg-image('./img/authcode');
         }
         .iconImg{
           position: absolute;

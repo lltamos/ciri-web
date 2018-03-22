@@ -204,7 +204,7 @@
             display: inline-block;
             width: 19px;
             height: 19px;
-            background-image: url('./img/man.png');
+            @include bg-image('./img/man');
             background-size: 19px auto;
             margin: 0 10px;
             vertical-align: bottom;
@@ -267,17 +267,17 @@
           display: block;
           width: 20px;
           height: 20px;
-          background: url('./img/phone.png') no-repeat;
+          @include bg-image('./img/phone');
           background-size: 20px auto;
         }
         .icon-phone {
-          background-image: url('./img/phone.png');
+          @include bg-image('./img/phone');
         }
         .icon-authcode {
-          background-image: url('./img/authcode.png');
+          @include bg-image('./img/authcode');
         }
         .icon-password {
-          background-image: url('./img/password.png');
+          @include bg-image('./img/password');
         }
         .iconImg{
           position: absolute;
@@ -305,10 +305,10 @@
           display: block;
         }
         .pswIconShow{
-          background-image: url('./img/psw-show.png');
+          @include bg-image('./img/psw-show');
         }
         .pswIconClose{
-          background-image: url('./img/psw-close.png');
+          @include bg-image('./img/psw-close');
         }
         .getCodeBg{
           width:62px;
