@@ -149,11 +149,14 @@
       },
       //初始化数据
       login () {
-        this.axios.post('http://localhost:8080/gateway/app/sys/login', {
-          aisle :this.aisle,
-          key : this.aisle==0 ? this.phone : this.email,
-          pwd : this.password
-        }).then(res => {
+
+        var params = new URLSearchParams();
+        params.append('key', this.aisle==0 ? this.phone : this.email);
+        params.append('pwd', this.password);
+        params.append('aisle', this.aisle+"");
+
+        this.axios.post('http://127.0.0.1:8080/gateway/app/sys/login', params
+        ).then(res => {
           console.log(res)
         }).catch(err => {
           console.log(err)
