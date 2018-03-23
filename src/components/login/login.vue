@@ -29,7 +29,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg"
+            <input placeholder="请输入密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="psw"
                    @focus="Focus">
           </div>
         </div>
@@ -43,7 +43,6 @@
       </div>
       <div class="error">
         <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
-        <!--<div v-show="errorShow" class="errorText">邮箱地址错误，请重新输入</div>-->
       </div>
 
       <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
@@ -101,16 +100,6 @@
         this.errorShow = false;
         this.showPhone = !this.showPhone;
         this.showEmail = !this.showEmail;
-        // if (this.showPhone) {
-        //   this.aisle = 0;
-        // } else {
-        //   this.aisle = 1;
-        // }
-        // if (this.showPhone) {
-        //   this.error = '账号错误，请重新输入'
-        // } else {
-        //   this.error = '账号错误，请重新输入'
-        // }
       },
       pswShow() {
         if (this.pswTypeChange == 'password') {
@@ -128,8 +117,10 @@
         let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
         if (this.phone == '') {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         } else if (!reg.test(this.phone)) {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         } else {
           this.errorShow = false;
         }
@@ -139,9 +130,21 @@
         let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
         if (this.email == '') {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         } else if (!flag.test(this.email)) {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         } else {
+          this.errorShow = false;
+        }
+      },
+      //验证密码不为空
+      psw (){
+        this.position = 'fixImg';
+        if (this.password == '') {
+          this.errorShow = true;
+          this.error = '密码错误，请重新输入';
+        }else{
           this.errorShow = false;
         }
       },
@@ -156,7 +159,7 @@
         }else {
           tag = tool.checkEmail(this.email);
         }
-        if (tag) {
+        if (tag && this.password !== '') {
           let params = new URLSearchParams();
           params.append('key', this.showEmail ? this.email : this.phone);
           params.append('pwd', this.password);
@@ -170,6 +173,7 @@
             console.log(err)
           })
         }else {
+          this.error = '账号或密码错误，请重新输入'
           this.errorShow = true;
         }
       }

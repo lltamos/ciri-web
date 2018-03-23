@@ -11,19 +11,13 @@
           <i class="iconImg icon-man"></i><span>我是<span class="chooseRole" style="color:red;">请选择角色</span></span>
         </p>
         <div class="pl29">
-          <div class="gdWidth"><input type="radio" name="role" checked>投资方</div>
-          <input type="radio" name="role">项目方
+          <div class="gdWidth"><input type="radio" name="role" value="1" v-model="checked">投资方</div>
+          <input type="radio" name="role" value="2" v-model="checked">项目方
         </div>
         <div class="pl29">
-          <div class="gdWidth"><input type="radio" name="role">投资服务机构</div>
-          <input type="radio" name="role">项目代理
+          <div class="gdWidth"><input type="radio" name="role" value="4" v-model="checked">投资服务机构</div>
+          <input type="radio" name="role" value="3" v-model="checked">项目代理
         </div>
-        <!--<div class="pl29">-->
-          <!--<mt-radio-->
-            <!--v-model="value"-->
-            <!--:options="['项目方', '投资方', '投资服务机构']">-->
-          <!--</mt-radio>-->
-        <!--</div>-->
       </div>
       <div class="iconWrap">
         <div class="mint-cell">
@@ -37,7 +31,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="verifyCode" @blur="vCode" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
@@ -47,7 +41,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入密码" :type="pswTypeChange1" v-model="password1" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input placeholder="请输入密码" :type="pswTypeChange1" v-model="password1" class="mint-field-core" @blur="psw1" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-password"></i>
@@ -56,29 +50,29 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请确认密码" :type="pswTypeChange2" v-model="password2" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input placeholder="请确认密码" :type="pswTypeChange2" v-model="password2" class="mint-field-core" @blur="psw2" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-password"></i>
         <div :class="pswIcon2" @click="pswShow2"></div>
       </div>
       <div class="agreement">
-        <span><input type="checkbox" name="agreement" :checked="checked"/>我同意《<router-link to="/deal" class="deal">用户注册协议</router-link>》</span>
+        <span><input type="checkbox" name="agreement" :checked="checkedbox"/>我同意《<router-link to="/deal" class="deal">用户注册协议</router-link>》</span>
       </div>
-      <mt-button :class="registerClass" size="large">注册</mt-button>
+      <mt-button :class="registerClass" size="large" @click="register">注册</mt-button>
       <div class="error">
-        <div v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
+        <div v-show="errorShow" class="errorText" v-text="error"></div>
       </div>
     </div>
-    <bottomImg class="staticImg"></bottomImg>
+    <bottomImg :class="position"></bottomImg>
   </div>
 </template>
 
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import BottomImg from '@/components/base/bottomImg/bottomImg'
-
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "../../api/tool";
   export default {
     components: {
       HeaderBar,
@@ -92,24 +86,48 @@
         count: '',
         timer: null,
         position: '',
-        formMess : {
-          phone : this.phone,
-          password1 : this.password1,
-          password2 : this.password2
-        },
+        phone : this.phone,
+        password1 : this.password1,
+        password2 : this.password2,
+        verifyCode : this.verifyCode,
         pswTypeChange1 : 'password',
         pswIcon1: 'switch pswIcon pswIconClose',
         pswTypeChange2 : 'password',
         pswIcon2: 'switch pswIcon pswIconClose',
-        error:'手机号错误，请重新输入',
+        error:'账号或密码错误，请重新输入',
         errorShow : false,
-        checked : false,
-        number_registered : false
+        checkedbox : false,
+        number_registered : false,
+        checked :''
       }
     },
     props: {},
     watch: {},
     methods: {
+      register (){
+        let tag = false;
+        tag = tool.checkMobile(this.phone) && this.password1 === this.password2 && this.checked != '';
+        console.log(tag+'tag');
+        if (tag && this.password2 !== '') {
+          let params = new URLSearchParams();
+          params.append('roleId', this.checked);
+          params.append('name', this.phone);
+          params.append('password', this.password1);
+          params.append('verifyCode', this.verifyCode);
+
+          this.axios.post('http://'+tool.domind()+'/gateway/app/sys/regist', params
+          ).then(res => {
+            console.log(res)
+            this.$router.replace({ path: '/login'})
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.errorShow = true;
+          this.error = '账号或密码错误，请重新输入';
+        }
+
+      },
       back () {
         this.$router.push({
           path: this.$router.go(-1)
@@ -159,15 +177,58 @@
         let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
         if (this.phone == '') {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         } else if (!reg.test(this.phone)) {
           this.errorShow = true;
+          this.error = '账号错误，请重新输入';
         }else{
           this.errorShow = false;
+        }
+        if(this.checked == ''){
+          this.errorShow = true;
+          this.error = '请选择角色';
         }
         //图片fixed
         this.position = 'fixImg';
         //勾选用户注册协议
-        this.checked = true;
+        this.checkedbox = true;
+      },
+      //验证验证码为6位
+      vCode (){
+        this.position = 'fixImg';
+        let reg = new RegExp(/^\d{6}$/);
+        if (this.verifyCode == '') {
+          this.errorShow = true;
+          this.error = '验证码错误';
+        } else if (!reg.test(this.verifyCode)) {
+          this.errorShow = true;
+          this.error = '验证码错误';
+        }else{
+          this.errorShow = false;
+        }
+      },
+      //验证密码不为空
+      psw1 (){
+        this.position = 'fixImg';
+        if (this.password1 == '') {
+          this.errorShow = true;
+          this.error = '密码错误';
+        }else{
+          this.errorShow = false;
+        }
+      },
+      //验证密码不为空
+      psw2 (){
+        this.position = 'fixImg';
+        if (this.password2 == '') {
+          this.errorShow = true;
+          this.error = '确认密码错误';
+        }else if(this.password1!==this.password2){
+          this.errorShow = true;
+          this.error = '确认密码错误';
+        } else{
+          this.errorShow = false;
+        }
       },
       fixImg () {
         this.position = 'fixImg';
