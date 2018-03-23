@@ -27,7 +27,7 @@
       <div class="error">
         <div v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
       </div>
-      <mt-button :class="loginClass" size="large">登录</mt-button>
+      <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
     </div>
     <bottomImg :class="position"></bottomImg>
   </div>

@@ -165,10 +165,9 @@
           params.append('pwd', this.password);
           params.append('aisle', this.aisle + "");
 
-          this.axios.post('http://'+tool.domind()+'/gateway/app/sys/login', params
+          this.axios.post(tool.domind()+'/gateway/app/sys/login', params
           ).then(res => {
-            console.log(res)
-            // router.push("/index")
+            this.$router.replace({ path: '/index'})
           }).catch(err => {
             console.log(err)
           })

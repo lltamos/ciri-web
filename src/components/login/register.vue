@@ -106,27 +106,46 @@
     methods: {
       register (){
         let tag = false;
-        tag = tool.checkMobile(this.phone) && this.password1 === this.password2 && this.checked != '';
-        console.log(tag+'tag');
-        if (tag && this.password2 !== '') {
+        tag = tool.checkMobile(this.phone);
+        if(this.checked === ''){
+          this.errorShow = true;
+          this.error = '请选择角色';
+          return;
+        }
+        if(!tool.checkMobile(this.phone)){
+          this.errorShow = true;
+          this.error = '账号错误，请重新输入1111';
+          return;
+        }
+        if(!this.verifyCode){
+          this.errorShow = true;
+          this.error = '请输入验证码';
+          return;
+        }
+        if(!this.password1){
+          this.errorShow = true;
+          this.error = '请输入密码';
+          return;
+        }
+        if(this.password1 !== this.password2 ){
+          this.errorShow = true;
+          this.error = '密码错误，请重新输入';
+          return;
+        }
+
           let params = new URLSearchParams();
           params.append('roleId', this.checked);
           params.append('name', this.phone);
           params.append('password', this.password1);
           params.append('verifyCode', this.verifyCode);
 
-          this.axios.post('http://'+tool.domind()+'/gateway/app/sys/regist', params
+          this.axios.post(tool.domind()+'/gateway/app/sys/regist', params
           ).then(res => {
             console.log(res)
             this.$router.replace({ path: '/login'})
           }).catch(err => {
             console.log(err)
           })
-        } else {
-          this.errorShow = true;
-          this.error = '账号或密码错误，请重新输入';
-        }
-
       },
       back () {
         this.$router.push({
@@ -210,9 +229,9 @@
       //验证密码不为空
       psw1 (){
         this.position = 'fixImg';
-        if (this.password1 == '') {
+        if (!this.password1) {
           this.errorShow = true;
-          this.error = '密码错误';
+          this.error = '密码错误，请重新输入';
         }else{
           this.errorShow = false;
         }
@@ -220,12 +239,12 @@
       //验证密码不为空
       psw2 (){
         this.position = 'fixImg';
-        if (this.password2 == '') {
+        if (!this.password2) {
           this.errorShow = true;
-          this.error = '确认密码错误';
+          this.error = '确认密码与密码不一致';
         }else if(this.password1!==this.password2){
           this.errorShow = true;
-          this.error = '确认密码错误';
+          this.error = '确认密码错误与密码不一致';
         } else{
           this.errorShow = false;
         }
