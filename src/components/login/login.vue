@@ -167,7 +167,12 @@
 
           this.axios.post(tool.domind()+'/gateway/app/sys/login', params
           ).then(res => {
-            this.$router.replace({ path: '/index'})
+            if(res.data.code === 200){
+              this.$router.replace({ path: '/index'})
+            }else{
+              this.error = '账号或密码错误，请重新输入'
+              this.errorShow = true;
+            }
           }).catch(err => {
             console.log(err)
           })

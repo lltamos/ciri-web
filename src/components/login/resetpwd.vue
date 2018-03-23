@@ -110,7 +110,12 @@
             verifyCode: this.verifyCode,
             code: this.code
           }).then(res => {
-            console.log(res)
+            if(res.data.code === 200){
+              this.$router.replace({ path: '/login'})
+            }else{
+              this.error = '账号或密码错误，请重新输入'
+              this.errorShow = true;
+            }
           }).catch(err => {
             console.log(err)
           })
