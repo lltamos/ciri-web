@@ -72,13 +72,11 @@
         showEmail: false,
         pswTypeChange: 'password',
         pswIcon: 'switch pswIcon pswIconClose',
-        error: '手机号错误，请重新输入',
+        error: '账号错误，请重新输入',
         errorShow: false,
-        formMess: {
-          phone: this.phone,
-          email: this.email,
-          password: this.password,
-        },
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
         loginData: [],
         position: '',
         aisle: 0
@@ -103,18 +101,16 @@
         this.errorShow = false;
         this.showPhone = !this.showPhone;
         this.showEmail = !this.showEmail;
-        if (this.showPhone) {
-          this.aisle = 0;
-          // this.key = this.phone;
-        } else {
-          this.aisle = 1;
-          // this.key = this.email;
-        }
-        if (this.showPhone) {
-          this.error = '手机号错误，请重新输入'
-        } else {
-          this.error = '邮箱地址错误，请重新输入'
-        }
+        // if (this.showPhone) {
+        //   this.aisle = 0;
+        // } else {
+        //   this.aisle = 1;
+        // }
+        // if (this.showPhone) {
+        //   this.error = '账号错误，请重新输入'
+        // } else {
+        //   this.error = '账号错误，请重新输入'
+        // }
       },
       pswShow() {
         if (this.pswTypeChange == 'password') {
@@ -141,9 +137,9 @@
       verifyEmail() {
         this.position = 'fixImg';
         let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
-        if (this.phone == '') {
+        if (this.email == '') {
           this.errorShow = true;
-        } else if (!flag.test(this.phone)) {
+        } else if (!flag.test(this.email)) {
           this.errorShow = true;
         } else {
           this.errorShow = false;
@@ -155,25 +151,26 @@
       //初始化数据
       login() {
         let tag = false;
-        if (this.aisle === 0) {
-          tag = tool.checkMobile(this.phone);
-        } else {
+        if(this.showPhone){
+          tag =tool.checkMobile(this.phone);
+        }else {
           tag = tool.checkEmail(this.email);
         }
         if (tag) {
           let params = new URLSearchParams();
-          params.append('key', this.aisle == 1 ? this.email : this.phone);
+          params.append('key', this.showEmail ? this.email : this.phone);
           params.append('pwd', this.password);
           params.append('aisle', this.aisle + "");
 
-          this.axios.post('http://127.0.0.1:8080/gateway/app/sys/login', params
+          this.axios.post('http://'+tool.domind()+'/gateway/app/sys/login', params
           ).then(res => {
             console.log(res)
+            // router.push("/index")
           }).catch(err => {
             console.log(err)
           })
         }else {
-          alert("帐号校验失败")
+          this.errorShow = true;
         }
       }
 
