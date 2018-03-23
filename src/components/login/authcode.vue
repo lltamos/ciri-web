@@ -51,9 +51,7 @@
         count: '',
         timer: null,
         position: '',
-        formMess : {
-          phone : this.phone
-        },
+        phone:this.phone,
         errorShow : false,
       }
     },

@@ -4,12 +4,13 @@
     <header-bar text="找回密码" @back="back"></header-bar>
     <!-- 横线分隔条 -->
     <cross-line></cross-line>
-    <!-- 登录 -->
+
     <div class="login-wrapper">
       <div class="iconWrap" v-show="showPhone">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone" @focus="Focus">
+            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
@@ -18,7 +19,8 @@
       <div class="iconWrap" v-show="showEmail">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="phone" @blur="verifyEmail" @focus="Focus">
+            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email" @blur="verifyEmail"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-email"></i>
@@ -27,7 +29,8 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-password"></i>
@@ -36,7 +39,8 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="code" @blur="fixImg" @focus="Focus">
+            <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="verifyCode" @blur="fixImg"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
@@ -47,7 +51,7 @@
         <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
       </div>
 
-      <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
+      <mt-button :class="loginClass" size="large" @click="restpswd">提交</mt-button>
     </div>
     <bottomImg :class="position"></bottomImg>
   </div>
@@ -58,48 +62,61 @@
   import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from "../../api/tool";
+
   export default {
     components: {
       HeaderBar,
       BottomImg,
       CrossLine
     },
-    data () {
+    data() {
       return {
-        loginClass : 'loginBtn',
-        showPhone : true,
-        showEmail : false,
-        pswTypeChange : 'password',
+        loginClass: 'loginBtn',
+        showPhone: true,
+        showEmail: false,
+        pswTypeChange: 'password',
         pswIcon: 'switch pswIcon pswIconClose',
-        error:'手机号错误，请重新输入',
-        errorShow : false,
+        error: '手机号错误，请重新输入',
+        errorShow: false,
         showCode: true,
         count: '',
-        formMess : {
-          phone : this.phone,
-          email : this.email,
-          password : this.password,
-          code :this.code
-        },
-        loginData:[],
-        position:''
+        aisle: 0,
+        verifyCode: this.verifyCode,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        loginData: [],
+        position: '',
+
       }
     },
     props: {},
     watch: {},
     methods: {
       //初始化数据
-      login () {
+      restpswd() {
 
-        this.axios.post('http://192.168.1.25:8080/gateway/app/sys/login', {
-          phone : this.phone,
-          email : this.email,
-          password : this.password
-        }).then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
+        let tag = false;
+        if (this.aisle === 0) {
+          tag = tool.checkMobile(this.phone);
+        } else {
+          tag = tool.checkEmail(this.email);
+        }
+
+        if (tag) {
+          this.axios.post(tool.domind() + '/gateway/app/sys/restpswd', {
+            name: this.aisle === 0 ? this.phone : this.email,
+            password: this.password,
+            verifyCode: this.verifyCode,
+            code: this.code
+          }).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.error = '请输入帐号';
+        }
       },
       back() {
         this.$router.push({
@@ -108,23 +125,28 @@
       },
       //input获取焦点时执行
       Focus() {
-        this.loginClass = 'loginBtnActive'
+        this.loginClass = 'loginBtnActive';
         this.position = 'staticImg';
       },
       //切换邮箱手机号登录
       Switch() {
-        this.phone = this.email= this.password = this.code = '';
+        this.phone = this.email = this.password = this.code = '';
         this.errorShow = false;
         this.showPhone = !this.showPhone;
         this.showEmail = !this.showEmail;
         if (this.showPhone) {
           this.error = '手机号错误，请重新输入'
-        }else {
+        } else {
           this.error = '邮箱地址错误，请重新输入'
+        }
+        if (this.showPhone) {
+          this.aisle = 0;
+        } else {
+          this.aisle = 1;
         }
       },
       pswShow() {
-        if (this.pswTypeChange == 'password') {
+        if (this.pswTypeChange === 'password') {
           this.pswTypeChange = 'text';
           this.pswIcon = 'switch pswIcon pswIconShow'
         } else {
@@ -137,30 +159,37 @@
       verifyPhone() {
         this.position = 'fixImg';
         let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if (this.phone == '') {
+        if (this.phone === '') {
           this.errorShow = true;
-        } else if (!reg.test(this.phone)) {
-          this.errorShow = true;
-        }else{
-          this.errorShow = false;
-        }
+        } else this.errorShow = !reg.test(this.phone);
       },
       verifyEmail() {
         this.position = 'fixImg';
-        let flag=/^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
-        if (this.phone == '') {
+        let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
+        if (this.phone === '') {
           this.errorShow = true;
-        } else if (!flag.test(this.phone)) {
-          this.errorShow = true;
-        }else{
-          this.errorShow = false;
-        }
+        } else this.errorShow = !flag.test(this.phone);
       },
-      fixImg () {
+      fixImg() {
         this.position = 'fixImg';
       },
       //验证码
-      getCode () {
+      getCode() {
+        let tag = tool.checkEmail(this.email) || tool.checkMobile(this.phone);
+        if (!tag) {
+          return
+        }
+        let param = new URLSearchParams();
+        alert(this.aisle === 0 ? this.phone : this.email);
+
+        param.append('name', this.aisle === 0 ? this.phone : this.email);
+        if (tag) {
+          this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        }
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -179,8 +208,10 @@
     },
     filters: {},
     computed: {},
-    created () {},
-    mounted () {}
+    created() {
+    },
+    mounted() {
+    }
   }
 </script>
 
@@ -193,107 +224,130 @@
     margin-top: 40px;
     background-color: #fff;
     overflow: visible;
-    .login-wrapper {
-      margin-top: 20px;
-      overflow: hidden;
-      padding: 0 10px;
-      .iconWrap{
-        position: relative;
-        .mint-cell{
-          border:1px solid #dedede;
-          border-radius: 3px;
-          margin-bottom: 15px;
-          padding-left: 40px;
-          font-size: 12px;
-          height:34px;
-          min-height: 34px;
-          .mint-cell-wrapper{
-            padding:0;
-          }
-        }
-        i {
-          display: block;
-          width: 20px;
-          height: 20px;
-          @include bg-image('./img/phone');
-          background-size: 20px auto;
-        }
-        .icon-phone {
-          @include bg-image('./img/phone');
-        }
-        .icon-password {
-          @include bg-image('./img/password');
-        }
-        .icon-email {
-          @include bg-image('./img/email');
-        }
-        .iconImg{
-          position: absolute;
-          left: 10px;
-          top:7px;
-        }
-        .switch{
-          position: absolute;
-          right:10px;
-          top:10px;
-          color:#333;
-          font-size: 10px;
-        }
-        .getCodeBg{
-          width:62px;
-          padding:5px 0;
-          text-align: center;
-          background: #f5f5f5;
-          border-radius: 3px;
-          top:7px;
-        }
-        .pswIcon{
-          width:16px;
-          height:16px;
-          background-size: 16px auto;
-          display: block;
-        }
-        .pswIconShow{
-          @include bg-image('./img/psw-show');
-        }
-        .pswIconClose{
-          @include bg-image('./img/psw-close');
-        }
-      }
-      .regiPwd{
-        overflow: hidden;
-        .fs12{
-          color:#333;
-          font-size: 12px;
-        }
-      }
-      .error{
-        text-align: center;
-        color:#f81717;
-        font-size: 10px;
-        padding:35px 0 15px;
-        height:10px;
-      }
-      .mint-button {
-        margin: 0px auto 15px;
-        font-size: 15px;
-        height: 34px;
-      }
-      .loginBtn{
-        background:#eeeeee ;
-        color: #333333;
-      }
-      .loginBtnActive{
-        background:#3f83e6;
-        color: #ffffff;
-      }
-      .fs13{
-        font-size: 13px;
-        color:#333;
-      }
-    }
-    .staticImg{
-      position: static;
-    }
+
+  .login-wrapper {
+    margin-top: 20px;
+    overflow: hidden;
+    padding: 0 10px;
+
+  .iconWrap {
+    position: relative;
+
+  .mint-cell {
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    padding-left: 40px;
+    font-size: 12px;
+    height: 34px;
+    min-height: 34px;
+
+  .mint-cell-wrapper {
+    padding: 0;
+  }
+
+  }
+  i {
+    display: block;
+    width: 20px;
+    height: 20px;
+  @include bg-image('./img/phone');
+    background-size: 20px auto;
+  }
+
+  .icon-phone {
+  @include bg-image('./img/phone');
+  }
+
+  .icon-password {
+  @include bg-image('./img/password');
+  }
+
+  .icon-email {
+  @include bg-image('./img/email');
+  }
+
+  .iconImg {
+    position: absolute;
+    left: 10px;
+    top: 7px;
+  }
+
+  .switch {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #333;
+    font-size: 10px;
+  }
+
+  .getCodeBg {
+    width: 62px;
+    padding: 5px 0;
+    text-align: center;
+    background: #f5f5f5;
+    border-radius: 3px;
+    top: 7px;
+  }
+
+  .pswIcon {
+    width: 16px;
+    height: 16px;
+    background-size: 16px auto;
+    display: block;
+  }
+
+  .pswIconShow {
+  @include bg-image('./img/psw-show');
+  }
+
+  .pswIconClose {
+  @include bg-image('./img/psw-close');
+  }
+
+  }
+  .regiPwd {
+    overflow: hidden;
+
+  .fs12 {
+    color: #333;
+    font-size: 12px;
+  }
+
+  }
+  .error {
+    text-align: center;
+    color: #f81717;
+    font-size: 10px;
+    padding: 35px 0 15px;
+    height: 10px;
+  }
+
+  .mint-button {
+    margin: 0px auto 15px;
+    font-size: 15px;
+    height: 34px;
+  }
+
+  .loginBtn {
+    background: #eeeeee;
+    color: #333333;
+  }
+
+  .loginBtnActive {
+    background: #3f83e6;
+    color: #ffffff;
+  }
+
+  .fs13 {
+    font-size: 13px;
+    color: #333;
+  }
+
+  }
+  .staticImg {
+    position: static;
+  }
+
   }
 </style>

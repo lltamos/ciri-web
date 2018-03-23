@@ -1,31 +1,19 @@
 export default {
 
   domind: function () {
-    return "127.0.0.1:8080"
+    return "http://127.0.0.1:8080"
   },
   checkEmail: function (email) {
-    var re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
-    if (re.test(email)) {
-      return true;
-    } else {
-      return false;
-    }
+    let re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+    return re.test(email);
   },
   checkMobile: function (mobile) {
-    var re = /^1\d{10}$/
-    if (re.test(mobile)) {
-      return true;
-    } else {
-      return false;
-    }
+    let re = /^1\d{10}$/;
+    return re.test(mobile);
   },
   checkPhone: function (phone) {
-    var re = /^0\d{2,3}-?\d{7,8}$/;
-    if (re.test(phone)) {
-      return true;
-    } else {
-      return false;
-    }
+    let re = /^0\d{2,3}-?\d{7,8}$/;
+    return re.test(phone);
   },
 
   buildForm: function (arr) {
@@ -35,7 +23,7 @@ export default {
       return null;
     }
 
-    var param = new URLSearchParams();
+    let param = new URLSearchParams();
     arr.forEach(function (v) {
       param.append(v.key, v.v)
     });
