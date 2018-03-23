@@ -175,9 +175,9 @@
       },
       //验证码
       getCode() {
-        let tag = tool.checkEmail(this.email) || tool.checkMobile(this.phone);
-        if (!tag) {
-          return
+        let tag=tool.checkEmail(this.email)||tool.checkMobile(this.phone);
+        if (!tag){
+              return
         }
         let param = new URLSearchParams();
         alert(this.aisle === 0 ? this.phone : this.email);

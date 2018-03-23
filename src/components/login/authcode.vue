@@ -36,8 +36,8 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import BottomImg from '@/components/base/bottomImg/bottomImg'
-
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "../../api/tool";
   export default {
     components: {
       HeaderBar,
@@ -53,11 +53,32 @@
         position: '',
         phone:this.phone,
         errorShow : false,
+        aisle:1
       }
     },
     props: {},
     watch: {},
     methods: {
+      //初始化数据
+      login() {
+
+        let tag = tool.checkMobile(this.phone);
+
+        if (tag) {
+
+          let params = new URLSearchParams();
+          params.append('key',  this.phone);
+          params.append('aisle', this.aisle+'');
+
+          this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.error = '请输入正确帐号';
+        }
+      },
       back () {
         this.$router.push({
           path: this.$router.go(-1)
@@ -69,15 +90,28 @@
         this.position = 'staticImg';
       },
       getCode () {
+        let tag = tool.checkMobile(this.phone);
+        if (!tag) {
+          return
+        }
+        let param = new URLSearchParams();
+        param.append('name', this.phone);
+        if (tag) {
+          this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+        }
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
-          this.show = false;
+          this.showCode = false;
           this.timer = setInterval(() => {
             if (this.count > 0 && this.count <= TIME_COUNT) {
               this.count--;
             } else {
-              this.show = true;
+              this.showCode = true;
               clearInterval(this.timer);
               this.timer = null;
             }
@@ -107,7 +141,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   /*@import '~@/assets/scss/const.scss';*/
   @import '~@/assets/scss/mixin.scss';
 
