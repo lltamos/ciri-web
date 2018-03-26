@@ -2,24 +2,20 @@
 
 <template>
   <div class="news">
-    <header class="gradient">源合资讯
-      <i class="icon_search"></i>
-    </header>
-    <cross-line></cross-line>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">
         <li>
-          <router-link to="/news/home">首页推荐</router-link>
+          <router-link to="/news/CIRI-News/Activities">最新活动</router-link>
         </li>
         <li>
-          <router-link to="/news/news-project">项目情报</router-link>
+          <router-link to="/news/CIRI-News/recent-news">最新动态</router-link>
         </li>
         <li>
-          <router-link to="/news/go-out">走出去情报</router-link>
+          <router-link to="/news/CIRI-News/investigation">海外考察</router-link>
         </li>
         <li>
-          <router-link to="/news/CIRI-News">CIRI动态</router-link>
+          <router-link to="/news/CIRI-News/cooperation">合作签约</router-link>
         </li>
       </ul>
       <keep-alive>
@@ -60,25 +56,6 @@
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
 
-  header{
-    height:44px;
-    line-height: 44px;
-    color:#fefefe;
-    font-size: 18px;
-    text-align: center;
-    position: relative;
-    .icon_search{
-      display: block;
-      height:22px;
-      width:22px;
-      @include bg-image('./img/search');
-      background-size: 22px auto;
-      position: absolute;
-      right:10px;
-      top:11px;
-
-    }
-  }
   .gradient{
     background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Opera 11.1 - 12.0 */

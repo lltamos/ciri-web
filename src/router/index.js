@@ -1,21 +1,129 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/index/index'
-import News from '@/components/news/news'
-import Project from '@/components/project/project'
-import Msg from '@/components/msg/msg'
-import Mine from '@/components/mine/mine'
-import AboutUs from '@/components/mine/about-us/about-us'
-import MemberCenter from '@/components/mine/member-center/member-center'
-import MyFavorite from '@/components/mine/my-favorite/my-favorite'
-import MyProfile from '@/components/mine/my-profile/my-profile'
-import Security from '@/components/mine/security/security'
-import login from '@/components/login/login'
-import Register from '@/components/login/register'
-import Resetpwd from '@/components/login/resetpwd'
-import Authcode from '@/components/login/authcode'
-import Deal from '@/components/login/deal'
 Vue.use(Router)
+
+//路由懒加载
+const Index = (resolve) => {
+  import('@/components/index/index').then((module) => {
+    resolve(module)
+  })
+}
+const News = (resolve) => {
+  import('@/components/news/news').then((module) => {
+    resolve(module)
+  })
+}
+const NewsDetail = (resolve) => {
+  import('@/components/news/news-detail/news-detail').then((module) => {
+    resolve(module)
+  })
+}
+const CIRINews = (resolve) => {
+  import('@/components/news/CIRI-News/CIRI-News').then((module) => {
+    resolve(module)
+  })
+}
+const goOut = (resolve) => {
+  import('@/components/news/go-out/go-out').then((module) => {
+    resolve(module)
+  })
+}
+const NewsHome = (resolve) => {
+  import('@/components/news/home/home').then((module) => {
+    resolve(module)
+  })
+}
+const NewsProject = (resolve) => {
+  import('@/components/news/news-project/news-project').then((module) => {
+    resolve(module)
+  })
+}
+const Activities = (resolve) => {
+  import('@/components/news/CIRI-News/Activities/Activities').then((module) => {
+    resolve(module)
+  })
+}
+const RecentNews = (resolve) => {
+  import('@/components/news/CIRI-News/recent-news/recent-news').then((module) => {
+    resolve(module)
+  })
+}
+const Investigation = (resolve) => {
+  import('@/components/news/CIRI-News/investigation/investigation').then((module) => {
+    resolve(module)
+  })
+}
+const Cooperation = (resolve) => {
+  import('@/components/news/CIRI-News/cooperation/cooperation').then((module) => {
+    resolve(module)
+  })
+}
+const Project = (resolve) => {
+  import('@/components/project/project').then((module) => {
+    resolve(module)
+  })
+}
+const Msg = (resolve) => {
+  import('@/components/msg/msg').then((module) => {
+    resolve(module)
+  })
+}
+const Mine = (resolve) => {
+  import('@/components/mine/mine').then((module) => {
+    resolve(module)
+  })
+}
+const AboutUs = (resolve) => {
+  import('@/components/mine/about-us/about-us').then((module) => {
+    resolve(module)
+  })
+}
+const MemberCenter = (resolve) => {
+  import('@/components/mine/member-center/member-center').then((module) => {
+    resolve(module)
+  })
+}
+const MyFavorite = (resolve) => {
+  import('@/components/mine/my-favorite/my-favorite').then((module) => {
+    resolve(module)
+  })
+}
+const MyProfile = (resolve) => {
+  import('@/components/mine/my-profile/my-profile').then((module) => {
+    resolve(module)
+  })
+}
+const Security = (resolve) => {
+  import('@/components/mine/security/security').then((module) => {
+    resolve(module)
+  })
+}
+const login = (resolve) => {
+  import('@/components/login/login').then((module) => {
+    resolve(module)
+  })
+}
+const Register = (resolve) => {
+  import('@/components/login/register').then((module) => {
+    resolve(module)
+  })
+}
+const Resetpwd = (resolve) => {
+  import('@/components/login/resetpwd').then((module) => {
+    resolve(module)
+  })
+}
+const Authcode = (resolve) => {
+  import('@/components/login/authcode').then((module) => {
+    resolve(module)
+  })
+}
+const Deal = (resolve) => {
+  import('@/components/login/deal').then((module) => {
+    resolve(module)
+  })
+}
+
 export default new Router({
   routes: [
     // 根路径
@@ -37,7 +145,56 @@ export default new Router({
     // 资讯
     {
       path: '/news',
-      component: News
+      redirect: '/news/home',
+      component: News,
+      children : [
+        // 资讯  走出去情报
+        {
+          path: 'go-out',
+          component: goOut
+        },
+        // 资讯  首页推荐
+        {
+          path: 'home',
+          component: NewsHome
+        },
+        // 资讯  项目情报
+        {
+          path: 'news-project',
+          component:NewsProject
+        },
+        {
+          path: 'CIRI-News',
+          redirect: '/news/CIRI-News/Activities',
+          component: CIRINews,
+          children : [
+            // 资讯  最新活动
+            {
+              path: 'Activities',
+              component: Activities
+            },
+            // 资讯  最新动态
+            {
+              path: 'recent-news',
+              component: RecentNews
+            },
+            // 资讯  海外考察
+            {
+              path: 'investigation',
+              component: Investigation
+            },
+            {
+              path: 'cooperation',
+              component: Cooperation
+            }
+          ]
+        }
+      ]
+    },
+    // 资讯详情页
+    {
+      path: '/news-detail',
+      component: NewsDetail
     },
     // 项目
     {
@@ -92,7 +249,7 @@ export default new Router({
     // 验证码登录页面
     {
       path: '/authcode',
-        component: Authcode
+      component: Authcode
     },
     // 用户注册协议
     {
