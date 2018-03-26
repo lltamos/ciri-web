@@ -17,12 +17,9 @@
           <i class="icon-view"></i><span class="count">336</span>
         </div>
       </div>
-      <div class="img">
-        <img src="../img/p_2.jpg" alt="" width="100%">
-      </div>
-      <p class="section">this is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test</p>
-      <p class="section">this is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test</p>
-      <p class="section">this is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test is a test this is a test</p>
+
+      <div class="section" v-html="this.content"></div>
+
 
     </div>
     <tab-bar></tab-bar>
@@ -34,92 +31,109 @@
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import tool from "@/api/tool"
+  import tool from "../../../api/tool"
 
   export default {
-    name:'news-deail',
+    name: 'news-deail',
     components: {
       HeaderBar,
       TabBar,
       BottomImg,
       CrossLine
     },
-    data(){
+    data() {
       return {
+        content: this.content
       }
     },
-    methods:{
-      back () {
+    methods: {
+
+      getArticle() {
+        this.axios.get('gateway/app/news/article' + 56).then(res => {
+          console.log(res);
+        })
+      },
+      back() {
         this.$router.push({
           path: this.$router.go(-1)
         })
       },
+    },
+    props: {
+      article: String
+    },
+    created() {
+    },
+    mounted() {
+      this.axios.get(tool.domind() + '/gateway/app/news/article/' + 56).then(res => {
+        console.log(res);
+        if (res.data.code === 200) {
+          this.content=res.data.data.content;
+          console.log(res.data.content);
+        }
+      })
     }
-    // props:['article'],
-    // created() {
-    //   this.axios.get(tool.get()+'gateway/app/news/article'+56).then(res=>{
-    //
-    //   })
-    // },
   }
 </script>
 
 <style type="text/scss" scope lang="scss">
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/reset.scss';
-  .header-bar{
-    height:44px;
+
+  .header-bar {
+    height: 44px;
     line-height: 44px;
-    color:#fff;
+    color: #fff;
     font-size: 14px;
     text-align: center;
     position: relative;
-    background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* 标准的语法 */
-    h1{
-      color:#fff;
+    background: -webkit-linear-gradient(left, rgba(56, 185, 253, 1), rgba(63, 132, 230, 0.65)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, rgba(56, 185, 253, 1), rgba(63, 132, 230, 0.65)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, rgba(56, 185, 253, 1), rgba(63, 132, 230, 0.65)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, rgba(56, 185, 253, 1), rgba(63, 132, 230, 0.65)); /* 标准的语法 */
+    h1 {
+      color: #fff;
       font-size: 20px;
     }
-    .icon-back{
-        display: block;
-        float:left;
-        width: 22px;
-        height: 22px;
-        margin: 11px auto;
-        @include bg-image('../img/back');
-        background-size: 22px auto;
+    .icon-back {
+      display: block;
+      float: left;
+      width: 22px;
+      height: 22px;
+      margin: 11px auto;
+      @include bg-image('../img/back');
+      background-size: 22px auto;
     }
   }
-  .main{
+
+  .main {
     padding: 0 10px;
     text-align: left;
-    h2{
+    h2 {
       font-size: 14px;
-      color:#333;
-      height:40px;
+      color: #333;
+      height: 40px;
       line-height: 20px;
       overflow: hidden;
 
     }
-    .title-box{
+    .title-box {
       font-size: 10px;
-      color:#666;
-      height:10px;
+      color: #666;
+      height: 10px;
       padding: 10px 0 15px;
       margin-bottom: 10px;
       @include onepx('bottom');
-      .column{
+      .column {
         color: #3f83e6;
       }
-      .time{
+      .time {
 
       }
-      .view{
-        i{
+      .view {
+        i {
           display: block;
-          float:left;
+          float: left;
           width: 12px;
           height: 12px;
           margin: 3px 5px;
@@ -129,12 +143,12 @@
       }
 
     }
-    .img{
-      width:100%;
+    .img {
+      width: 100%;
     }
-    .section{
+    .section {
       font-size: 12px;
-      color:#333;
+      color: #333;
       line-height: 15px;
       margin: 10px 0;
     }
