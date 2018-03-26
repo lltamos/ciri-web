@@ -51,11 +51,11 @@
       width: 22px;
       height: 22px;
       margin: 11px auto;
-      background: url('./icon-arrow_lift.png') no-repeat;
+      @include bg-image('./icon-arrow_lift');
       background-size: 22px auto;
     }
     .icon-arrow_lift {
-      background-image: url('./icon-arrow_lift.png');
+      @include bg-image('./icon-arrow_lift');
     }
     h1 {
       display: inline-block;
