@@ -3,6 +3,11 @@ export default {
   domind: function () {
     return "http://127.0.0.1:8080"
   },
+
+  oos: function () {
+    return "http://ciri-test.oss-cn-beijing.aliyuncs.com/"
+  },
+
   checkEmail: function (email) {
     let re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
     return re.test(email);
@@ -18,12 +23,13 @@ export default {
 
   buildForm: function (arr) {
 
-    if (arr instanceof Array){
+    if (!arr instanceof Array){
       console.log("from Is not an array");
       return null;
     }
 
     let param = new URLSearchParams();
+
     arr.forEach(function (v) {
       param.append(v.key, v.v)
     });
