@@ -1,21 +1,21 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news-main">
-    <!--<div class="project1">-->
-      <!--<div class="img">-->
-        <!--<img src="../img/slider1.jpg" alt="">-->
-      <!--</div>-->
-      <!--<h2>2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析月我国对外投资分析2016年1-4月我国对外投资分析</h2>-->
-      <!--<div class="title-box">-->
-        <!--<div class="fl">-->
-          <!--<span class="column">项目情报</span> | <span class="time">2018年1月1日</span>-->
-          <!--<span class="author">CIRI</span>-->
-        <!--</div>-->
+    <div v-show="topArticle!=null||topArticle!==''" class="project1">
+      <div class="img">
+        <img v-bind:src="host+topArticle.thumbnail"/>
+      </div>
+      <h2>{{topArticle.title}}</h2>
+      <div class="title-box">
+        <div class="fl">
+          <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+          <span class="author">CIRI</span>
+        </div>
 
-        <!--<div class="view fr">-->
-          <!--<i class="icon-view"></i><span class="count">336</span>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+        <div class="view fr">
+          <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+        </div>
+      </div>
+    </div>
     <div class="project" v-for="(article,index) in articles">
       <div v-show="index%2===0" class="project2">
         <div class="fl main-news">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
+              <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
           </div>
         </div>
@@ -39,9 +39,9 @@
       </div>
       <div v-show="index%2!==0" class="project1">
         <div class="img">
-          <img src="../img/slider1.jpg" alt="">
+          <img v-bind:src="host+article.thumbnail"/>
         </div>
-        <h2>2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析月我国对外投资分析2016年1-4月我国对外投资分析</h2>
+        <h2>{{article.title}}</h2>
         <div class="title-box">
           <div class="fl">
             <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
@@ -49,13 +49,14 @@
           </div>
 
           <div class="view fr">
-            <i class="icon-view"></i><span class="count">336</span>
+            <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="more">
-      <span>查看更多</span><i></i>
+      <button @click="loadMore">查看更多</button>
+      <i></i>
     </div>
 
 
@@ -63,35 +64,47 @@
 </template>
 
 <script>
-  import HeaderBar from '@/components/base/header-bar/header-bar'
-  import TabBar from '@/components/base/tab-bar/tab-bar'
-  import BottomImg from '@/components/base/bottomImg/bottomImg'
-  import CrossLine from '@/components/base/cross-line/cross-line'
+
   import tool from "../../../api/tool"
 
   export default {
     data() {
       return {
-        articles: this.articles,
-        host:tool.oos()
+        articles: [],
+        host: tool.oos(),
+        page: 1,
+        topArticle: ''
       }
     },
-    method:{
-      jointStr(str){
-        return tool.oos()+src;
+    methods: {
+      loadMore() {
+        let param = tool.buildForm([{key: 'page', v: this.page}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}]);
+        this.axios.post(tool.domind() + '/gateway/app/news/article/getArticles', param).then(res => {
+          if (res.data.code === 200) {
+            if (this.page === 1) {
+              this.articles = res.data.data;
+            } else {
+              this.articles = this.articles.concat(res.data.data);
+            }
+          }
+          this.page = this.page + 1;
+        });
       }
     },
     created() {
-      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 10}, {key: 'cid', v: 1009}]);
-      this.axios.post(tool.domind() + '/gateway/app/news/article/getArticles', param).then(res => {
-        console.log(res);
+      this.loadMore();
+      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}, {
+        key: 'level',
+        v: 2002
+      }]);
+      this.axios.post(tool.domind() + '/gateway/app/news/article/getLevelActive', param).then(res => {
         if (res.data.code === 200) {
-          this.articles = res.data.data;
+          this.topArticle = res.data.data[0];
         }
-      })
+      });
     },
-
-
+    updated() {
+    }
   }
 </script>
 
