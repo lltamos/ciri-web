@@ -78,7 +78,7 @@
     },
     methods: {
       loadMore() {
-        let param = tool.buildForm([{key: 'page', v: this.page}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}]);
+        let param = tool.buildForm([{key: 'page', v: this.page}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1008 }]);
         this.axios.post(tool.domind() + '/gateway/app/news/article/getArticles', param).then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {
@@ -93,7 +93,7 @@
     },
     created() {
       this.loadMore();
-      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}, {
+      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1008 }, {
         key: 'level',
         v: 2002
       }]);
