@@ -193,7 +193,7 @@ export default new Router({
     },
     // 资讯详情页
     {
-      path: '/news-detail',
+      path: '/news/news-detail',
       component: NewsDetail
     },
     // 项目
