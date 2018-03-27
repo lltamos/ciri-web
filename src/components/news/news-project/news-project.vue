@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="fr">
+        <div class="fr img-warp">
           <div class="img">
             <img v-bind:src="host+article.thumbnail"/>
           </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="more">
-      <button @click="loadMore">查看更多</button>
+      <span @click="loadMore">查看更多</span>
       <i></i>
     </div>
 
@@ -147,6 +147,7 @@
 
     }
     .project1{
+      margin-top: 14px;
       .img{
         width: 100%;
         height:186px;

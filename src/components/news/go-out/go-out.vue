@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="fr">
+        <div class="fr img-warp">
           <div class="img">
             <img v-bind:src="host+article.thumbnail"/>
           </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="more">
-      <button @click="loadMore">查看更多</button>
+      <span @click="loadMore">查看更多</span>
       <i></i>
     </div>
 
@@ -155,7 +155,7 @@
 
   }
   .project1 {
-
+    margin-top: 14px;
   .img {
     width: 100%;
     height: 186px;
@@ -171,38 +171,36 @@
   }
 
   }
-  .project2 {
+  .project2{
     overflow: hidden;
     clear: both;
-    padding: 0 10px;
-  @include onepx('bottom');
-
-  h2 {
-    padding: 0;
-    margin: 12px 0 7px;
-  }
-
-  .main-news {
-    width: 235px;
-    margin-right: 10px;
-  }
-
-  .title-box {
-    padding-left: 0;
-  }
-
-  .img {
-    width: 110px;
-    height: 71px;
-    border-radius: 3px;
-    margin: 14px 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
-  }
+    @include onepx('bottom');
+    h2{
+      padding: 0;
+      margin: 12px 0 12px;
+    }
+    .main-news{
+      width:62.6%;
+      margin-right: 2.7%;
+      margin-left: 2.7%;
+    }
+    .title-box{
+      padding-left: 0;
+    }
+    .img-warp{
+      width:29.3%;
+      margin-right: 2.7%;
+      .img{
+        width: 100%;
+        height:71px;
+        border-radius: 3px;
+        margin: 14px 0;
+        img{
+          width: 100%;
+          height:100%;
+        }
+      }
+    }
   }
   .more {
     font-size: 12px;
