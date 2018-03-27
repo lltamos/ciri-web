@@ -2,35 +2,26 @@
 
 <template>
   <div class="news">
-    <div class="scene">
-      <div class="coverage">
-        <span class="title">目前国内市场几乎空白。从国外市场来看，英国BBC目前国内市场几乎空白。从国外市场来看，英国BBC</span>
-        <div class="title-box">
-          <div class="fl">
-            <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-            <span class="author">CIRI</span>
-          </div>
-
-          <div class="view fr">
-            <i class="icon-view"></i><span class="count">336</span>
-          </div>
-        </div>
-      </div>
+    <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}" >
+      <p class="coverage">
+        <span class="title">{{topArticle.title}}</span>
+        <span class="summary">目前国内市场几乎空白。从国外市场来看，英国BBC</span>
+      </p>
     </div>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">
         <li>
-          <router-link to="/news/CIRI-News/Activities"><span class="active">最新活动</span></router-link>
+          <router-link to="/news/CIRI-News/Activities">最新活动</router-link>
         </li>
         <li>
-          <router-link to="/news/CIRI-News/recent-news"><span class="active">最新动态</span></router-link>
+          <router-link to="/news/CIRI-News/recent-news">最新动态</router-link>
         </li>
         <li>
-          <router-link to="/news/CIRI-News/investigation"><span class="active">海外考察</span></router-link>
+          <router-link to="/news/CIRI-News/investigation">海外考察</router-link>
         </li>
         <li>
-          <router-link to="/news/CIRI-News/cooperation"><span class="active">合作签约</span></router-link>
+          <router-link to="/news/CIRI-News/cooperation">合作签约</router-link>
         </li>
       </ul>
       <keep-alive>
@@ -43,6 +34,7 @@
 <script>
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "../../../api/tool"
 
   export default {
     components: {
@@ -50,15 +42,31 @@
       CrossLine
     },
     data() {
-      return {}
+      return {
+        host: tool.oos(),
+        topArticle: '',
+        baseImg:'http://ciri-test.oss-cn-beijing.aliyuncs.com/'
+      }
     },
     props: {},
     watch: {},
-    methods: {},
+    methods: {
+
+    },
     filters: {},
     computed: {},
     created() {
+      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}, {
+        key: 'level',
+        v: 2002
+      }]);
+      this.axios.post(tool.domind() + '/gateway/app/news/article/getLevelActive', param).then(res => {
+        if (res.data.code === 200) {
+          this.topArticle = res.data.data[0];
+        }
+      });
     },
+
     mounted() {
     },
     destroyed() {
@@ -91,14 +99,9 @@
         display: block;
         font-size: 14px;
         color: #333;
-        &.router-link-active .active {
-          display: inline-block;
-          width:70px;
-          height:25px;
-          line-height: 25px;
-          border-radius: 3px;
-          background: #3f83e6;
-          color:#fff;
+        &.router-link-active {
+          color: #3f83e6;
+          border-bottom: 2px solid #3f83e6;
         }
       }
     }
@@ -108,46 +111,18 @@
     position: relative;
     height: 186px;
     width: 100%;
-    background: url('https://pic.36krcnd.com/201803/27015727/6krovf1y678bw4cm!heading') no-repeat;
     .coverage {
       height: 55px;
       width: 100%;
-      background: rgba(51,51,51,0.5);
+      background: #333 no-repeat;
+      opacity: 0.5;
       position: absolute;
-      bottom:0;
-      .title-box {
-        font-size: 10px;
-        color: #fff;
-        height: 10px;
-        padding: 10px 10px 15px;
-        .column {
-          color: #fff;
-        }
-        .view {
-          i {
-            display: block;
-            float: left;
-            width: 12px;
-            height: 12px;
-            margin: -2px 5px 0;
-            @include bg-image('../img/view_white');
-            background-size: 12px auto;
-            vertical-align: top;
-          }
-        }
-
-      }
+      bottom: 0;
       .title {
         color: #fff;
         text-align: left;
-        font-size: 14px;
         display: block;
         margin-top: 8px;
-        font-weight: bold;
-        padding: 0 10px;
-        height:14px;
-        line-height: 14px;
-        overflow: hidden;
       }
       .summary {
         color: #fff;
