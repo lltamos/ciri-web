@@ -31,87 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
+        <div class="fr img-warp">
           <div class="img">
             <img src="../img/slider1.jpg" alt="">
           </div>
@@ -147,67 +67,7 @@
             </div>
           </div>
         </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="img">
-            <img src="../img/slider1.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="project2">
-        <div class="fl main-news">
-          <h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2>
-          <div class="title-box">
-            <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-              <span class="author">CIRI</span>
-            </div>
-
-            <div class="view fr">
-              <i class="icon-view"></i><span class="count">336</span>
-            </div>
-          </div>
-        </div>
-        <div class="fr">
+        <div class="fr img-warp">
           <div class="img">
             <img src="../img/slider1.jpg" alt="">
           </div>
@@ -284,27 +144,31 @@
     .project2{
       overflow: hidden;
       clear: both;
-      padding: 0 10px;
       @include onepx('bottom');
       h2{
         padding: 0;
-        margin: 12px 0 7px;
+        margin: 12px 0 12px;
       }
       .main-news{
-        width:235px;
-        margin-right: 10px;
+        width:62.6%;
+        margin-right: 2.7%;
+        margin-left: 2.7%;
       }
       .title-box{
         padding-left: 0;
       }
-      .img{
-        width:110px;
-        height:71px;
-        border-radius: 3px;
-        margin: 14px 0;
-        img{
+      .img-warp{
+        width:29.3%;
+        margin-right: 2.7%;
+        .img{
           width: 100%;
-          height:100%;
+          height:71px;
+          border-radius: 3px;
+          margin: 14px 0;
+          img{
+            width: 100%;
+            height:100%;
+          }
         }
       }
     }
