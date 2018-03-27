@@ -60,6 +60,7 @@ export default {
   display: flex;
   flex-direction: row;
   background-color: #fcfcfc;
+  z-index: 99;
   li {
     flex: 1;
     color: #999;
