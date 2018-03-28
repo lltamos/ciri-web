@@ -1,6 +1,6 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news-main">
-    <div v-show="topArticle!=null||topArticle!==''" class="project1">
+    <div v-show="topArticle!==null||topArticle!==''" class="project1">
       <div class="img">
         <img v-bind:src="host+topArticle.thumbnail"/>
       </div>
@@ -16,8 +16,8 @@
         </div>
       </div>
     </div>
-    <div class="project" v-for="(article,index) in articles">
-      <div v-show="index%2===0" class="project2">
+    <div class="project" v-for="(article,index) in articles" :key="article.id">
+      <div v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div v-show="index%2!==0" class="project1">
+      <div v-show="(index+1)%5===0" class="project1">
         <div class="img">
           <img v-bind:src="host+article.thumbnail"/>
         </div>
@@ -58,28 +58,31 @@
       <span @click="loadMore">查看更多</span>
       <i></i>
     </div>
-
-
   </div>
 </template>
 
 <script>
+import tool from "@/api/tool";
 
-  import tool from "../../../api/tool"
-
-  export default {
-    data() {
-      return {
-        articles: [],
-        host: tool.oos(),
-        page: 1,
-        topArticle: ''
-      }
-    },
-    methods: {
-      loadMore() {
-        let param = tool.buildForm([{key: 'page', v: this.page}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}]);
-        this.axios.post(tool.domind() + '/gateway/app/news/article/getArticles', param).then(res => {
+export default {
+  data() {
+    return {
+      articles: [],
+      host: tool.oos(),
+      page: 1,
+      topArticle: ""
+    };
+  },
+  methods: {
+    loadMore() {
+      let param = tool.buildForm([
+        { key: "page", v: this.page },
+        { key: "rouCount", v: 10 },
+        { key: "cid", v: 1009 }
+      ]);
+      this.axios
+        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {
               this.articles = res.data.data;
@@ -89,31 +92,37 @@
           }
           this.page = this.page + 1;
         });
-      }
-    },
-    created() {
-      this.loadMore();
-      let param = tool.buildForm([{key: 'page', v: 1}, {key: 'rouCount', v: 1}, {key: 'cid', v: 1009}, {
-        key: 'level',
+    }
+  },
+  created() {
+    this.loadMore();
+    let param = tool.buildForm([
+      { key: "page", v: 1 },
+      { key: "rouCount", v: 1 },
+      { key: "cid", v: 1009 },
+      {
+        key: "level",
         v: 2002
-      }]);
-      this.axios.post(tool.domind() + '/gateway/app/news/article/getLevelActive', param).then(res => {
+      }
+    ]);
+    this.axios
+      .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+      .then(res => {
         if (res.data.code === 200) {
           this.topArticle = res.data.data[0];
         }
       });
-    },
-    updated() {
-    }
-  }
+  },
+  updated() {}
+};
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/assets/scss/mixin.scss';
-  @import '~@/assets/scss/reset.scss';
+@import "~@/assets/scss/mixin.scss";
+@import "~@/assets/scss/reset.scss";
 
-  .news-main {
-    text-align: left;
+.news-main {
+  text-align: left;
 
   h2 {
     font-size: 14px;
@@ -121,8 +130,7 @@
     height: 40px;
     line-height: 20px;
     overflow: hidden;
-    margin: 10px;;
-
+    margin: 10px;
   }
 
   .title-box {
@@ -131,73 +139,64 @@
     height: 10px;
     padding: 10px 10px 15px;
 
-  .column {
-    color: #3f83e6;
-  }
+    .column {
+      color: #3f83e6;
+    }
 
-  .time {
-
-  }
-
-  .view {
-
-  i {
-    display: block;
-    float: left;
-    width: 12px;
-    height: 12px;
-    margin: 3px 5px;
-  @include bg-image('../img/view');
-    background-size: 12px auto;
-  }
-
-  }
-
+    .view {
+      i {
+        display: block;
+        float: left;
+        width: 12px;
+        height: 12px;
+        margin: 3px 5px;
+        @include bg-image("../img/view");
+        background-size: 12px auto;
+      }
+    }
   }
   .project1 {
     margin-top: 14px;
-  .img {
-    width: 100%;
-    height: 186px;
+    .img {
+      width: 100%;
+      height: 186px;
 
-  img {
-    width: 100%;
-    height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .title-box {
+      @include onepx("bottom");
+    }
   }
-
-  }
-  .title-box {
-  @include onepx('bottom');
-  }
-
-  }
-  .project2{
+  .project2 {
     overflow: hidden;
     clear: both;
-    @include onepx('bottom');
-    h2{
+    @include onepx("bottom");
+    h2 {
       padding: 0;
       margin: 12px 0 12px;
     }
-    .main-news{
-      width:62.6%;
+    .main-news {
+      width: 62.6%;
       margin-right: 2.7%;
       margin-left: 2.7%;
     }
-    .title-box{
+    .title-box {
       padding-left: 0;
     }
-    .img-warp{
-      width:29.3%;
+    .img-warp {
+      width: 29.3%;
       margin-right: 2.7%;
-      .img{
+      .img {
         width: 100%;
-        height:71px;
+        height: 71px;
         border-radius: 3px;
         margin: 14px 0;
-        img{
+        img {
           width: 100%;
-          height:100%;
+          height: 100%;
         }
       }
     }
@@ -209,17 +208,14 @@
     margin-bottom: 65px;
     text-align: center;
 
-  i {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-  @include bg-image('../img/more');
-    background-size: 12px auto;
-    margin-left: 6px;
+    i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      @include bg-image("../img/more");
+      background-size: 12px auto;
+      margin-left: 6px;
+    }
   }
-
-  }
-
-  }
-
+}
 </style>
