@@ -5,7 +5,7 @@
     <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}" >
       <p class="coverage">
         <span class="title">{{topArticle.title}}</span>
-        <span class="summary">目前国内市场几乎空白。从国外市场来看，英国BBC</span>
+        <span class="summary">{{topArticle.summary}}</span>
       </p>
     </div>
     <tab-bar></tab-bar>
