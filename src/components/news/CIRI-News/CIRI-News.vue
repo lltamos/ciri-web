@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       host: tool.oos(),
-      topArticle: '',
-      baseImg: 'http://ciri-test.oss-cn-beijing.aliyuncs.com/'
+      topArticle: "",
+      baseImg: "http://ciri-test.oss-cn-beijing.aliyuncs.com/"
     };
   },
   props: {},
