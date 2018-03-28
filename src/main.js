@@ -17,10 +17,12 @@ import VueLazyload from 'vue-lazyload'
 
 // vue-resource
 import VueResource from 'vue-resource'
+
 Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
+
 Vue.prototype.axios = axios
 Vue.use(Mint)
 Vue.use(VueLazyload, {

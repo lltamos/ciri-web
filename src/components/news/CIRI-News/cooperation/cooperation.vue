@@ -64,7 +64,7 @@ export default {
         { key: "tag", v: 2009 }
       ]);
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {

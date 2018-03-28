@@ -8,6 +8,10 @@ export default {
     return 'http://ciri-test.oss-cn-beijing.aliyuncs.com/'
   },
 
+  generatorUrl: function (url) {
+    return this.oos() + url
+  },
+
   checkEmail: function (email) {
     let re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/
     return re.test(email)

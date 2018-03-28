@@ -1,7 +1,7 @@
 <template>
   <div class="news-main">
       <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="(index+1)%5===0" class="project2">
+      <div v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -64,7 +64,7 @@ export default {
         { key: "tag", v: 2007 }
       ]);
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="index%2===0" class="project2">
+      <div v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div v-show="index%2!==0" class="project1">
+      <div v-show="(index+1)%5===0" class="project1">
         <div class="img">
           <img v-bind:src="host+article.thumbnail"/>
         </div>
@@ -77,7 +77,7 @@ export default {
     loadMore() {
       let param = tool.buildForm([
         { key: "page", v: this.page },
-        { key: "rouCount", v: 1 },
+        { key: "rouCount", v: 10 },
         { key: "cid", v: 1009 }
       ]);
       this.axios

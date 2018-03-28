@@ -3,14 +3,14 @@
   <!-- 轮播图 -->
   <div class="slider" id="slider1">
     <mt-swipe :auto="3000" @change="handleChange">
-      <mt-swipe-item v-for="item in swipeImg" :key="item.pic">
-        <img :src="item.pic">
+      <mt-swipe-item v-for="item in swipeObj" :key="item.id">
+        <img :src="host+item.thumbnail">
       </mt-swipe-item>
     </mt-swipe>
   </div>
   <div class="slider" id="slider2">
     <mt-swipe :auto="3000" @change="handleChange" :show-indicators="false">
-      <mt-swipe-item v-for="item in swipeTitle" :key="item.title">
+      <mt-swipe-item v-for="item in swipeObj" :key="item.id">
         <p style="z-index: 999;position: absolute;" v-text="item.title"> </p>
       </mt-swipe-item>
     </mt-swipe>
@@ -51,268 +51,257 @@
   </swiper>
   <div class="cross-line"></div>
 
-  <div class="project">
-    <div class="project2">
-      <div class="fl main-news">
-        <router-link to="/news/news-detail"><h2>我国对外投资分析2016年14月我国对外投资分析2016年1</h2></router-link>
+     <div class="project" v-for="(article,index) in articles" :key="article.id">
+      <div v-show="(index+1)%5!==0" class="project2">
+        <div class="fl main-news">
+          <h2>{{article.title}}</h2>
+          <div class="title-box">
+            <div class="fl">
+              <span class="column">最新动态</span> | <span class="time">2018年1月1日</span>
+              <span class="author">CIRI</span>
+            </div>
 
+            <div class="view fr">
+              <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fr img-warp">
+          <div class="img">
+            <img v-bind:src="host+article.thumbnail"/>
+          </div>
+        </div>
+      </div>
+      <div v-show="(index+1)%5===0" class="project1">
+        <div class="img">
+          <img v-bind:src="host+article.thumbnail"/>
+        </div>
+        <h2>{{article.title}}</h2>
         <div class="title-box">
           <div class="fl">
-            <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+            <span class="column">最新动态</span> | <span class="time">2018年1月1日</span>
             <span class="author">CIRI</span>
           </div>
 
           <div class="view fr">
-            <i class="icon-view"></i><span class="count">336</span>
+            <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
           </div>
         </div>
       </div>
-      <div class="fr img-warp">
-        <div class="img">
-          <img src="../img/slider1.jpg" alt="">
-        </div>
-      </div>
     </div>
-    <div class="project1">
-      <div class="img">
-        <img src="../img/slider1.jpg" alt="">
-      </div>
-      <h2>2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析2016年1-4月我国对外投资分析月我国对外投资分析2016年1-4月我国对外投资分析</h2>
-      <div class="title-box">
-        <div class="fl">
-          <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-          <span class="author">CIRI</span>
-        </div>
-
-        <div class="view fr">
-          <i class="icon-view"></i><span class="count">336</span>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="more">
-    <span>查看更多</span><i></i>
+    <span @click='loadMore'>查看更多</span><i></i>
   </div>
 </div>
 </template>
 <script>
-    export default {
-       component: {
-
-       },
-      data () {
-         return {
-           //轮播图片 文字
-           swipeImg: [
-             {
-               pic: require('../img/slider1.jpg')
-             },
-             {
-               pic: require('../img/slider2.jpg')
-             },
-             {
-               pic: require('../img/slider3.jpg')
-             },
-             {
-               pic: require('../img/slider4.jpg')
-             },
-             {
-               pic: require('../img/slider5.jpg')
-             }
-           ],
-           swipeTitle: [
-             {
-               title: '中国首条海外氧化铝生产线竣工中国首条海外氧化铝生产线竣工中国首条海外氧化铝生产线竣工中国首条海外氧化铝111中国首条海外氧化铝生产线竣工中国首条海外氧化铝生产线竣工中国首条海外氧化铝生产线竣工中国首条海外氧化铝111'
-             },
-             {
-               title: '中国首条海外氧化铝生产333'
-              },
-             {
-               title: '中国首条海外氧化铝生产4444'
-             },
-             {
-               title: '中国首条海外氧化铝生产555'
-             },
-             {
-               title: '中国首条海外氧化铝生产6666'
-             }
-           ],
-           swiperOption: {
-             slidesPerView: 3,
-             spaceBetween: 30,
-             freeMode: true
-           }
-         }
+import tool from "@/api/tool";
+export default {
+  component: {},
+  data() {
+    return {
+      host: tool.oos(),
+      swipeObj: [],
+      swiperOption: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        freeMode: true
       },
-      methods: {
-        handleChange(index) {
-        }
-      }
+      page: 1,
+      articles: []
+    };
+  },
+  methods: {
+    handleChange(index) {},
+    loadMore() {
+      let param = tool.buildForm([
+        { key: "page", v: this.page },
+        { key: "rouCount", v: 10 },
+        { key: "level", v: 2002}
+      ]);
+      this.axios
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+        .then(res => {
+          if (res.data.code === 200) {
+            if (this.page === 1) {
+              this.articles = res.data.data;
+            } else {
+              this.articles = this.articles.concat(res.data.data);
+            }
+          }
+          this.page = this.page + 1;
+        });
     }
+  },
+  created() {
+    let param = tool.buildForm([
+      { key: "page", v: 1 },
+      { key: "rouCount", v: 5 },
+      { key: "level", v: 2001 }
+    ]);
+    this.axios
+      .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+      .then(res => {
+        if (res.data.code === 200) {
+          this.swipeObj = res.data.data;
+        }
+      });
+    this.loadMore();
+  },
+  activated() {}
+};
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/assets/scss/mixin.scss';
-  @import '~@/assets/scss/reset.scss';
-  .home{
-    text-align: left;
-    .slider {
-      height: 186px;
-      font-size: 30px;
-      text-align: center;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    #slider1{
-      .mint-swipe-indicators{
-        right:10px;
-      }
-    }
-    #slider2{
-      font-size: 14px;
-      color:#fff;
-      height:36px;
-      line-height: 18px;
-      margin-top: -70px;
-      padding: 0 10px;
-    }
-    #slider3{
-      margin-top: 47px;
-      margin-bottom: 13px;
-      .invest-finance{
-        width:110px;
-        height:55px;
-        padding-top: 20px;
-        @include bg-image('../img/slider-bg');
-        background-size: 110px auto;
-        text-align: center;
-        h3{
-          font-size: 14px;
-          color:#666;
-          height:35px;
-          line-height: 35px;
-        }
-        .time{
-          font-size: 11px;
-          color:#3f83e6;
-          height:20px;
-          line-height: 20px;
-        }
-      }
-    }
-    .cross-line {
+@import "~@/assets/scss/mixin.scss";
+@import "~@/assets/scss/reset.scss";
+.home {
+  text-align: left;
+  .slider {
+    height: 186px;
+    font-size: 30px;
+    text-align: center;
+    overflow: hidden;
+    img {
       width: 100%;
-      height: 10px;
-      background-color: #f5f5f5;
+      height: 100%;
     }
-    .project{
-      h2 {
+  }
+  #slider1 {
+    .mint-swipe-indicators {
+      right: 10px;
+    }
+  }
+  #slider2 {
+    font-size: 14px;
+    color: #fff;
+    height: 36px;
+    line-height: 18px;
+    margin-top: -70px;
+    padding: 0 10px;
+  }
+  #slider3 {
+    margin-top: 47px;
+    margin-bottom: 13px;
+    .invest-finance {
+      width: 110px;
+      height: 55px;
+      padding-top: 20px;
+      @include bg-image("../img/slider-bg");
+      background-size: 110px auto;
+      text-align: center;
+      h3 {
         font-size: 14px;
-        color: #333;
-        height: 40px;
+        color: #666;
+        height: 35px;
+        line-height: 35px;
+      }
+      .time {
+        font-size: 11px;
+        color: #3f83e6;
+        height: 20px;
         line-height: 20px;
-        overflow: hidden;
-        margin: 10px;;
+      }
+    }
+  }
+  .cross-line {
+    width: 100%;
+    height: 10px;
+    background-color: #f5f5f5;
+  }
+  .project {
+    h2 {
+      font-size: 14px;
+      color: #333;
+      height: 40px;
+      line-height: 20px;
+      overflow: hidden;
+      margin: 10px;
+    }
+    .title-box {
+      font-size: 10px;
+      color: #666;
+      height: 10px;
+      padding: 10px 10px 15px;
 
+      .column {
+        color: #3f83e6;
+      }
+
+      .view {
+        i {
+          display: block;
+          float: left;
+          width: 12px;
+          height: 12px;
+          margin: 3px 5px;
+          @include bg-image("../img/view");
+          background-size: 12px auto;
+        }
+      }
+    }
+    .project1 {
+      margin-top: 14px;
+      .img {
+        width: 100%;
+        height: 186px;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
       .title-box {
-        font-size: 10px;
-        color: #666;
-        height: 10px;
-        padding: 10px 10px 15px;
-
-        .column {
-          color: #3f83e6;
-        }
-
-        .time {
-
-        }
-
-        .view {
-
-          i {
-            display: block;
-            float: left;
-            width: 12px;
-            height: 12px;
-            margin: 3px 5px;
-            @include bg-image('../img/view');
-            background-size: 12px auto;
-          }
-
-        }
-
+        @include onepx("bottom");
       }
-      .project1 {
-        margin-top: 14px;
+    }
+    .project2 {
+      overflow: hidden;
+      clear: both;
+      @include onepx("bottom");
+      h2 {
+        padding: 0;
+        margin: 12px 0 12px;
+      }
+      .main-news {
+        width: 62.6%;
+        margin-right: 2.7%;
+        margin-left: 2.7%;
+      }
+      .title-box {
+        padding-left: 0;
+      }
+      .img-warp {
+        width: 29.3%;
+        margin-right: 2.7%;
         .img {
           width: 100%;
-          height: 186px;
-
+          height: 71px;
+          border-radius: 3px;
+          margin: 14px 0;
           img {
             width: 100%;
             height: 100%;
           }
-
-        }
-        .title-box {
-          @include onepx('bottom');
-        }
-
-      }
-      .project2{
-        overflow: hidden;
-        clear: both;
-        @include onepx('bottom');
-        h2{
-          padding: 0;
-          margin: 12px 0 12px;
-        }
-        .main-news{
-          width:62.6%;
-          margin-right: 2.7%;
-          margin-left: 2.7%;
-        }
-        .title-box{
-          padding-left: 0;
-        }
-        .img-warp{
-          width:29.3%;
-          margin-right: 2.7%;
-          .img{
-            width: 100%;
-            height:71px;
-            border-radius: 3px;
-            margin: 14px 0;
-            img{
-              width: 100%;
-              height:100%;
-            }
-          }
         }
       }
-    }
-    .more {
-      font-size: 12px;
-      color: #3f80e9;
-      margin-top: 20px;
-      margin-bottom: 65px;
-      text-align: center;
-
-      i {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        @include bg-image('../img/more');
-        background-size: 12px auto;
-        margin-left: 6px;
-      }
-
     }
   }
+  .more {
+    font-size: 12px;
+    color: #3f80e9;
+    margin-top: 20px;
+    margin-bottom: 65px;
+    text-align: center;
 
+    i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      @include bg-image("../img/more");
+      background-size: 12px auto;
+      margin-left: 6px;
+    }
+  }
+}
 </style>

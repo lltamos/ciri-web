@@ -1,7 +1,7 @@
 <template>
   <div class="news-main">
       <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="(index+1)%5===0" class="project2">
+      <div v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -9,7 +9,7 @@
               <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-
+      
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -52,7 +52,7 @@ export default {
     return {
       articles: [],
       host: tool.oos(),
-      page: 1
+      page: 1,
     };
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
         { key: "tag", v: 2010 }
       ]);
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {
