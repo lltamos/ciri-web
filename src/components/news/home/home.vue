@@ -15,6 +15,43 @@
       </mt-swipe-item>
     </mt-swipe>
   </div>
+  <!-- swiper -->
+  <swiper :options="swiperOption" id="slider3">
+    <swiper-slide>
+      <div class="invest-finance">
+        <h3>投融资周报</h3>
+        <div class="time">02月24日-03月02日</div>
+
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="invest-finance">
+        <h3>投融资周报</h3>
+        <div class="time">02月24日-03月02日</div>
+
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="invest-finance">
+        <h3>投融资周报</h3>
+        <div class="time">03月24日-04月02日</div>
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="invest-finance">
+        <h3>投融资周报</h3>
+        <div class="time">04月24日-05月02日</div>
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="invest-finance">
+        <h3>投融资周报</h3>
+        <div class="time">05月24日-06月02日</div>
+      </div>
+    </swiper-slide>
+  </swiper>
+  <div class="cross-line"></div>
+
   <div class="project">
     <div class="project2">
       <div class="fl main-news">
@@ -100,7 +137,12 @@
              {
                title: '中国首条海外氧化铝生产6666'
              }
-           ]
+           ],
+           swiperOption: {
+             slidesPerView: 3,
+             spaceBetween: 30,
+             freeMode: true
+           }
          }
       },
       methods: {
@@ -138,8 +180,36 @@
       margin-top: -70px;
       padding: 0 10px;
     }
+    #slider3{
+      margin-top: 47px;
+      margin-bottom: 13px;
+      .invest-finance{
+        width:110px;
+        height:55px;
+        padding-top: 20px;
+        @include bg-image('../img/slider-bg');
+        background-size: 110px auto;
+        text-align: center;
+        h3{
+          font-size: 14px;
+          color:#666;
+          height:35px;
+          line-height: 35px;
+        }
+        .time{
+          font-size: 11px;
+          color:#3f83e6;
+          height:20px;
+          line-height: 20px;
+        }
+      }
+    }
+    .cross-line {
+      width: 100%;
+      height: 10px;
+      background-color: #f5f5f5;
+    }
     .project{
-      margin-top: 30px;
       h2 {
         font-size: 14px;
         color: #333;

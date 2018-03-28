@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 // 将全局样式文件写在 main.js
 import '@/assets/scss/reset.scss'
 // Mint UI
@@ -14,9 +16,10 @@ import 'mint-ui/lib/style.css'
 import VueLazyload from 'vue-lazyload'
 
 // vue-resource
-// 在服务器通讯方面，在升级到 vue 2.0 后，官方已经取消对 vue-resource 的更新而是转推 Axios
 import VueResource from 'vue-resource'
 Vue.config.productionTip = false
+
+Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 Vue.prototype.axios = axios
 Vue.use(Mint)
