@@ -73,8 +73,8 @@ const Mine = (resolve) => {
     resolve(module)
   })
 }
-const AboutUs = (resolve) => {
-  import('@/components/mine/about-us/about-us').then((module) => {
+const IdentityVerification = (resolve) => {
+  import('@/components/mine/IdentityVerification/IdentityVerification').then((module) => {
     resolve(module)
   })
 }
@@ -213,8 +213,8 @@ export default new Router({
     },
     //关于我们
     {
-      path: '/about-us',
-      component: AboutUs
+      path: '/IdentityVerification',
+      component: IdentityVerification
     },
     //会员中心
     {

@@ -1,5 +1,5 @@
 <template>
-<div>my-profile</div>
+<div>个人资料</div>
 </template>
 
 <script>
