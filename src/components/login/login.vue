@@ -160,13 +160,15 @@
           tag = tool.checkEmail(this.email);
         }
         if (tag && this.password !== '') {
-          let params = new URLSearchParams();
-          params.append('key', this.showEmail ? this.email : this.phone);
-          params.append('pwd', this.password);
-          params.append('aisle', this.aisle + "");
-
-          this.axios.post(tool.domind()+'/gateway/app/sys/login', params
+          // let params = new URLSearchParams();
+          // params.append('key', this.showEmail ? this.email : this.phone);
+          // params.append('pwd', this.password);
+          // params.append('aisle', this.aisle + "");
+          alert(tool.domind()+'/gateway/app/sys/login');
+          this.axios.post(tool.domind()+'/gateway/app/sys/login', 
+          {'key':this.showEmail ? this.email : this.phone,'pwd':this.password,'aisle':this.aisle+''}
           ).then(res => {
+            alert(11);
             if(res.data.code === 200){
               this.$router.replace({ path: '/index'})
             }else{
@@ -174,6 +176,7 @@
               this.errorShow = true;
             }
           }).catch(err => {
+             alert(err);
             console.log(err)
           })
         }else {
