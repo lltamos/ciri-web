@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="more">
+    <div v-show="isMore" class="more">
       <span @click="loadMore">查看更多</span>
       <i></i>
     </div>
@@ -70,7 +70,8 @@ export default {
       articles: [],
       host: tool.oos(),
       page: 1,
-      topArticle: ""
+      topArticle: "",
+      isMore:false
     };
   },
   methods: {
@@ -89,6 +90,7 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
+            this.isMore = this.articles.length != res.data.total;
           }
           this.page = this.page + 1;
         });

@@ -39,8 +39,8 @@
       </div>
     </div>
 
-    <div class="more">
-        <span @click=loadMore>查看更多</span><i></i>
+    <div v-show="isMore" class="more">
+         <span @click=loadMore>查看更多</span><i></i>
     </div>
   </div>
 </template>
@@ -52,7 +52,8 @@ export default {
     return {
       articles: [],
       host: tool.oos(),
-      page: 1
+      page: 1,
+      isMore: false
     };
   },
   methods: {
@@ -72,6 +73,7 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
+            this.isMore = this.articles.length != res.data.total;
           }
           this.page = this.page + 1;
         });
@@ -104,7 +106,7 @@ export default {
     .column {
       color: #3f83e6;
     }
-   
+
     .view {
       i {
         display: block;

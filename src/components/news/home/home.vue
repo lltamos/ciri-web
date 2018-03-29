@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-  <div class="more">
+  <div v-show="isMore" class="more">
     <span @click='loadMore'>查看更多</span><i></i>
   </div>
 </div>
@@ -108,7 +108,8 @@ export default {
         freeMode: true
       },
       page: 1,
-      articles: []
+      articles: [],
+      isMore:false
     };
   },
   methods: {
@@ -117,7 +118,7 @@ export default {
       let param = tool.buildForm([
         { key: "page", v: this.page },
         { key: "rouCount", v: 10 },
-        { key: "level", v: 2002}
+        { key: "level", v: 2002 }
       ]);
       this.axios
         .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
@@ -128,6 +129,8 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
+            console.log(this.articles.length+'----'+res.data.total);
+            this.isMore = this.articles.length != res.data.total;
           }
           this.page = this.page + 1;
         });

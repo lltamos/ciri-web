@@ -1,7 +1,8 @@
 <template>
   <div class="news-main">
-      <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="(index+1)%5!==0" class="project2">
+    <!-- v-link='{}' -->
+      <div  class="project" v-for="(article,index) in articles" :key="article.id">
+      <div  v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -39,7 +40,7 @@
       </div>
     </div>
 
-    <div class="more">
+    <div v-show="isMore" class="more">
       <span @click=loadMore>查看更多</span><i></i>
     </div>
   </div>
@@ -53,6 +54,7 @@ export default {
       articles: [],
       host: tool.oos(),
       page: 1,
+      isMore: false
     };
   },
   methods: {
@@ -72,6 +74,7 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
+            this.isMore = this.articles.length != res.data.total;
           }
           this.page = this.page + 1;
         });
