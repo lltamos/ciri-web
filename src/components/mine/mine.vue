@@ -2,15 +2,17 @@
   <div class="mine">
     <header class="gradient">
       个人中心
-      <i class="icon-setting"></i>
+      <router-link to="/mine/security"><i class="icon-setting"></i></router-link>
     </header>
     <div class="main">
       <div class="gradient-bg">
         <div class="user">
           <div class="user-msg">
-            <div class="user_face">
+            <router-link to="/mine/my-profile">
+              <div class="user_face">
 
             </div>
+            </router-link>
             <div v-if="!userId">
               <router-link class="login" to="/login">立即登录</router-link>
             </div>
@@ -22,19 +24,23 @@
             </div>
             <div class="identity-verify">
               <!--identity-verify 添加active 实名认证点亮-->
-              <i class="identity"></i>
-              <span>实名认证</span>
+              <router-link to="/mine/IdentityVerification">
+                <i class="identity"></i>
+                <span>实名认证</span>
+              </router-link>
             </div>
           </div>
           <div class="favorite">
             <div class="fl card">
               <h2>0</h2>
-              <h2>收藏的投资方</h2>
+              <h3>收藏的投资方</h3>
               <div class="separator"></div>
             </div>
             <div class="fr card">
-              <h2>0</h2>
-              <h2>收藏的项目</h2>
+              <router-link to="/mine/my-favorite">
+                <h2>0</h2>
+                <h3>收藏的项目</h3>
+              </router-link>
             </div>
             <div style="clear: both;visibility: hidden"></div>
           </div>
@@ -47,8 +53,10 @@
         <div class="member-center">
           <h2>会员中心</h2>
           <div class="look-more">
-            <span>查看</span>
-            <i class="icon-more"></i>
+            <router-link to="/mine/member-center">
+              <span>查看</span>
+              <i class="icon-more"></i>
+            </router-link>
           </div>
         </div>
         <ul class="member">
@@ -94,7 +102,7 @@
     },
     data () {
       return {
-        userId:true
+        userId:false
       }
     },
     props: {},

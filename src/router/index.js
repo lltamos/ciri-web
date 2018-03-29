@@ -73,6 +73,36 @@ const Mine = (resolve) => {
     resolve(module)
   })
 }
+const Security = (resolve) => {
+  import('@/components/mine/security/security').then((module) => {
+    resolve(module)
+  })
+}
+const AboutUs = (resolve) => {
+  import('@/components/mine/security/about-us/about-us').then((module) => {
+    resolve(module)
+  })
+}
+const SecurityEmail = (resolve) => {
+  import('@/components/mine/security/security-email/security-email').then((module) => {
+    resolve(module)
+  })
+}
+const SecurityFeedback = (resolve) => {
+  import('@/components/mine/security/security-feedback/security-feedback').then((module) => {
+    resolve(module)
+  })
+}
+const SecurityLoginpwd = (resolve) => {
+  import('@/components/mine/security/security-loginpwd/security-loginpwd').then((module) => {
+    resolve(module)
+  })
+}
+const SecurityPhone = (resolve) => {
+  import('@/components/mine/security/security-phone/security-phone').then((module) => {
+    resolve(module)
+  })
+}
 const IdentityVerification = (resolve) => {
   import('@/components/mine/IdentityVerification/IdentityVerification').then((module) => {
     resolve(module)
@@ -90,11 +120,6 @@ const MyFavorite = (resolve) => {
 }
 const MyProfile = (resolve) => {
   import('@/components/mine/my-profile/my-profile').then((module) => {
-    resolve(module)
-  })
-}
-const Security = (resolve) => {
-  import('@/components/mine/security/security').then((module) => {
     resolve(module)
   })
 }
@@ -211,30 +236,56 @@ export default new Router({
       path: '/mine',
       component: Mine
     },
-    //关于我们
+    //安全设置
     {
-      path: '/IdentityVerification',
+      path: '/mine/security',
+      component: Security
+    },
+    //安全设置   关于我们
+    {
+      path: '/about-us',
+      component: AboutUs
+    },
+    //安全设置   邮箱绑定
+    {
+      path: '/security-email',
+      component: SecurityEmail
+    },
+    //安全设置   意见反馈
+    {
+      path: '/security-feedback',
+      component: SecurityFeedback
+    },
+    //安全设置   登录密码
+    {
+      path: '/security-loginpwd',
+      component: SecurityLoginpwd
+    },
+    //安全设置   手机绑定
+    {
+      path: '/security-phone',
+      component: SecurityPhone
+    },
+
+    //实名认证
+    {
+      path: '/mine/IdentityVerification',
       component: IdentityVerification
     },
     //会员中心
     {
-      path: '/member-center',
+      path: '/mine/member-center',
       component: MemberCenter
     },
     //项目收藏
     {
-      path: '/my-favorite',
+      path: '/mine/my-favorite',
       component: MyFavorite
     },
     //个人资料
     {
-      path: '/my-profile',
+      path: '/mine/my-profile',
       component: MyProfile
-    },
-    //安全设置
-    {
-      path: '/security',
-      component: Security
     },
     // 注册页面
     {
