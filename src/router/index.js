@@ -1,27 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-Vue.use(Router)
-
-
 import Index from '@/components/index/index'
 import News from '@/components/news/news'
 import NewsDetail from '@/components/news/news-detail/news-detail'
 import CIRINews from '@/components/news/CIRI-News/CIRI-News'
-
 import goOut from '@/components/news/go-out/go-out'
 import NewsHome from '@/components/news/home/home'
 import NewsProject from '@/components/news/news-project/news-project'
 import Activities from '@/components/news/CIRI-News/Activities/Activities'
 import RecentNews from '@/components/news/CIRI-News/recent-news/recent-news'
-
-
 import Investigation from '@/components/news/CIRI-News/investigation/investigation'
 import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
-
 import Project from'@/components/project/project'
 import Msg from'@/components/msg/msg'
 import Mine from '@/components/mine/mine'
-
+Vue.use(Router)
 
 const Security = (resolve) => {
   import('@/components/mine/security/security').then((module) => {

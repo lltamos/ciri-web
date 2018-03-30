@@ -148,8 +148,6 @@ export default {
     .column {
       color: #3f83e6;
     }
-    .time {
-    }
     .view {
       i {
         display: block;
