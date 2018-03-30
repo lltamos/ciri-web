@@ -91,6 +91,21 @@ const MyProfile = (resolve) => {
     resolve(module)
   })
 }
+const ChangeKey = (resolve) => {
+  import('@/components/mine/my-profile/change-key').then((module) => {
+    resolve(module)
+  })
+}
+const ChangeCountry = (resolve) => {
+  import('@/components/mine/my-profile/change-country').then((module) => {
+    resolve(module)
+  })
+}
+const FocusCountry = (resolve) => {
+  import('@/components/mine/my-profile/focus-country').then((module) => {
+    resolve(module)
+  })
+}
 const login = (resolve) => {
   import('@/components/login/login').then((module) => {
     resolve(module)
@@ -279,6 +294,21 @@ export default new Router({
     {
       path: '/mine/my-profile',
       component: MyProfile
+    },
+    //修改个人资料
+    {
+      path: '/mine/change-key/:id',
+      component: ChangeKey
+    },
+    //修改国家
+    {
+      path: '/mine/change-country',
+      component: ChangeCountry
+    },
+    //关注国家
+    {
+      path: '/mine/focus-country',
+      component: FocusCountry
     },
     // 注册页面
     {
