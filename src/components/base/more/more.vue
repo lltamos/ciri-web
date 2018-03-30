@@ -2,7 +2,8 @@
 
 <template>
   <div class="more-bar">
-    <router-link :to=to><i class="icon-more"></i></router-link>
+    <router-link :to=to v-show="show"><i class="icon-more"></i></router-link>
+    <h1 :class="keyClass">{{textKey}}</h1>
     <h1>{{text}}</h1>
   </div>
 </template>
@@ -12,17 +13,29 @@
     components: {},
     data () {
       return {
-        object:this.object,
+        object:this.object
       }
     },
     props: {
       text: {
         type: String,
-        default: '商家列表'
+        default: ''
+      },
+      textKey: {
+        type: String,
+        default: ''
+      },
+      keyClass: {
+        type: String,
+        default: 'key'
+      },
+      show: {
+        type: Boolean,
+        default: true
       },
       to: {
         type: String,
-        default: 'login'
+        default: ''
       }
     },
     watch: {},
@@ -66,6 +79,14 @@
       font-size: 15px;
       color: #333;
       font-weight: normal;
+    }
+    .key{
+      float:right;
+      margin-right: 5px;
+    }
+    .mr35{
+      margin-right: 25px;
+      float: right;
     }
   }
 </style>

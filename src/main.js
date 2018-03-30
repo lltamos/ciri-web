@@ -30,6 +30,8 @@ Vue.use(VueLazyload, {
   // loading: '/static/loading-bars.svg'
   loading: require('@/assets/img/logo.png')
 })
+
+let Hub = new Vue();
 let vm = new Vue({
   el: '#app',
   router,
@@ -38,5 +40,6 @@ let vm = new Vue({
 })
 
 Vue.use({
-  vm
+  vm,
+  Hub
 })
