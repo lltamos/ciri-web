@@ -55,7 +55,7 @@ export default {
   methods: {},
   filters: {},
   computed: {},
-  created() {
+  mounted() {
     let param = tool.buildForm([
       { key: "page", v: 1 },
       { key: "rouCount", v: 1 },
@@ -74,7 +74,6 @@ export default {
       });
   },
 
-  mounted() {},
   destroyed() {}
 };
 </script>

@@ -2,77 +2,27 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 
-//路由懒加载
-const Index = (resolve) => {
-  import('@/components/index/index').then((module) => {
-    resolve(module)
-  })
-}
-const News = (resolve) => {
-  import('@/components/news/news').then((module) => {
-    resolve(module)
-  })
-}
-const NewsDetail = (resolve) => {
-  import('@/components/news/news-detail/news-detail').then((module) => {
-    resolve(module)
-  })
-}
-const CIRINews = (resolve) => {
-  import('@/components/news/CIRI-News/CIRI-News').then((module) => {
-    resolve(module)
-  })
-}
-const goOut = (resolve) => {
-  import('@/components/news/go-out/go-out').then((module) => {
-    resolve(module)
-  })
-}
-const NewsHome = (resolve) => {
-  import('@/components/news/home/home').then((module) => {
-    resolve(module)
-  })
-}
-const NewsProject = (resolve) => {
-  import('@/components/news/news-project/news-project').then((module) => {
-    resolve(module)
-  })
-}
-const Activities = (resolve) => {
-  import('@/components/news/CIRI-News/Activities/Activities').then((module) => {
-    resolve(module)
-  })
-}
-const RecentNews = (resolve) => {
-  import('@/components/news/CIRI-News/recent-news/recent-news').then((module) => {
-    resolve(module)
-  })
-}
-const Investigation = (resolve) => {
-  import('@/components/news/CIRI-News/investigation/investigation').then((module) => {
-    resolve(module)
-  })
-}
-const Cooperation = (resolve) => {
-  import('@/components/news/CIRI-News/cooperation/cooperation').then((module) => {
-    resolve(module)
-  })
-}
-const Project = (resolve) => {
-  import('@/components/project/project').then((module) => {
-    resolve(module)
-  })
-}
-const Msg = (resolve) => {
-  import('@/components/msg/msg').then((module) => {
-    resolve(module)
-  })
-}
-const Mine = (resolve) => {
-  import('@/components/mine/mine').then((module) => {
-    resolve(module)
-  })
-}
+
+import Index from '@/components/index/index'
+import News from '@/components/news/news'
+import NewsDetail from '@/components/news/news-detail/news-detail'
+import CIRINews from '@/components/news/CIRI-News/CIRI-News'
+
+import goOut from '@/components/news/go-out/go-out'
+import NewsHome from '@/components/news/home/home'
+import NewsProject from '@/components/news/news-project/news-project'
+import Activities from '@/components/news/CIRI-News/Activities/Activities'
+import RecentNews from '@/components/news/CIRI-News/recent-news/recent-news'
+
+
+import Investigation from '@/components/news/CIRI-News/investigation/investigation'
+import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
+
+import Project from'@/components/project/project'
+import Msg from'@/components/msg/msg'
+import Mine from '@/components/mine/mine'
+
+
 const Security = (resolve) => {
   import('@/components/mine/security/security').then((module) => {
     resolve(module)

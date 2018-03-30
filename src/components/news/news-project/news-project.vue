@@ -104,7 +104,7 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     this.loadMore();
     let param = tool.buildForm([
       { key: "page", v: 1 },

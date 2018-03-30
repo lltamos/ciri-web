@@ -140,7 +140,7 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     let param = tool.buildForm([
       { key: "page", v: 1 },
       { key: "rouCount", v: 5 },
