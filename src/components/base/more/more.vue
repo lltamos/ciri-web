@@ -43,16 +43,19 @@
   @import '~@/assets/scss/mixin.scss';
 
   .more-bar {
-    height: 30px;
+    height: 40px;
+    line-height: 40px;
     background: #fff;
-    padding: 9px 10px 0;
+    padding: 0 10px;
     i {
       display: block;
       float:right;
       width: 20px;
-      height: 20px;
-      background: url('../img/more.png') no-repeat;
+      height: 40px;
+      background-repeat: no-repeat;
+      @include bg-image("../img/more");
       background-size: 20px auto;
+      background-position: center;
     }
     .icon-more {
       background-image: url('../img/more.png');
