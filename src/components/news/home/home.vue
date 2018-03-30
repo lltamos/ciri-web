@@ -4,7 +4,9 @@
   <div class="slider" id="slider1">
     <mt-swipe :auto="3000" @change="handleChange">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
+         <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
         <img :src="host+item.thumbnail">
+         </router-link>
       </mt-swipe-item>
     </mt-swipe>
   </div>
@@ -52,15 +54,16 @@
   <div class="cross-line"></div>
 
      <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="(index+1)%5!==0" class="project2">
+     <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
+      <div  v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">最新动态</span> | <span class="time">2018年1月1日</span>
+              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-
+      
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -79,7 +82,7 @@
         <h2>{{article.title}}</h2>
         <div class="title-box">
           <div class="fl">
-            <span class="column">最新动态</span> | <span class="time">2018年1月1日</span>
+            <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
             <span class="author">CIRI</span>
           </div>
 
@@ -88,6 +91,7 @@
           </div>
         </div>
       </div>
+      </router-link>
     </div>
   <div v-show="isMore" class="more">
     <span @click='loadMore'>查看更多</span><i></i>
@@ -109,7 +113,7 @@ export default {
       },
       page: 1,
       articles: [],
-      isMore:false
+      isMore: false
     };
   },
   methods: {
@@ -129,7 +133,7 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
-            console.log(this.articles.length+'----'+res.data.total);
+            console.log(this.articles.length + "----" + res.data.total);
             this.isMore = this.articles.length != res.data.total;
           }
           this.page = this.page + 1;

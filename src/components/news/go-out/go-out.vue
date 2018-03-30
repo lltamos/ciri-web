@@ -1,6 +1,7 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news-main">
     <div v-show="topArticle!==null||topArticle!==''" class="project1">
+         <router-link   :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
       <div class="img">
         <img v-bind:src="host+topArticle.thumbnail"/>
       </div>
@@ -15,17 +16,19 @@
           <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
         </div>
       </div>
+         </router-link>
     </div>
     <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <div v-show="(index+1)%5!==0" class="project2">
+      <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
+      <div  v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-
+      
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -44,7 +47,7 @@
         <h2>{{article.title}}</h2>
         <div class="title-box">
           <div class="fl">
-            <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+            <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
             <span class="author">CIRI</span>
           </div>
 
@@ -53,6 +56,7 @@
           </div>
         </div>
       </div>
+      </router-link>
     </div>
     <div v-show="isMore" class="more">
       <span @click="loadMore">查看更多</span>
@@ -71,7 +75,7 @@ export default {
       host: tool.oos(),
       page: 1,
       topArticle: "",
-      isMore:false
+      isMore: false
     };
   },
   methods: {

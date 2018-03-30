@@ -2,12 +2,14 @@
 
 <template>
   <div class="news">
+       <router-link   :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
     <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}" >
       <p class="coverage">
         <span class="title">{{topArticle.title}}</span>
         <span class="summary">{{topArticle.summary}}</span>
       </p>
     </div>
+       </router-link>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">

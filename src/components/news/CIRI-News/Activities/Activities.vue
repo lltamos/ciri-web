@@ -1,7 +1,8 @@
 <template>
   <div class="news-main">
-    <!-- v-link='{}' -->
-      <div  class="project" v-for="(article,index) in articles" :key="article.id">
+   
+      <div   class="project" v-for="(article,index) in articles" :key="article.id">
+       <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
       <div  v-show="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
@@ -38,6 +39,7 @@
           </div>
         </div>
       </div>
+      </router-link>
     </div>
 
     <div v-show="isMore" class="more">
