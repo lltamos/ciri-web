@@ -185,7 +185,6 @@
               return
         }
         let param = new URLSearchParams();
-        alert(this.aisle === 0 ? this.phone : this.email);
 
         param.append('name', this.aisle === 0 ? this.phone : this.email);
         if (tag) {

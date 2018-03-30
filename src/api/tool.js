@@ -37,5 +37,9 @@ export default {
       param.append(v.key, v.v)
     })
     return param
+  },
+  getUser: function () {
+    return sessionStorage.getItem('user')
   }
+
 }

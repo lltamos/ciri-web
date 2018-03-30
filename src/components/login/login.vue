@@ -166,8 +166,10 @@ export default {
         this.axios
           .post(tool.domind() + "/gateway/app/sys/login", params)
           .then(res => {
+            console.log(res.data);
             if (res.data.code === 200) {
-              this.$router.replace({ path: "/index" });
+              sessionStorage.setItem("token", res.data.token);
+              this.$router.replace({ path: "/mine" });
             } else {
               this.error = "账号或密码错误，请重新输入";
               this.errorShow = true;
