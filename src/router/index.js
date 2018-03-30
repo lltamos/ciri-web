@@ -83,6 +83,31 @@ const AboutUs = (resolve) => {
     resolve(module)
   })
 }
+const BrazilBranch = (resolve) => {
+  import('@/components/mine/security/about-us/brazil-branch').then((module) => {
+    resolve(module)
+  })
+}
+const BusinessArea = (resolve) => {
+  import('@/components/mine/security/about-us/business-area').then((module) => {
+    resolve(module)
+  })
+}
+const CompanyProfile = (resolve) => {
+  import('@/components/mine/security/about-us/company-profile').then((module) => {
+    resolve(module)
+  })
+}
+const ContactUs = (resolve) => {
+  import('@/components/mine/security/about-us/contact-us').then((module) => {
+    resolve(module)
+  })
+}
+const IranianBranch = (resolve) => {
+  import('@/components/mine/security/about-us/iranian-branch').then((module) => {
+    resolve(module)
+  })
+}
 const SecurityEmail = (resolve) => {
   import('@/components/mine/security/security-email/security-email').then((module) => {
     resolve(module)
@@ -245,6 +270,31 @@ export default new Router({
     {
       path: '/about-us',
       component: AboutUs
+    },
+    // 关于我们 巴西分公司
+    {
+      path: '/brazil-branch',
+      component: BrazilBranch
+    },
+    // 关于我们 业务领域
+    {
+      path: '/business-area',
+      component: BusinessArea
+    },
+    //关于我们 公司简介
+    {
+      path: '/company-profile',
+      component: CompanyProfile
+    },
+    //关于我们  联系我们
+    {
+      path: '/contact-us',
+      component: ContactUs
+    },
+    //关于我们 伊朗分公司
+    {
+      path: '/iranian-branch',
+      component: IranianBranch
     },
     //安全设置   邮箱绑定
     {

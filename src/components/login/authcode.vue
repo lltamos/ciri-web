@@ -21,8 +21,8 @@
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
-        <div class="switch getCodeBg" v-show="show" @click="getCode">发送验证码</div>
-        <div class="switch getCodeBg" v-show="!show">{{count}} s</div>
+        <div class="switch getCodeBg" v-show="showCode" @click="getCode">发送验证码</div>
+        <div class="switch getCodeBg" v-show="!showCode">{{count}} s</div>
       </div>
       <div class="error">
         <div v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
@@ -47,7 +47,7 @@
     data () {
       return {
         loginClass : 'loginBtn',
-        show: true,
+        showCode: true,
         count: '',
         timer: null,
         position: '',
