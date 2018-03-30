@@ -1,7 +1,7 @@
 export default {
 
   domind: function () {
-    return 'http://127.0.0.1:8080'
+    return 'http://192.168.2.5:8080'
   },
 
   oos: function () {
