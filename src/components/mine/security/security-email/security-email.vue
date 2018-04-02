@@ -4,7 +4,7 @@
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
       <div class="bind-email">
-        <span>当前绑定邮箱：</span><span class="email" >rukey.li@bjciri.com</span>
+        <span>当前绑定邮箱：</span><span class="email">{{ currentEmail }}</span>
       </div>
       <div class="iconWrap">
         <div class="mint-cell">
@@ -48,8 +48,16 @@
         timer: null,
         error:'',
         errorShow : false,
-        showCode:true
+        showCode:true,
+        currentEmail:null
       }
+    },
+    mounted() {
+      this.axios.get(tool.domind() + "/gateway/security/securityInfo?name=17611581353").then(res => {
+        //101 name参数不能为空 102 查询不到用户信息 200 返回用户安全设置信息
+        if(res.data.code === 200)
+          this.currentEmail = res.data.data.email;
+      });
     },
     methods: {
       back() {
