@@ -4,7 +4,7 @@
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
       <div class="bind-email">
-        <span>当前绑定邮箱：</span><span class="email">rukey.li@bjciri.com</span>
+        <span>当前绑定邮箱：</span><span class="email">{{ currentEmail }}</span>
       </div>
       <div class="iconWrap">
         <div class="mint-cell">
@@ -27,7 +27,7 @@
       <div class="error">
         <div v-show="errorShow" v-text="error">手机号错误，请重新输入</div>
       </div>
-      <mt-button :class="loginClass" size="large">确认绑定</mt-button>
+      <mt-button :class="loginClass" size="large" @click="binding">确认绑定</mt-button>
     </div>
   </div>
 </template>
@@ -48,8 +48,16 @@
         timer: null,
         error:'',
         errorShow : false,
-        showCode:true
+        showCode:true,
+        currentEmail:null
       }
+    },
+    mounted() {
+      this.axios.get(tool.domind() + "/gateway/security/securityInfo?name=17611581353").then(res => {
+        //101 name参数不能为空 102 查询不到用户信息 200 返回用户安全设置信息
+        if(res.data.code === 200)
+          this.currentEmail = res.data.data.email;
+      });
     },
     methods: {
       back() {
@@ -62,19 +70,39 @@
         this.loginClass='loginBtnActive';
       },
       getCode () {
-        // let tag = tool.checkMobile(this.email);
-        // if (!tag) {
-        //   return
-        // }
-        // let param = new URLSearchParams();
-        // param.append('name', this.phone);
-        // if (tag) {
-        //   this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-        //     console.log(res)
-        //   }).catch(err => {
-        //     console.log(err)
-        //   })
-        // }
+        let tag = tool.checkEmail(this.email);
+        if (!tag) {
+          this.errorShow = true;
+          this.error = '邮箱格式不正确';
+          return
+        }
+        let param = new URLSearchParams();
+        param.append('mail', this.email);
+        if (tag) {
+          this.axios.post(tool.domind() + '/gateway/security/mailCode', param).then(res => {
+            if (res.data === 0) {
+              this.errorShow = true;
+              this.error = '参数错误';
+            }else if (res.data === 1) {
+              this.errorShow = true;
+              this.error = '邮箱格式不正确';
+            }else if (res.data === 2) {
+              this.errorShow = true;
+              this.error = '该邮箱已经被注册';
+            }else if (res.data === 3) {
+              this.errorShow = true;
+              this.error = '邮箱发送验证码发送频率太快';
+            }else if (res.data === 4) {
+              this.errorShow = true;
+              this.error = '发送验证码失败';
+            }else if (res.data === 10) {
+              alert('验证码发送成功');
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
+        }
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -94,7 +122,7 @@
         let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
         if (!this.email) {
           this.errorShow = true;
-          this.error = '邮箱错误，请重新输入';
+          this.error = '邮箱不能为空';
         } else if (!flag.test(this.email)) {
           this.errorShow = true;
           this.error = '邮箱错误，请重新输入';
@@ -105,8 +133,54 @@
       verifyCode (){
         if (!this.auchcode) {
           this.errorShow = true;
-          this.error = '验证码错误，请重新输入';
+          this.error = '验证码不能为空';
+        }else if(this.auchcode.length != 6){
+          this.errorShow = true;
+          this.error = '验证码的长度不正确';
+        }else {
+          this.errorShow = false;
         }
+      },
+      binding (){
+        this.verifyEmail();
+        if(this.errorShow)
+          return ;
+
+        this.verifyCode();
+        if(this.errorShow)
+          return ;
+        let param = tool.buildForm([
+          { key: "name", v: '17611581353' },
+          { key: "mail", v: this.email },
+          { key: "code", v: this.auchcode }
+        ]);
+        this.axios.post(tool.domind()+'/gateway/security/bindMail',param
+        ).then(res => {
+          if(res.data === 10){
+            alert('绑定成功');
+          }else if(res.data === 4){
+            this.error = '不能查询用户信息';
+            this.errorShow = true;
+          }else if(res.data === 3) {
+            this.error = '验证码不正确';
+            this.errorShow = true;
+          }else if(res.data === 2) {
+            this.error = '邮箱已被注册';
+            this.errorShow = true;
+          }else if(res.data === 1) {
+            this.error = '邮箱格式不正确';
+            this.errorShow = true;
+          }else if(res.data === 0) {
+            this.error = '请求参数错误';
+            this.errorShow = true;
+          }else if(res.data === -1) {
+            this.error = '绑定失败';
+            this.errorShow = true;
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
       }
     }
   }
