@@ -25,7 +25,7 @@
       <div class="main-news">
         <h2>邮箱绑定</h2>
         <p>已绑定的邮箱：</p>
-        <p>test2018@bjciri.com</p>
+        <p>{{bindEmail}}</p>
         <router-link to="/security-email">
           <div class="change-btn">
             修改
@@ -40,7 +40,7 @@
       <div class="main-news">
         <h2>手机绑定</h2>
         <p>已绑定的手机号：</p>
-        <p>15245587820</p>
+        <p>{{bindPhone}}</p>
         <router-link to="/security-phone">
           <div class="change-btn">
             修改
@@ -67,10 +67,19 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "@/api/tool";
+
     export default {
       components: {
         HeaderBar,
         CrossLine
+      },
+      data() {
+        return {
+          host: tool.getUser(),
+          bindEmail :"",
+          bindPhone :"",
+        };
       },
       methods: {
         back() {
@@ -78,7 +87,22 @@
             path: this.$router.go(-1)
           })
         },
-      }
+      },
+      mounted() {
+        let params = new URLSearchParams();
+        params.append("name", "17611581353");
+        this.axios
+          .get(tool.domind() + "/gateway/security/securityInfo?name=17611581353",{})
+          .then(res => {
+              if (res.data.code === 200) {
+                  console.log(res.data.code);
+                this.bindEmail=res.data.data.email;
+                this.bindPhone=res.data.data.phone;
+              }
+
+            });
+      },
+      updated() {}
     }
 </script>
 
