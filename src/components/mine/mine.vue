@@ -10,7 +10,7 @@
           <div class="user-msg">
             <router-link to="/mine/my-profile">
               <div class="user_face">
-                <img :src="portraitUrl" style="width:100px"/>
+                <img :src="portraitUrl"/>
               </div>
 
             </router-link>
@@ -158,6 +158,8 @@ export default {
             }
           }
         });
+    }else {
+      this.portraitUrl= require('./img/user_face.png');
     }
   },
   mounted() {},
@@ -217,12 +219,14 @@ body {
             height: 66px;
             width: 66px;
             float: left;
-            border: 1px solid #ccc;
             margin-right: 12px;
             margin-top: 12.5px;
-            border-radius: 50%;
-            @include bg-image("./img/user_face");
-            background-size: 66px auto;
+            img{
+              height: 66px;
+              width: 66px;
+              border: 1px solid #ccc;
+              border-radius: 50%;
+            }
           }
           .login {
             font-size: 16px;
