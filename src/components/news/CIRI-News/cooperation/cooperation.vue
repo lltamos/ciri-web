@@ -1,8 +1,8 @@
 <template>
   <div class="news-main">
-      <div class="project" v-for="(article,index) in articles" :key="article.id">
+      <div v-if="articles!=null" class="project" v-for="(article,index) in articles" :key="article.id">
       <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
-      <div  v-show="(index+1)%5!==0" class="project2">
+      <div  v-if="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -10,7 +10,7 @@
               <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-      
+
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div v-show="(index+1)%5===0" class="project1">
+      <div v-if="(index+1)%5===0" class="project1">
         <div class="img">
           <img v-bind:src="host+article.thumbnail"/>
         </div>
@@ -52,7 +52,7 @@ import tool from "@/api/tool";
 export default {
   data() {
     return {
-      articles: [],
+      articles: null,
       host: tool.oos(),
       page: 1,
       isMore: false
