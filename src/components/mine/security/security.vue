@@ -25,7 +25,7 @@
       <div class="main-news">
         <h2>邮箱绑定</h2>
         <p>已绑定的邮箱：</p>
-        <p>test2018@bjciri.com</p>
+        <p>{{bindEmail}}</p>
         <router-link to="/security-email">
           <div class="change-btn">
             修改
@@ -40,7 +40,7 @@
       <div class="main-news">
         <h2>手机绑定</h2>
         <p>已绑定的手机号：</p>
-        <p>15245587820</p>
+        <p>{{bindPhone}}</p>
         <router-link to="/security-phone">
           <div class="change-btn">
             修改
@@ -67,6 +67,7 @@
 <script>
 import HeaderBar from "@/components/base/header-bar/header-bar";
 import CrossLine from "@/components/base/cross-line/cross-line";
+import tool from "@/api/tool";
 export default {
   components: {
     HeaderBar,
@@ -84,118 +85,161 @@ export default {
     }
   }
 };
+  import HeaderBar from '@/components/base/header-bar/header-bar'
+  import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "@/api/tool";
+
+    export default {
+      components: {
+        HeaderBar,
+        CrossLine
+      },
+      data() {
+        return {
+          host: tool.getUser(),
+          bindEmail :"",
+          bindPhone :"",
+        };
+      },
+      methods: {
+        back() {
+          this.$router.push({
+            path: this.$router.go(-1)
+          })
+        },
+      },
+      mounted() {
+        let params = new URLSearchParams();
+        params.append("name", "17611581353");
+        this.axios
+          .get(tool.domind() + "/gateway/security/securityInfo?name=17611581353",{})
+          .then(res => {
+              if (res.data.code === 200) {
+                  console.log(res.data.code);
+                this.bindEmail=res.data.data.email;
+                this.bindPhone=res.data.data.phone;
+              }
+
+            });
+      },
+      updated() {}
+    }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/scss/mixin.scss";
-@import "~@/assets/scss/const.scss";
-.security {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  background: #f5f5f5;
-}
-.main {
-  text-align: left;
-  background: #f5f5f5;
-  .section {
-    height: 50px;
-    padding: 20px 0 20px 60px;
-    position: relative;
-    background: #fff;
-    .img {
-      position: absolute;
-      top: 20px;
-      left: 10px;
-      display: block;
-      width: 50px;
-      height: 50px;
-      background-size: 50px auto;
-    }
-    .icon-loginpwd {
-      @include bg-image("./img/loginpwd");
-    }
-    .icon-email {
-      @include bg-image("./img/email-binding");
-    }
-    .icon-phone {
-      @include bg-image("./img/phone-binding");
-    }
-    .main-news {
-      margin-left: 12px;
-      h2 {
-        font-size: 16px;
-        color: #333;
-        height: 16px;
-        margin-bottom: 5px;
-      }
-      p {
-        font-size: 12px;
-        color: #666;
-        height: 12px;
-        margin-bottom: 2px;
-      }
-      .change-btn {
+  @import '~@/assets/scss/mixin.scss';
+  @import '~@/assets/scss/const.scss';
+  .security{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    background:#f5f5f5;
+  }
+  .main{
+    text-align: left;
+    background: #f5f5f5;
+    .section{
+      height:50px;
+      padding:20px 0 20px 60px;
+      position: relative;
+      background: #fff;
+      .img{
         position: absolute;
-        right: 10px;
-        bottom: 29px;
-        height: 23px;
+        top:20px;
+        left:10px;
+        display: block;
         width: 50px;
-        border-radius: 3px;
-        line-height: 23px;
-        text-align: center;
-        color: #fff;
-        font-size: 12px;
-        background: #4081e8;
+        height: 50px;
+        background-size: 50px auto;
+      }
+      .icon-loginpwd{
+        @include bg-image("./img/loginpwd");
+      }
+      .icon-email{
+        @include bg-image("./img/email-binding");
+      }
+      .icon-phone{
+        @include bg-image("./img/phone-binding");
+      }
+      .main-news{
+        margin-left: 12px;
+        h2{
+          font-size: 16px;
+          color:#333;
+          height:16px;
+          margin-bottom: 5px;
+
+        }
+        p{
+          font-size: 12px;
+          color:#666;
+          height:12px;
+          margin-bottom: 2px;
+
+        }
+        .change-btn{
+          position: absolute;
+          right:10px;
+          bottom: 29px;
+          height:23px;
+          width: 50px;
+          border-radius: 3px;
+          line-height: 23px;
+          text-align: center;
+          color:#fff;
+          font-size: 12px;
+          background: #4081e8;
+
+        }
       }
     }
-  }
-  .border {
-    border-bottom: 1px dashed #dedede;
-  }
-  .more-bar {
-    height: 45px;
-    background: #fff;
-    line-height: 45px;
-    padding: 0 10px;
-    @include onepx("bottom");
-    .icon-more {
-      display: block;
-      float: right;
-      width: 20px;
+    .border{
+      border-bottom: 1px dashed #dedede;
+    }
+    .more-bar {
       height: 45px;
+      background: #fff;
       line-height: 45px;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 20px auto;
-      @include bg-image("./img/more");
-    }
-    h1 {
-      display: inline-block;
-      text-align: left;
-      font-size: 15px;
-      color: #333;
-      font-weight: normal;
-      i {
+      padding: 0 10px;
+      @include onepx('bottom');
+      .icon-more{
+        display: block;
+        float:right;
+        width: 20px;
+        height: 45px;
+        line-height: 45px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px auto;
+        @include bg-image("./img/more");
+      }
+      h1 {
         display: inline-block;
-        width: 22px;
-        height: 22px;
-        background-size: 22px auto;
-        margin-right: 5px;
-        vertical-align: middle;
-      }
-      .about-us {
-        @include bg-image("./img/about-us");
-      }
-      .feedback {
-        @include bg-image("./img/feedback");
+        text-align: left;
+        font-size: 15px;
+        color: #333;
+        font-weight: normal;
+        i{
+          display: inline-block;
+          width:22px;
+          height:22px;
+          background-size: 22px auto;
+          margin-right: 5px;
+          vertical-align: middle;
+        }
+        .about-us{
+          @include bg-image("./img/about-us");
+        }
+        .feedback{
+          @include bg-image("./img/feedback");
+        }
       }
     }
   }
-}
-.exit {
-  padding: 0 10px;
-  margin-top: 20px;
-}
+  .exit{
+    padding: 0 10px;
+    margin-top: 20px;
+  }
+
 </style>

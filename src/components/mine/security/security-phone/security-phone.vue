@@ -27,7 +27,7 @@
       <div class="error">
         <div v-show="errorShow" v-text="error">手机号错误，请重新输入</div>
       </div>
-      <mt-button :class="loginClass" size="large">确认绑定</mt-button>
+      <mt-button :class="loginClass" size="large" @click="bindPhone">确认绑定</mt-button>
     </div>
   </div>
 </template>
@@ -109,8 +109,78 @@
         }else {
         this.errorShow = false;
         }
+      },
+      getCode(){
+        let params = new URLSearchParams();
+        params.append("phone", this.phone);
+        this.axios.post(tool.domind()+'/gateway/security/phoneCode',params
+        ).then(res => {
+          if(res === '10'){
+            alert('发送成功');
+          }else if(res === null){
+            this.error = '发送失败';
+            this.errorShow = true;
+          }else if(res === '1'){
+            this.error = '格式不正确';
+            this.errorShow = true;
+          }else if(res === '2') {
+            this.error = '手机号已经被注册';
+            this.errorShow = true;
+          }else if(res === '3') {
+            this.error = '发送失败';
+            this.errorShow = true;
+          }else if(res === '4') {
+            this.error = '发送频率过快';
+            this.errorShow = true;
+          }else if(res === '0') {
+            this.error = '手机号不能为空';
+            this.errorShow = true;
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
+      },
+      bindPhone(){
+        let params = new URLSearchParams();
+        params.append("phone", this.phone);
+        params.append("code", this.auchcode);
+        params.append("name", '17611581353');
+        this.axios.post(tool.domind()+'/gateway/security/bindPhone',params
+        ).then(res => {
+          if(res === '10'){
+            alert('绑定成功');
+          }else if(res === null){
+            this.error = '绑定失败';
+            this.errorShow = true;
+          }else if(res === '1'){
+            this.error = '手机格式不正确';
+            this.errorShow = true;
+          }else if(res === '2') {
+            this.error = '手机号已经被注册';
+            this.errorShow = true;
+          }else if(res === '3') {
+            this.error = '验证码不正确';
+            this.errorShow = true;
+          }else if(res === '4') {
+            this.error = '绑定失败';
+            this.errorShow = true;
+          }else if(res === '0') {
+            this.error = '绑定失败';
+            this.errorShow = true;
+          }else if(res === '-1'){
+            this.error = '绑定失败';
+            this.errorShow = true;
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
       }
-    }
+      }
+
+
+
   }
 </script>
 

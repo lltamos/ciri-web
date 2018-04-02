@@ -16,9 +16,9 @@
       <div class="clear"></div>
     </div>
     <div class="heart_comment clearfix">
-      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone">
-      <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议"></textarea>
-      <div id="feedbackAction" class="btn">提交</div>
+      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="contact">
+      <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="content1"></textarea>
+      <div id="feedbackAction" class="btn" @click="feedback">提交</div>
     </div>
   </div>
 </div>
@@ -27,6 +27,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool';
   export default {
     components: {
       HeaderBar,
@@ -38,6 +39,20 @@
           path: this.$router.go(-1)
         })
       },
+      feedback (){
+        let param = tool.buildForm([
+          { key: "contact", v: this.contcat },
+          { key: "content", v: this.context1 }
+        ]);
+        this.axios.post(tool.domind()+'/gateway/app/feedback',param
+        ).then(res => {
+          if(res.data.code === 200)
+            alert('提交成功');
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
+      }
     }
   }
 </script>
