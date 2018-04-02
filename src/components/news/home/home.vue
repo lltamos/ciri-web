@@ -2,18 +2,12 @@
 <div class="home">
   <!-- 轮播图 -->
   <div class="slider" id="slider1">
-    <mt-swipe :auto="3000" @change="handleChange">
+    <mt-swipe :auto="3000" @change="handleChange" :prevent="false">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
          <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
         <img :src="host+item.thumbnail">
+         <p id="slider2" v-text="item.title"> </p>
          </router-link>
-      </mt-swipe-item>
-    </mt-swipe>
-  </div>
-  <div class="slider" id="slider2">
-    <mt-swipe :auto="3000" @change="handleChange" :show-indicators="false">
-      <mt-swipe-item v-for="item in swipeObj" :key="item.id">
-        <p style="z-index: 999;position: absolute;" v-text="item.title"> </p>
       </mt-swipe-item>
     </mt-swipe>
   </div>
@@ -63,7 +57,7 @@
               <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-      
+
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -173,23 +167,25 @@ export default {
       width: 100%;
       height: 100%;
     }
+    #slider2 {
+      font-size: 14px;
+      color: #fff;
+      height: 36px;
+      line-height: 18px;
+      margin-top: -100px;
+      padding: 0 10px;
+      text-align: left;
+    }
   }
   #slider1 {
     .mint-swipe-indicators {
       right: 10px;
     }
   }
-  #slider2 {
-    font-size: 14px;
-    color: #fff;
-    height: 36px;
-    line-height: 18px;
-    margin-top: -70px;
-    padding: 0 10px;
-  }
   #slider3 {
     margin-top: 47px;
     margin-bottom: 13px;
+    .swiper-slide{width:110px;margin-right: 20px;}
     .invest-finance {
       width: 110px;
       height: 55px;
