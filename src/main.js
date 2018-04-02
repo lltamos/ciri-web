@@ -13,7 +13,6 @@ import '@/assets/scss/mixin.scss'
 // Mint UI
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
-
 // 图片懒加载
 import VueLazyload from 'vue-lazyload'
 
@@ -23,6 +22,15 @@ Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
+axios.defaults.headers.token = sessionStorage.getItem('token')
+axios.interceptors.request.use((config) => {
+  console.log(config)
+  console.log(arguments)
+  return config
+}, (error) => {
+  console.log(error)
+  console.log(arguments)
+})
 
 Vue.prototype.axios = axios
 Vue.use(Mint)

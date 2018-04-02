@@ -88,328 +88,320 @@
 </template>
 
 <script>
-  import TabBar from '@/components/base/tab-bar/tab-bar'
-  import CrossLine from '@/components/base/cross-line/cross-line'
-  import BorderLine from '@/components/base/border-line/border-line'
-  import More from '@/components/base/more/more'
-
-  export default {
-    components: {
-      TabBar,
-      CrossLine,
-      BorderLine,
-      More
-    },
-    data () {
-      return {
-        userId:false
-      }
-    },
-    props: {},
-    watch: {},
-    methods: {
-
-    },
-    filters: {},
-    computed: {},
-    created () {
-    },
-    mounted () {},
-    destroyed () {}
-  }
+import TabBar from "@/components/base/tab-bar/tab-bar";
+import CrossLine from "@/components/base/cross-line/cross-line";
+import BorderLine from "@/components/base/border-line/border-line";
+import More from "@/components/base/more/more";
+import tool from "@/api/tool";
+export default {
+  components: {
+    TabBar,
+    CrossLine,
+    BorderLine,
+    More
+  },
+  data() {
+    return {
+      userId: false
+    };
+  },
+  props: {},
+  watch: {},
+  methods: {},
+  filters: {},
+  computed: {},
+  mounted() {
+    // let params = tool.buildForm({
+    //   name: tool.getUser()
+    // });
+    this.axios.get(tool.domind() + "/gateway/user/getUser").then(res => {
+      console.log(res.data);
+    });
+  },
+  destroyed() {}
+};
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/assets/scss/mixin.scss';
-  body{
-    background-color: #f5f5f5;
+@import "~@/assets/scss/mixin.scss";
+body {
+  background-color: #f5f5f5;
+}
+.mine {
+  background: #f5f5f5;
+  text-align: left;
+  header {
+    height: 44px;
+    line-height: 44px;
+    color: #fefefe;
+    font-size: 18px;
+    text-align: center;
+    .icon-setting {
+      float: right;
+      height: 22px;
+      width: 22px;
+      margin: 11px 10px 0 0;
+      @include bg-image("./img/setting");
+      background-size: 22px auto;
+    }
   }
-  .mine{
-    background: #f5f5f5;
-    text-align: left;
-    header{
-      height:44px;
-      line-height: 44px;
-      color:#fefefe;
-      font-size: 18px;
-      text-align: center;
-      .icon-setting{
-        float: right;
-        height:22px;
-        width:22px;
-        margin:11px 10px 0 0 ;
-        @include bg-image("./img/setting");
-        background-size: 22px auto;
-      }
-    }
-    .gradient{
-      width:100%;
-      height:44px;
-      @include bg-image("./img/header-bg");
+  .gradient {
+    width: 100%;
+    height: 44px;
+    @include bg-image("./img/header-bg");
+    background-repeat: no-repeat;
+    background-size: 100% 44px;
+    /*background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Safari 5.1 - 6.0 *!*/
+    /*background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Opera 11.1 - 12.0 *!*/
+    /*background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Firefox 3.6 - 15 *!*/
+    /*background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* 标准的语法 *!*/
+  }
+  .main {
+    .gradient-bg {
+      width: 100%;
+      float: left;
+      @include bg-image("./img/guadient-bg");
       background-repeat: no-repeat;
-      background-size: 100% 44px;
-      /*background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Safari 5.1 - 6.0 *!*/
-      /*background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Opera 11.1 - 12.0 *!*/
-      /*background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* Firefox 3.6 - 15 *!*/
-      /*background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65))!important; !* 标准的语法 *!*/
-    }
-    .main{
-      .gradient-bg{
-        width:100%;
-        float: left;
-        @include bg-image("./img/guadient-bg");
-        background-repeat: no-repeat;
-        background-size: 100% 100px;
-        .user{
-          background: #fff;
-          padding-left:10px;
-          margin: 0 20px;
-          height: 170px;
-          .user-msg{
-            overflow: hidden;
-            .user_face{
-              height:66px;
-              width:66px;
-              float: left;
-              border:1px solid #ccc;
-              margin-right: 12px;
-              margin-top: 12.5px;
-              border-radius: 50%;
-              @include bg-image("./img/user_face");
-              background-size: 66px auto;
-            }
-            .login{
+      background-size: 100% 100px;
+      .user {
+        background: #fff;
+        padding-left: 10px;
+        margin: 0 20px;
+        height: 170px;
+        .user-msg {
+          overflow: hidden;
+          .user_face {
+            height: 66px;
+            width: 66px;
+            float: left;
+            border: 1px solid #ccc;
+            margin-right: 12px;
+            margin-top: 12.5px;
+            border-radius: 50%;
+            @include bg-image("./img/user_face");
+            background-size: 66px auto;
+          }
+          .login {
+            font-size: 16px;
+            color: #333;
+            float: left;
+            line-height: 103px;
+          }
+          .logined {
+            float: left;
+            margin-top: 26px;
+            .user_name {
               font-size: 16px;
               color: #333;
-              float: left;
-              line-height: 103px;
+              margin-bottom: 8px;
             }
-            .logined{
-              float: left;
-              margin-top: 26px;
-              .user_name{
-                font-size: 16px;
-                color:#333;
-                margin-bottom: 8px;
+            .user_position {
+              span {
+                font-size: 13px;
+                color: #666;
+                margin-left: 5px;
               }
-              .user_position{
-                span{
-                  font-size: 13px;
-                  color: #666;
-                  margin-left: 5px;
-
-                }
-                i{
-                  display: inline-block;
-                  width: 15px;
-                  height: 15px;
-                  @include bg-image("./img/job-title");
-                  background-size: 15px auto;
-                  vertical-align: middle;
-                }
-              }
-            }
-            .identity-verify{
-              float: right;
-              line-height: 103px;
-              .identity{
+              i {
                 display: inline-block;
-                height:32px;
-                width:32px;
-                position: relative;
-                margin-right: -15px;
-                @include bg-image("./img/identity-verify");
-                background-size: 32px auto;
+                width: 15px;
+                height: 15px;
+                @include bg-image("./img/job-title");
+                background-size: 15px auto;
                 vertical-align: middle;
-
-              }
-              span{
-                display: inline-block;
-                height:24px;
-                width:78px;
-                line-height: 24px;
-                color:#999;
-                font-size: 12px;
-                background: #eee;
-                text-align: center;
-              }
-            }
-            .identity-verify.active{
-              .identity{
-                @include bg-image("./img/identity-active");
-              }
-              span{
-                background: #fdb140;
-                color:#fff;
               }
             }
           }
-        }
-        .favorite{
-          overflow: hidden;
-          .card{
-            width:50%;
-            height:65px;
-            font-size: 15px;
-            text-align: center;
-            position: relative;
-            .separator{
-              position: absolute;
-              right:0;
-              bottom: 13px;
-              background: #dedede;
-              width: 1px;
-              height:17px;
-
-            }
-            h2{
-              color:#333;
-              font-weight: normal;
-              margin-bottom: 13px;
-              font-size: 15px;
-            }
-            h3{
-              color:#666;
-              font-weight: normal;
-              margin-bottom: 13px;
-              font-size: 15px;
-
-            }
-          }
-
-        }
-      }
-      .section{
-        margin: 0 20px;
-        background: #f5f5f5;
-        clear:both;
-        overflow: hidden;
-        .member-center{
-          background: #fff;
-          @include onepx('bottom');
-          overflow: hidden;
-          h2{
-            font-size: 18px;
-            color:#333;height:45px;
-            line-height: 45px;
-            margin-left: 13px;
-            float: left;
-          }
-          .look-more{
-            float:right;
-            margin-right: 13px;
-            line-height: 45px;
-
-            span{
-              font-size: 13px;
-              color: #666;
-              margin-right: 10px;
-
-            }
-            i{
-              display: block;
-              line-height: 45px;
-              float:right;
-              width: 20px;
-              height: 45px;
-              @include bg-image("./img/look-more");
-              background-size: 20px 20px;
-              background-repeat: no-repeat;
-              background-position: center;
-            }
-          }
-
-        }
-        .member{
-          background: #fff;
-          width: 100%;
-          height: 160px;
-          text-align: center;
-          display: flex;
-          flex-direction: row;
-          @include onepx('bottom');
-          li {
-            margin:30px 0 ;
-            flex: 1;
-            color: #999;
-            display: block;
-            i {
-              display: block;
-              width: 57px;
-              height: 57px;
-              margin: 0 auto 12px;
-              background-size: 57px auto;
-            }
-            .icon-vip{
-              @include bg-image("./img/vip-member");
-            }
-            .icon-vip.active{
-              @include bg-image("./img/vip-active");
-            }
-            .icon-yuanhe{
-              @include bg-image("./img/yuanhe-member");
-            }
-            .icon-project{
-              @include bg-image("./img/project-member");
-            }
-            .my-company{
-              @include bg-image("./img/my-company");
-            }
-            .company-verify{
-              @include bg-image("./img/company-verify");
-            }
-            .delivery-record{
-              @include bg-image("./img/delivery-record");
-            }
-            .delivery-record.active{
-              @include bg-image("./img/delivery-active");
+          .identity-verify {
+            float: right;
+            line-height: 103px;
+            .identity {
+              display: inline-block;
+              height: 32px;
+              width: 32px;
+              position: relative;
+              margin-right: -15px;
+              @include bg-image("./img/identity-verify");
+              background-size: 32px auto;
+              vertical-align: middle;
             }
             span {
-              display: block;
-              font-size: 14px;
-              color:#666;
+              display: inline-block;
+              height: 24px;
+              width: 78px;
+              line-height: 24px;
+              color: #999;
+              font-size: 12px;
+              background: #eee;
+              text-align: center;
+            }
+          }
+          .identity-verify.active {
+            .identity {
+              @include bg-image("./img/identity-active");
+            }
+            span {
+              background: #fdb140;
+              color: #fff;
             }
           }
         }
-        .online-roadshow{
-          background: #fff;
-          height:40px;
-          line-height: 40px;
-          i {
-            display: inline-block;
-            width: 20px;
-            height: 40px;
-            line-height: 40px;
-            margin-right:8px;
-            margin-left: 13px;
-            vertical-align: middle;
-            background-size: 20px auto;
-            @include bg-image("./img/online-roadshow");
-            background-repeat: no-repeat;
-            background-position: center;
-
-          }
-          span{
-            font-size: 14px;
-            color:#666;
-          }
-        }
-        .login-btn{
-          height:38px;
-          line-height:38px;
-          width:100%;
-          background: #3f83e6;
-          color:#fff;
+      }
+      .favorite {
+        overflow: hidden;
+        .card {
+          width: 50%;
+          height: 65px;
           font-size: 15px;
-          border-radius: 3px;
           text-align: center;
-          margin-bottom: 80px;
+          position: relative;
+          .separator {
+            position: absolute;
+            right: 0;
+            bottom: 13px;
+            background: #dedede;
+            width: 1px;
+            height: 17px;
+          }
+          h2 {
+            color: #333;
+            font-weight: normal;
+            margin-bottom: 13px;
+            font-size: 15px;
+          }
+          h3 {
+            color: #666;
+            font-weight: normal;
+            margin-bottom: 13px;
+            font-size: 15px;
+          }
         }
       }
     }
+    .section {
+      margin: 0 20px;
+      background: #f5f5f5;
+      clear: both;
+      overflow: hidden;
+      .member-center {
+        background: #fff;
+        @include onepx("bottom");
+        overflow: hidden;
+        h2 {
+          font-size: 18px;
+          color: #333;
+          height: 45px;
+          line-height: 45px;
+          margin-left: 13px;
+          float: left;
+        }
+        .look-more {
+          float: right;
+          margin-right: 13px;
+          line-height: 45px;
 
-
+          span {
+            font-size: 13px;
+            color: #666;
+            margin-right: 10px;
+          }
+          i {
+            display: block;
+            line-height: 45px;
+            float: right;
+            width: 20px;
+            height: 45px;
+            @include bg-image("./img/look-more");
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        }
+      }
+      .member {
+        background: #fff;
+        width: 100%;
+        height: 160px;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        @include onepx("bottom");
+        li {
+          margin: 30px 0;
+          flex: 1;
+          color: #999;
+          display: block;
+          i {
+            display: block;
+            width: 57px;
+            height: 57px;
+            margin: 0 auto 12px;
+            background-size: 57px auto;
+          }
+          .icon-vip {
+            @include bg-image("./img/vip-member");
+          }
+          .icon-vip.active {
+            @include bg-image("./img/vip-active");
+          }
+          .icon-yuanhe {
+            @include bg-image("./img/yuanhe-member");
+          }
+          .icon-project {
+            @include bg-image("./img/project-member");
+          }
+          .my-company {
+            @include bg-image("./img/my-company");
+          }
+          .company-verify {
+            @include bg-image("./img/company-verify");
+          }
+          .delivery-record {
+            @include bg-image("./img/delivery-record");
+          }
+          .delivery-record.active {
+            @include bg-image("./img/delivery-active");
+          }
+          span {
+            display: block;
+            font-size: 14px;
+            color: #666;
+          }
+        }
+      }
+      .online-roadshow {
+        background: #fff;
+        height: 40px;
+        line-height: 40px;
+        i {
+          display: inline-block;
+          width: 20px;
+          height: 40px;
+          line-height: 40px;
+          margin-right: 8px;
+          margin-left: 13px;
+          vertical-align: middle;
+          background-size: 20px auto;
+          @include bg-image("./img/online-roadshow");
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        span {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+      .login-btn {
+        height: 38px;
+        line-height: 38px;
+        width: 100%;
+        background: #3f83e6;
+        color: #fff;
+        font-size: 15px;
+        border-radius: 3px;
+        text-align: center;
+        margin-bottom: 80px;
+      }
+    }
   }
-
-
+}
 </style>
