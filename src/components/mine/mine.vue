@@ -10,7 +10,7 @@
           <div class="user-msg">
             <router-link to="/mine/my-profile">
               <div class="user_face">
-                <img :src="portraitUrl" style="width:100px"/>
+                <img :src="portraitUrl" style="width:100px;"  />
               </div>
 
             </router-link>
@@ -62,9 +62,9 @@
         </div>
         <ul class="member">
           <!--icon-vip 添加active  VIP会员点亮-->
-          <li><i class="icon-vip" ></i><span>VIP会员</span></li>
-          <li><i class="icon-yuanhe"></i><span>源合网会员</span></li>
-          <li><i class="icon-project"></i><span>项目库会员</span></li>
+          <li><i class="icon-vip" v-bind:class="{active:vip}"></i><span>VIP会员</span></li>
+          <li><i class="icon-yuanhe" v-bind:class="{active:yhw }"></i><span>源合网会员</span></li>
+          <li><i class="icon-project" v-bind:class="{active:xmk }"></i><span>项目库会员</span></li>
         </ul>
         <cross-line></cross-line>
         <ul class="member">
@@ -79,7 +79,8 @@
         </div>
         <cross-line></cross-line>
         <cross-line></cross-line>
-        <div class="login-btn">
+        <!--登录之后隐藏立即登录按钮  -->
+        <div class="login-btn" v-if="!userId" @click="toLogin">
           立即登录
         </div>
       </div>
@@ -109,14 +110,22 @@ export default {
       memberLevelStr: "",
       displayName: "",
       portraitUrl: "",
-      userAuth: true,
+      userAuth: false,
       projectAll:0,
-      corpAll:0
+      corpAll:0,
+      vip:false,
+      yhw:false,
+      xmk:false
     };
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    //跳转到登录页面
+    toLogin(){
+      this.$router.push('/login');
+    }
+  },
   filters: {},
   computed: {},
   created() {
@@ -128,6 +137,16 @@ export default {
             this.portraitUrl = res.data.data.portraitUrl;
             this.roleStr = res.data.data.roleStr;
             this.userAuth = res.data.data.userAuth;
+            var level=res.data.data.memberLevelId;
+            if(level>=2){
+              this.vip=true;
+              if(level>=3){
+                this.xmk=true;
+                if(level>=5){
+                  this.yhw=true;
+                }
+              }
+            }
           }
         });
       //获取收藏的投资方
@@ -389,8 +408,14 @@ body {
           .icon-yuanhe {
             @include bg-image("./img/yuanhe-member");
           }
+          .icon-yuanhe.active{
+            @include bg-image("./img/yuanhe-active");
+          }
           .icon-project {
             @include bg-image("./img/project-member");
+          }
+          .icon-project.active {
+            @include bg-image("./img/project-active");
           }
           .my-company {
             @include bg-image("./img/my-company");
