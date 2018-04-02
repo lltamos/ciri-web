@@ -11,9 +11,6 @@
       </div>
       <div class="country-warp" v-show="show">
         <div class="country">
-          <!--<div class="fl item" v-for="item in country" :key="item">-->
-            <!--<i class="icon-checked"></i>{{item}}-->
-          <!--</div>-->
           <div class="fl item" @click="checkCountry">
             <i :class="iconChecked"></i>
             <span>日本</span>
@@ -21,6 +18,14 @@
           <div class="fl item">
             <i class="icon-check"></i>
             <span>韩国</span>
+          </div>
+          <div class="fl item">
+            <i class="icon-check"></i>
+            <span>泰国</span>
+          </div>
+          <div class="fl item">
+            <i class="icon-check"></i>
+            <span>美国</span>
           </div>
         </div>
       </div>
@@ -59,6 +64,7 @@
         }
       },
       checkCountry () {
+        cons
         if(this.iconChecked == 'icon-checked'){
           this.iconChecked = 'icon-check';
         }else {
@@ -105,19 +111,14 @@
       }
     }
     .country{
-      height:40px;
       line-height: 40px;
-      padding:0 15px;
-      border-bottom: 1px dashed #dedede;
       font-size: 14px;
-      display: -ms-flex;
-      display: -webkit-flex;
-      display: flex;
+      overflow: hidden;
       .item{
         width:50%;
         height:40px;
         line-height: 40px;
-
+        border-bottom: 1px dashed #dedede;
         i{
           display: inline-block;
           width: 12px;
@@ -126,6 +127,7 @@
           background-size: 12px auto;
           background-position: center;
           vertical-align: middle;
+          margin-left: 15px;
         }
         .icon-checked{
           @include bg-image("../img/checked");

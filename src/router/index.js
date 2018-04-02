@@ -295,7 +295,7 @@ export default new Router({
       path: '/mine/my-profile',
       component: MyProfile
     },
-    //修改个人资料
+    //修改个人资料  动态路由
     {
       path: '/mine/change-key/:id',
       component: ChangeKey
