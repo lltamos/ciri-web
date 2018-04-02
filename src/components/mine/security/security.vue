@@ -76,9 +76,9 @@
       },
       data() {
         return {
-          host: tool.getUser(),
-          bindEmail :"",
+          username: tool.getuser(),
           bindPhone :"",
+          bindPhone :""
         };
       },
       methods: {
@@ -92,17 +92,17 @@
         let params = new URLSearchParams();
         params.append("name", "17611581353");
         this.axios
-          .get(tool.domind() + "/gateway/security/securityInfo?name=17611581353",{})
+          .get(tool.domind() + "/gateway/security/securityInfo?name="+tool.getuser())
           .then(res => {
               if (res.data.code === 200) {
-                  console.log(res.data.code);
+                console.log(res.data.code);
                 this.bindEmail=res.data.data.email;
+                console.log(this.bindEmail);
                 this.bindPhone=res.data.data.phone;
+                console.log(this.bindPhone);
               }
-
             });
-      },
-      updated() {}
+      }
     }
 </script>
 
