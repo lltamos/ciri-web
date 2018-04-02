@@ -33,13 +33,13 @@
           </div>
           <div class="favorite">
             <div class="fl card">
-              <h2>0</h2>
+              <h2>{{projectAll}}</h2>
               <h3>收藏的投资方</h3>
               <div class="separator"></div>
             </div>
             <div class="fr card">
               <router-link to="/mine/my-favorite">
-                <h2>0</h2>
+                <h2>{{corpAll}}</h2>
                 <h3>收藏的项目</h3>
               </router-link>
             </div>
@@ -62,7 +62,7 @@
         </div>
         <ul class="member">
           <!--icon-vip 添加active  VIP会员点亮-->
-          <li><i class="icon-vip"></i><span>VIP会员</span></li>
+          <li><i class="icon-vip" ></i><span>VIP会员</span></li>
           <li><i class="icon-yuanhe"></i><span>源合网会员</span></li>
           <li><i class="icon-project"></i><span>项目库会员</span></li>
         </ul>
@@ -109,8 +109,9 @@ export default {
       memberLevelStr: "",
       displayName: "",
       portraitUrl: "",
-      userAuth: "",
-      projectAll:0
+      userAuth: true,
+      projectAll:0,
+      corpAll:0
     };
   },
   props: {},
@@ -121,7 +122,7 @@ export default {
   created() {
     if (tool.islogin() === "true") {
       this.axios
-        .post(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
+        .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
             this.portraitUrl = res.data.data.portraitUrl;
@@ -129,11 +130,26 @@ export default {
             this.userAuth = res.data.data.userAuth;
           }
         });
+      //获取收藏的投资方
       this.axios
         .get(
           tool.domind() +
             "/gateway/user/userCollectTotal?name=" +
             tool.getuser()
+        )
+        .then(res => {
+          if (res.data.code === 200) {
+            if (res.data.code === 200) {
+              this.corpAll = res.data.data;
+            }
+          }
+        });
+      //获取收藏的项目
+      this.axios
+        .get(
+          tool.domind() +
+          "/gateway/user/userCollectTotal?tag=2&name=" +
+          tool.getuser()
         )
         .then(res => {
           if (res.data.code === 200) {
