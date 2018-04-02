@@ -62,7 +62,7 @@
         })
       },
       Focus () {
-        this.registerClass='registerBtnActive';
+        this.registerClass = 'registerBtnActive';
       },
       vertify1 () {
         if (!this.password1) {
@@ -101,7 +101,7 @@
         }
       },
 
-      confirmChange(){
+      confirmChange () {
         this.vertify1();
         if(this.errorShow){
           return ;
@@ -111,21 +111,22 @@
           return ;
         }
         this.vertify3();
-        if(this.errorShow){
+        if (this.errorShow){
           return ;
         }
-        this.axios.post(tool.domind()+'/gateway/security/changePassword',
-          {'name':'17611581353','originalPassword':this.password1,'newPassword':this.password2,'confirmPassword':this.password3}
+        this.axios.post(tool.domind() + '/gateway/security/changePassword',
+          {'name': '17611581353', 'originalPassword': this.password1, 'newPassword': this.password2, 'confirmPassword': this.password3}
         ).then(res => {
-          if(res.code === 200){
+          if (res.data.code === 200) {
             alert('修改成功');
-          }else if(res.data.code === 101){
+            this.$router.push({path: '/login'});
+          } else if (res.data.code === 101){
             this.error = '原始密码错误';
             this.errorShow = true;
-          }else if(res.data.code === 101) {
+          } else if (res.data.code === 101) {
             this.error = '修改失败';
             this.errorShow = true;
-          }else if(res.data.code === 500) {
+          } else if (res.data.code === 500) {
             this.error = '服务器错误';
             this.errorShow = true;
           }
@@ -133,7 +134,8 @@
           alert(err);
           console.log(err)
         })
-      }
+      },
+
     }
 
   }
