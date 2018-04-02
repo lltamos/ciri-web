@@ -109,7 +109,8 @@ export default {
       memberLevelStr: "",
       displayName: "",
       portraitUrl: "",
-      userAuth: ""
+      userAuth: "",
+      projectAll:0
     };
   },
   props: {},
@@ -126,6 +127,19 @@ export default {
             this.portraitUrl = res.data.data.portraitUrl;
             this.roleStr = res.data.data.roleStr;
             this.userAuth = res.data.data.userAuth;
+          }
+        });
+      this.axios
+        .get(
+          tool.domind() +
+            "/gateway/user/userCollectTotal?name=" +
+            tool.getuser()
+        )
+        .then(res => {
+          if (res.data.code === 200) {
+            if (res.data.code === 200) {
+              this.projectAll = res.data.data;
+            }
           }
         });
     }

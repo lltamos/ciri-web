@@ -40,7 +40,7 @@ Vue.use(VueLazyload, {
   loading: require('@/assets/img/logo.png')
 })
 
-let Hub = new Vue();
+let Hub = new Vue()
 let vm = new Vue({
   el: '#app',
   router,

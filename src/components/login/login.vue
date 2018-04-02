@@ -166,11 +166,11 @@ export default {
         this.axios
           .post(tool.domind() + "/gateway/app/sys/login", params)
           .then(res => {
-            console.log(res.data);
             if (res.data.code === 200) {
               sessionStorage.setItem("token", res.data.token);
               sessionStorage.setItem("username", res.data.username);
-              sessionStorage.setItem("islogin", 'true');
+              sessionStorage.setItem("islogin", "true");
+              this.axios.defaults.headers.token = res.data.token;
               this.$router.replace({ path: "/mine" });
             } else {
               this.error = "账号或密码错误，请重新输入";

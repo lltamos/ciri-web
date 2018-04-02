@@ -8,7 +8,7 @@
       <h2>{{topArticle.title}}</h2>
       <div class="title-box">
         <div class="fl">
-          <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+          <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
           <span class="author">CIRI</span>
         </div>
 
@@ -25,7 +25,7 @@
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
+              <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
       
