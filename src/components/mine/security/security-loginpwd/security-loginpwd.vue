@@ -34,7 +34,7 @@
     <div class="error">
       <div v-show="errorShow" class="errorText" v-text="error"></div>
     </div>
-    <mt-button :class="registerClass" size="large">确认修改</mt-button>
+    <mt-button :class="registerClass" size="large" @click="confirmChange">确认修改</mt-button>
   </div>
 </div>
 </template>
@@ -42,6 +42,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool';
   export default {
     components: {
       HeaderBar,
@@ -66,7 +67,10 @@
       vertify1 () {
         if (!this.password1) {
           this.errorShow = true;
-          this.error = '密码错误，请重新输入';
+          this.error = '原始密码不能为空';
+        }else if(this.password1.length < 6){
+          this.errorShow = true;
+          this.error = '原始密码长度不能小于6位';
         }else{
           this.errorShow = false;
         }
@@ -74,7 +78,10 @@
       vertify2 () {
         if (!this.password2) {
           this.errorShow = true;
-          this.error = '密码错误，请重新输入';
+          this.error = '新密码不能为空';
+        }else if(this.password2.length < 6){
+          this.errorShow = true;
+          this.error = '新密码长度不能小于6位';
         }else{
           this.errorShow = false;
         }
@@ -82,7 +89,10 @@
       vertify3 () {
         if (!this.password3) {
           this.errorShow = true;
-          this.error = '密码错误，请重新输入';
+          this.error = '确认密码不能为空';
+        }else if(this.password3.length < 6){
+          this.errorShow = true;
+          this.error = '确认密码长度不能小于6位';
         }else if(this.password2!==this.password3){
           this.errorShow = true;
           this.error = '确认密码错误与密码不一致';
@@ -90,7 +100,42 @@
           this.errorShow = false;
         }
       },
+
+      confirmChange(){
+        this.vertify1();
+        if(this.errorShow){
+          return ;
+        }
+        this.vertify2();
+        if(this.errorShow){
+          return ;
+        }
+        this.vertify3();
+        if(this.errorShow){
+          return ;
+        }
+        this.axios.post(tool.domind()+'/gateway/security/changePassword',
+          {'name':'17611581353','originalPassword':this.password1,'newPassword':this.password2,'confirmPassword':this.password3}
+        ).then(res => {
+          if(res.code === 200){
+            alert('修改成功');
+          }else if(res.data.code === 101){
+            this.error = '原始密码错误';
+            this.errorShow = true;
+          }else if(res.data.code === 101) {
+            this.error = '修改失败';
+            this.errorShow = true;
+          }else if(res.data.code === 500) {
+            this.error = '服务器错误';
+            this.errorShow = true;
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
+      }
     }
+
   }
 </script>
 
