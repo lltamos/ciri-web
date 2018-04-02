@@ -10,22 +10,23 @@
           <div class="user-msg">
             <router-link to="/mine/my-profile">
               <div class="user_face">
+                <img :src="portraitUrl" style="width:100px"/>
+              </div>
 
-            </div>
             </router-link>
             <div v-if="!userId">
               <router-link class="login" to="/login">立即登录</router-link>
             </div>
             <div v-if="userId" class="logined">
-              <div class="user_name">1520***7830</div>
+              <div class="user_name">{{username}}</div>
               <div class="user_position">
                 <i class="job-title"></i>
-                <span>项目代理</span></div>
+                <span>{{roleStr}}</span></div>
             </div>
-            <div class="identity-verify">
-              <!--identity-verify 添加active 实名认证点亮-->
+            <div class="identity-verify" v-bind:class="{active:userAuth}">
+              <!--identity-verify 添加active 实名认证点亮 userAuth-->
               <router-link to="/mine/IdentityVerification">
-                <i class="identity"></i>
+                <i class="identity "></i>
                 <span>实名认证</span>
               </router-link>
             </div>
@@ -102,7 +103,13 @@ export default {
   },
   data() {
     return {
-      userId: false
+      userId: tool.islogin(),
+      username: tool.getuser(),
+      roleStr: "",
+      memberLevelStr: "",
+      displayName: "",
+      portraitUrl: "",
+      userAuth: ""
     };
   },
   props: {},
@@ -110,14 +117,20 @@ export default {
   methods: {},
   filters: {},
   computed: {},
-  mounted() {
-    // let params = tool.buildForm({
-    //   name: tool.getUser()
-    // });
-    this.axios.get(tool.domind() + "/gateway/user/getUser").then(res => {
-      console.log(res.data);
-    });
+  created() {
+    if (tool.islogin() === "true") {
+      this.axios
+        .post(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
+        .then(res => {
+          if (res.data.code === 200) {
+            this.portraitUrl = res.data.data.portraitUrl;
+            this.roleStr = res.data.data.roleStr;
+            this.userAuth = res.data.data.userAuth;
+          }
+        });
+    }
   },
+  mounted() {},
   destroyed() {}
 };
 </script>
