@@ -22,7 +22,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
-axios.defaults.headers.token = sessionStorage.getItem('token')
+
+axios.defaults.headers.token = sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
 axios.interceptors.request.use((config) => {
   console.log(config)
   console.log(arguments)
