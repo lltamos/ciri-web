@@ -115,7 +115,7 @@
           return ;
         }
         this.axios.post(tool.domind() + '/gateway/security/changePassword',
-          {'name': '17611581353', 'originalPassword': this.password1, 'newPassword': this.password2, 'confirmPassword': this.password3}
+          {'name': tool.getuser(), 'originalPassword': this.password1, 'newPassword': this.password2, 'confirmPassword': this.password3}
         ).then(res => {
           if (res.data.code === 200) {
             alert('修改成功');
