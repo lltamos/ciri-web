@@ -157,6 +157,15 @@ export default {
     color: #333;
     line-height: 15px;
     margin: 10px 0;
+    img{
+      width: 100%;
+      height:auto;
+    }
+    .conimg-intro{
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
+    }
   }
 }
 </style>
