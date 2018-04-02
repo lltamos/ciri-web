@@ -49,7 +49,7 @@
 
      <div class="project" v-for="(article,index) in articles" :key="article.id">
      <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
-      <div  v-show="(index+1)%5!==0" class="project2">
+      <div  v-if="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div v-show="(index+1)%5===0" class="project1">
+      <div v-if="(index+1)%5===0" class="project1">
         <div class="img">
           <img v-bind:src="host+article.thumbnail"/>
         </div>
@@ -106,7 +106,7 @@ export default {
         freeMode: true
       },
       page: 1,
-      articles: [],
+      articles: null,
       isMore: false
     };
   },

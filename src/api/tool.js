@@ -8,7 +8,11 @@ export default {
   },
 
   generatorUrl: function (url) {
-    return this.oos() + url
+    if (url === '' || url == null) {
+      return 'https://pic.36krcnd.com/201804/02064202/jvdwa1onvundut5k!1200'
+    } else {
+      return this.oos() + url
+    }
   },
 
   checkEmail: function (email) {
@@ -38,7 +42,7 @@ export default {
     return param
   },
   getuser: function () {
-  return sessionStorage.getItem('username')
+    return sessionStorage.getItem('username')
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')

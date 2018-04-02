@@ -1,61 +1,61 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news-main">
-    <div v-show="topArticle!==null||topArticle!==''" class="project1">
-         <router-link   :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
-      <div class="img">
-        <img v-bind:src="host+topArticle.thumbnail"/>
-      </div>
-      <h2>{{topArticle.title}}</h2>
-      <div class="title-box">
-        <div class="fl">
-          <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
-          <span class="author">CIRI</span>
+    <div v-if="topArticle!=null" class="project1">
+      <router-link :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
+        <div class="img">
+          <img v-bind:src="host+topArticle.thumbnail" />
         </div>
+        <h2>{{topArticle.title}}</h2>
+        <div class="title-box">
+          <div class="fl">
+            <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
+            <span class="author">CIRI</span>
+          </div>
 
-        <div class="view fr">
-          <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+          <div class="view fr">
+            <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+          </div>
         </div>
-      </div>
-         </router-link>
+      </router-link>
     </div>
     <div class="project" v-for="(article,index) in articles" :key="article.id">
-      <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
-      <div  v-show="(index+1)%5!==0" class="project2">
-        <div class="fl main-news">
+      <router-link :to="{path:'/news/news-detail/',query: {id: article.id}}">
+        <div v-if="(index+1)%5!==0" class="project2">
+          <div class="fl main-news">
+            <h2>{{article.title}}</h2>
+            <div class="title-box">
+              <div class="fl">
+                <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
+                <span class="author">CIRI</span>
+              </div>
+
+              <div class="view fr">
+                <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="fr img-warp">
+            <div class="img">
+              <img v-bind:src="host+article.thumbnail"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="(index+1)%5===0" class="project1">
+          <div class="img">
+            <img v-bind:src="host+article.thumbnail"/>
+          </div>
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
+              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-      
+
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
           </div>
         </div>
-        <div class="fr img-warp">
-          <div class="img">
-            <img v-bind:src="host+article.thumbnail"/>
-          </div>
-        </div>
-      </div>
-      <div v-show="(index+1)%5===0" class="project1">
-        <div class="img">
-          <img v-bind:src="host+article.thumbnail"/>
-        </div>
-        <h2>{{article.title}}</h2>
-        <div class="title-box">
-          <div class="fl">
-            <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
-            <span class="author">CIRI</span>
-          </div>
-
-          <div class="view fr">
-            <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
-          </div>
-        </div>
-      </div>
       </router-link>
     </div>
     <div v-show="isMore" class="more">
@@ -66,69 +66,70 @@
 </template>
 
 <script>
-import tool from "@/api/tool";
+  import tool from "@/api/tool";
 
-export default {
-  data() {
-    return {
-      articles: [],
-      host: tool.oos(),
-      page: 1,
-      topArticle: "",
-      isMore: false
-    };
-  },
-  methods: {
-    loadMore() {
+  export default {
+    data() {
+      return {
+        articles: null,
+        host: tool.oos(),
+        page: 1,
+        topArticle: null,
+        isMore: false
+      };
+    },
+    methods: {
+      loadMore() {
+        let param = tool.buildForm([
+          {key: "page", v: this.page},
+          {key: "rouCount", v: 10},
+          {key: "cid", v: 1009}
+        ]);
+        this.axios
+          .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+          .then(res => {
+            if (res.data.code === 200) {
+              if (this.page === 1) {
+                this.articles = res.data.data;
+              } else {
+                this.articles = this.articles.concat(res.data.data);
+              }
+              this.isMore = this.articles.length != res.data.total;
+            }
+            this.page = this.page + 1;
+          });
+      }
+    },
+    mounted() {
+      this.loadMore();
       let param = tool.buildForm([
-        { key: "page", v: this.page },
-        { key: "rouCount", v: 10 },
-        { key: "cid", v: 1009 }
+        {key: "page", v: 1},
+        {key: "rouCount", v: 1},
+        {key: "cid", v: 1009},
+        {
+          key: "level",
+          v: 2002
+        }
       ]);
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
-            if (this.page === 1) {
-              this.articles = res.data.data;
-            } else {
-              this.articles = this.articles.concat(res.data.data);
-            }
-            this.isMore = this.articles.length != res.data.total;
+            this.topArticle = res.data.data[0];
           }
-          this.page = this.page + 1;
         });
+    },
+    updated() {
     }
-  },
-  mounted() {
-    this.loadMore();
-    let param = tool.buildForm([
-      { key: "page", v: 1 },
-      { key: "rouCount", v: 1 },
-      { key: "cid", v: 1009 },
-      {
-        key: "level",
-        v: 2002
-      }
-    ]);
-    this.axios
-      .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
-      .then(res => {
-        if (res.data.code === 200) {
-          this.topArticle = res.data.data[0];
-        }
-      });
-  },
-  updated() {}
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/scss/mixin.scss";
-@import "~@/assets/scss/reset.scss";
+  @import "~@/assets/scss/mixin.scss";
+  @import "~@/assets/scss/reset.scss";
 
-.news-main {
-  text-align: left;
+  .news-main {
+    text-align: left;
 
   h2 {
     font-size: 14px;
@@ -145,67 +146,79 @@ export default {
     height: 10px;
     padding: 10px 10px 15px;
 
-    .column {
-      color: #3f83e6;
-    }
+  .column {
+    color: #3f83e6;
+  }
 
-    .view {
-      i {
-        display: block;
-        float: left;
-        width: 12px;
-        height: 12px;
-        margin: 3px 5px;
-        @include bg-image("../img/view");
-        background-size: 12px auto;
-      }
-    }
+  .view {
+
+  i {
+    display: block;
+    float: left;
+    width: 12px;
+    height: 12px;
+    margin: 3px 5px;
+  @include bg-image("../img/view");
+    background-size: 12px auto;
+  }
+
+  }
   }
   .project1 {
     margin-top: 14px;
-    .img {
-      width: 100%;
-      height: 186px;
 
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .title-box {
-      @include onepx("bottom");
-    }
+  .img {
+    width: 100%;
+    height: 186px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  }
+  .title-box {
+  @include onepx("bottom");
+  }
+
   }
   .project2 {
     overflow: hidden;
     clear: both;
-    @include onepx("bottom");
-    h2 {
-      padding: 0;
-      margin: 12px 0 12px;
-    }
-    .main-news {
-      width: 62.6%;
-      margin-right: 2.7%;
-      margin-left: 2.7%;
-    }
-    .title-box {
-      padding-left: 0;
-    }
-    .img-warp {
-      width: 29.3%;
-      margin-right: 2.7%;
-      .img {
-        width: 100%;
-        height: 71px;
-        border-radius: 3px;
-        margin: 14px 0;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
+  @include onepx("bottom");
+
+  h2 {
+    padding: 0;
+    margin: 12px 0 12px;
+  }
+
+  .main-news {
+    width: 62.6%;
+    margin-right: 2.7%;
+    margin-left: 2.7%;
+  }
+
+  .title-box {
+    padding-left: 0;
+  }
+
+  .img-warp {
+    width: 29.3%;
+    margin-right: 2.7%;
+
+  .img {
+    width: 100%;
+    height: 71px;
+    border-radius: 3px;
+    margin: 14px 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  }
+  }
   }
   .more {
     font-size: 12px;
@@ -214,14 +227,15 @@ export default {
     margin-bottom: 65px;
     text-align: center;
 
-    i {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      @include bg-image("../img/more");
-      background-size: 12px auto;
-      margin-left: 6px;
-    }
+  i {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+  @include bg-image("../img/more");
+    background-size: 12px auto;
+    margin-left: 6px;
   }
-}
+
+  }
+  }
 </style>

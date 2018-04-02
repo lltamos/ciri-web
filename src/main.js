@@ -52,3 +52,4 @@ Vue.use({
   vm,
   Hub
 })
+

@@ -1,28 +1,28 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news-main">
-    
-    <div v-show="topArticle!=null||topArticle!==''" class="project1">
-        <router-link   :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
-      <div class="img">
-        <img v-bind:src="host+topArticle.thumbnail"/>
-      </div>
-      <h2>{{topArticle.title}}</h2>
-      <div class="title-box">
-        <div class="fl">
-          <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
-          <span class="author">CIRI</span>
-        </div>
 
-        <div class="view fr">
-          <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+    <div  class="project1">
+      <router-link v-if="topArticle!=null" :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
+        <div class="img">
+          <img v-bind:src="host+topArticle.thumbnail"/>
         </div>
-      </div>
-        </router-link>
+        <h2>{{topArticle.title}}</h2>
+        <div class="title-box">
+          <div class="fl">
+            <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+            <span class="author">CIRI</span>
+          </div>
+
+          <div class="view fr">
+            <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+          </div>
+        </div>
+      </router-link>
     </div>
-    
-    <div class="project" v-for="(article,index) in articles" :key="article.id">
+
+    <div v-if="articles!==null" class="project" v-for="(article,index) in articles" :key="article.id">
       <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
-      <div  v-show="(index+1)%5!==0" class="project2">
+      <div  v-if="(index+1)%5!==0" class="project2">
         <div class="fl main-news">
           <h2>{{article.title}}</h2>
           <div class="title-box">
@@ -30,7 +30,7 @@
               <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
               <span class="author">CIRI</span>
             </div>
-      
+
             <div class="view fr">
               <i class="icon-view"></i><span class="count">{{article.clickCount}}</span>
             </div>
@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div v-show="(index+1)%5===0" class="project1">
+      <div v-if="(index+1)%5===0" class="project1">
         <div class="img">
           <img v-bind:src="host+article.thumbnail"/>
         </div>
@@ -75,10 +75,10 @@ import tool from "../../../api/tool";
 export default {
   data() {
     return {
-      articles: [],
+      articles: null,
       host: tool.oos(),
       page: 1,
-      topArticle: "",
+      topArticle: null,
       isMore: false
     };
   },
@@ -87,10 +87,11 @@ export default {
       let param = tool.buildForm([
         { key: "page", v: this.page },
         { key: "rouCount", v: 10 },
-        { key: "cid", v: 1008 }
+        { key: "cid", v: 1008 },
+        // { key: "level", v: 2003}
       ]);
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+        .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
             if (this.page === 1) {
@@ -98,7 +99,7 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
-            this.isMore = this.articles.length != res.data.total;
+            this.isMore = this.articles.length !== res.data.total;
           }
           this.page = this.page + 1;
         });
