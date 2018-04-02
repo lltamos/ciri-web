@@ -59,7 +59,7 @@ export default {
     let param = tool.buildForm([
       { key: "page", v: 1 },
       { key: "rouCount", v: 1 },
-      { key: "cid", v: 1009 },
+      { key: "cid", v: 1004 },
       {
         key: "level",
         v: 2002

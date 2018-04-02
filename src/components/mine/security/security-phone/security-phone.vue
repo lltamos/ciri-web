@@ -4,7 +4,7 @@
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
       <div class="bind-email">
-        <span>当前绑定手机：</span><span class="email">15090057365</span>
+        <span>当前绑定手机：</span><span class="phone">{{ currentPhone }}</span>
       </div>
       <div class="iconWrap">
         <div class="mint-cell">
@@ -27,7 +27,7 @@
       <div class="error">
         <div v-show="errorShow" v-text="error">手机号错误，请重新输入</div>
       </div>
-      <mt-button :class="loginClass" size="large">确认绑定</mt-button>
+      <mt-button :class="loginClass" size="large" @click="bindPhone">确认绑定</mt-button>
     </div>
   </div>
 </template>
@@ -48,8 +48,16 @@
         timer: null,
         error:'',
         errorShow : false,
-        showCode:true
+        showCode:true,
+        currentPhone:"",
+        phone:""
       }
+    },mounted() {
+      this.axios.get(tool.domind() + "/gateway/security/securityInfo?name="+tool.getuser()).then(res => {
+        //101 name参数不能为空 102 查询不到用户信息 200 返回用户安全设置信息
+        if(res.data.code === 200)
+          this.currentPhone = res.data.data.phone;
+      });
     },
     methods: {
       back() {
@@ -109,8 +117,78 @@
         }else {
         this.errorShow = false;
         }
+      },
+      getCode(){
+        let params = new URLSearchParams();
+        params.append("phone", this.phone);
+        this.axios.post(tool.domind()+'/gateway/security/phoneCode',params
+        ).then(res => {
+          if(res.data === 10){
+            alert('发送成功');
+          }else if(res.data === null){
+            this.errorShow = true;
+            this.error = '发送失败';
+          }else if(res.data === 1){
+            this.errorShow = true;
+            this.error = '格式不正确';
+          }else if(res.data === 2) {
+            this.errorShow = true;
+            this.error = '手机号已经被注册';
+          }else if(res.data ===3) {
+            this.errorShow = true;
+            this.error = '发送失败';
+          }else if(res.data === 4) {
+            this.errorShow = true;
+            this.error = '发送频率过快';
+          }else if(res.data === 0) {
+            this.errorShow = true;
+            this.error = '手机号不能为空';
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
+      },
+      bindPhone(){
+        let params = new URLSearchParams();
+        params.append("phone", this.phone);
+        params.append("code", this.auchcode);
+        params.append("name", '17611581353');
+        this.axios.post(tool.domind()+'/gateway/security/bindPhone',params
+        ).then(res => {
+          if(res.data === 10){
+            alert('绑定成功');
+          }else if(res.data === null){
+            this.errorShow = true;
+            this.error = '绑定失败';
+          }else if(res.data === 1){
+            this.errorShow = true;
+            this.error = '手机格式不正确';
+          }else if(res.data === 2) {
+            this.errorShow = true;
+            this.error = '手机号已经被注册';
+          }else if(res.data === 3) {
+            this.errorShow = true;
+            this.error = '验证码不正确';
+          }else if(res.data === 4) {
+            this.errorShow = true;
+            this.error = '绑定失败';
+          }else if(res.data === 0) {
+            this.errorShow = true;
+            this.error = '绑定失败';
+          }else if(res.data === -1){
+            this.errorShow = true;
+            this.error = '绑定失败';
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
       }
-    }
+      }
+
+
+
   }
 </script>
 

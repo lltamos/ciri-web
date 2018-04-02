@@ -1,5 +1,4 @@
 export default {
-
   domind: function () {
     return 'http://192.168.2.5:8080'
   },
@@ -38,8 +37,10 @@ export default {
     })
     return param
   },
-  getUser: function () {
-    return sessionStorage.getItem('user')
+  getuser: function () {
+  return sessionStorage.getItem('username')
+  },
+  islogin: function () {
+    return sessionStorage.getItem('islogin')
   }
-
 }
