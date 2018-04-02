@@ -73,6 +73,12 @@
     components: {
       HeaderBar,
       CrossLine
+    },data () {
+      return {
+        username:tool.getuser(),
+        bindEmail: "",
+        bindPhone: ""
+      }
     },
     methods: {
       back() {
@@ -86,10 +92,8 @@
       }
     },
     mounted() {
-      let params = new URLSearchParams();
-      params.append("name", "17611581353");
       this.axios
-        .get(tool.domind() + "/gateway/security/securityInfo?name=17611581353", {})
+        .get(tool.domind() + "/gateway/security/securityInfo?name="+tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
             console.log(res.data.code);
@@ -97,8 +101,7 @@
             this.bindPhone = res.data.data.phone;
           }
         });
-    }
-    ,
+    } ,
     updated() {
     }
   }

@@ -53,7 +53,7 @@
       }
     },
     mounted () {
-      this.axios.get(tool.domind() + "/gateway/security/securityInfo?name=17611581353").then(res => {
+      this.axios.get(tool.domind() + "/gateway/security/securityInfo?name=" + tool.getuser()).then(res => {
         //101 name参数不能为空 102 查询不到用户信息 200 返回用户安全设置信息
         if (res.data.code === 200)
           this.currentEmail = res.data.data.email;
@@ -150,7 +150,7 @@
         if(this.errorShow)
           return ;
         let param = tool.buildForm([
-          { key: "name", v: '17611581353' },
+          { key: "name", v: tool.getuser() },
           { key: "mail", v: this.email },
           { key: "code", v: this.auchcode }
         ]);
