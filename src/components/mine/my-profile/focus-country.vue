@@ -11,21 +11,29 @@
       </div>
       <div class="country-warp" v-show="show">
         <div class="country">
-          <div class="fl item" @click="checkCountry">
-            <i :class="iconChecked"></i>
+          <div class="fl item" @click.prevent="checkCountry($event)">
+            <i class="icon-check">
+              <input type="checkbox" name="country" value="英国"/>
+            </i>
+            <span>英国</span>
+          </div>
+          <div class="fl item" @click.prevent="checkCountry($event)">
+            <i class="icon-check" >
+              <input type="checkbox" name="country" value="美国"/>
+            </i>
+            <span>美国</span>
+          </div>
+          <div class="fl item" @click.prevent="checkCountry($event)">
+            <i class="icon-check">
+              <input type="checkbox" name="country" value="日本"/>
+            </i>
             <span>日本</span>
           </div>
-          <div class="fl item">
-            <i class="icon-check"></i>
+          <div class="fl item" @click.prevent="checkCountry($event)">
+            <i class="icon-check">
+              <input type="checkbox" name="country" value="韩国"/>
+            </i>
             <span>韩国</span>
-          </div>
-          <div class="fl item">
-            <i class="icon-check"></i>
-            <span>泰国</span>
-          </div>
-          <div class="fl item">
-            <i class="icon-check"></i>
-            <span>美国</span>
           </div>
         </div>
       </div>
@@ -63,13 +71,14 @@
           this.showCountry= 'hide-country';
         }
       },
-      checkCountry () {
-        cons
-        if(this.iconChecked == 'icon-checked'){
-          this.iconChecked = 'icon-check';
+      checkCountry (e) {
+        let element = e.currentTarget;
+        if (element.classList.contains('active')) {
+          element.classList.remove('active');
         }else {
-          this.iconChecked = 'icon-checked';
+          element.classList.add('active')
         }
+        console.log(e.currentTarget);
       }
 
     }
@@ -120,6 +129,7 @@
         line-height: 40px;
         border-bottom: 1px dashed #dedede;
         i{
+          position: relative;
           display: inline-block;
           width: 12px;
           height: 40px;
@@ -128,10 +138,12 @@
           background-position: center;
           vertical-align: middle;
           margin-left: 15px;
-        }
-        .icon-checked{
-          @include bg-image("../img/checked");
-          margin-right: 10px;
+          input[type="checkbox"]{
+            position:absolute;
+            top:14px;
+            left:0;
+            opacity: 0;
+          }
         }
         .icon-check{
           @include bg-image("../img/check");
@@ -142,6 +154,12 @@
           height:40px;
           line-height: 40px;
           display: inline-block;
+        }
+      }
+      .active{
+        .icon-check{
+          @include bg-image("../img/checked");
+          margin-right: 10px;
         }
       }
     }
