@@ -16,6 +16,8 @@ import 'mint-ui/lib/style.css'
 // 图片懒加载
 import VueLazyload from 'vue-lazyload'
 
+
+
 // vue-resource
 import VueResource from 'vue-resource'
 Vue.config.productionTip = false
@@ -32,7 +34,6 @@ axios.interceptors.request.use((config) => {
   console.log(error)
   console.log(arguments)
 })
-
 Vue.prototype.axios = axios
 Vue.use(Mint)
 Vue.use(VueLazyload, {
@@ -52,4 +53,3 @@ Vue.use({
   vm,
   Hub
 })
-
