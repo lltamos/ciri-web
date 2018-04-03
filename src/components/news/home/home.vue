@@ -90,6 +90,7 @@
   <div v-show="isMore" class="more">
     <span @click='loadMore'>查看更多</span><i></i>
   </div>
+  <div class="blank"></div>
 </div>
 </template>
 <script>
@@ -279,6 +280,7 @@ export default {
       }
       .title-box {
         padding-left: 0;
+        padding-right: 0;
       }
       .img-warp {
         width: 29.3%;
@@ -300,7 +302,6 @@ export default {
     font-size: 12px;
     color: #3f80e9;
     margin-top: 20px;
-    margin-bottom: 65px;
     text-align: center;
 
     i {
@@ -311,6 +312,9 @@ export default {
       background-size: 12px auto;
       margin-left: 6px;
     }
+  }
+  .blank{
+    height:65px;
   }
 }
 </style>

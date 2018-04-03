@@ -120,7 +120,7 @@ export default {
         float: left;
         width: 12px;
         height: 12px;
-        margin: -2px 5px;
+        margin: 3px 5px;
         @include bg-image("../../img/view");
         background-size: 12px auto;
       }
@@ -155,6 +155,7 @@ export default {
     }
     .title-box {
       padding-left: 0;
+      padding-right: 0;
     }
     .img-warp {
       width: 29.3%;
