@@ -8,12 +8,23 @@
       <div class="gradient-bg">
         <div class="user">
           <div class="user-msg">
-            <router-link to="/mine/my-profile">
-              <div class="user_face">
-                <img :src="portraitUrl"/>
-              </div>
+            <!--判断是否登录没有登录 点击头像跳转到登录页面-->
+            <template v-if="!userId">
+              <router-link to="/login">
+                <div class="user_face">
+                  <img :src="portraitUrl"/>
+                </div>
+              </router-link>
+            </template>
+            <!--登录状态下  点击头像跳转到用户页面--->
+            <template v-if="userId">
+              <router-link to="/mine/my-profile">
+                <div class="user_face">
+                  <img :src="portraitUrl"/>
+                </div>
+              </router-link>
+            </template>
 
-            </router-link>
             <div v-if="!userId">
               <router-link class="login" to="/login">立即登录</router-link>
             </div>
