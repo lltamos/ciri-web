@@ -7,7 +7,7 @@
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
+              <span class="column">最新活动</span> | <span class="time">{{article.updateTime|time}}</span>
               <span class="author">CIRI</span>
             </div>
 
@@ -29,7 +29,7 @@
         <h2>{{article.title}}</h2>
         <div class="title-box">
           <div class="fl">
-            <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
+            <span class="column">最新活动</span> | <span class="time">{{article.updateTime|time}}</span>
             <span class="author">CIRI</span>
           </div>
 
@@ -49,6 +49,7 @@
 
 <script>
 import tool from "@/api/tool";
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -83,6 +84,11 @@ export default {
   },
   created() {
     this.loadMore();
+  },
+  filters: {
+    time(time) {
+      return moment(time).format("YYYY-MM-DD");
+    }
   }
 };
 </script>

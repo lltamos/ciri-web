@@ -3,12 +3,12 @@
     <div v-if="topArticle!=null" class="project1">
       <router-link :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
         <div class="img">
-          <img v-bind:src="host+topArticle.thumbnail" />
+          <img v-bind:src="host+topArticle.thumbnail"/>
         </div>
         <h2>{{topArticle.title}}</h2>
         <div class="title-box">
           <div class="fl">
-            <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
+            <span class="column">走出去情报</span> | <span class="time">{{topArticle.updateTime|time}}</span>
             <span class="author">CIRI</span>
           </div>
 
@@ -25,7 +25,7 @@
             <h2>{{article.title}}</h2>
             <div class="title-box">
               <div class="fl">
-                <span class="column">走出去情报</span> | <span class="time">2018年1月1日</span>
+                <span class="column">走出去情报</span> | <span class="time">{{article.updateTime|time}}</span>
                 <span class="author">CIRI</span>
               </div>
 
@@ -47,7 +47,7 @@
           <h2>{{article.title}}</h2>
           <div class="title-box">
             <div class="fl">
-              <span class="column">最新活动</span> | <span class="time">2018年1月1日</span>
+              <span class="column">最新活动</span> | <span class="time">{{article.updateTime|time}}</span>
               <span class="author">CIRI</span>
             </div>
 
@@ -67,7 +67,7 @@
 
 <script>
   import tool from "@/api/tool";
-
+  import moment from 'moment'
   export default {
     data() {
       return {
@@ -78,6 +78,7 @@
         isMore: false
       };
     },
+
     methods: {
       loadMore() {
         let param = tool.buildForm([
@@ -86,7 +87,7 @@
           {key: "cid", v: 1009}
         ]);
         this.axios
-          .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
+          .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
           .then(res => {
             if (res.data.code === 200) {
               if (this.page === 1) {
@@ -94,7 +95,7 @@
               } else {
                 this.articles = this.articles.concat(res.data.data);
               }
-              this.isMore = this.articles.length != res.data.total;
+              this.isMore = this.articles.length !== res.data.total;
             }
             this.page = this.page + 1;
           });
@@ -120,6 +121,11 @@
         });
     },
     updated() {
+    },
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      }
     }
   };
 </script>
