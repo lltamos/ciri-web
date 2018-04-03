@@ -16,16 +16,18 @@ import 'mint-ui/lib/style.css'
 // 图片懒加载
 import VueLazyload from 'vue-lazyload'
 
-
-
 // vue-resource
 import VueResource from 'vue-resource'
+
+import tool from '@/api/tool'
+
 Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 
-axios.defaults.headers.token = sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
+axios.defaults.headers.token = tool.gettoken()
+
 axios.interceptors.request.use((config) => {
   console.log(config)
   console.log(arguments)
@@ -45,7 +47,7 @@ let Hub = new Vue()
 let vm = new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })
 
