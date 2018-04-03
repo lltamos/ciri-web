@@ -81,17 +81,16 @@
     methods: {
       unfavorite(){
         this.proStr = '';
-        for (let i= 0; i < this.proArray.length; i++) {
-          this.proStr = this.proStr + ',' +this.proArray[i];
+        for (let i = 0; i < this.proArray.length; i++) {
+          this.proStr = this.proStr + ',' + this.proArray[i];
         }
-        //todo
-        if(this.proStr.length === 0){
+        if (this.proStr.length === 0) {
           return;
         }
         this.proStr = this.proStr.substring(1);
         let param = new URLSearchParams();
         param.append('name', tool.getuser());
-        param.append('projectIdsStr', this.proStr);//todo
+        param.append('projectIdsStr', this.proStr);
         param.append('typeFlag', 1);
         param.append('operationFlag', false);
         this.axios.post(tool.domind() + '/gateway/user/batchDealWithUserCollect', param)
