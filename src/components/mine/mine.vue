@@ -50,7 +50,7 @@
             </div>
             <div class="fr card">
               <router-link to="/mine/my-favorite">
-                <h2>{{projectAll}}</h2>projectAll
+                <h2>{{projectAll}}</h2>
                 <h3>收藏的项目</h3>
               </router-link>
             </div>
@@ -120,7 +120,7 @@ export default {
       roleStr: "",
       memberLevelStr: "",
       displayName: "",
-      portraitUrl: "",
+      portraitUrl: require('./img/user_face.png'),
       userAuth: true,
       projectAll:0,
       corpAll:0,
