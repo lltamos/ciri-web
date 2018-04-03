@@ -48,18 +48,18 @@
           </router-link>
         </div>
       </div>
-      <cross-line></cross-line>
-      <div class="more-bar">
-        <router-link to="/about-us"><i class="icon-more"></i></router-link>
-        <h1><i class="about-us"></i>关于我们</h1>
-      </div>
-      <div class="more-bar">
-        <router-link to="/security-feedback"><i class="icon-more"></i></router-link>
-        <h1><i class="feedback"></i>意见反馈</h1>
-      </div>
+    <cross-line></cross-line>
+    <div class="more-bar">
+      <router-link to="/about-us"><i class="icon-more"></i></router-link>
+      <h1><i class="about-us"></i>关于我们</h1>
     </div>
-    <div class="exit">
-      <div class="btn" @click="loginOut">退出</div>
+    <div class="more-bar">
+      <router-link to="/security-feedback"><i class="icon-more"></i></router-link>
+      <h1><i class="feedback"></i>意见反馈</h1>
+    </div>
+  </div>
+  <div class="exit">
+    <div class="btn" @click="loginOut">退出</div>
     </div>
   </div>
 </template>
