@@ -46,5 +46,8 @@ export default {
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')
+  },
+  gettoken: function () {
+    return sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
   }
 }
