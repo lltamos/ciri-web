@@ -44,13 +44,13 @@
           </div>
           <div class="favorite">
             <div class="fl card">
-              <h2>{{projectAll}}</h2>
+              <h2>{{corpAll }}</h2>
               <h3>收藏的投资方</h3>
               <div class="separator"></div>
             </div>
             <div class="fr card">
               <router-link to="/mine/my-favorite">
-                <h2>{{corpAll}}</h2>
+                <h2>{{projectAll}}</h2>
                 <h3>收藏的项目</h3>
               </router-link>
             </div>
