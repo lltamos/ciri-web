@@ -2,14 +2,16 @@
 
 <template>
   <div class="news">
-    <router-link :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
-      <div v-if="topArticle!=null" class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}">
-        <p class="coverage">
-          <span class="title">{{topArticle.title}}</span>
-          <span class="summary">{{topArticle.summary}}</span>
-        </p>
-      </div>
-    </router-link>
+    <div class="scene">
+      <router-link v-if="topArticle!=null" :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
+        <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}">
+          <p class="coverage">
+            <span class="title">{{topArticle.title}}</span>
+            <span class="summary">{{topArticle.summary}}</span>
+          </p>
+        </div>
+      </router-link>
+    </div>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">
@@ -53,7 +55,6 @@
     props: {},
     watch: {},
     methods: {},
-    filters: {},
     computed: {},
     mounted() {
       let param = tool.buildForm([
@@ -72,9 +73,6 @@
             this.topArticle = res.data.data[0];
           }
         });
-    },
-
-    destroyed() {
     }
   };
 </script>
