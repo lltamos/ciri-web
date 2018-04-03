@@ -136,7 +136,6 @@ export default {
       this.$router.push('/login');
     }
   },
-  filters: {},
   computed: {},
   created() {
     if (tool.islogin() === "true") {
@@ -192,7 +191,8 @@ export default {
       this.portraitUrl = require('./img/user_face.png');
     }
   },
-  mounted() {},
+  mounted() {
+  },
   destroyed() {}
 };
 </script>
