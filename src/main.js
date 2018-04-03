@@ -18,12 +18,16 @@ import VueLazyload from 'vue-lazyload'
 
 // vue-resource
 import VueResource from 'vue-resource'
+
+import tool from '@/api/tool'
+
 Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 
-axios.defaults.headers.token = sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
+axios.defaults.headers.token = tool.gettoken()
+
 axios.interceptors.request.use((config) => {
   console.log(config)
   console.log(arguments)
@@ -32,7 +36,6 @@ axios.interceptors.request.use((config) => {
   console.log(error)
   console.log(arguments)
 })
-
 Vue.prototype.axios = axios
 Vue.use(Mint)
 Vue.use(VueLazyload, {
@@ -44,7 +47,7 @@ let Hub = new Vue()
 let vm = new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })
 
@@ -52,4 +55,3 @@ Vue.use({
   vm,
   Hub
 })
-

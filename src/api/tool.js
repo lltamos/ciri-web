@@ -1,6 +1,6 @@
 export default {
   domind: function () {
-    return 'http://192.168.2.5:8080'
+    return 'http://192.168.2.22:8080'
   },
 
   oos: function () {
@@ -46,5 +46,8 @@ export default {
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')
+  },
+  gettoken: function () {
+    return sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
   }
 }

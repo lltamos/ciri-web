@@ -9,7 +9,8 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone" @focus="Focus">
+            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
@@ -38,22 +39,23 @@
   import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from "../../api/tool";
+
   export default {
     components: {
       HeaderBar,
       BottomImg,
       CrossLine
     },
-    data () {
+    data() {
       return {
-        loginClass : 'loginBtn',
+        loginClass: 'loginBtn',
         showCode: true,
         count: '',
         timer: null,
         position: '',
-        phone:this.phone,
-        errorShow : false,
-        aisle:1
+        phone: this.phone,
+        errorShow: false,
+        aisle: 1
       }
     },
     props: {},
@@ -67,13 +69,17 @@
         if (tag) {
 
           let params = new URLSearchParams();
-          params.append('key',  this.phone);
-          params.append('aisle', this.aisle+'');
+          params.append('key', this.phone);
+          params.append('aisle', this.aisle + '');
 
           this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
-            if(res.data.code === 200){
-              this.$router.replace({ path: '/index'})
-            }else{
+            if (res.data.code === 200) {
+              sessionStorage.setItem("token", res.data.token);
+              sessionStorage.setItem("username", res.data.username);
+              sessionStorage.setItem("islogin", "true");
+              this.axios.defaults.headers.token = res.data.token;
+              this.$router.replace({path: '/index'})
+            } else {
               this.error = '账号或密码错误，请重新输入'
               this.errorShow = true;
             }
@@ -84,17 +90,17 @@
           this.error = '请输入正确帐号';
         }
       },
-      back () {
+      back() {
         this.$router.push({
           path: this.$router.go(-1)
         })
       },
       //input获取焦点时执行
-      Focus () {
-        this.loginClass='loginBtnActive';
+      Focus() {
+        this.loginClass = 'loginBtnActive';
         this.position = 'staticImg';
       },
-      getCode () {
+      getCode() {
         let tag = tool.checkMobile(this.phone);
         if (!tag) {
           return
@@ -131,18 +137,20 @@
           this.errorShow = true;
         } else if (!reg.test(this.phone)) {
           this.errorShow = true;
-        }else{
+        } else {
           this.errorShow = false;
         }
       },
-      fixImg () {
+      fixImg() {
         this.position = 'fixImg';
       }
     },
     filters: {},
     computed: {},
-    created () {},
-    mounted () {}
+    created() {
+    },
+    mounted() {
+    }
   }
 </script>
 
@@ -159,18 +167,18 @@
       margin-top: 20px;
       overflow: hidden;
       padding: 0 10px;
-      .iconWrap{
+      .iconWrap {
         position: relative;
-        .mint-cell{
-          border:1px solid #dedede;
+        .mint-cell {
+          border: 1px solid #dedede;
           border-radius: 3px;
           margin-bottom: 15px;
           padding-left: 40px;
           font-size: 12px;
-          height:34px;
+          height: 34px;
           min-height: 34px;
-          .mint-cell-wrapper{
-            padding:0;
+          .mint-cell-wrapper {
+            padding: 0;
           }
         }
         i {
@@ -183,60 +191,60 @@
         .icon-authcode {
           @include bg-image('./img/authcode');
         }
-        .iconImg{
+        .iconImg {
           position: absolute;
           left: 10px;
-          top:7px;
+          top: 7px;
         }
-        .switch{
+        .switch {
           position: absolute;
-          right:10px;
-          top:10px;
-          color:#333;
+          right: 10px;
+          top: 10px;
+          color: #333;
           font-size: 10px;
         }
-        .getCodeBg{
-          width:62px;
-          padding:5px 0;
+        .getCodeBg {
+          width: 62px;
+          padding: 5px 0;
           text-align: center;
           background: #f5f5f5;
           border-radius: 3px;
-          top:7px;
+          top: 7px;
         }
       }
-      .regiPwd{
+      .regiPwd {
         overflow: hidden;
-        .fs12{
-          color:#333;
+        .fs12 {
+          color: #333;
           font-size: 12px;
         }
       }
-      .error{
+      .error {
         text-align: center;
-        color:#f81717;
+        color: #f81717;
         font-size: 10px;
-        padding:35px 0 15px;
-        height:10px;
+        padding: 35px 0 15px;
+        height: 10px;
       }
       .mint-button {
         margin: 0px auto 15px;
         font-size: 15px;
         height: 34px;
       }
-      .loginBtn{
-        background:#eeeeee ;
+      .loginBtn {
+        background: #eeeeee;
         color: #333333;
       }
-      .loginBtnActive{
-        background:#3f83e6;
+      .loginBtnActive {
+        background: #3f83e6;
         color: #ffffff;
       }
-      .fs13{
+      .fs13 {
         font-size: 13px;
-        color:#333;
+        color: #333;
       }
     }
-    .staticImg{
+    .staticImg {
       position: static;
     }
   }

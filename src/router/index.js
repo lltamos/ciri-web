@@ -76,8 +76,18 @@ const IdentityVerification = (resolve) => {
     resolve(module)
   })
 }
+const IdentitySuccess = (resolve) => {
+  import('@/components/mine/IdentityVerification/identity').then((module) => {
+    resolve(module)
+  })
+}
 const MemberCenter = (resolve) => {
   import('@/components/mine/member-center/member-center').then((module) => {
+    resolve(module)
+  })
+}
+const MemberDredge = (resolve) => {
+  import('@/components/mine/member-center/member-dredge').then((module) => {
     resolve(module)
   })
 }
@@ -280,10 +290,19 @@ export default new Router({
       path: '/mine/IdentityVerification',
       component: IdentityVerification
     },
+    {
+      path: '/mine/identity',
+      component: IdentitySuccess
+    },
     //会员中心
     {
       path: '/mine/member-center',
       component: MemberCenter
+    },
+    //会员中心
+    {
+      path: '/mine/member-dredge',
+      component: MemberDredge
     },
     //项目收藏
     {
