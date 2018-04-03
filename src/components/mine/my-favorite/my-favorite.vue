@@ -5,11 +5,11 @@
     <div class="main">
 
       <div v-if="pros!=null" class="project" v-for="pro in pros" :key="pro.projId">
-        <router-link :to="{path:'',query: {id: pro.projId}}">
+
           <div class="img">
             <div class="icon-state">{{pro.status}}</div>
             <img src="../img/p_1.jpg" alt="" width="100%" height="100%">
-            <i class="favorite icon-favorite"></i>
+            <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
           </div>
           <div class="main-news">
             <div class="title">
@@ -17,12 +17,15 @@
               <h2 class="fl">{{pro.name}}</h2>
             </div>
             <div class="tip">
-              <div class="fl red">现场勘查</div>
-              <div class="fl yellow">高收益</div>
-              <div class="video fl">
+              <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">
+                <div class="fl red">{{tag}}</div>
+                <div class="fl yellow">高收益</div>
+              </div>
 
+              <div class="video fl">
               </div>
             </div>
+
             <div class="tip-news">
               <ul class="proj-info" style="overflow:hidden;">
                 <li class="proj-span1">
@@ -43,14 +46,14 @@
 
             </div>
           </div>
-        </router-link>
+
       </div>
 
 
 
     </div>
     <div v-show="isMore" class="more">
-      <span @click=loadMore>查看更多</span><i></i>
+      <span @click="loadMore">查看更多</span><i></i>
     </div>
   </div>
 </template>
@@ -70,15 +73,54 @@
         pageNum: 1,
         total: null,
         pros: null,
-        isMore: false
+        isMore: false,
+        proArray: [],
+        proStr: null
       }
     },
     methods: {
+      unfavorite(){
+        this.proStr = '';
+        for (let i= 0; i < this.proArray.length; i++) {
+          this.proStr = this.proStr + ',' +this.proArray[i];
+        }
+        //todo
+        if(this.proStr.length === 0){
+          return;
+        }
+        this.proStr = this.proStr.substring(1);
+        let param = new URLSearchParams();
+        param.append('name', tool.getuser());
+        param.append('projectIdsStr', this.proStr);//todo
+        param.append('typeFlag', 1);
+        param.append('operationFlag', false);
+        this.axios.post(tool.domind() + '/gateway/user/batchDealWithUserCollect', param)
+          .then(res => {
+            if (res.data.code === 200) {
+              console.log(res.data);
+            }
+          });
+
+      },
       back() {
+        this.unfavorite();
         this.$router.push({
           path: this.$router.go(-1)
         })
       },
+      favorite (e, projId) {
+        let element = e.currentTarget;
+        if (element.classList.contains('quit-favorite')){
+          this.proArray.pop(projId);
+          console.log(this.proArray);
+        } else {
+          this.proArray.push(projId);
+          console.log(this.proArray);
+        }
+        element.classList.toggle('quit-favorite');
+        element.classList.toggle('icon-favorite');
+      },
+
       loadMore () {
         let param = new URLSearchParams();
         param.append('name', tool.getuser());
