@@ -121,7 +121,7 @@ export default {
       memberLevelStr: "",
       displayName: "",
       portraitUrl: require('./img/user_face.png'),
-      userAuth: true,
+      userAuth: false,
       projectAll:0,
       corpAll:0,
       vip:false,
