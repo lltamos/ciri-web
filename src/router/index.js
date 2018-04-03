@@ -86,6 +86,11 @@ const MemberCenter = (resolve) => {
     resolve(module)
   })
 }
+const MemberDredge = (resolve) => {
+  import('@/components/mine/member-center/member-dredge').then((module) => {
+    resolve(module)
+  })
+}
 const MyFavorite = (resolve) => {
   import('@/components/mine/my-favorite/my-favorite').then((module) => {
     resolve(module)
@@ -293,6 +298,11 @@ export default new Router({
     {
       path: '/mine/member-center',
       component: MemberCenter
+    },
+    //会员中心
+    {
+      path: '/mine/member-dredge',
+      component: MemberDredge
     },
     //项目收藏
     {

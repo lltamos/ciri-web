@@ -25,10 +25,12 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
   export default {
     components: {
       HeaderBar,
-      CrossLine
+      CrossLine,
+      tool
     },
     data(){
       return {
@@ -62,6 +64,16 @@
 
     },
     created () {
+      this.axios
+        .get(tool.domind() + "/gateway/app/getAllCountry")
+        .then(res => {
+          if (res.data.code === 200) {
+            alert(res.data.code);
+
+            var countries = res.data.data;
+            this.country = res.data.data;
+          }
+        });
     }
   }
 </script>
