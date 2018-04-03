@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style type="text/scss" scope lang="scss">
+<style lang="scss" scope>
 @import "~@/assets/scss/mixin.scss";
 @import "~@/assets/scss/reset.scss";
 
@@ -116,12 +116,11 @@ export default {
 }
 
 .main {
-  padding: 0 10px;
+  padding:7px 10px 0;
   text-align: left;
   h2 {
     font-size: 14px;
     color: #333;
-    height: 40px;
     line-height: 20px;
     overflow: hidden;
   }
@@ -153,10 +152,13 @@ export default {
     width: 100%;
   }
   .section {
-    font-size: 12px;
-    color: #333;
-    line-height: 15px;
-    margin: 10px 0;
+    p,div{
+      font-size: 12px;
+      color: #333;
+      line-height: 15px;
+      margin: 10px 0;
+      text-indent:28px;
+    }
     img{
       width: 100%;
       height:auto;

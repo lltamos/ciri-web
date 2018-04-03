@@ -8,7 +8,7 @@
 
           <div class="img">
             <div class="icon-state">{{pro.status}}</div>
-            <img src="../img/p_1.jpg" alt="" width="100%" height="100%">
+            <img v-bind:src="pro.url"  alt="" width="100%" height="100%">
             <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
           </div>
           <div class="main-news">
@@ -19,7 +19,6 @@
             <div class="tip">
               <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">
                 <div class="fl red">{{tag}}</div>
-                <div class="fl yellow">高收益</div>
               </div>
 
               <div class="video fl">
@@ -67,7 +66,7 @@
       HeaderBar,
       CrossLine
     },
-    data(){
+    data () {
       return {
         pageSize: 5,
         pageNum: 1,
@@ -81,17 +80,16 @@
     methods: {
       unfavorite(){
         this.proStr = '';
-        for (let i= 0; i < this.proArray.length; i++) {
-          this.proStr = this.proStr + ',' +this.proArray[i];
+        for (let i = 0; i < this.proArray.length; i++) {
+          this.proStr = this.proStr + ',' + this.proArray[i];
         }
-        //todo
-        if(this.proStr.length === 0){
+        if (this.proStr.length === 0) {
           return;
         }
         this.proStr = this.proStr.substring(1);
         let param = new URLSearchParams();
         param.append('name', tool.getuser());
-        param.append('projectIdsStr', this.proStr);//todo
+        param.append('projectIdsStr', this.proStr);
         param.append('typeFlag', 1);
         param.append('operationFlag', false);
         this.axios.post(tool.domind() + '/gateway/user/batchDealWithUserCollect', param)
