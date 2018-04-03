@@ -3,84 +3,54 @@
     <header-bar text="收藏的项目" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
-      <div class="project">
-        <div class="img">
-          <div class="icon-state">合投中</div>
-          <img src="../img/p_1.jpg" alt="" width="100%" height="100%">
-          <i class="favorite icon-favorite"></i>
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl">精品</div>
-            <h2 class="fl">巴西卡坦杜瓦60MW风电场...</h2>
+
+      <div v-if="pros!=null" class="project" v-for="pro in pros" :key="pro.projId">
+        <router-link :to="{path:'',query: {id: pro.projId}}">
+          <div class="img">
+            <div class="icon-state">{{pro.status}}</div>
+            <img src="../img/p_1.jpg" alt="" width="100%" height="100%">
+            <i class="favorite icon-favorite"></i>
           </div>
-          <div class="tip">
-            <div class="fl red">现场勘查</div>
-            <div class="fl yellow">高收益</div>
-            <div class="video fl">
+          <div class="main-news">
+            <div class="title">
+              <div class="icon-quality fl">精品</div>
+              <h2 class="fl">{{pro.name}}</h2>
+            </div>
+            <div class="tip">
+              <div class="fl red">现场勘查</div>
+              <div class="fl yellow">高收益</div>
+              <div class="video fl">
+
+              </div>
+            </div>
+            <div class="tip-news">
+              <ul class="proj-info" style="overflow:hidden;">
+                <li class="proj-span1">
+                  <div class="count"><span>{{pro.fund}}</span>万欧元</div>
+                  <em>项目总投资</em>
+                  <div class="line"></div>
+                </li>
+                <li class="proj-span2">
+                  <div class="count"><span>{{pro.irr}}</span>%</div>
+                  <em>预期年收益率</em>
+                  <div class="line"></div>
+                </li>
+                <li class="proj-span3" style="background:0 0;">
+                  <div class="count"><span>{{pro.potentialInvestor}}</span>位</div>
+                  <em>意向投资方</em>
+                </li>
+              </ul>
 
             </div>
           </div>
-          <div class="tip-news">
-            <ul class="proj-info" style="overflow:hidden;">
-              <li class="proj-span1">
-                <div class="count"><span>350</span>万欧元</div>
-                <em>项目总投资</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span2">
-                <div class="count"><span>17.8</span>%</div>
-                <em>预期年收益率</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span3" style="background:0 0;">
-                <div class="count"><span>3</span>位</div>
-                <em>意向投资方</em>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-      </div>
-      <div class="project">
-        <div class="img">
-          <img src="../img/p_1.jpg" alt="" width="100%" height="100%">
-          <i class="favorite quit-favorite"></i>
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl">精品</div>
-            <h2 class="fl">巴西卡坦杜瓦60MW风电场...</h2>
-          </div>
-          <div class="tip">
-            <div class="fl red">现场勘查</div>
-            <div class="fl yellow">高收益</div>
-            <div class="video fl">
-
-            </div>
-          </div>
-          <div class="tip-news">
-            <ul class="proj-info" style="overflow:hidden;">
-              <li class="proj-span1">
-                <div class="count"><span>350</span>万欧元</div>
-                <em>项目总投资</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span2">
-                <div class="count"><span>17.8</span>%</div>
-                <em>预期年收益率</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span3" style="background:0 0;">
-                <div class="count"><span>3</span>位</div>
-                <em>意向投资方</em>
-              </li>
-            </ul>
-
-          </div>
-        </div>
+        </router-link>
       </div>
 
+
+
+    </div>
+    <div v-show="isMore" class="more">
+      <span @click=loadMore>查看更多</span><i></i>
     </div>
   </div>
 </template>
@@ -88,6 +58,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
   export default {
     components: {
       HeaderBar,
@@ -95,6 +66,11 @@
     },
     data(){
       return {
+        pageSize: 5,
+        pageNum: 1,
+        total: null,
+        pros: null,
+        isMore: false
       }
     },
     methods: {
@@ -102,11 +78,30 @@
         this.$router.push({
           path: this.$router.go(-1)
         })
+      },
+      loadMore () {
+        let param = new URLSearchParams();
+        param.append('name', tool.getuser());
+        param.append('pageSize', this.pageSize);//todo
+        param.append('pageNum', this.pageNum);
+        this.axios.post(tool.domind() + '/gateway/user/userCollectProjectInfo', param)
+          .then(res => {
+            if (res.data.code === 200) {
+              if (this.pageNum === 1) {
+                this.pros = res.data.data;
+              } else {
+                this.pros = this.pros.concat(res.data.data);
+                this.total = res.data.total;
+              }
+            }
+            this.isMore = this.pros.length != res.data.total;
+            this.pageNum = this.pageNum + 1;
+          });
       }
 
     },
-    created () {
-
+    created() {
+      this.loadMore();
     }
   }
 </script>
@@ -114,6 +109,21 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
+  .more {
+    font-size: 12px;
+    color: #3f80e9;
+    margin-top: 20px;
+    margin-bottom: 65px;
+    text-align: center;
+    i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      @include bg-image("../../news/img/more");
+      background-size: 12px auto;
+      margin-left: 6px;
+    }
+  }
   .main{
     .project{
       padding: 14px 10px 14px 130px;
@@ -241,6 +251,7 @@
 
       }
     }
+
   }
 
 </style>
