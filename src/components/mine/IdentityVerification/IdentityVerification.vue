@@ -13,19 +13,19 @@
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><i></i></div>
+              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
               <input type="file" name="file[]" class="input3"> <em>身份证图片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><i></i></div>
+              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
               <input type="file" name="file[]" class="input3"> <em>身份证图片(反面)</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><i></i></div>
+              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
               <input type="file" name="file[]" class="input3"> <em class="mb20">身份证图片(手持)</em>
             </div>
           </li>
@@ -34,13 +34,13 @@
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><i></i></div>
+              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
               <input type="file" name="file[]" class="input3"> <em class="mb20">名片正面照片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><i></i></div>
+              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
               <input type="file" name="file[]" class="input3"> <em class="mb20">名片背面照片</em>
             </div>
           </li>
@@ -154,18 +154,10 @@
             line-height: 109px;
             text-align: center;
             background: #eee;
-            i{
-              display: table;
-              margin: auto;
-              height: 109px;
-              line-height: 109px;
-              width: 31px;
-              @include bg-image("../img/add-photo");
-              background-size: 31px auto;
-              background-position: center;
-              background-repeat: no-repeat;
+            img{
+              width: 100%;
+              height:100%;
             }
-
           }
           input{
             position: absolute;
