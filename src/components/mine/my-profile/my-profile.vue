@@ -27,9 +27,9 @@
       <border-line></border-line>
       <more text="我的职位" :textKey="userInfo.jobTitle" :to="'/mine/change-key/jobTitle/'+userInfo.jobTitle"></more>
       <border-line></border-line>
-      <more text="关注国家" :textKey="userInfo.careCountryStr" to="/mine/focus-country"></more>
+      <more text="关注国家" :textKey="userInfo.careCountryStr" :to="'/mine/focus-country/careCountries/'+userInfo.careCountries" ></more>
       <border-line></border-line>
-      <more text="关注行业" :textKey="userInfo.careIndustryStr"></more>
+      <more text="关注行业" :textKey="userInfo.careIndustryStr" :to="'/mine/focus-country/careIndustries/'+userInfo.careIndustries" ></more>
       <div class="title-line">非公开信息</div>
 
       <more text="会员等级" :textKey="userInfo.memberLevelId" :show=show keyClass="mr35"></more>

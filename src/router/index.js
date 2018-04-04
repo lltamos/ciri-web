@@ -321,12 +321,12 @@ export default new Router({
     },
     //修改国家
     {
-      path: '/mine/change-country',
+      path: '/mine/change-country/:id',
       component: ChangeCountry
     },
-    //关注国家
+    //关注国家和行业
     {
-      path: '/mine/focus-country',
+      path: '/mine/focus-country/:id/:value',
       component: FocusCountry
     },
     // 注册页面
