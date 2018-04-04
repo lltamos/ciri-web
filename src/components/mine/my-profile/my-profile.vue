@@ -17,15 +17,15 @@
       </div>
       <!--<more text="用户角色" textKey="项目代理"></more>-->
       <border-line></border-line>
-      <more text="真实姓名" :textKey="userInfo.realName" to="/mine/change-key/name,query:{userInfo:userInfo}}"  ></more>
+      <more text="真实姓名" :textKey="userInfo.realName" to="/mine/change-key/realName/userInfo.realName" ></more>
       <border-line></border-line>
       <more text="我的国家" :textKey="userInfo.myCountryName" to="/mine/change-country"></more>
       <border-line></border-line>
-      <more text="我的公司" :textKey="userInfo.corpName" to="/mine/change-key/company"></more>
+      <more text="我的公司" :textKey="userInfo.corpName" to="/mine/change-key/corpName/中工源合"></more>
       <border-line></border-line>
-      <more text="我的部门" :textKey="userInfo.department" to="/mine/change-key/department"></more>
+      <more text="我的部门" :textKey="userInfo.department" to="/mine/change-key/department/开发部门"></more>
       <border-line></border-line>
-      <more text="我的职位" :textKey="userInfo.jobTitle" to="/mine/change-key/position"></more>
+      <more text="我的职位" :textKey="userInfo.jobTitle" to="/mine/change-key/jobTitle/java开发工程师"></more>
       <border-line></border-line>
       <more text="关注国家" :textKey="userInfo.careCountryStr" to="/mine/focus-country"></more>
       <border-line></border-line>

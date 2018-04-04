@@ -3,19 +3,21 @@
   <header-bar :text="headTitle" @back="back"></header-bar>
   <cross-line style="margin-top: 44px;"></cross-line>
   <div class="change">
-    <input type="text" value="张三丰"/>
+    <input type="text" v-model="info"/>
   </div>
-  <div class="btn">保存</div>
+  <div class="btn" @click="updateUserInfo">保存</div>
 </div>
 </template>
 
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
   export default {
     components: {
       HeaderBar,
-      CrossLine
+      CrossLine,
+      tool
     },
     data(){
       return {
@@ -28,19 +30,37 @@
         this.$router.push({
           path: this.$router.go(-1)
         })
+      },
+      updateUserInfo(){
+        let params = new URLSearchParams();
+        let flag = this.$route.params.id;
+        params.append("name",tool.getuser());
+        alert(tool.getuser());
+        params.append(flag,this.info);
+        this.axios
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+          .then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              alert("修改个人信息成功");
+            }else {
+              alert("修改个人信息失败")
+            }
+          });
       }
-
     },
     created () {
       let flag=this.$route.params.id;
+      let text=this.$route.params.name;
+      this.info=text;
       console.log(this.$route);
-      if( flag=='name' ){
+      if( flag=='realName' ){
         this.headTitle ='修改姓名'
-      }else if(flag=='company'){
+      }else if(flag=='corpName'){
         this.headTitle ='修改公司'
       }else if(flag=='department'){
         this.headTitle ='修改部门'
-      } else if(flag=='position'){
+      } else if(flag=='jobTitle'){
         this.headTitle ='修改职位'
       }
     }
