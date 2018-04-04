@@ -141,6 +141,16 @@
           .then(res => {
             if (res.data.code === 200) {
               this.userInfo=res.data.data;
+              var level=this.userInfo.memberLevelId;
+              if(level>=5){
+                this.userInfo.memberLevelId='源合网会员'
+              }else if(level >=3){
+                this.userInfo.memberLevelId='项目库会员'
+              }else if(level >=3){
+                this.userInfo.memberLevelId='VIP会员'
+              }else {
+                this.userInfo.memberLevelId='普通会员'
+              }
             }
           });
       }else {
