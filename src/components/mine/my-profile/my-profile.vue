@@ -19,7 +19,7 @@
       <border-line></border-line>
       <more text="真实姓名" :textKey="userInfo.realName" :to="'/mine/change-key/realName/'+userInfo.realName" ></more>
       <border-line></border-line>
-      <more text="我的国家" :textKey="userInfo.myCountryName" to="/mine/change-country"></more>
+      <more text="我的国家" :textKey="userInfo.myCountryName" :to="'/mine/change-country/'+userInfo.myCountryName"></more>
       <border-line></border-line>
       <more text="我的公司" :textKey="userInfo.corpName" :to="'/mine/change-key/corpName/'+userInfo.corpName"></more>
       <border-line></border-line>
@@ -112,6 +112,8 @@
               params.append("portraitFileSize",res.data.data[0].fileSize);
               params.append("portraitFileId",res.data.data[0].fileId);
               this.updateUserInfo(params);
+              //刷新页面
+              this.userInfo.portraitFileUrl=res.data.data[0].url ;
             }else{
               alert("上传用户头像失败")
             }
@@ -126,8 +128,6 @@
             console.log(res);
             if (res.data.code === 200) {
               alert("修改头像成功");
-              //刷新页面
-              this.$router.go(0);
             }else {
               alert("修改头像失败")
             }
