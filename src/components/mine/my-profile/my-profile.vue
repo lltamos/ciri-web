@@ -78,7 +78,8 @@
         show:false,
         showBounced: false,
         to : '',
-        userInfo:""
+        userInfo:"",
+        img: null
       }
     },
     methods: {
@@ -93,22 +94,28 @@
       headHide () {
         this.showBounced = false;
       },
-      uploadHead(event){
-        //获取图片文件
-        var files = event.target.files;
-        if(files.length>1){
-          alert("只能选择一张图片");
-        }
+      uploadHead(e){
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        var image = new Image();
         var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (evt) {
-          var dataURL = reader.result;
-          alert(dataURL);
-          /*var xhr = new XMLHttpRequest()
-          xhr.addEventListener('load', evt.uploadComplete, false)
-          xhr.open('POST', tool.domind() + "/gateway//file/upload")
-          xhr.send(fd);*/
-        }
+        var vm = this;
+        reader.onload = (e) => {
+          vm.img = e.target.result;
+
+          var imgFormData = new FormData();
+          imgFormData.append('img', files[0]);
+          let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+          vm.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+            .then(res => {
+              if (res.data.code === 200) {
+                console.log(res.data);
+              }
+            });
+        };
+
         this.headHide();
       }
     },
