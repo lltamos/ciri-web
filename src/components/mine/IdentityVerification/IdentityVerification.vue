@@ -5,28 +5,31 @@
     <div class="main">
       <p class="prompt-warp"><span class="warm-prompt">温馨提示：</span>以下真实姓名和证件信息，一旦通过认证，将无法修改，请认真填写！</p>
       <div class="personal-details">
-        <div class="name fl">真实姓名：</div><div class="details-warp fl"><input type="text"/></div>
-        <div class="idcard fl">身份证号：</div><div class="details-warp fl"><input type="text"/></div>
+        <div class="name fl">真实姓名：</div><div class="details-warp fl"><input type="text" v-model="realName"/></div>
+        <div class="idcard fl">身份证号：</div><div class="details-warp fl"><input type="text" v-model="idCardNum"/></div>
       </div>
       <div class="passport-phone">
         <p class="title">证件照上传</p>
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
-              <input type="file" name="file[]" class="input3"> <em>身份证图片</em>
+              <div class="img"><img v-bind:src="idCardFrontPortraitSrc==null?addPhoto:idCardFrontPortraitSrc" alt=""/></div>
+              <input type="file" class="input3" @change="uploadImg($event,1)"/>
+              <em>身份证图片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
-              <input type="file" name="file[]" class="input3"> <em>身份证图片(反面)</em>
+              <div class="img"><img v-bind:src="idCardBackPortraitSrc==null?addPhoto:idCardBackPortraitSrc" alt=""/></div>
+              <input type="file" class="input3" @change="uploadImg($event,2)"/>
+              <em>身份证图片(反面)</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
-              <input type="file" name="file[]" class="input3"> <em class="mb20">身份证图片(手持)</em>
+              <div class="img"><img v-bind:src="idCardHoldPortraitSrc==null?addPhoto:idCardHoldPortraitSrc" alt=""/></div>
+              <input type="file" class="input3" @change="uploadImg($event,3)"/>
+              <em class="mb20">身份证图片(手持)</em>
             </div>
           </li>
         </ul>
@@ -34,20 +37,22 @@
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
-              <input type="file" name="file[]" class="input3"> <em class="mb20">名片正面照片</em>
+              <div class="img"><img v-bind:src="nameCardFrontSrc==null?addPhoto:nameCardFrontSrc" alt=""/></div>
+              <input type="file" class="input3" @change="uploadImg($event,4)"/>
+              <em class="mb20">名片正面照片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img src="../img/add-photo.png" alt=""/></div>
-              <input type="file" name="file[]" class="input3"> <em class="mb20">名片背面照片</em>
+              <div class="img"><img v-bind:src="nameCardBackSrc==null?addPhoto:nameCardBackSrc" alt=""/></div>
+              <input type="file" class="input3" @change="uploadImg($event,5)"/>
+              <em class="mb20">名片背面照片</em>
             </div>
           </li>
         </ul>
-        <router-link to="/mine/identity">
-          <div class="btn">提交审核</div>
-        </router-link>
+        <!--<router-link to="/mine/identity">-->
+          <div class="btn" @click="submit1">提交审核</div>
+        <!--</router-link>-->
       </div>
     </div>
   </div>
@@ -56,15 +61,31 @@
 
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
-  import CrossLine from '@/components/base/cross-line/cross-line'
+  import CrossLine from '@/components/base/cross-line/cross-line';
+  import tool from '@/api/tool'
   export default {
     components: {
       HeaderBar,
-      CrossLine
+      CrossLine,
+      tool
     },
     data(){
       return {
-        headTitle : ''
+        headTitle: '',
+        addPhoto: '../img/add-photo.png',
+        realName: '',
+        idCardNum: '',
+        idCardFrontPortraitSrc: null,
+        idCardBackPortraitSrc: null,
+        idCardHoldPortraitSrc: null,
+        nameCardFrontSrc: null,
+        nameCardBackSrc: null,
+
+        idCardFrontPortraitFileId: '',
+        idCardBackPortraitFileId: '',
+        idCardHoldPortraitFileId: '',
+        nameCardFrontFileId: '',
+        nameCardBackFileId: ''
       }
     },
     methods: {
@@ -72,8 +93,66 @@
         this.$router.push({
           path: this.$router.go(-1)
         })
-      }
+      },
 
+      uploadImg (e, tag) {
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        var imgFormData = new FormData();
+        imgFormData.append('img', files[0]);
+        let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+        this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+          .then(res => {
+            if (res.data.code === 200) {
+              let temp = res.data.data[0]
+              switch (tag){
+                case 1:
+                  this.idCardFrontPortraitSrc = temp.url;
+                  this.idCardFrontPortraitFileId = temp.fileId;
+                  break;
+                case 2:
+                  this.idCardBackPortraitSrc = temp.url;
+                  this.idCardBackPortraitFileId = temp.fileId;
+                  break;
+                case 3:
+                  this.idCardHoldPortraitSrc = temp.url;
+                  this.idCardHoldPortraitFileId = temp.fileId;
+                  break;
+                case 4:
+                  this.nameCardFrontSrc = temp.url;
+                  this.nameCardFrontFileId = temp.fileId;
+                  break;
+                case 5:
+                  this.nameCardBackSrc = temp.url;
+                  this.nameCardBackFileId = temp.fileId;
+                  break;
+              }
+            }
+          });
+
+      },
+      submit1 () {
+        let params = new URLSearchParams();
+        params.append('name', tool.getuser());
+        params.append('realName', this.realName);
+        params.append('idCardNum', this.idCardNum);
+        params.append('idCardFrontPortraitFileId', this.idCardFrontPortraitFileId);
+        params.append('idCardBackPortraitFileId', this.idCardBackPortraitFileId);
+        params.append('idCardHoldPortraitFileId', this.idCardHoldPortraitFileId);
+        params.append('nameCardFrontFileId', this.nameCardFrontFileId);
+        params.append('nameCardBackFileId', this.nameCardBackFileId);
+        this.axios.post(tool.domind() + '/gateway/userAuth/saveUserAuth', params)
+          .then(res => {
+            if (res.data.code > 100 & res.data.code < 200) {
+              alert(res.data.msg);
+            }else if (res.data.code === 200) {
+              console.log(res.data.data);
+              this.$router.push({path: '/mine/identity'});
+            }
+          })
+      }
     },
     created () {
     }
