@@ -148,7 +148,10 @@ export default {
               this.portraitUrl = res.data.data.portraitUrl;
             }
             this.roleStr = res.data.data.roleStr;
-            this.userAuth = res.data.data.userAuth;
+            //
+            if(res.data.data.userAuth=='2'){
+              this.userAuth = true;
+            }
             var level=res.data.data.memberLevelId;
             if(level>=2){
               this.vip=true;
