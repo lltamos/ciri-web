@@ -11,7 +11,7 @@
       </div>
       <div class="country-warp" v-show="show">
         <div class="country" @click="choose($event ,item)" v-for="item in country" :key="item">
-          {{item}}
+          {{item.name}}
         </div>
       </div>
 
@@ -36,7 +36,7 @@
       return {
         showCountry : 'show-country',
         show : true,
-        country : ['中国','日本','韩国'],
+        country : [{name:'中国',id:"11156"},{name:'日本',id:"11392"},{name:'伊朗',id:"15364"},{name:'巴西',id:"73076"}],
         chooseCountry :'请选择国家'
       }
     },
@@ -56,21 +56,39 @@
       },
       choose (e ,item) {
         //获取当前值
-        console.log(item);
-        this.chooseCountry = item;
-
+        console.log(item.name);
+        //修改国家信息
+        let params = new URLSearchParams();
+        params.append("name",tool.getuser());
+        params.append("countryId",item.id);
+        this.updateUserInfo(params,item);
+      },
+      updateUserInfo(params,item){
+        this.axios
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+          .then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              alert("修改国家成功");
+              //回显
+              this.chooseCountry = item.name;
+            }else {
+              alert("修改国家失败,请重新选择")
+            }
+          });
       }
-
-
     },
     created () {
+      let flag=this.$route.params.id;
+      //判断用户是否已经选择国家
+      if(flag != null && flag !=''){
+        this.chooseCountry=flag;
+      }
+      //查询所有的国家信息
       this.axios
         .get(tool.domind() + "/gateway/app/getAllCountry")
         .then(res => {
           if (res.data.code === 200) {
-            alert(res.data.code);
-
-            var countries = res.data.data;
             this.country = res.data.data;
           }
         });

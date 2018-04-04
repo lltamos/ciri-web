@@ -156,16 +156,31 @@ export default {
       width: 100%;
     }
     .section {
-      p,div{
+      p{
         font-size: 12px;
         color: #333;
         line-height: 15px;
         margin: 10px 0;
         text-indent:28px;
       }
+      div{
+        font-size: 12px;
+        color:#000;
+        font-weight: bold;
+      }
       img{
-        width: 100%;
         height:auto;
+        margin: auto;
+        display: table;
+        @media screen and (min-device-width : 414px)and (max-width: 799px){
+          width:380px;
+        }
+        @media screen and (min-device-width : 375px)and (max-width: 413px){
+          width:340px;
+        }
+        @media screen and (min-width: 320px) and (max-width: 374px) {
+          width: 280px;
+        }
       }
       .conimg-intro{
         text-align: center;
