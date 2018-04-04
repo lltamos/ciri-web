@@ -44,6 +44,7 @@
     <div v-show="isMore" class="more">
       <span @click=loadMore>查看更多</span><i></i>
     </div>
+    <div class="blank"></div>
   </div>
 </template>
 
@@ -96,7 +97,7 @@
 <style lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
-
+  @import "~@/assets/scss/const.scss";
   .news-main {
     text-align: left;
 
@@ -194,7 +195,6 @@
     font-size: 12px;
     color: #3f80e9;
     margin-top: 20px;
-    margin-bottom: 65px;
     text-align: center;
 
   i {
@@ -206,6 +206,9 @@
     margin-left: 6px;
   }
 
+  }
+  .blank{
+    height:65px;
   }
   }
 </style>

@@ -163,9 +163,11 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/scss/mixin.scss";
 @import "~@/assets/scss/reset.scss";
+@import "~@/assets/scss/const.scss";
 .home {
   text-align: left;
   .slider {
+    touch-action: none;
     height: 186px;
     font-size: 30px;
     text-align: center;
