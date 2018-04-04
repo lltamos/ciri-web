@@ -144,7 +144,9 @@ export default {
         .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
-            this.portraitUrl = res.data.data.portraitUrl;
+            if(res.data.data.portraitUrl!=null&&res.data.data.portraitUrl!=''){
+              this.portraitUrl = res.data.data.portraitUrl;
+            }
             this.roleStr = res.data.data.roleStr;
             this.userAuth = res.data.data.userAuth;
             var level=res.data.data.memberLevelId;

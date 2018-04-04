@@ -17,15 +17,15 @@
       </div>
       <!--<more text="用户角色" textKey="项目代理"></more>-->
       <border-line></border-line>
-      <more text="真实姓名" :textKey="userInfo.realName" to="/mine/change-key/name,query:{userInfo:userInfo}}"  ></more>
+      <more text="真实姓名" :textKey="userInfo.realName" :to="'/mine/change-key/realName/'+userInfo.realName" ></more>
       <border-line></border-line>
       <more text="我的国家" :textKey="userInfo.myCountryName" to="/mine/change-country"></more>
       <border-line></border-line>
-      <more text="我的公司" :textKey="userInfo.corpName" to="/mine/change-key/company"></more>
+      <more text="我的公司" :textKey="userInfo.corpName" :to="'/mine/change-key/corpName/'+userInfo.corpName"></more>
       <border-line></border-line>
-      <more text="我的部门" :textKey="userInfo.department" to="/mine/change-key/department"></more>
+      <more text="我的部门" :textKey="userInfo.department" :to="'/mine/change-key/department/'+userInfo.department"></more>
       <border-line></border-line>
-      <more text="我的职位" :textKey="userInfo.jobTitle" to="/mine/change-key/position"></more>
+      <more text="我的职位" :textKey="userInfo.jobTitle" :to="'/mine/change-key/jobTitle/'+userInfo.jobTitle"></more>
       <border-line></border-line>
       <more text="关注国家" :textKey="userInfo.careCountryStr" to="/mine/focus-country"></more>
       <border-line></border-line>
@@ -42,7 +42,7 @@
       <border-line></border-line>
       <more text="用户状态" :textKey="userInfo.userStatus" :show=show keyClass="mr35"></more>
       <border-line></border-line>
-      <more text="我的地址" :textKey="userInfo.corpAddress"></more>
+      <more text="我的地址" :textKey="userInfo.corpAddress" :to="'/mine/change-key/corpAddress/'+userInfo.corpAddress"></more>
       <div class="title-line" style="height:80px;"></div>
     </div>
     <div class="head-bounced ping-bg" v-show="showBounced">
@@ -78,7 +78,8 @@
         show:false,
         showBounced: false,
         to : '',
-        userInfo:""
+        userInfo:"",
+        img: null,
       }
     },
     methods: {
@@ -93,23 +94,44 @@
       headHide () {
         this.showBounced = false;
       },
-      uploadHead(event){
-        //获取图片文件
-        var files = event.target.files;
-        if(files.length>1){
-          alert("只能选择一张图片");
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (evt) {
-          var dataURL = reader.result;
-          alert(dataURL);
-          /*var xhr = new XMLHttpRequest()
-          xhr.addEventListener('load', evt.uploadComplete, false)
-          xhr.open('POST', tool.domind() + "/gateway//file/upload")
-          xhr.send(fd);*/
-        }
+      uploadHead(e){
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+
+        var imgFormData = new FormData();
+        imgFormData.append('img', files[0]);
+        let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+        this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+          .then(res => {
+            if (res.data.code === 200) {
+              console.log(res.data);
+              let params = new URLSearchParams();
+              params.append("name",tool.getuser());
+              params.append("portraitFileSize",res.data.data[0].fileSize);
+              params.append("portraitFileId",res.data.data[0].fileId);
+              this.updateUserInfo(params);
+            }else{
+              alert("上传用户头像失败")
+            }
+          });
+
         this.headHide();
+      },
+      updateUserInfo(params){
+        this.axios
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+          .then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              alert("修改头像成功");
+              //刷新页面
+              this.$router.go(0);
+            }else {
+              alert("修改头像失败")
+            }
+          });
       }
     },
     created() {
