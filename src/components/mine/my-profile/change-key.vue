@@ -62,6 +62,8 @@
         this.headTitle ='修改部门'
       } else if(flag=='jobTitle'){
         this.headTitle ='修改职位'
+      } else if(flag =='corpAddress'){
+        this.headTitle ='修改地址'
       }
     }
   }
