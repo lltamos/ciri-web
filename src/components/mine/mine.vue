@@ -94,6 +94,7 @@
         <div class="login-btn" v-if="!userId" @click="toLogin">
           立即登录
         </div>
+        <div class="blank"></div>
       </div>
     </div>
     <tab-bar></tab-bar>
@@ -485,7 +486,10 @@ body {
         font-size: 15px;
         border-radius: 3px;
         text-align: center;
-        margin-bottom: 80px;
+        margin-bottom: 20px;
+      }
+      .blank{
+        height:60px;
       }
     }
   }
