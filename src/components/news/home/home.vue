@@ -166,6 +166,7 @@ export default {
 .home {
   text-align: left;
   .slider {
+    touch-action: none;
     height: 186px;
     font-size: 30px;
     text-align: center;

@@ -44,6 +44,7 @@
     <div v-show="isMore" class="more">
           <span @click=loadMore>查看更多</span><i></i>
     </div>
+    <div class="blank"></div>
   </div>
 </template>
 
@@ -177,7 +178,6 @@ export default {
     font-size: 12px;
     color: #3f80e9;
     margin-top: 20px;
-    margin-bottom: 65px;
     text-align: center;
     i {
       display: inline-block;
@@ -187,6 +187,9 @@ export default {
       background-size: 12px auto;
       margin-left: 6px;
     }
+  }
+  .blank{
+    height:65px;
   }
 }
 </style>

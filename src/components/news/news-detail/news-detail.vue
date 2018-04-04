@@ -22,13 +22,11 @@
 
 
     </div>
-    <tab-bar></tab-bar>
   </div>
 </template>
 
 <script>
 import HeaderBar from "@/components/base/header-bar/header-bar";
-import TabBar from "@/components/base/tab-bar/tab-bar";
 import BottomImg from "@/components/base/bottomImg/bottomImg";
 import CrossLine from "@/components/base/cross-line/cross-line";
 import tool from "../../../api/tool";
@@ -37,7 +35,6 @@ export default {
   name: "news-deail",
   components: {
     HeaderBar,
-    TabBar,
     BottomImg,
     CrossLine
   },
@@ -145,6 +142,13 @@ export default {
         margin: 3px 5px;
         @include bg-image("../img/view");
         background-size: 12px auto;
+        vertical-align: middle;
+      }
+      .count{
+        display: inline-block;
+        height:18px;
+        line-height: 18px;
+        margin-top: 1px;
       }
     }
   }
