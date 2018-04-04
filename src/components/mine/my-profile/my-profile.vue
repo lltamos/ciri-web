@@ -98,23 +98,17 @@
         var files = e.target.files || e.dataTransfer.files;
         if (!files.length)
           return;
-        var image = new Image();
-        var reader = new FileReader();
-        var vm = this;
-        reader.onload = (e) => {
-          vm.img = e.target.result;
 
-          var imgFormData = new FormData();
-          imgFormData.append('img', files[0]);
-          let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+        var imgFormData = new FormData();
+        imgFormData.append('img', files[0]);
+        let config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-          vm.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
-            .then(res => {
-              if (res.data.code === 200) {
-                console.log(res.data);
-              }
-            });
-        };
+        this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+          .then(res => {
+            if (res.data.code === 200) {
+              console.log(res.data);
+            }
+          });
 
         this.headHide();
       }
