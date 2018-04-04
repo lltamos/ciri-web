@@ -3,7 +3,7 @@
   <header-bar :text="headTitle" @back="back"></header-bar>
   <cross-line style="margin-top: 44px;"></cross-line>
   <div class="change">
-    <input type="text" value="张三"/>
+    <input type="text" value="张三丰"/>
   </div>
   <div class="btn">保存</div>
 </div>
@@ -19,7 +19,8 @@
     },
     data(){
       return {
-        headTitle : ''
+        headTitle : '',
+        info:''
       }
     },
     methods: {
@@ -32,6 +33,7 @@
     },
     created () {
       let flag=this.$route.params.id;
+      console.log(this.$route);
       if( flag=='name' ){
         this.headTitle ='修改姓名'
       }else if(flag=='company'){

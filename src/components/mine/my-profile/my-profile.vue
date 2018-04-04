@@ -17,7 +17,7 @@
       </div>
       <!--<more text="用户角色" textKey="项目代理"></more>-->
       <border-line></border-line>
-      <more text="真实姓名" :textKey="userInfo.realName" to="/mine/change-key/name"></more>
+      <more text="真实姓名" :textKey="userInfo.realName" to="/mine/change-key/name,query:{userInfo:userInfo}}"  ></more>
       <border-line></border-line>
       <more text="我的国家" :textKey="userInfo.myCountryName" to="/mine/change-country"></more>
       <border-line></border-line>
