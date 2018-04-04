@@ -79,7 +79,7 @@
         showBounced: false,
         to : '',
         userInfo:"",
-        img: null
+        img: null,
       }
     },
     methods: {
@@ -107,10 +107,31 @@
           .then(res => {
             if (res.data.code === 200) {
               console.log(res.data);
+              let params = new URLSearchParams();
+              params.append("name",tool.getuser());
+              params.append("portraitFileSize",res.data.data[0].fileSize);
+              params.append("portraitFileId",res.data.data[0].fileId);
+              this.updateUserInfo(params);
+            }else{
+              alert("上传用户头像失败")
             }
           });
 
         this.headHide();
+      },
+      updateUserInfo(params){
+        this.axios
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+          .then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              alert("修改头像成功");
+              //刷新页面
+              this.$router.go(0);
+            }else {
+              alert("修改头像失败")
+            }
+          });
       }
     },
     created() {
