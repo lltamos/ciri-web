@@ -7,7 +7,7 @@
       <div class="left crowdimg">
       </div>
       <div id="crowdtext">
-        <p style="height:18px;line-height: 18px;">您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
+        <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
         <div style="text-align: right;margin-top:20px; ">
           <span style="display: inline-block;border-bottom: 1px solid #ccc;width: 80px;margin-right: 8px;margin-bottom: 5px;"></span>
           <span style="color:#333;font-size: 14px">Javi</span>
@@ -99,24 +99,24 @@
       color: #999;
       .in_phone {
         outline: 0;
-        width: 331px;
+        width: 92%;
         height: 36px;
         line-height: 16px;
         border: 1px solid #dedede;
         border-radius: 3px;
-        padding: 0 12px;
+        padding: 0 3.4%;
         margin-top: 20px;
       }
 
       .tit_inp {
         margin-top: 13px;
         margin-bottom: 21px;
-        width: 331px;
+        width: 92%;
         background: #fff;
         outline: 0;
         border: 1px solid #dedede;
         border-radius: 3px;
-        padding: 12px;
+        padding: 3.4%;
         line-height: 16px;
         height: 101px;
         resize: none;
