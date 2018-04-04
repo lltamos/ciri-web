@@ -100,7 +100,7 @@
 <style lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
-
+  @import "~@/assets/scss/const.scss";
   .news-main {
     text-align: left;
 
