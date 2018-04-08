@@ -133,19 +133,22 @@ export default {
         return;
       }
 
-      let params = new URLSearchParams();
-      params.append("roleId", this.checked);
-      params.append("name", this.phone);
-      params.append("password", this.password1);
-      params.append("verifyCode", this.verifyCode);
+      // let params = new URLSearchParams();
+      // params.append("roleId", this.checked);
+      // params.append("name", this.phone);
+      // params.append("password", this.password1);
+      // params.append("verifyCode", this.verifyCode);
 
       this.axios
-        .post(tool.domind() + "/gateway/app/sys/regist", params)
+        .post(tool.domind() + "/gateway/app/sys/regist", {'roleId':this.checked,'name':this.phone,'password':this.password1,'verifyCode':this.verifyCode})
         .then(res => {
           console.log(res);
           if (res.data.code === 200) {
             this.$router.replace({ path: "/login" });
-          } else {
+          } else if(res.data.code === 101){
+            this.error = res.data.msg;
+            this.errorShow = true;
+          }else {
             this.error = "账号或密码错误，请重新输入";
             this.errorShow = true;
           }
