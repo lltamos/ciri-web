@@ -15,9 +15,10 @@
             <i class="icon-check" >
               <input type="checkbox" name="country" :value="item.id" :id="item.id" v-model="isread"/>
             </i>
-            <span>{{item.name}}</span>
+            <span>{{item.name.substr(0,8)}}</span>
           </div>
         </div>
+        <div class="btn focus-save">保存</div>
       </div>
     </div>
   </div>
@@ -141,11 +142,11 @@
   }
 
   }
+
   .country {
     line-height: 40px;
     font-size: 14px;
     overflow: hidden;
-
   .item {
     width: 50%;
     height: 40px;
@@ -192,6 +193,10 @@
   }
 
   }
+  }
+  .focus-save{
+    width:150px;
+    margin: 65px auto;
   }
   }
 </style>
