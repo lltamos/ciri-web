@@ -21,7 +21,9 @@
               <span>{{item.name.substr(0,8)}}</span>
             </div>
           </div>
-          <input class="btn focus-save" value="保存" type="submit"/>
+          <div class="btn-warp">
+            <input class="btn focus-save" value="保存" type="submit"/>
+          </div>
         </div>
       </form>
     </div>
@@ -53,7 +55,8 @@
         isread: false,
         unread: true,
         arrs: [],
-        hobby: ''
+        hobby:'',
+        changeCountry:'change-country'
       }
     },
     methods: {
@@ -73,7 +76,7 @@
         parms.append(this.hobby, this.arrs.join(','))
         parms.append('name', tool.getuser())
         this.axios
-          .post(tool.domind() + "/gateway/user/updateUserBasicInfo", parms)
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo",parms)
           .then(res => {
             if (res.data.code === 200) {
               alert("修改成功")
@@ -89,8 +92,10 @@
         this.show = !this.show
         if (this.show) {
           this.showCountry = 'show-country';
+          this.changeCountry ='change-country';
         } else {
           this.showCountry = 'hide-country';
+          this.changeCountry ='change-country ping-bg';
         }
       },
       checkCountry(e, item) {
@@ -146,100 +151,112 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
+  .change-country{
+    background: #f5f5f5;
+    padding-bottom: 168px;
+    .main {
+      margin: 0 10px;
+      background: #fff;
+      text-align: left;
+      border: 1px solid #dedede;
+      border-bottom: none;
+      color: #333;
 
-  .main {
-    margin: 0 10px;
-    background: #fff;
-    text-align: left;
-    border: 1px solid #dedede;
-    border-bottom: none;
-    color: #333;
+      .change {
+        overflow: hidden;
+        height: 35px;
+        line-height: 35px;
+        border-bottom: 1px solid #dedede;
+        font-size: 13px;
+        padding: 0 15px;
 
-  .change {
-    overflow: hidden;
-    height: 35px;
-    line-height: 35px;
-    border-bottom: 1px solid #dedede;
-    font-size: 13px;
-    padding: 0 15px;
+        i {
+          display: block;
+          float: right;
+          width: 18px;
+          height: 35px;
+          background-repeat: no-repeat;
+          background-size: 18px auto;
+          background-position: center;
 
-  i {
-    display: block;
-    float: right;
-    width: 18px;
-    height: 35px;
-    background-repeat: no-repeat;
-    background-size: 18px auto;
-    background-position: center;
+        }
 
-  }
+        .show-country {
+          @include bg-image("../img/show-country");
+        }
 
-  .show-country {
-  @include bg-image("../img/show-country");
-  }
+        .hide-country {
+          @include bg-image("../img/hide-country");
+        }
 
-  .hide-country {
-  @include bg-image("../img/hide-country");
-  }
+      }
+      .country-warp{
+        position: relative;
+        .country {
+          line-height: 40px;
+          font-size: 14px;
+          overflow: hidden;
 
-  }
+          .item {
+            width: 50%;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px dashed #dedede;
 
-  .country {
-    line-height: 40px;
-    font-size: 14px;
-    overflow: hidden;
+            i {
+              position: relative;
+              display: inline-block;
+              width: 12px;
+              height: 40px;
+              background-repeat: no-repeat;
+              background-size: 12px auto;
+              background-position: center;
+              vertical-align: middle;
+              margin-left: 15px;
 
-  .item {
-    width: 50%;
-    height: 40px;
-    line-height: 40px;
-    border-bottom: 1px dashed #dedede;
+              input[type="checkbox"] {
+                position: absolute;
+                top: 14px;
+                left: 0;
+                opacity: 0;
+              }
 
-  i {
-    position: relative;
-    display: inline-block;
-    width: 12px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-size: 12px auto;
-    background-position: center;
-    vertical-align: middle;
-    margin-left: 15px;
+            }
+            .icon-check {
+              @include bg-image("../img/check");
+              margin-right: 10px;
 
-  input[type="checkbox"] {
-    position: absolute;
-    top: 14px;
-    left: 0;
-    opacity: 0;
-  }
+            }
 
-  }
-  .icon-check {
-  @include bg-image("../img/check");
-    margin-right: 10px;
+            span {
+              height: 40px;
+              line-height: 40px;
+              display: inline-block;
+            }
 
-  }
+          }
+          .active {
 
-  span {
-    height: 40px;
-    line-height: 40px;
-    display: inline-block;
-  }
+            .icon-check {
+              @include bg-image("../img/checked");
+              margin-right: 10px;
+            }
 
-  }
-  .active {
+          }
+        }
+        .btn-warp{
+          background: #f5f5f5;
+          position: absolute;
+          bottom:-168px;
+          width: 100%;
+          .focus-save {
+            width: 150px;
+            margin: 65px auto;
+            display: table;
+          }
+        }
+      }
 
-  .icon-check {
-  @include bg-image("../img/checked");
-    margin-right: 10px;
-  }
-
-  }
-  }
-  .focus-save {
-    width: 150px;
-    margin: 65px auto;
-  }
-
+    }
   }
 </style>

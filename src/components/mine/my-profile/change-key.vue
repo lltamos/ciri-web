@@ -35,7 +35,6 @@
         let params = new URLSearchParams();
         let flag = this.$route.params.id;
         params.append("name",tool.getuser());
-        alert(tool.getuser());
         params.append(flag,this.info);
         this.axios
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
@@ -51,9 +50,14 @@
     },
     created () {
       let flag=this.$route.params.id;
-      let text=this.$route.params.name;
-      this.info=text;
-      console.log(this.$route);
+      //截取url参数
+      let url = window.location.href;
+      let vs = url.split('/');
+      let last = vs.pop();
+      if (last !== 'null' && last !== '') {
+        this.info=last;
+      }
+
       if( flag=='realName' ){
         this.headTitle ='修改姓名'
       }else if(flag=='corpName'){
