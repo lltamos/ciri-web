@@ -6,7 +6,7 @@
       <div class="more-bar head-portrait">
         <i class="icon-more" @click="headShow"></i>
         <div class="key icon-head" @click="headShow">
-            <img :src="userInfo.portraitFileUrl"/>
+            <img :src="userInfo.portraitFileUrl" />
         </div>
         <h1>头像</h1>
       </div>
@@ -79,7 +79,8 @@
         showBounced: false,
         to : '',
         userInfo:"",
-        img: null,
+        img: null
+        // defaultImg: 'this.src="' + require('../img/user_face.png') + '"'
       }
     },
     methods: {
@@ -209,17 +210,16 @@
     .icon-head{
       height:66px;
       width:66px;
-      border:1px solid #ccc;
       margin-right: 5px;
-      border-radius: 50%;
-      @include bg-image("../img/user_face");
-      background-size: 66px auto;
       margin-top: 17px;
       cursor: pointer;
+      @include bg-image("../img/user_face");
+      background-size: 66px;
+
       img{
         height: 66px;
         width: 66px;
-        border: 2px solid #ccc;
+        border:1px solid #ccc;
         border-radius: 50%;
       }
     }
