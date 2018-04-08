@@ -13,6 +13,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
 
   const IdentitySubmit ={
     template :'<div class="identity-success identity-icon">\n' +
@@ -26,12 +27,19 @@
     '        <div class="img"></div>\n' +
     '        <p class="title">实名认证审核成功</p>\n' +
     '        <div class="audit-info">\n' +
-    '          <p>真实姓名：<span class="name">张明</span></p>\n' +
-    '          <p>身份证号：<span class="idcard">452125788402154620</span></p>\n' +
-    '          <p>认证时间：<span class="time">2017-09-09</span></p>\n' +
+    '          <p>真实姓名：<span class="name">{{ realName }}</span></p>\n' +
+    '          <p>身份证号：<span class="idcard"></span></p>\n' +
+    '          <p>认证时间：<span class="time"></span></p>\n' +
     '        </div>\n' +
     '        <div class="btn">返回</div>\n' +
-    '      </div>'
+    '      </div>',
+    props:  {
+      realName: {
+        type: String,
+        default: '333333'
+      }
+    },
+
   }
   const IdentityFail ={
     template :'<div class="identity-fail identity-icon">\n' +
@@ -51,12 +59,38 @@
     data(){
       return {
         headTitle : '',
+        realName: null,
+        idCardNum: null,
+        time: null,
         //已成功提交页面
-        currentView: 'identitySubmit'
+        currentView: null
         // 实名认证成功页面
         // currentView: 'identitySuccess'
         // 实名认证失败页面
         // currentView: 'identityFail'
+      }
+    },
+    mounted () {
+      if (this.currentView === 'identitySuccess'){
+        let param = new URLSearchParams();
+        param.append('name', tool.getuser());
+        this.axios.post(tool.domind() + '/gateway/userAuth/userAuthInfo',param )
+          .then(res => {
+            if(res.data.code === 200){
+              this.time = res.data.data.editInfo.editTime;
+              this.realName = res.data.data.realName;
+              this.idCardNum = res.data.data.idCardNum;
+
+            }
+            console.log(res.data);
+
+          });
+
+
+
+
+
+
       }
     },
     methods: {
@@ -64,10 +98,22 @@
         this.$router.push({
           path: this.$router.go(-1)
         })
+      },
+      getAuthInfo (){
+
       }
 
     },
     created () {
+      let tag = this.$route.query.tag;
+      if (tag === '0'){
+        this.currentView = 'identitySuccess';
+      } else if(tag === '1'){
+        this.currentView = 'identityFail';
+      } else if(tag === '2'){
+        this.currentView = 'identitySubmit';
+      }
+
     }
   }
 </script>
