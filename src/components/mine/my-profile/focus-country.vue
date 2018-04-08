@@ -98,11 +98,12 @@
       let vs = url.split('/');
 
       let last = vs.pop();
+      let flag = vs.pop();
       if (last !== 'undefined' && last !== 'null' && last !== '') {
         vs = last.split(',')
         this.arrs = vs;
       }
-      let flag = vs.pop();
+      console.log(flag)
       let path = '';
       if (flag === "careCountries") {
         this.headTitle = '关注国家';
