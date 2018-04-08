@@ -44,7 +44,7 @@
                 </router-link>
               </template>
               <!--认证过 跳转到认证页面-->
-              <template v-if="userAuthCode=='0'">
+              <template v-if="userAuthCode=='0' || userAuthCode=='4'">
                 <router-link to="/mine/IdentityVerification">
                   <i class="identity "></i>
                   <span>实名认证</span>

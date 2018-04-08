@@ -148,7 +148,7 @@
               alert(res.data.msg);
             }else if (res.data.code === 200) {
               console.log(res.data.data);
-              this.$router.push({path: '/mine/identity?tag=2'});
+              this.$router.push({path: '/mine/identity?tag=1'});
             }
           })
       }
