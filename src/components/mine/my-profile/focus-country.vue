@@ -9,17 +9,20 @@
           <i :class="showCountry" @click="Country"></i>
         </div>
       </div>
-      <div class="country-warp" v-show="show">
-        <div class="country">
-          <div class="fl item" @click.prevent="checkCountry($event,item)" v-for="item in country" :key="item">
-            <i class="icon-check" >
-              <input type="checkbox" name="country" :value="item.id" :id="item.id" v-model="isread"/>
-            </i>
-            <span>{{item.name.substr(0,8)}}</span>
+
+      <form @submit.prevent="submit">
+        <div class="country-warp" v-show="show">
+          <div class="country">
+            <div class="fl item" @click.prevent="checkCountry($event,item)" v-for="item in country" :key="item.id" :ids="item.id">
+              <i class="icon-check">
+                <input type="checkbox" name="country" :value="item.id" :id="item.id" v-model="isread"/>
+              </i>
+              <span>{{item.name.substr(0,8)}}</span>
+            </div>
           </div>
+          <input class="btn focus-save" value="保存" type="submit"/>
         </div>
-        <div class="btn focus-save">保存</div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -28,6 +31,7 @@
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from '@/api/tool'
+
   export default {
     components: {
       HeaderBar,
@@ -39,14 +43,31 @@
         headTitle: '',
         title: '',
         showCountry: 'show-country',
-        country: [{name:'中国',id:"11156"},{name:'日本',id:"11392"},{name:'伊朗',id:"15364"},{name:'巴西',id:"73076"}],
+        country: [{name: '中国', id: "11156"}, {name: '日本', id: "11392"}, {name: '伊朗', id: "15364"}, {
+          name: '巴西',
+          id: "73076"
+        }],
         show: true,
         iconChecked: 'icon-checked',
-        isread:false,
-        unread:true
+        isread: false,
+        unread: true,
+        arrs: [],
+        hobby:''
       }
     },
     methods: {
+      submit() {
+        let parms = new URLSearchParams();
+        parms.append(this.hobby, this.arrs.join(','))
+        parms.append('name', tool.getuser())
+        this.axios
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo",parms)
+          .then(res => {
+            if (res.data.code === 200) {
+              alert("修改成功")
+            }
+          });
+      },
       back() {
         this.$router.push({
           path: this.$router.go(-1)
@@ -60,42 +81,47 @@
           this.showCountry = 'hide-country';
         }
       },
-      checkCountry(e,item) {
+      checkCountry(e, item) {
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
         } else {
           element.classList.add('active')
+          this.arrs.push(e.currentTarget.getAttribute("ids"));
         }
-        console.log(e.currentTarget);
       }
 
     },
     created() {
       //判断标题
-      let flag = this.$route.params.id;
-      let value = this.$route.params.value;
-      var c=value.split(',');
-      console.log(c);
-      let  path='';
-      if (flag =="careCountries") {
+      let url = window.location.href;
+      let vs = url.split('/');
+
+      let last = vs.pop();
+      if (last !== 'undefined' && last !== 'null' && last !== '') {
+        vs = last.split(',')
+        this.arrs = vs;
+      }
+      let flag = vs.pop();
+      let path = '';
+      if (flag === "careCountries") {
         this.headTitle = '关注国家';
         this.title = '请选择国家';
-        path ="getAllCountry";
-      } else if (flag == 'careIndustries') {
+        path = "getAllCountry";
+        this.hobby='careCountryStr'
+      } else if (flag === 'careIndustries') {
         this.headTitle = '关注行业';
         this.title = '请选择行业';
-        path ="getAllIndustry";
+        path = "getAllIndustry";
+        this.hobby='careIndustryStr'
       }
+
       //查询所有的国家信息
       this.axios
-        .get(tool.domind() + "/gateway/app/"+path)
+        .get(tool.domind() + "/gateway/app/" + path)
         .then(res => {
           if (res.data.code === 200) {
             this.country = res.data.data;
-            for ( var i = 0; i <c.length; i++){
-              console.log(c[i]);
-            }
           }
         });
     }
@@ -147,6 +173,7 @@
     line-height: 40px;
     font-size: 14px;
     overflow: hidden;
+
   .item {
     width: 50%;
     height: 40px;
@@ -194,9 +221,10 @@
 
   }
   }
-  .focus-save{
-    width:150px;
+  .focus-save {
+    width: 150px;
     margin: 65px auto;
   }
+
   }
 </style>
