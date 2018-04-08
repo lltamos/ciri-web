@@ -14,7 +14,7 @@
           <div class="main-news">
             <div class="title">
               <div class="icon-quality fl">精品</div>
-              <h2 class="fl">{{pro.name}}</h2>
+              <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
             </div>
             <div class="tip">
               <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">

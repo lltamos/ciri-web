@@ -80,7 +80,6 @@
         to : '',
         userInfo:"",
         img: null
-        // defaultImg: 'this.src="' + require('../img/user_face.png') + '"'
       }
     },
     methods: {
@@ -114,7 +113,7 @@
               params.append("portraitFileId",res.data.data[0].fileId);
               this.updateUserInfo(params);
               //刷新页面
-              this.userInfo.portraitFileUrl=res.data.data[0].url ;
+              this.userInfo.portraitFileUrl=res.data.data[0].url;
             }else{
               alert("上传用户头像失败")
             }
@@ -143,6 +142,9 @@
             if (res.data.code === 200) {
               this.userInfo=res.data.data;
               var level=this.userInfo.memberLevelId;
+              if(!this.userInfo.portraitFileUrl){
+                this.userInfo.portraitFileUrl = require('../img/user_face.png');
+              }
               if(level>=5){
                 this.userInfo.memberLevelId='源合网会员'
               }else if(level >=3){
@@ -213,9 +215,6 @@
       margin-right: 5px;
       margin-top: 17px;
       cursor: pointer;
-      @include bg-image("../img/user_face");
-      background-size: 66px;
-
       img{
         height: 66px;
         width: 66px;

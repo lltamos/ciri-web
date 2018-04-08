@@ -114,7 +114,7 @@ export default {
       }
       if (!tool.checkMobile(this.phone)) {
         this.errorShow = true;
-        this.error = "账号错误，请重新输入1111";
+        this.error = "账号错误，请重新输入";
         return;
       }
       if (!this.verifyCode) {

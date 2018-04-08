@@ -93,11 +93,11 @@
     },
     created () {
       let tag = this.$route.query.tag;
-      if (tag == '0'){
+      if (tag == '2'){
         this.currentView = 'identitySuccess';
-      } else if(tag == '1'){
+      } else if(tag == '3'){
         this.currentView = 'identityFail';
-      } else if(tag == '2'){
+      } else if(tag == '1'){
         this.currentView = 'identitySubmit';
       }
 
