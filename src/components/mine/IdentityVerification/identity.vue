@@ -19,7 +19,7 @@
     template :'<div class="identity-success identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您已提交实名认证，请耐心等待。</p>\n' +
-    '        <div class="btn" @click="back">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>'
   }
   const IdentitySuccess ={
@@ -31,7 +31,7 @@
     '          <p>身份证号：<span class="idcard">{{ idCardNum }}</span></p>\n' +
     '          <p>认证时间：<span class="time">{{ time }}</span></p>\n' +
     '        </div>\n' +
-    '        <div class="btn" @click="back">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>',
     props:{
       'realName': String,
@@ -44,7 +44,7 @@
     template :'<div class="identity-fail identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您未通过实名认证，请你核对信息重新提交</p>\n' +
-    '        <div class="btn" @click="back">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>'
   }
   export default {
@@ -58,10 +58,9 @@
 
     data(){
       return {
-        identitySuccess:'identitySuccess',
-        realName: '111111111',
-        idCardNum: '222',
-        time: '3333',
+        realName: null,
+        idCardNum: null,
+        time: null,
         currentView: null
       }
     },
@@ -78,7 +77,6 @@
 
             }
             console.log(res.data);
-
           });
       }
     },
@@ -88,10 +86,6 @@
           path: this.$router.go(-1)
         })
       },
-      getAuthInfo (){
-
-      }
-
     },
     created () {
       let tag = this.$route.query.tag;
