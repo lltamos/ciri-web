@@ -13,7 +13,8 @@
       <form @submit.prevent="submit">
         <div class="country-warp" v-show="show">
           <div class="country">
-            <div class="fl item" @click.prevent="checkCountry($event,item)" v-for="item in country" :key="item.id" :ids="item.id">
+            <div :class="checked(item)" class="fl item" @click.prevent="checkCountry($event,item)"
+                 v-for="item in country" :key="item.id" :ids="item.id">
               <i class="icon-check">
                 <input type="checkbox" name="country" :value="item.id" :id="item.id" v-model="isread"/>
               </i>
@@ -52,16 +53,27 @@
         isread: false,
         unread: true,
         arrs: [],
-        hobby:''
+        hobby: ''
       }
     },
     methods: {
+      checked(ik) {
+
+        let t = this.arrs.filter(value => {
+          if (ik.id == value) {
+            return true;
+          }
+        })
+        if (t.length > 0) {
+          return 'active'
+        }
+      },
       submit() {
         let parms = new URLSearchParams();
         parms.append(this.hobby, this.arrs.join(','))
         parms.append('name', tool.getuser())
         this.axios
-          .post(tool.domind() + "/gateway/user/updateUserBasicInfo",parms)
+          .post(tool.domind() + "/gateway/user/updateUserBasicInfo", parms)
           .then(res => {
             if (res.data.code === 200) {
               alert("修改成功")
@@ -85,10 +97,13 @@
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
+          this.arrs = this.arrs.filter(value => value !== e.currentTarget.getAttribute("ids"))
+
         } else {
           element.classList.add('active')
           this.arrs.push(e.currentTarget.getAttribute("ids"));
         }
+        console.log(this.arrs)
       }
 
     },
@@ -103,18 +118,17 @@
         vs = last.split(',')
         this.arrs = vs;
       }
-      console.log(flag)
       let path = '';
       if (flag === "careCountries") {
         this.headTitle = '关注国家';
         this.title = '请选择国家';
         path = "getAllCountry";
-        this.hobby='careCountryStr'
+        this.hobby = 'careCountryStr'
       } else if (flag === 'careIndustries') {
         this.headTitle = '关注行业';
         this.title = '请选择行业';
         path = "getAllIndustry";
-        this.hobby='careIndustryStr'
+        this.hobby = 'careIndustryStr'
       }
 
       //查询所有的国家信息
