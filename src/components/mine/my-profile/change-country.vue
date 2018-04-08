@@ -84,7 +84,7 @@
     created () {
       let flag=this.$route.params.id;
       //判断用户是否已经选择国家
-      if(flag != null && flag !=''){
+      if(flag != null && flag !=='' && flag !="null"){
         this.chooseCountry=flag;
       }
       //查询所有的国家信息
