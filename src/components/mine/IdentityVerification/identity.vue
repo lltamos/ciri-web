@@ -3,7 +3,7 @@
     <header-bar text="实名认证" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
-      <component v-bind:is="currentView">
+      <component v-bind:is="currentView" v-bind:realName="this.realName" v-bind:idCardNum="this.idCardNum" v-bind:time="this.time">
       </component>
     </div>
   </div>
@@ -19,7 +19,7 @@
     template :'<div class="identity-success identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您已提交实名认证，请耐心等待。</p>\n' +
-    '        <div class="btn">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>'
   }
   const IdentitySuccess ={
@@ -28,24 +28,23 @@
     '        <p class="title">实名认证审核成功</p>\n' +
     '        <div class="audit-info">\n' +
     '          <p>真实姓名：<span class="name">{{ realName }}</span></p>\n' +
-    '          <p>身份证号：<span class="idcard"></span></p>\n' +
-    '          <p>认证时间：<span class="time"></span></p>\n' +
+    '          <p>身份证号：<span class="idcard">{{ idCardNum }}</span></p>\n' +
+    '          <p>认证时间：<span class="time">{{ time }}</span></p>\n' +
     '        </div>\n' +
-    '        <div class="btn">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>',
-    props:  {
-      realName: {
-        type: String,
-        default: '333333'
-      }
-    },
+    props:{
+      'realName': String,
+      'idCardNum': String,
+      'time': String
+    }
 
   }
   const IdentityFail ={
     template :'<div class="identity-fail identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您未通过实名认证，请你核对信息重新提交</p>\n' +
-    '        <div class="btn">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
     '      </div>'
   }
   export default {
@@ -56,18 +55,13 @@
       identitySuccess:IdentitySuccess,
       identityFail:IdentityFail,
     },
+
     data(){
       return {
-        headTitle : '',
         realName: null,
         idCardNum: null,
         time: null,
-        //已成功提交页面
         currentView: null
-        // 实名认证成功页面
-        // currentView: 'identitySuccess'
-        // 实名认证失败页面
-        // currentView: 'identityFail'
       }
     },
     mounted () {
@@ -76,21 +70,14 @@
         param.append('name', tool.getuser());
         this.axios.post(tool.domind() + '/gateway/userAuth/userAuthInfo',param )
           .then(res => {
-            if(res.data.code === 200){
+            if (res.data.code === 200){
               this.time = res.data.data.editInfo.editTime;
-              this.realName = res.data.data.realName;
+              this.realName = res.data.data.realName.valueCn;
               this.idCardNum = res.data.data.idCardNum;
 
             }
             console.log(res.data);
-
           });
-
-
-
-
-
-
       }
     },
     methods: {
@@ -99,10 +86,6 @@
           path: this.$router.go(-1)
         })
       },
-      getAuthInfo (){
-
-      }
-
     },
     created () {
       let tag = this.$route.query.tag;
