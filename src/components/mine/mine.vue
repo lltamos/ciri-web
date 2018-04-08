@@ -34,12 +34,22 @@
                 <i class="job-title"></i>
                 <span>{{roleStr}}</span></div>
             </div>
+            <!--identity-verify 添加active 实名认证点亮 userAuth-->
             <div class="identity-verify" v-bind:class="{active:userAuth}">
-              <!--identity-verify 添加active 实名认证点亮 userAuth-->
-              <router-link to="/mine/IdentityVerification">
-                <i class="identity "></i>
-                <span>实名认证</span>
-              </router-link>
+              <!--根据userAuthCode 认证情况来判断跳转的页面-->
+              <template v-if="userAuthCode!='0'">
+                <router-link :to="{path:'/mine/identity',query:{ tag: userAuthCode}}">
+                  <i class="identity "></i>
+                  <span>实名认证</span>
+                </router-link>
+              </template>
+              <!--认证过 跳转到认证页面-->
+              <template v-if="userAuthCode=='0'">
+                <router-link to="/mine/IdentityVerification">
+                  <i class="identity "></i>
+                  <span>实名认证</span>
+                </router-link>
+              </template>
             </div>
           </div>
           <div class="favorite">
@@ -127,7 +137,8 @@ export default {
       corpAll:0,
       vip:false,
       yhw:false,
-      xmk:false
+      xmk:false,
+      userAuthCode:0
     };
   },
   props: {},
@@ -148,10 +159,18 @@ export default {
               this.portraitUrl = res.data.data.portraitUrl;
             }
             this.roleStr = res.data.data.roleStr;
-            //
+
+            //设置实名认证Code
+            if(res.data.data.userAuth==null){
+              this.userAuthCode=0;
+            }else {
+              this.userAuthCode=res.data.data.userAuth;
+            }
+            //当认证信息为2时，点亮图标
             if(res.data.data.userAuth=='2'){
               this.userAuth = true;
             }
+            //
             var level=res.data.data.memberLevelId;
             if(level>=2){
               this.vip=true;
