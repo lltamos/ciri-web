@@ -44,7 +44,7 @@
     template :'<div class="identity-fail identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您未通过实名认证，请你核对信息重新提交</p>\n' +
-    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.identityVerification">返回</div>\n' +
     '      </div>'
   }
   export default {
@@ -86,6 +86,10 @@
           path: this.$router.go(-1)
         })
       },
+      identityVerification() {
+        this.$router.push({path:'/mine/IdentityVerification'})
+      },
+
     },
     created () {
       let tag = this.$route.query.tag;
