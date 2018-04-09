@@ -184,6 +184,8 @@ export default {
               this.error = res.data.msg;
               this.errorShow = true;
             }
+            clearInterval(this.timer);
+            this.show = true;
           })
           .catch(err => {
             console.log(err);

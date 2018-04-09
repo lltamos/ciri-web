@@ -174,9 +174,6 @@ export default new Router({
         // 资讯  首页推荐
         {
           path: 'home',
-          meta: {
-            requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-          },
           component: NewsHome
         },
         // 资讯  项目情报
