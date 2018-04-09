@@ -49,5 +49,8 @@ export default {
   },
   gettoken: function () {
     return sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
+  },
+  substr : function (string,count) {
+    return string.length>count ? string.substr(0,count)+'...' : string;
   }
 }

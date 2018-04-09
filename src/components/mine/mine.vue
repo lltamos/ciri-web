@@ -29,7 +29,7 @@
               <router-link class="login" to="/login">立即登录</router-link>
             </div>
             <div v-if="userId" class="logined">
-              <div class="user_name">{{username}}</div>
+              <div class="user_name">{{username.length>12 ? username.substr(0,12)+'...' : username}}</div>
               <div class="user_position">
                 <i class="job-title"></i>
                 <span>{{roleStr}}</span></div>
