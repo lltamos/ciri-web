@@ -174,6 +174,9 @@ export default new Router({
         // 资讯  首页推荐
         {
           path: 'home',
+          meta: {
+            requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          },
           component: NewsHome
         },
         // 资讯  项目情报
@@ -232,6 +235,9 @@ export default new Router({
     //安全设置
     {
       path: '/mine/security',
+      meta: {
+        requireAuth: true,
+      },
       component: Security
     },
     //安全设置   关于我们
@@ -288,6 +294,9 @@ export default new Router({
     //实名认证
     {
       path: '/mine/IdentityVerification',
+      meta: {
+        requireAuth: true,
+      },
       component: IdentityVerification
     },
     {
@@ -297,6 +306,9 @@ export default new Router({
     //会员中心
     {
       path: '/mine/member-center',
+      meta: {
+        requireAuth: true,
+      },
       component: MemberCenter
     },
     //会员中心
@@ -307,6 +319,9 @@ export default new Router({
     //项目收藏
     {
       path: '/mine/my-favorite',
+      meta: {
+        requireAuth: true,
+      },
       component: MyFavorite
     },
     //个人资料
