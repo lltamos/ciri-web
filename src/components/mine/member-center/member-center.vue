@@ -17,9 +17,9 @@
     <div class="meber_user">
       <div class="user-warp">
         <div class="img">
-          <img src="../img/user_face.png" alt=""/>
+          <img :src="portraitUrl" alt=""/>
         </div>
-        <p class="account">15245478510</p>
+        <p class="account">{{username}}</p>
       </div>
     </div>
     <cross-line></cross-line>
@@ -28,7 +28,7 @@
       <ul class="member-classify">
         <li>
           <div class="img fl">
-            <i class="icon-vip"></i>
+            <i class="icon-vip" v-bind:class="{active:vip}"></i>
           </div>
           <div class="classify fl">
             <span>VIP会员</span>
@@ -37,7 +37,7 @@
         </li>
         <li>
           <div class="img fl">
-            <i class="icon-yuanhe"></i>
+            <i class="icon-yuanhe"  v-bind:class="{active:yhw}"></i>
           </div>
           <div class="classify fl">
             <span>源合网会员</span>
@@ -46,7 +46,7 @@
         </li>
         <li>
           <div class="img fl">
-            <i class="icon-project"></i>
+            <i class="icon-project"  v-bind:class="{active:xmk}"></i>
           </div>
           <div class="classify fl">
             <span>项目库会员</span>
@@ -103,14 +103,21 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "@/api/tool";
   export default {
     components: {
       HeaderBar,
       CrossLine,
+      tool
     },
     data(){
       return {
-        servicePop : false
+        servicePop : false,
+        portraitUrl:'../img/user_face.png',
+        username:'请用户登录',
+        vip:false,
+        yhw:false,
+        xmk:false
       }
     },
     methods: {
@@ -131,6 +138,31 @@
 
     },
     created () {
+      if (tool.islogin() === "true") {
+        this.axios
+          .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
+          .then(res => {
+            if (res.data.code === 200) {
+              if (res.data.data.portraitUrl != null && res.data.data.portraitUrl != '') {
+                this.portraitUrl = res.data.data.portraitUrl;
+              }
+              if(res.data.data.name != null && res.data.data.name != ''){
+                this.username=res.data.data.name;
+              }
+              //
+              var level = res.data.data.memberLevelId;
+              if (level >= 2) {
+                this.vip = true;
+                if (level >= 3) {
+                  this.xmk = true;
+                  if (level >= 5) {
+                    this.yhw = true;
+                  }
+                }
+              }
+            }
+          });
+      }
     }
   }
 </script>
@@ -216,9 +248,15 @@
           height:71px;
           border-radius: 50%;
           margin: auto;
-          img{
+          /*img{
             width: 100%;
             height:100%;
+          }*/
+          img{
+            height: 100%;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 50%;
           }
         }
         .account{
