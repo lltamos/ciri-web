@@ -237,8 +237,9 @@
     .meber_user{
       width: 100%;
       height:185px;
-      @include bg-image("../img/member-bg");
+      @include bg-image("../img/member_user");
       background-size:100% auto;
+      background-position:bottom center;
       .user-warp{
         display: table;
         margin: auto;
