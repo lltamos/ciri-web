@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import 'babel-polyfill'
 import App from './App'
-import router from './router'
+import router from './router/index'
+import token from '@/router/token'
 import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
@@ -26,16 +27,6 @@ Vue.config.productionTip = false
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 
-axios.defaults.headers.token = tool.gettoken()
-
-axios.interceptors.request.use((config) => {
-  console.log(config)
-  console.log(arguments)
-  return config
-}, (error) => {
-  console.log(error)
-  console.log(arguments)
-})
 Vue.prototype.axios = axios
 Vue.use(Mint)
 Vue.use(VueLazyload, {
@@ -47,6 +38,7 @@ let Hub = new Vue()
 let vm = new Vue({
   el: '#app',
   router,
+  token,
   components: {App},
   template: '<App/>'
 })

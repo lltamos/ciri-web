@@ -1,5 +1,5 @@
 <template>
-  <div class="change-country">
+  <div :class="changeCountry">
     <header-bar :text="headTitle" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
@@ -11,8 +11,8 @@
       </div>
 
       <form @submit.prevent="submit">
-        <div class="country-warp" v-show="show">
-          <div class="country">
+        <div class="country-warp">
+          <div class="country" v-show="show">
             <div :class="checked(item)" class="fl item" @click.prevent="checkCountry($event,item)"
                  v-for="item in country" :key="item.id" :ids="item.id">
               <i class="icon-check">

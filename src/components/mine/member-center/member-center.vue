@@ -113,7 +113,7 @@
     data(){
       return {
         servicePop : false,
-        portraitUrl:'../img/user_face.png',
+        portraitUrl:require('../img/user_face.png'),
         username:'请用户登录',
         vip:false,
         yhw:false,
