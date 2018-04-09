@@ -177,9 +177,13 @@ export default {
       param.append("name",this.phone);
       if (tag) {
         this.axios
-          .post(tool.domind() + "/gateway/app/sms/verify/other", param)
+          .post(tool.domind() + "/gateway/app/sms/verify/regist", param)
           .then(res => {
             console.log(res);
+            if (res.data.code === 101) {
+              this.error = res.data.msg;
+              this.errorShow = true;
+            }
           })
           .catch(err => {
             console.log(err);
