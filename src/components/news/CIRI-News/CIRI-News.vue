@@ -7,7 +7,7 @@
         <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}">
           <p class="coverage">
             <span class="title">{{topArticle.title}}</span>
-            <span class="summary">{{topArticle.summary}}</span>
+            <!--<span class="summary">{{topArticle.summary}}</span>-->
           </p>
         </div>
       </router-link>
@@ -131,17 +131,15 @@
     height: 186px;
     width: 100%;
     .coverage {
-      height: 55px;
       width: 100%;
-      background: #333 no-repeat;
-      opacity: 0.5;
+      background: rgba(51,51,51,0.5);
       position: absolute;
       bottom: 0;
+      padding: 10px;
       .title {
         color: #fff;
         text-align: left;
         display: block;
-        margin-top: 8px;
       }
       .summary {
         color: #fff;
