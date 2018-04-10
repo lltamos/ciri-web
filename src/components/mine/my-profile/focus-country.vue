@@ -113,6 +113,8 @@
     created() {
       //判断标题
       let url = window.location.href;
+      url=decodeURI(url);
+      // alert(url);
       let vs = url.split('/');
 
       let last = vs.pop();
