@@ -4,11 +4,23 @@
   <div class="news">
     <div class="scene">
       <router-link v-if="topArticle!=null" :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
-        <div class="scene" :style="{background:'url('+baseImg+topArticle.thumbnail+')'}">
-          <p class="coverage">
-            <span class="title">{{topArticle.title}}</span>
-            <!--<span class="summary">{{topArticle.summary}}</span>-->
-          </p>
+        <div class="project1">
+          <div class="img">
+            <img v-bind:src="host+topArticle.thumbnail"/>
+          </div>
+          <div class="title-warp">
+            <h2>{{topArticle.title.length>20 ? topArticle.title.substr(0,20)+'...' : topArticle.title}}</h2>
+            <div class="title-box">
+              <div class="fl">
+                <span class="column">最新活动</span> | <span class="time">{{topArticle.updateTime|time}}</span>
+                <span class="author">CIRI</span>
+              </div>
+
+              <div class="view fr">
+                <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </router-link>
     </div>
@@ -39,6 +51,7 @@
   import TabBar from "@/components/base/tab-bar/tab-bar";
   import CrossLine from "@/components/base/cross-line/cross-line";
   import tool from "@/api/tool";
+  import moment from 'moment'
 
   export default {
     components: {
@@ -55,6 +68,11 @@
     props: {},
     watch: {},
     methods: {},
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      }
+    },
     computed: {},
     mounted() {
       let param = tool.buildForm([
@@ -130,23 +148,53 @@
     position: relative;
     height: 186px;
     width: 100%;
-    .coverage {
-      width: 100%;
-      background: rgba(51,51,51,0.5);
-      position: absolute;
-      bottom: 0;
-      padding: 10px;
-      .title {
-        color: #fff;
-        text-align: left;
-        display: block;
+    .project1 {
+      position: relative;
+      .title-warp{
+        background: rgba(51,51,51,0.5);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height:55px;
+        h2 {
+          font-size: 14px;
+          color: #fff;
+          height: 16px;
+          line-height: 16px;
+          overflow: hidden;
+          margin: 10px 10px 8px;
+          text-align: left;
+        }
+        .title-box {
+          font-size: 10px;
+          color: #fff;
+          height: 10px;
+          padding: 0 10px;
+          .view {
+
+            i {
+              display: block;
+              float: left;
+              width: 12px;
+              height: 12px;
+              margin: 3px 5px;
+              @include bg-image("../img/view_white");
+              background-size: 12px auto;
+            }
+
+          }
+        }
       }
-      .summary {
-        color: #fff;
-        margin-top: 6px;
-        display: block;
-        text-align: left;
-        margin-bottom: 10px;
+      .img {
+        width: 100%;
+        height: 186px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .title-box {
+        @include onepx("bottom");
       }
     }
   }
