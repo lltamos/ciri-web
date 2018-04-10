@@ -176,7 +176,7 @@ export default {
     }
   }
   .project1 {
-    margin-top: 14px;
+    margin-top: 0px;
     .img {
       width: 100%;
       height: 186px;

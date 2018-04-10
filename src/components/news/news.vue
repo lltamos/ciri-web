@@ -92,6 +92,7 @@
     text-align: center;
     display: flex;
     flex-direction: row;
+    margin-bottom: 2px;
     li{
       flex: 1;
       line-height: 35px;
