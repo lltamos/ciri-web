@@ -11,116 +11,36 @@ import Activities from '@/components/news/CIRI-News/Activities/Activities'
 import RecentNews from '@/components/news/CIRI-News/recent-news/recent-news'
 import Investigation from '@/components/news/CIRI-News/investigation/investigation'
 import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
-import Project from'@/components/project/project'
-import Msg from'@/components/msg/msg'
+import Project from '@/components/project/project'
+import Msg from '@/components/msg/msg'
 import Mine from '@/components/mine/mine'
 import MyProfile from '@/components/mine/my-profile/my-profile'
 import ChangeKey from '@/components/mine/my-profile/change-key'
 import ChangeCountry from '@/components/mine/my-profile/change-country'
 import FocusCountry from '@/components/mine/my-profile/focus-country'
 import MemberCenter from '@/components/mine/member-center/member-center'
-Vue.use(Router)
-const Security = (resolve) => {
-  import('@/components/mine/security/security').then((module) => {
-    resolve(module)
-  })
-}
-const AboutUs = (resolve) => {
-  import('@/components/mine/security/about-us/about-us').then((module) => {
-    resolve(module)
-  })
-}
-const BrazilBranch = (resolve) => {
-  import('@/components/mine/security/about-us/brazil-branch').then((module) => {
-    resolve(module)
-  })
-}
-const BusinessArea = (resolve) => {
-  import('@/components/mine/security/about-us/business-area').then((module) => {
-    resolve(module)
-  })
-}
-const CompanyProfile = (resolve) => {
-  import('@/components/mine/security/about-us/company-profile').then((module) => {
-    resolve(module)
-  })
-}
-const ContactUs = (resolve) => {
-  import('@/components/mine/security/about-us/contact-us').then((module) => {
-    resolve(module)
-  })
-}
-const IranianBranch = (resolve) => {
-  import('@/components/mine/security/about-us/iranian-branch').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityEmail = (resolve) => {
-  import('@/components/mine/security/security-email/security-email').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityFeedback = (resolve) => {
-  import('@/components/mine/security/security-feedback/security-feedback').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityLoginpwd = (resolve) => {
-  import('@/components/mine/security/security-loginpwd/security-loginpwd').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityPhone = (resolve) => {
-  import('@/components/mine/security/security-phone/security-phone').then((module) => {
-    resolve(module)
-  })
-}
-const IdentityVerification = (resolve) => {
-  import('@/components/mine/IdentityVerification/IdentityVerification').then((module) => {
-    resolve(module)
-  })
-}
-const IdentitySuccess = (resolve) => {
-  import('@/components/mine/IdentityVerification/identity').then((module) => {
-    resolve(module)
-  })
-}
-const MemberDredge = (resolve) => {
-  import('@/components/mine/member-center/member-dredge').then((module) => {
-    resolve(module)
-  })
-}
-const MyFavorite = (resolve) => {
-  import('@/components/mine/my-favorite/my-favorite').then((module) => {
-    resolve(module)
-  })
-}
-const login = (resolve) => {
-  import('@/components/login/login').then((module) => {
-    resolve(module)
-  })
-}
-const Register = (resolve) => {
-  import('@/components/login/register').then((module) => {
-    resolve(module)
-  })
-}
-const Resetpwd = (resolve) => {
-  import('@/components/login/resetpwd').then((module) => {
-    resolve(module)
-  })
-}
-const Authcode = (resolve) => {
-  import('@/components/login/authcode').then((module) => {
-    resolve(module)
-  })
-}
-const Deal = (resolve) => {
-  import('@/components/login/deal').then((module) => {
-    resolve(module)
-  })
-}
+import Security from '@/components/mine/security/security'
+import AboutUs from '@/components/mine/security/about-us/about-us'
+import BrazilBranch from '@/components/mine/security/about-us/brazil-branch'
+import BusinessArea from '@/components/mine/security/about-us/business-area'
+import CompanyProfile from '@/components/mine/security/about-us/company-profile'
+import ContactUs from '@/components/mine/security/about-us/contact-us'
+import IranianBranch from '@/components/mine/security/about-us/iranian-branch'
+import SecurityEmail from '@/components/mine/security/security-email/security-email'
+import SecurityFeedback from '@/components/mine/security/security-feedback/security-feedback'
+import SecurityLoginpwd from '@/components/mine/security/security-loginpwd/security-loginpwd'
+import SecurityPhone from '@/components/mine/security/security-phone/security-phone'
+import IdentityVerification from '@/components/mine/IdentityVerification/IdentityVerification'
+import IdentitySuccess from '@/components/mine/IdentityVerification/identity'
+import MemberDredge from '@/components/mine/member-center/member-dredge'
+import MyFavorite from '@/components/mine/my-favorite/my-favorite'
+import login from '@/components/login/login'
+import Register from '@/components/login/register'
+import Resetpwd from '@/components/login/resetpwd'
+import Authcode from '@/components/login/authcode'
+import Deal from '@/components/login/deal'
 
+Vue.use(Router)
 export default new Router({
   routes: [
     // 根路径
@@ -144,7 +64,7 @@ export default new Router({
       path: '/news',
       redirect: '/news/home',
       component: News,
-      children : [
+      children: [
         // 资讯  走出去情报
         {
           path: 'go-out',
@@ -158,13 +78,13 @@ export default new Router({
         // 资讯  项目情报
         {
           path: 'news-project',
-          component:NewsProject
+          component: NewsProject
         },
         {
           path: 'CIRI-News',
           redirect: '/news/CIRI-News/Activities',
           component: CIRINews,
-          children : [
+          children: [
             // 资讯  最新活动
             {
               path: 'Activities',
