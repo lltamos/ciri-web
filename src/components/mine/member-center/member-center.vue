@@ -122,9 +122,7 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: '/mine'
-        })
+        window.history.back()
       },
       service () {
         this.servicePop = true ;

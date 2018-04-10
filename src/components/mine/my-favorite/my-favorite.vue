@@ -102,9 +102,7 @@
       },
       back() {
         this.unfavorite();
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       favorite (e, projId) {
         let element = e.currentTarget;

@@ -84,9 +84,7 @@
           });
       },
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       Country() {
         this.show = !this.show

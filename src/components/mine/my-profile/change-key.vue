@@ -27,9 +27,7 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       updateUserInfo(){
         let params = new URLSearchParams();

@@ -91,9 +91,7 @@
         }
       },
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       //input获取焦点时执行
       Focus() {
