@@ -86,12 +86,12 @@
     background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* 标准的语法 */
   }
   .tab{
-    @include onepx('bottom');
     width: 100%;
     height: 35px;
     text-align: center;
     display: flex;
     flex-direction: row;
+    margin-bottom: 2px;
     li{
       flex: 1;
       line-height: 35px;
