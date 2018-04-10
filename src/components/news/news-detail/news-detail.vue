@@ -45,9 +45,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push({
-        path: this.$router.go(-1)
-      });
+      window.history.back()
     }
   },
   props: {},
@@ -58,7 +56,6 @@ export default {
         console.log(res);
         if (res.data.code === 200) {
           this.content = res.data.data;
-          console.log(res.data.content);
         }
       });
   },

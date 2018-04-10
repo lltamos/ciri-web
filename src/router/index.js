@@ -307,7 +307,7 @@ export default new Router({
     },
     //修改个人资料  动态路由
     {
-      path: '/mine/change-key/:id/:name',
+      path: '/mine/change-key/:id/**',
       component: ChangeKey
     },
     //修改国家
