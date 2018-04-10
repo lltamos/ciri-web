@@ -11,6 +11,7 @@ import 'swiper/dist/css/swiper.css'
 // 将全局样式文件写在 main.js
 import '@/assets/scss/reset.scss'
 import '@/assets/scss/mixin.scss'
+import '@/assets/scss/const.scss'
 // Mint UI
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'

@@ -65,3 +65,21 @@ em{
   }
 }
 
+#slider1 .mint-swipe-indicators {
+  right:-70px;
+  left: initial;
+  bottom:10px;
+  z-index: 99;
+}
+#slider1 .mint-swipe-indicator{
+  width:20px;
+  height:3px;
+  background: #fff;
+  margin-left: 9px;
+  opacity: 1;
+  border-radius: initial;
+}
+#slider1 .mint-swipe-indicator.is-active{
+  background: #3f83e6;
+}
+
