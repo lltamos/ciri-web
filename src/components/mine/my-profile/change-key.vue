@@ -51,7 +51,6 @@
       //截取url参数
       let url = window.location.href;
       url=decodeURI(url);
-      alert(url);
       let vs = url.split('/');
       let last = vs.pop();
       if (last !== 'null' && last !== '') {
