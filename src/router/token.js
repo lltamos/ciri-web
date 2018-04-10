@@ -31,7 +31,7 @@ axios.interceptors.request.use((config) => {
 })
 axios.interceptors.response.use(function (response) {
   // token 已过期，重定向到登录页面
-  console.log(response);
+  console.log(response.data);
   if (response.data.code == 401){
     sessionStorage.clear()
     router.replace({

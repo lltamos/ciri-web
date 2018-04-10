@@ -14,8 +14,12 @@ import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
 import Project from'@/components/project/project'
 import Msg from'@/components/msg/msg'
 import Mine from '@/components/mine/mine'
+import MyProfile from '@/components/mine/my-profile/my-profile'
+import ChangeKey from '@/components/mine/my-profile/change-key'
+import ChangeCountry from '@/components/mine/my-profile/change-country'
+import FocusCountry from '@/components/mine/my-profile/focus-country'
+import MemberCenter from '@/components/mine/member-center/member-center'
 Vue.use(Router)
-
 const Security = (resolve) => {
   import('@/components/mine/security/security').then((module) => {
     resolve(module)
@@ -81,11 +85,6 @@ const IdentitySuccess = (resolve) => {
     resolve(module)
   })
 }
-const MemberCenter = (resolve) => {
-  import('@/components/mine/member-center/member-center').then((module) => {
-    resolve(module)
-  })
-}
 const MemberDredge = (resolve) => {
   import('@/components/mine/member-center/member-dredge').then((module) => {
     resolve(module)
@@ -93,26 +92,6 @@ const MemberDredge = (resolve) => {
 }
 const MyFavorite = (resolve) => {
   import('@/components/mine/my-favorite/my-favorite').then((module) => {
-    resolve(module)
-  })
-}
-const MyProfile = (resolve) => {
-  import('@/components/mine/my-profile/my-profile').then((module) => {
-    resolve(module)
-  })
-}
-const ChangeKey = (resolve) => {
-  import('@/components/mine/my-profile/change-key').then((module) => {
-    resolve(module)
-  })
-}
-const ChangeCountry = (resolve) => {
-  import('@/components/mine/my-profile/change-country').then((module) => {
-    resolve(module)
-  })
-}
-const FocusCountry = (resolve) => {
-  import('@/components/mine/my-profile/focus-country').then((module) => {
     resolve(module)
   })
 }

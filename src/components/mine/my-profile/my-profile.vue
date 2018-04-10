@@ -250,10 +250,14 @@
       font-size: 13px;
       color:#333;
       margin-bottom: 15px;
+      position: relative;
       .uploadImg{
         position: absolute;
         left: 0px;
         top: 0px;
+        right:0;
+        bottom:0;
+        width:100%;
         opacity: 0;
         -ms-filter: 'alpha(opacity=0)';
       }
