@@ -1,7 +1,6 @@
 export default {
   domind: function () {
     return 'http://60.205.7.211:8816'
-    // return 'http://192.168.2.22:8080'
   },
 
   oos: function () {
@@ -9,7 +8,7 @@ export default {
   },
 
   generatorUrl: function (url) {
-    if (url == '' || url == null) {
+    if (url === '' || url == null) {
       return 'https://pic.36krcnd.com/201804/02064202/jvdwa1onvundut5k!1200'
     } else {
       return this.oos() + url
