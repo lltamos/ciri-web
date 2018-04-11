@@ -131,9 +131,10 @@
                 this.pros = this.pros.concat(res.data.data);
                 this.total = res.data.total;
               }
+              this.isMore = this.pros.length < res.data.total;
+              this.pageNum = this.pageNum + 1;
             }
-            this.isMore = this.pros.length != res.data.total;
-            this.pageNum = this.pageNum + 1;
+
           });
       }
 
