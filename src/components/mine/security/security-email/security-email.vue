@@ -155,7 +155,7 @@
         this.axios.post(tool.domind()+'/gateway/security/bindMail',param
         ).then(res => {
           if(res.data === 10){
-            alert('绑定成功');
+            tool.toast('绑定成功');
             window.history.back();
           }else if(res.data === 4){
             this.error = '不能查询用户信息';

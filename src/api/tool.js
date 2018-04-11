@@ -1,3 +1,6 @@
+import Mint from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import { Toast } from 'mint-ui';
 export default {
   domind: function () {
     return 'http://192.168.2.9:8080'
@@ -52,5 +55,12 @@ export default {
   },
   substr : function (string,count) {
     return string.length>count ? string.substr(0,count)+'...' : string;
+  },
+  toast : function (msg) {
+    Toast({
+      message: msg,
+      position: 'bottom',
+      duration: 5000
+    });
   }
 }

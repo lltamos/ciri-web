@@ -154,7 +154,7 @@
         this.axios.post(tool.domind()+'/gateway/security/bindPhone',params
         ).then(res => {
           if(res.data === 10){
-            alert('绑定成功');
+            tool.toast('绑定成功');
             window.history.back();
           }else if(res.data === null){
             this.errorShow = true;
