@@ -53,3 +53,8 @@ body {
   /* -webkit-text-size-adjust: none; */
   /* -webkit-tap-highlight-color: rgba(0, 0, 0, 0); */
 }
+
+//去掉input框上边框多余的线（mint-ui框）
+.mint-cell .mint-cell-wrapper{
+  background-image: none;
+}
