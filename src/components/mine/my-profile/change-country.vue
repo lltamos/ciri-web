@@ -10,13 +10,13 @@
         </div>
       </div>
       <div class="country-warp" v-show="show">
-        <div class="country" @click="choose($event ,item)" v-for="item in country" :key="item">
+        <div class="country" @click="choose($event,item)" v-for="item in country" :key="item">
           {{item.name}}
         </div>
       </div>
     </div>
     <div class="btn-warp">
-      <div class="btn change-save">保存</div>
+      <div class="btn change-save" @click="updateUserInfo">保存</div>
     </div>
 
   </div>
@@ -38,6 +38,7 @@
         show : true,
         country : [{name:'中国',id:"11156"},{name:'日本',id:"11392"},{name:'伊朗',id:"15364"},{name:'巴西',id:"73076"}],
         chooseCountry :'请选择国家',
+        chooseCountryId :'',
         changeCountry : 'change-country'
       }
     },
@@ -45,7 +46,7 @@
       back() {
         window.history.back()
       },
-      Country () {
+      Country(){
         this.show = !this.show
         if(this.show){
           this.showCountry= 'show-country';
@@ -58,26 +59,28 @@
       choose (e ,item) {
         //获取当前值
         console.log(item.name);
-        //修改国家信息
-        let params = new URLSearchParams();
-        params.append("name",tool.getuser());
-        params.append("countryId",item.id);
-        this.updateUserInfo(params,item);
+        //回显
+        this.chooseCountry = item.name;
+        this.chooseCountryId = item.id;
+        this.Country();
       },
-      updateUserInfo(params,item){
-        this.axios
-          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
-          .then(res => {
-            console.log(res);
-            if (res.data.code === 200) {
-              alert("修改国家成功");
-              //回显
-              this.chooseCountry = item.name;
-            }else {
-              alert("修改国家失败,请重新选择")
-            }
-          });
-      }
+      updateUserInfo(){
+          //修改国家信息
+          let params = new URLSearchParams();
+          params.append("name",tool.getuser());
+          params.append("countryId",this.chooseCountryId);
+          this.axios
+            .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+            .then(res => {
+              console.log(res);
+              if (res.data.code === 200) {
+                alert("修改国家成功");
+                window.history.back();
+              }else {
+                alert("修改国家失败,请重新选择");
+              }
+            });
+        }
     },
     created () {
       let flag=this.$route.params.id;
