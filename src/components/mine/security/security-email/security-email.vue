@@ -94,7 +94,7 @@
               this.errorShow = true;
               this.error = '发送验证码失败';
             }else if (res.data === 10) {
-              alert('验证码发送成功');
+              //alert('验证码发送成功');
             }
 
           }).catch(err => {
@@ -156,6 +156,7 @@
         ).then(res => {
           if(res.data === 10){
             alert('绑定成功');
+            window.history.back();
           }else if(res.data === 4){
             this.error = '不能查询用户信息';
             this.errorShow = true;

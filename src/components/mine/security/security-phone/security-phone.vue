@@ -155,7 +155,7 @@
         ).then(res => {
           if(res.data === 10){
             alert('绑定成功');
-            this.$router.push({path:'/mine/security'});
+            window.history.back();
           }else if(res.data === null){
             this.errorShow = true;
             this.error = '绑定失败';
