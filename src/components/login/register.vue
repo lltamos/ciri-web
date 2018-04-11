@@ -181,28 +181,28 @@ export default {
             if (res.data.code === 101) {
               this.error = res.data.msg;
               this.errorShow = true;
+              clearInterval(this.timer);
+              this.show = true;
+            }else {
+              const TIME_COUNT = 60;
+              if (!this.timer) {
+                this.count = TIME_COUNT;
+                this.show = false;
+                this.timer = setInterval(() => {
+                  if (this.count > 0 && this.count <= TIME_COUNT) {
+                    this.count--;
+                  } else {
+                    this.show = true;
+                    clearInterval(this.timer);
+                    this.timer = null;
+                  }
+                }, 1000);
+              }
             }
-            clearInterval(this.timer);
-            this.show = true;
           })
           .catch(err => {
             console.log(err);
           });
-      }
-
-      const TIME_COUNT = 60;
-      if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.show = false;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--;
-          } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
-          }
-        }, 1000);
       }
     },
     pswShow1() {
