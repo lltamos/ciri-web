@@ -33,7 +33,7 @@
                   <div class="line"></div>
                 </li>
                 <li class="proj-span2">
-                  <div class="count"><span>{{pro.irr*100}}</span>%</div>
+                  <div class="count"><span>{{pro.irr}}</span>%</div>
                   <em>预期年收益率</em>
                   <div class="line"></div>
                 </li>
