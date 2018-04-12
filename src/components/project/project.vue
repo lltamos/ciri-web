@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>project</div>
+    <div>project-list</div>
+    <router-link to="/project/project-land">to项目着陆页</router-link>
+
     <tab-bar></tab-bar>
   </div>
 </template>

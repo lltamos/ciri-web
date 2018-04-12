@@ -73,7 +73,7 @@
       background-position: center;
     }
     .icon-more {
-      background-image: url('../img/more.png');
+      @include bg-image("../img/more");
     }
     h1 {
       display: inline-block;

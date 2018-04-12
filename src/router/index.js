@@ -12,6 +12,8 @@ import RecentNews from '@/components/news/CIRI-News/recent-news/recent-news'
 import Investigation from '@/components/news/CIRI-News/investigation/investigation'
 import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
 import Project from '@/components/project/project'
+import ProjectLand from '@/components/project/project-land/project-land'
+import ProjectDetail from '@/components/project/project-detail/project-detail'
 import Msg from '@/components/msg/msg'
 import Mine from '@/components/mine/mine'
 import MyProfile from '@/components/mine/my-profile/my-profile'
@@ -118,6 +120,16 @@ export default new Router({
       path: '/project',
       component: Project
     },
+    // 项目着陆页
+    {
+      path: '/project/project-land',
+      component: ProjectLand
+    },
+    // 项目详情页
+    {
+      path: '/project/project-detail',
+      component: ProjectDetail
+    },
     // 消息
     {
       path: '/msg',
@@ -207,7 +219,7 @@ export default new Router({
       },
       component: MemberCenter
     },
-    //会员中心
+    //会员等级
     {
       path: '/mine/member-dredge',
       component: MemberDredge

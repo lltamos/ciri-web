@@ -19,7 +19,7 @@
   }
 }
 
-// 2x 3x 背景图片
+// 2x 3x 背景图片    @include bg-image("../img/bottom-appoint");
 @mixin bg-image($name) {
   background-image: url($name + '@2x.png');
   @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
@@ -111,7 +111,7 @@
   transform: translate(-50%, -50%);
 }
 
-// 移动端 1px 边框问题
+// 移动端 1px 边框问题    @include onepx();
 @mixin onepx($mode: 'top', $lastHide: false) {
   // 低级用法：
   //      border-bottom: 1px solid rgba(7, 17, 27, 0.1);

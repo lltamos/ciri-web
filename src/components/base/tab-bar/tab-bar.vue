@@ -29,8 +29,6 @@
       </router-link>
     </ul>
     <div class="tab-bar tab-border"></div>
-    <!--<div class="project-pop">-->
-    <!--</div>-->
   </div>
 </template>
 

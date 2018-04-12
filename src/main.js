@@ -12,6 +12,7 @@ import 'swiper/dist/css/swiper.css'
 import '@/assets/scss/reset.scss'
 import '@/assets/scss/mixin.scss'
 import '@/assets/scss/const.scss'
+import '@/assets/scss/project.scss'
 // Mint UI
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
