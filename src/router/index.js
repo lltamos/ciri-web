@@ -56,6 +56,7 @@ export default new Router({
     // 首页
     {
       path: '/index',
+      redirect: '/index/project-recommend',
       component: Index,
       children: [
         // 首页 项目推荐

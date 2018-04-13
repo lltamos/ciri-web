@@ -4,18 +4,31 @@
 // 使用：@include xx();
 
 // 右边竖向分割线
-@mixin right-bar($right:-8px) {
-  margin-right: 10px;
+@mixin right-bar($right:-35px) {
+  margin-right: 35px;
   position: relative;
   &:after {
     position: absolute;
     content: '';
-    top: 2px;
+    top: 10px;
     right: $right;
-    height: 15px;
+    height: 20px;
     // 1px
-    border-right: 1px solid #999;
+    border-right: 1px solid #dedede;
     transform: scaleY(0.5);
+  }
+}
+// 下边竖向分割线
+@mixin bottom-bar($right:19px) {
+  position: relative;
+  &:before {
+    position: absolute;
+    content: '';
+    bottom: 0px;
+    right: $right;
+    height: 2px;
+    width:27px;
+    background: #3f83e6;
   }
 }
 
