@@ -84,4 +84,21 @@ em{
 #slider1 .mint-swipe-indicator.is-active{
   background: #3f83e6;
 }
+//渐变背景
+.gradient{
+  background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* 标准的语法 */
+}
+//修改首页banner轮播样式
+#sliderIndex1 .mint-swipe-indicator{
+  width:6px;
+  height:6px;
+  background:#fff;
+  opacity:1;
+}
+#sliderIndex1 .mint-swipe-indicator.is-active{
+background: #3f83e6;
+}
 

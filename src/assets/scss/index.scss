@@ -1,0 +1,12 @@
+.index-industry{
+  .swiper-slider{
+    .swiper-button-next,.swiper-button-prev{
+      //background-image: url("../img/slider-next.png");
+      //@include bg-image("../img/slider-next");
+    }
+    .swiper-button-prev{
+      //background-image: url("../img/slider-prev.png");
+      //@include bg-image("../img/slider-prev");
+    }
+  }
+}

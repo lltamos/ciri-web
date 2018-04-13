@@ -58,3 +58,7 @@ body {
 .mint-cell .mint-cell-wrapper{
   background-image: none;
 }
+//轮播手动切换时阻止默认事件
+.slider{
+  touch-action: none;
+}

@@ -36,7 +36,7 @@
   </div>
   <CrossLine></CrossLine>
   <div class="progress">
-    <div class="title">项目进度</div>
+    <div class="title">项目成熟度</div>
     <div class="icon">规划</div>
     <div class="line"></div>
     <div class="icon">概念</div>
