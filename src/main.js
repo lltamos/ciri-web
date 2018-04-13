@@ -13,6 +13,7 @@ import '@/assets/scss/reset.scss'
 import '@/assets/scss/mixin.scss'
 import '@/assets/scss/const.scss'
 import '@/assets/scss/project.scss'
+import '@/assets/scss/index.scss'
 // Mint UI
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
