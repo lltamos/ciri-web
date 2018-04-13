@@ -13,7 +13,7 @@
         </div>
         <div class="main-news">
           <div class="title">
-            <div class="icon-quality fl">精品</div>
+            <div class="icon-quality fl">{{pro.cornerTags}}</div>
             <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
           </div>
           <div class="tip">
@@ -219,7 +219,7 @@
     color: #fff;
     font-size: 10px;
     background: #fdb140;
-    padding: 1px 3px;
+    //padding: 1px 3px;
     text-align: center;
     margin-right: 5px;
     border-radius: 3px;
