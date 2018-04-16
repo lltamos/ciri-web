@@ -23,7 +23,7 @@
       </div>
     </div>
     <CrossLine></CrossLine>
-    <div class="index-industry">
+    <div id="index-industry">
       <!-- swiper -->
       <swiper :options="swiperOption">
         <swiper-slide style="margin-right: 0">
@@ -55,12 +55,60 @@
       </swiper>
     </div>
     <CrossLine></CrossLine>
-
-    <router-link to="/index/successful-cases">to successful-cases</router-link>
-    <router-link to="/index/project-recommend">to project-recommend</router-link>
+    <div class="tab-warp">
+      <div class="tab-project">
+        <router-link to="/index/project-recommend">
+          <div class="recommend fl tab-box">项目推荐</div>
+        </router-link>
+        <router-link to="/index/successful-cases">
+          <div class="case fl tab-box">成功案例</div>
+        </router-link>
+      </div>
+    </div>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <CrossLine></CrossLine>
+    <div class="feedback">
+      <div class="title">
+        <i class="icon-feed"></i>
+        <span>意见反馈</span>
+      </div>
+      <div class="heart">
+        <div class="hear_txt clearfix">
+          <div class="left crowdimg">
+          </div>
+          <div id="crowdtext">
+            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
+            <div style="text-align: right;margin-top:20px; ">
+              <span style="display: inline-block;border-bottom: 1px solid #ccc;width: 80px;margin-right: 8px;margin-bottom: 5px;"></span>
+              <span style="color:#333;font-size: 14px">Javi</span>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="heart_comment clearfix">
+          <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议"></textarea>
+          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" >
+          <div id="feedbackAction" class="btn">提交</div>
+        </div>
+      </div>
+
+    </div>
+    <CrossLine></CrossLine>
+    <div class="contact-way clearfix">
+      <div class="fl msg">
+        <div class="logo"></div>
+        <p>北京中工源合信息科技有限公司</p>
+        <p class="mb25">中国领先的海外产业投资综合服务商</p>
+        <p>商业合作：136 0131 5595（Mr Zhang）</p>
+        <p class="mb16">合作邮箱：support@bjciri.com</p>
+      </div>
+      <div class="fr qr-warp">
+        <div class="qrimg"></div>
+        <div class="qr-des">源合网订阅号</div>
+      </div>
+    </div>
     <tab-bar></tab-bar>
   </div>
 
@@ -115,7 +163,6 @@
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/index.scss';
-
   .index {
     header{
       height:44px;
@@ -193,7 +240,7 @@
         }
       }
     }
-    .index-industry{
+    #index-industry{
       height:59px;
       padding: 9px 10px;
       i {
@@ -229,6 +276,170 @@
         line-height: 15px;
         margin-top: 8px;
       }
+    }
+    .tab-warp{
+      @include onepx('bottom');
+      .tab-project{
+        height:40px;
+        line-height: 40px;
+        margin: auto;
+        display: table;
+        font-size: 16px;
+        a{
+          color:#333;
+        }
+        .router-link-active{
+          color:#3f83e6;
+          .tab-box{
+            @include bottom-bar();
+          }
+        }
+        .recommend{
+          @include right-bar();
+        }
+        .case{
+          margin-left: 35px;
+
+        }
+      }
+    }
+    .feedback{
+      .title{
+        position: relative;
+        height:40px;
+        line-height: 1;
+        padding-left: 10px;
+        @include onepx('bottom');
+        .icon-feed{
+          display: block;
+          width:20px;
+          height:40px;
+          @include bg-image('./img/icon-feed');
+          background-size: 20px auto;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        span{
+          font-size: 16px;
+          color:#333;
+          position: absolute;
+          top:12px;
+          left:39px;
+        }
+      }
+      .heart{
+        .title_enter{
+          position: relative;
+          color:#333;
+          font-size: 16px;
+          line-height: 16px;
+          margin-bottom: 24px;
+          margin-top:25px;
+          text-align: left;
+        }
+        .hear_txt{
+          padding: 0 10px;
+          padding-top: 9px;
+          .left{
+            padding-right: 3%;
+            margin-right:3%;
+            text-align: center;
+            border-right: 1px solid #d9d6e8;
+            float: left;
+            width: 18%;
+          }
+          .crowdimg{
+            display: inline-block;
+            width: 55px;
+            height: 55px;
+            background-size: 55px auto;
+            @include bg-image("./img/javi");
+            background-repeat: no-repeat;
+          }
+          #crowdtext{float: right;width:75%;color:#333;
+            font-size: 13px;}
+          .clear{clear:both;}
+        }
+        .heart_comment {
+          padding: 0 10px;
+          font-size: 13px;
+          color: #999;
+          .in_phone {
+            outline: 0;
+            width: 92%;
+            height: 36px;
+            line-height: 16px;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            padding: 0 3.4%;
+            margin-top: 11px;
+            margin-bottom: 13px;
+          }
+
+          .tit_inp {
+            margin-top: 13px;
+            width: 92%;
+            background: #fff;
+            outline: 0;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            padding: 3.4%;
+            line-height: 16px;
+            height: 101px;
+            resize: none;
+          }
+          #feedbackAction{
+            width:113px;
+            height:35px;
+            line-height: 35px;
+            float: right;
+            margin-bottom: 17px;
+          }
+        }
+      }
+    }
+    .contact-way{
+      padding: 14px 11px 9px;
+      margin-bottom: 50px;
+      .msg{
+        text-align: left;
+        .logo{
+          display: inline-block;
+          height:30px;
+          width:162px;
+          @include bg-image('./img/ciri-logo');
+          background-size: 162px 30px;
+          margin-bottom: 8px;
+        }
+        p{
+          font-size: 13px;
+          color:#333;
+          line-height: 1;
+          margin-bottom: 7px;
+        }
+        .mb25{
+          margin-bottom: 20px;
+        }
+
+      }
+      .qr-warp{
+        margin-top: 14px;
+        .qrimg{
+          display: inline-block;
+          height:89px;
+          width:89px;
+          @include bg-image('./img/icon-qr');
+          background-size: 89px auto;
+        }
+        .qr-des{
+          margin-top: 10px;
+          font-size: 12px;
+          color: #333;
+          line-height: 1;
+        }
+      }
+
+
     }
 
   }
