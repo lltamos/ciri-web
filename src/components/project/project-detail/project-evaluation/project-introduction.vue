@@ -1,0 +1,472 @@
+<template>
+<div class="introduction">
+  <h4>
+    <i class="left-line"></i><span>项目简介</span>
+  </h4>
+  <div class="company-msg">
+    <table width="100%" border="1" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>项目名称</td>
+          <td>蒙古格兰村房产项目</td>
+        </tr>
+        <tr>
+          <td align="center">项目类型</td>
+          <td>新建</td>
+        </tr>
+        <tr>
+          <td align="center">所属行业</td>
+          <td>房地产</td>
+        </tr>
+        <tr>
+          <td align="center">项目位置</td>
+          <td>蒙古 乌兰巴托 蒙古乌兰巴托</td>
+        </tr>
+        <tr>
+          <td>所在区域</td>
+          <td>内陆</td>
+        </tr>
+        <tr>
+          <td align="center">项目规模</td>
+          <td>1433 万 美元</td>
+        </tr>
+        <tr>
+          <td align="center">投资方式</td>
+          <td>合资企业-中方控股</td>
+        </tr>
+        <tr>
+          <td align="center">投资收益率</td>
+          <td>25%</td>
+        </tr>
+        <tr>
+          <td align="center">项目开发商</td>
+          <td>G***C</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <CrossLine></CrossLine>
+  <h4>
+    <i class="left-line"></i><span>项目进度</span>
+  </h4>
+  <div class="intro-progress">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>1.项目现场勘查 <i class="progress-finished"></i> </td>
+          <td>5.完成项目投资签约<i class="progress-unfinished"></i></td>
+        </tr>
+        <tr>
+          <td>2.项目可研报告 <i class="progress-finished"></i> </td>
+          <td>6.完成项目融资流程<i class="progress-unfinished"></i></td>
+        </tr>
+        <tr>
+          <td>3.项目土地批复 <i class="progress-finished"></i> </td>
+          <td>7.完成项目承建签约<i class="progress-unfinished"></i></td>
+        </tr>
+        <tr>
+          <td>4.项目各项许可 <i class="progress-finished"></i> </td>
+          <td>8.完成项目建设<i class="progress-unfinished"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <CrossLine></CrossLine>
+  <div class="intro-video">
+    <h4>
+      <i class="left-line"></i><span>项目视频</span>
+    </h4>
+    <div class="video-warp">
+      <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
+        <swiper-slide class="slide-1">
+          <video @click="video($event)" controls src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4"></video>
+        </swiper-slide>
+        <swiper-slide class="slide-2">
+          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
+        </swiper-slide>
+        <swiper-slide class="slide-3">
+          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
+        </swiper-slide>
+        <swiper-slide class="slide-4">
+          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
+        </swiper-slide>
+      </swiper>
+      <!-- swiper2 Thumbs -->
+      <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
+        <swiper-slide class="slide-1">
+          <img src="../../../news/img/p_1.jpg" alt="">
+          <div class="title">项目现场勘查</div>
+        </swiper-slide>
+        <swiper-slide class="slide-2">
+          <img src="../../../news/img/p_2.jpg" alt="">
+          <div class="title">项目业主访谈</div>
+        </swiper-slide>
+        <swiper-slide class="slide-3">
+          <img src="../../../news/img/p_3.jpg" alt="">
+          <div class="title">项目路演解说</div>
+        </swiper-slide>
+        <swiper-slide class="slide-4">
+          <img src="../../../news/img/p_1.jpg" alt="">
+          <div class="title">项目现场勘查</div>
+        </swiper-slide>
+      </swiper>
+    </div>
+  </div>
+  <CrossLine></CrossLine>
+  <div class="intro-detail clearfix">
+    <h4>
+      <i class="left-line"></i><span>项目详情</span>
+    </h4>
+    <div :class="article1">
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+
+
+
+    </div>
+    <div class="read-more" @click="readMore1">
+      <span v-text="moreText1">阅读全文</span>
+      <i :class="iconMore1"></i>
+    </div>
+  </div>
+  <CrossLine></CrossLine>
+  <div class="investment-environment clearfix">
+    <h4>
+      <i class="left-line"></i><span>投资环境</span>
+    </h4>
+    <div :class="article2">
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
+
+
+
+    </div>
+    <div class="read-more" @click="readMore2">
+      <span v-text="moreText2">阅读全文</span>
+      <i :class="iconMore2"></i>
+    </div>
+  </div>
+  <CrossLine></CrossLine>
+</div>
+</template>
+
+<script>
+  import CrossLine from '@/components/base/cross-line/cross-line'
+    export default {
+        components: {
+          CrossLine
+        },
+        data() {
+            return {
+              //项目视频
+              swiperOptionTop: {
+                spaceBetween: 10,
+                loop: true,
+                loopedSlides: 5, //looped slides should be the same
+              },
+              swiperOptionThumbs: {
+                spaceBetween: 5,
+                // centeredSlides: true,
+                slidesPerView: 3,
+                touchRatio: 0.2,
+                loop: true,
+                loopedSlides: 5, //looped slides should be the same
+                slideToClickedSlide: true,
+              },
+              moreText1 : '阅读全文',
+              iconMore1 :'icon-more',
+              article1 : 'article active',
+              moreText2 : '阅读全文',
+              iconMore2 :'icon-more',
+              article2 : 'article active'
+            }
+        },
+        props: {},
+        watch: {},
+        methods: {
+          //项目视频
+          video (e) {
+            let element = e.currentTarget;
+            // element.classList.add('active');
+            element.play();
+          },
+          readMore1 () {
+            if(this.moreText1 == '阅读全文'){
+              this.moreText1 = '收起'
+              this.iconMore1 = 'pack-up'
+              this.article1 = 'article'
+            }else {
+              this.moreText1 = '阅读全文';
+              this.iconMore1 = 'icon-more'
+              this.article1 = 'article active'
+            }
+          },
+          readMore2 () {
+            if(this.moreText2 == '阅读全文'){
+              this.moreText2 = '收起'
+              this.iconMore2 = 'pack-up'
+              this.article2 = 'article'
+            }else {
+              this.moreText2 = '阅读全文';
+              this.iconMore2 = 'icon-more'
+              this.article2 = 'article active'
+            }
+          }
+        },
+        filters: {},
+        computed: {},
+        created() {
+        },
+      mounted() {
+        //项目视频
+        this.$nextTick(() => {
+          const swiperTop = this.$refs.swiperTop.swiper
+          const swiperThumbs = this.$refs.swiperThumbs.swiper
+          swiperTop.controller.control = swiperThumbs
+          swiperThumbs.controller.control = swiperTop
+        })
+      },
+      destroyed() {
+      }
+    }
+</script>
+
+<style lang="scss" scoped>
+    @import '~@/assets/scss/reset.scss';
+    @import '~@/assets/scss/mixin.scss';
+  .introduction{
+    h4{
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      @include onepx('bottom');
+      .left-line{
+        position: absolute;
+        display: block;
+        width: 3px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top:12px;
+      }
+    }
+    .company-msg{
+      padding: 10px;
+      margin-bottom: 7px;
+      table{
+        border:1px solid #dedede;
+        tr{
+          height:28px;
+          line-height: 28px;
+          font-size: 13px;
+          color: #666;
+          td:first-child{
+            text-align: center;
+            padding: 0 6px 0 5px;
+          }
+          td:last-child{
+            text-align: left;
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+    .intro-progress{
+      margin-top: 10px;
+      margin-bottom: 12px;
+      table{
+        tr{
+          font-size: 13px;
+          color: #666;
+          height:24px;
+          line-height: 24px;
+          td{
+            &:first-child{
+              text-align: center;
+              border-right:1px solid #dedede;
+              padding: 0 6px 0 5px;
+            }
+            &:last-child{
+              text-align: left;
+              padding-left: 20px;
+            }
+            i{
+              display: inline-block;
+              width: 13px;
+              height: 13px;
+              margin-left: 10px;
+              background-repeat: no-repeat;
+              background-size: 13px auto;
+              background-position: center;
+              margin-top: -2px;
+              vertical-align: middle;
+            }
+            i.progress-finished{
+              @include bg-image("../../img/progress-finished");
+            }
+            i.progress-unfinished{
+              @include bg-image("../../img/progress-unfinished");
+            }
+          }
+        }
+      }
+    }
+    .intro-video{
+      h4{
+        &:after{
+          border: none;
+        }
+      }
+      .video-warp{
+        /*阻止浏览器默认事件*/
+        /*touch-action: none;*/
+        padding: 10px;
+        .swiper-slide {
+          background-size: cover;
+          background-position: center;
+          &.slide-1 {
+            background-image:url('../../../news/img/p_1.jpg');
+          }
+          &.slide-2 {
+            background-image:url('../../../news/img/p_2.jpg');
+          }
+          &.slide-3 {
+            background-image:url('../../../news/img/p_3.jpg');
+        }
+          &.slide-4 {
+            background-image:url('../../../news/img/p_1.jpg');
+          }
+          img{
+            width: 100%;
+            height:100%;
+          }
+          video{
+            width:100%;
+            height:100%;
+          }
+          video.active{
+            opacity: 1;
+          }
+        }
+        .gallery-top {
+          height: 189px!important;
+          width: 100%;
+        }
+        .gallery-thumbs {
+          height: 90px!important;
+          box-sizing: border-box;
+          margin-top: 12px;
+          img{
+            width: 100%;
+            height:60px;
+          }
+          .title{
+            font-size: 13px;
+            color:#333;
+            line-height: 1;
+            margin-top: 5px;
+
+          }
+
+        }
+        .gallery-thumbs .swiper-slide {
+          width: 59.7%;
+          height: 100%;
+          background-image: none;
+        }
+        .gallery-thumbs .swiper-slide img{
+          border: 3px solid transparent;
+          box-sizing: border-box;
+        }
+        .gallery-thumbs .swiper-slide-active img{
+          border: 3px solid #528de8;
+        }
+
+      }
+    }
+    .intro-detail,.investment-environment{
+      .article{
+        margin-top: 10px;
+        padding: 0 10px;
+        font-size: 13px;
+        line-height: 22px;
+        color:#666;
+        &.active{
+          height:330px;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 15;
+          -webkit-box-orient: vertical;
+        }
+      }
+      .read-more{
+        font-size: 13px;
+        color: #3f80e9;
+        margin-top: 5px;
+        text-align: center;
+        float: right;
+        margin-bottom: 17px;
+        padding-right: 10px;
+        i {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          background-size: 10px auto;
+        }
+        i.icon-more{
+          @include bg-image("../../../news/img/more");
+        }
+        i.pack-up{
+          @include bg-image("../../img/pack-up");
+        }
+      }
+    }
+  }
+
+</style>

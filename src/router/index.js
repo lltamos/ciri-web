@@ -16,6 +16,14 @@ import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
 import Project from '@/components/project/project'
 import ProjectLand from '@/components/project/project-land/project-land'
 import ProjectDetail from '@/components/project/project-detail/project-detail'
+import ProjectEvaluation from '@/components/project/project-detail/project-evaluation/project-evaluation'
+import ProjectIntroduction from '@/components/project/project-detail/project-evaluation/project-introduction'
+import ProjectFile from '@/components/project/project-detail/project-evaluation/project-file'
+import FeasibilityAnalysis from '@/components/project/project-detail/project-evaluation/feasibility-analysis'
+import ProjectDeveloper from '@/components/project/project-detail/project-evaluation/project-developer'
+import ProjectProgress from '@/components/project/project-detail/project-progress/project-progress'
+import ProjectAnswering from '@/components/project/project-detail/project-answering/project-answering'
+import InvestmentIntent from '@/components/project/project-detail/investment-intent/investment-intent'
 import Msg from '@/components/msg/msg'
 import Mine from '@/components/mine/mine'
 import MyProfile from '@/components/mine/my-profile/my-profile'
@@ -144,7 +152,55 @@ export default new Router({
     // 项目详情页
     {
       path: '/project/project-detail',
-      component: ProjectDetail
+      redirect: '/project/project-detail/project-evaluation',
+      component: ProjectDetail,
+      children: [
+        // 项目评估
+        {
+          path: 'project-evaluation',
+          redirect: '/project/project-detail/project-evaluation/project-introduction',
+          component: ProjectEvaluation,
+          children: [
+            // 项目介绍
+            {
+              path: 'project-introduction',
+              component: ProjectIntroduction
+            },
+            // 项目文件
+            {
+              path: 'project-file',
+              component: ProjectFile
+            },
+            // 可行性分析
+            {
+              path: 'feasibility-analysis',
+              component: FeasibilityAnalysis
+            },
+            // 项目开发商
+            {
+              path: 'project-developer',
+              component: ProjectDeveloper
+            }
+
+          ]
+        },
+        // 项目进展
+        {
+          path: 'project-progress',
+          component: ProjectProgress
+        },
+        // 项目答疑
+        {
+          path: 'project-answering',
+          component: ProjectAnswering
+        },
+        // 投资意向
+        {
+          path: 'investment-intent',
+          component: InvestmentIntent
+        }
+
+      ]
     },
     // 消息
     {

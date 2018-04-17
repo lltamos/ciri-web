@@ -1,11 +1,9 @@
 <template>
 <div class="project-land">
   <projectHeader></projectHeader>
-  <!--<router-link to="/project/project-detail">to项目详情页</router-link>-->
-  <!--项目简介-->
   <div class="project-intro">
     <h4>
-      <i class="left-line"></i><span>项目概况</span>
+      <i class="left-line"></i><span>项目简介</span>
       <router-link to="/project/project-detail" class="detail-warp">
         <span class="to-detail">项目详情</span>
         <i class="more"></i>
@@ -38,6 +36,7 @@
     <router-link to="/project/project-detail"><div class="view-detail btn">查看项目详情</div></router-link>
 
   </div>
+  <CrossLine></CrossLine>
   <!--客户经理-->
   <project-manager></project-manager>
   <project-bottom></project-bottom>

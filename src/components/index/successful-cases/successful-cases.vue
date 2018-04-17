@@ -1,5 +1,5 @@
 <template>
-  <div class="project-recommend">
+  <div class="successful-cases">
     <div class="pro-card">
       <div class="co-investing">
         合投中
@@ -164,7 +164,7 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
-  .project-recommend{
+  .successful-cases{
     padding: 0px 10px 20px;
     .pro-card{
       height:385px;

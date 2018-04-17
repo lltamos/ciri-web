@@ -4,7 +4,7 @@
 // 使用：@include xx();
 
 // 右边竖向分割线
-@mixin right-bar($right:-35px) {
+@mixin right-bar($right:-35px,$height:20px) {
   margin-right: 35px;
   position: relative;
   &:after {
@@ -12,7 +12,7 @@
     content: '';
     top: 10px;
     right: $right;
-    height: 20px;
+    height: $height;
     // 1px
     border-right: 1px solid #dedede;
     transform: scaleY(0.5);
@@ -141,6 +141,44 @@
     left: 0;
     width: 100%;
     border-top: 1px solid rgba(7, 17, 27, 0.1);
+    transform: scaleY(0.5);
+  }
+
+  @if $mode == 'top' {
+    &:after {
+      top: 0;
+    }
+  }
+  @if $mode == 'bottom' {
+    &:after {
+      bottom: 0;
+    }
+  }
+  @if $lastHide {
+    &:last-child {
+      &:after {
+        border-top: 0;
+      }
+    }
+  }
+}
+//虚线
+@mixin onepx-dashed($mode: 'top', $lastHide: false) {
+  // 低级用法：
+  //      border-bottom: 1px solid rgba(7, 17, 27, 0.1);
+  // 中级用法：
+  //      box-shadow: inset 0px 1px 1px -1px #c8c7cc;
+  //      box-shadow: inset 0px -1px 1px -1px #c8c7cc;
+  // 高级用法：
+
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-top: 1px dashed #dedede;
     transform: scaleY(0.5);
   }
 

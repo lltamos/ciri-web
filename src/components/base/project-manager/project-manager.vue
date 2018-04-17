@@ -1,6 +1,5 @@
 <template>
   <div class="manager-warp">
-    <CrossLine></CrossLine>
     <div class="manager">
       <div class="title-warp">
         <div class="border-line"></div>
