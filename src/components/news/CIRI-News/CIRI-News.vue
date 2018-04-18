@@ -1,6 +1,6 @@
 <!-- news -->
 
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="news">
     <div class="scene">
       <router-link v-if="topArticle!=null" :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">

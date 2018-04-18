@@ -6,9 +6,11 @@
     <!-- 轮播图 -->
     <div class="slider" id="sliderIndex1">
       <mt-swipe :auto="3000">
-        <mt-swipe-item><img src="../news/img/slider1.jpg" alt=""></mt-swipe-item>
-        <mt-swipe-item><img src="../news/img/slider2.jpg" alt=""></mt-swipe-item>
-        <mt-swipe-item><img src="../news/img/slider3.jpg" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="banner in topsbanner" :key="banner.id">
+          <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
+            <img @click="toArticle(banner.id)" :src="host+banner.thumbnail" alt=""/>
+          </router-link>
+        </mt-swipe-item>
       </mt-swipe>
     </div>
     <div class="today-announce">
@@ -17,7 +19,7 @@
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
-            <li v-for='item in items'>{{item.name.length>15 ? item.name.substr(0,15)+'...' :item.name }}</li>
+            <li v-for='item in lastnotify'>{{item.title.length>15 ? item.title.substr(0,15)+'...' :item.title }}</li>
           </ul>
         </div>
       </div>
@@ -79,9 +81,11 @@
           <div class="left crowdimg">
           </div>
           <div id="crowdtext">
-            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
+            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">
+              您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
             <div style="text-align: right;margin-top:20px; ">
-              <span style="display: inline-block;border-bottom: 1px solid #ccc;width: 80px;margin-right: 8px;margin-bottom: 5px;"></span>
+              <span
+                style="display: inline-block;border-bottom: 1px solid #ccc;width: 80px;margin-right: 8px;margin-bottom: 5px;"></span>
               <span style="color:#333;font-size: 14px">Javi</span>
             </div>
           </div>
@@ -89,7 +93,7 @@
         </div>
         <div class="heart_comment clearfix">
           <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议"></textarea>
-          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" >
+          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone">
           <div id="feedbackAction" class="btn">提交</div>
         </div>
       </div>
@@ -117,238 +121,276 @@
 <script>
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
-    export default {
-      components: {
-        TabBar,
-        CrossLine
-      },
-      data () {
-        return {
-          //今日公告
-          animate:false,
-          items:[
-            {name:"伊朗恰巴哈尔10MW光伏电站项目隆重签约！"},
-            {name:"伊朗扎布尔500MW风电电站项目融资中！"},
-            {name:"伊朗恰巴哈尔10MW光伏电站项目隆重签约！"}
-          ],
-          //行业分类滑动
-          swiperOption: {
-            slidesPerView: 3,
-            spaceBetween: 0,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
-            }
+  import tool from "../../api/tool";
+
+  export default {
+    components: {
+      TabBar,
+      CrossLine
+    },
+    data() {
+      return {
+        host: tool.oos(),
+        animate: false,
+        lastnotify: [],
+        topsbanner: [],
+        swiperOption: {
+          slidesPerView: 3,
+          spaceBetween: 0,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
           }
         }
-      },
-      created(){
-        //今日公告
-        setInterval(this.scroll,2000)
-      },
-      methods: {
-        //今日公告
-        scroll() {
-          this.animate = true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
-          setTimeout(() => {      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
-            this.items.push(this.items[0]);  // 将数组的第一个元素添加到数组的
-            this.items.shift();               //删除数组的第一个元素
-            this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-          }, 1000)
-        }
       }
+    },
+    mounted() {
+      //今日公告
+      setInterval(this.scroll, 2000);
+      this.$api.post('/app/home/fethomescene', {lang: 0, rouCount: 5}).then(r => {
+        this.lastnotify = r.data.lastnotify;
+        this.topsbanner = r.data.topsbanner;
+      });
+    },
+    methods: {
+      //今日公告
+      scroll() {
+        this.animate = true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
+        setTimeout(() => {      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+          this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
+        }, 1000)
+      },
     }
+  }
 </script>
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/index.scss';
+
   .index {
-    header{
-      height:44px;
+
+    header {
+      height: 44px;
       line-height: 44px;
-      color:#fff;
+      color: #fff;
       font-size: 20px;
       text-align: center;
       position: relative;
-      .icon_search{
+
+      .icon_search {
         display: block;
-        height:22px;
-        width:22px;
+        height: 22px;
+        width: 22px;
         @include bg-image('../news/img/search');
         background-size: 22px auto;
         position: absolute;
-        right:10px;
-        top:11px;
+        right: 10px;
+        top: 11px;
 
       }
+
     }
-    .slider{
+    .slider {
       touch-action: none;
       height: 150px;
+
       img {
         width: 100%;
         height: 100%;
       }
+
     }
-    .today-announce{
+    .today-announce {
       text-align: left;
       padding: 0 10px;
-      height:30px;
+      height: 30px;
       line-height: 30px;
-      i.icon-anno{
+
+      i.icon-anno {
         display: inline-block;
-        height:30px;
-        width:16px;
+        height: 30px;
+        width: 16px;
         @include bg-image('./img/icon-anno');
         background-size: 16px auto;
         background-position: center;
         background-repeat: no-repeat;
         margin-right: 7px;
       }
-      .anno{
+
+      .anno {
         display: inline-block;
         font-size: 11px;
-        height:30px;
+        height: 30px;
         line-height: 30px;
         padding-left: 65px;
         position: relative;
-        em{
+
+        em {
           font-style: italic;
-          color:#f5435d;
+          color: #f5435d;
           position: absolute;
           left: 0px;
-          top:0;
+          top: 0;
 
         }
-        #box{
+
+        #box {
           overflow: hidden;
           display: inline-block;
-          color:#010101;
+          color: #010101;
           height: 30px;
         }
-        .anim{
+
+        .anim {
           transition: all 0.5s;
           margin-top: -30px;
         }
-        #con1{
-          li{
+
+        #con1 {
+
+          li {
             list-style: none;
             line-height: 30px;
             height: 30px;
           }
-        }
-      }
-    }
-    #index-industry{
-      height:59px;
-      padding: 9px 10px;
-      i {
-        display: block;
-        width: 37px;
-        height: 37px;
-        margin:auto;
-        background-size: 37px auto;
-        background-repeat: no-repeat;
-      }
-      .icon-renewable{
-        @include bg-image("./img/icon-renewable");
-      }
-      .icon-Infra{
-        @include bg-image("./img/icon-Infra");
-      }
-      .icon-forestry{
-        @include bg-image("./img/icon-forestry");
-      }
-      .icon-fuelgas{
-        @include bg-image("./img/icon-fuelgas");
-      }
-      .icon-building{
-        @include bg-image("./img/icon-building");
-      }
-      .icon-Petroleum{
-        @include bg-image("./img/icon-Petroleum");
-      }
-      span {
-        display: block;
-        font-size: 15px;
-        height:15px;
-        line-height: 15px;
-        margin-top: 8px;
-      }
-    }
-    .tab-warp{
-      @include onepx('bottom');
-      .tab-project{
-        height:40px;
-        line-height: 40px;
-        margin: auto;
-        display: table;
-        font-size: 16px;
-        a{
-          color:#333;
-        }
-        .router-link-active{
-          color:#3f83e6;
-          .tab-box{
-            @include bottom-bar();
-          }
-        }
-        .recommend{
-          @include right-bar();
-        }
-        .case{
-          margin-left: 35px;
 
         }
       }
     }
-    .feedback{
-      .title{
+    #index-industry {
+      height: 59px;
+      padding: 9px 10px;
+
+      i {
+        display: block;
+        width: 37px;
+        height: 37px;
+        margin: auto;
+        background-size: 37px auto;
+        background-repeat: no-repeat;
+      }
+
+      .icon-renewable {
+        @include bg-image("./img/icon-renewable");
+      }
+
+      .icon-Infra {
+        @include bg-image("./img/icon-Infra");
+      }
+
+      .icon-forestry {
+        @include bg-image("./img/icon-forestry");
+      }
+
+      .icon-fuelgas {
+        @include bg-image("./img/icon-fuelgas");
+      }
+
+      .icon-building {
+        @include bg-image("./img/icon-building");
+      }
+
+      .icon-Petroleum {
+        @include bg-image("./img/icon-Petroleum");
+      }
+
+      span {
+        display: block;
+        font-size: 15px;
+        height: 15px;
+        line-height: 15px;
+        margin-top: 8px;
+      }
+
+    }
+    .tab-warp {
+      @include onepx('bottom');
+
+      .tab-project {
+        height: 40px;
+        line-height: 40px;
+        margin: auto;
+        display: table;
+        font-size: 16px;
+
+        a {
+          color: #333;
+        }
+
+        .router-link-active {
+          color: #3f83e6;
+
+          .tab-box {
+            @include bottom-bar();
+          }
+
+        }
+        .recommend {
+          @include right-bar();
+        }
+
+        .case {
+          margin-left: 35px;
+
+        }
+
+      }
+    }
+    .feedback {
+
+      .title {
         position: relative;
-        height:40px;
+        height: 40px;
         line-height: 1;
         padding-left: 10px;
         @include onepx('bottom');
-        .icon-feed{
+
+        .icon-feed {
           display: block;
-          width:20px;
-          height:40px;
+          width: 20px;
+          height: 40px;
           @include bg-image('./img/icon-feed');
           background-size: 20px auto;
           background-position: center;
           background-repeat: no-repeat;
         }
-        span{
+
+        span {
           font-size: 16px;
-          color:#333;
+          color: #333;
           position: absolute;
-          top:12px;
-          left:39px;
+          top: 12px;
+          left: 39px;
         }
+
       }
-      .heart{
-        .title_enter{
+      .heart {
+
+        .title_enter {
           position: relative;
-          color:#333;
+          color: #333;
           font-size: 16px;
           line-height: 16px;
           margin-bottom: 24px;
-          margin-top:25px;
+          margin-top: 25px;
           text-align: left;
         }
-        .hear_txt{
+
+        .hear_txt {
           padding: 0 10px;
           padding-top: 9px;
-          .left{
+
+          .left {
             padding-right: 3%;
-            margin-right:3%;
+            margin-right: 3%;
             text-align: center;
             border-right: 1px solid #d9d6e8;
             float: left;
             width: 18%;
           }
-          .crowdimg{
+
+          .crowdimg {
             display: inline-block;
             width: 55px;
             height: 55px;
@@ -356,14 +398,24 @@
             @include bg-image("./img/javi");
             background-repeat: no-repeat;
           }
-          #crowdtext{float: right;width:75%;color:#333;
-            font-size: 13px;}
-          .clear{clear:both;}
+
+          #crowdtext {
+            float: right;
+            width: 75%;
+            color: #333;
+            font-size: 13px;
+          }
+
+          .clear {
+            clear: both;
+          }
+
         }
         .heart_comment {
           padding: 0 10px;
           font-size: 13px;
           color: #999;
+
           .in_phone {
             outline: 0;
             width: 92%;
@@ -388,57 +440,65 @@
             height: 101px;
             resize: none;
           }
-          #feedbackAction{
-            width:113px;
-            height:35px;
+
+          #feedbackAction {
+            width: 113px;
+            height: 35px;
             line-height: 35px;
             float: right;
             margin-bottom: 17px;
           }
+
         }
       }
     }
-    .contact-way{
+    .contact-way {
       padding: 14px 11px 9px;
       margin-bottom: 50px;
-      .msg{
+
+      .msg {
         text-align: left;
-        .logo{
+
+        .logo {
           display: inline-block;
-          height:30px;
-          width:162px;
+          height: 30px;
+          width: 162px;
           @include bg-image('./img/ciri-logo');
           background-size: 162px 30px;
           margin-bottom: 8px;
         }
-        p{
+
+        p {
           font-size: 13px;
-          color:#333;
+          color: #333;
           line-height: 1;
           margin-bottom: 7px;
         }
-        .mb25{
+
+        .mb25 {
           margin-bottom: 20px;
         }
 
       }
-      .qr-warp{
+      .qr-warp {
         margin-top: 14px;
-        .qrimg{
+
+        .qrimg {
           display: inline-block;
-          height:89px;
-          width:89px;
+          height: 89px;
+          width: 89px;
           @include bg-image('./img/icon-qr');
           background-size: 89px auto;
         }
-        .qr-des{
+
+        .qr-des {
           margin-top: 10px;
           font-size: 12px;
           color: #333;
           line-height: 1;
         }
-      }
 
+      }
 
     }
 
