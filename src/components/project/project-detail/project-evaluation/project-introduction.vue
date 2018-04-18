@@ -113,88 +113,20 @@
     </div>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-detail clearfix">
-    <h4>
-      <i class="left-line"></i><span>项目详情</span>
-    </h4>
-    <div :class="article1">
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-
-
-
-    </div>
-    <div class="read-more" @click="readMore1">
-      <span v-text="moreText1">阅读全文</span>
-      <i :class="iconMore1"></i>
-    </div>
-  </div>
+  <Article text="项目详情"></Article>
   <CrossLine></CrossLine>
-  <div class="investment-environment clearfix">
-    <h4>
-      <i class="left-line"></i><span>投资环境</span>
-    </h4>
-    <div :class="article2">
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-      项目所在国伊朗属中东国家，是波斯湾沿岸的重要产油国。
-
-
-
-    </div>
-    <div class="read-more" @click="readMore2">
-      <span v-text="moreText2">阅读全文</span>
-      <i :class="iconMore2"></i>
-    </div>
-  </div>
+  <Article text="投资环境"></Article>
   <CrossLine></CrossLine>
 </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import Article from '@/components/base/article/article'
     export default {
         components: {
-          CrossLine
+          CrossLine,
+          Article
         },
         data() {
             return {
@@ -212,13 +144,7 @@
                 loop: true,
                 loopedSlides: 5, //looped slides should be the same
                 slideToClickedSlide: true,
-              },
-              moreText1 : '阅读全文',
-              iconMore1 :'icon-more',
-              article1 : 'article active',
-              moreText2 : '阅读全文',
-              iconMore2 :'icon-more',
-              article2 : 'article active'
+              }
             }
         },
         props: {},
@@ -229,28 +155,6 @@
             let element = e.currentTarget;
             // element.classList.add('active');
             element.play();
-          },
-          readMore1 () {
-            if(this.moreText1 == '阅读全文'){
-              this.moreText1 = '收起'
-              this.iconMore1 = 'pack-up'
-              this.article1 = 'article'
-            }else {
-              this.moreText1 = '阅读全文';
-              this.iconMore1 = 'icon-more'
-              this.article1 = 'article active'
-            }
-          },
-          readMore2 () {
-            if(this.moreText2 == '阅读全文'){
-              this.moreText2 = '收起'
-              this.iconMore2 = 'pack-up'
-              this.article2 = 'article'
-            }else {
-              this.moreText2 = '阅读全文';
-              this.iconMore2 = 'icon-more'
-              this.article2 = 'article active'
-            }
           }
         },
         filters: {},
