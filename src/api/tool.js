@@ -1,9 +1,13 @@
-import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import { Toast } from 'mint-ui';
+import {Toast} from 'mint-ui';
+
 export default {
   domind: function () {
-    return 'http://60.205.7.211:8816'
+    // return 'http://60.205.7.211:8816'
+    return 'http://127.0.0.1:8080'
+  },
+  path: function () {
+    return '/gateway'
   },
 
   oos: function () {
@@ -53,14 +57,16 @@ export default {
   gettoken: function () {
     return sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
   },
-  substr : function (string,count) {
-    return string.length>count ? string.substr(0,count)+'...' : string;
+  substr: function (string, count) {
+    return string.length > count ? string.substr(0, count) + '...' : string;
   },
-  toast : function (msg) {
+  toast: function (msg) {
     Toast({
       message: msg,
       position: 'bottom',
       duration: 5000
     });
-  }
+  },
+
+
 }

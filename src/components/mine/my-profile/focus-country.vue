@@ -107,7 +107,6 @@
           element.classList.add('active')
           this.arrs.push(e.currentTarget.getAttribute("ids"));
         }
-        console.log(this.arrs)
       }
 
     },

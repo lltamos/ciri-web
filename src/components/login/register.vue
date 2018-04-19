@@ -142,7 +142,6 @@ export default {
       this.axios
         .post(tool.domind() + "/gateway/app/sys/regist", {'roleId':this.checked,'name':this.phone,'password':this.password1,'verifyCode':this.verifyCode})
         .then(res => {
-          console.log(res);
           if (res.data.code === 200) {
             this.$router.replace({ path: "/login" });
           } else if(res.data.code === 101){
@@ -177,7 +176,6 @@ export default {
         this.axios
           .post(tool.domind() + "/gateway/app/sms/verify/regist", param)
           .then(res => {
-            console.log(res);
             if (res.data.code === 101) {
               this.error = res.data.msg;
               this.errorShow = true;

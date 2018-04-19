@@ -188,7 +188,6 @@ export default {
   filters: {},
   computed: {},
   created() {
-    console.log(this.phone);
     if(this.phone){
       this.loginClass = "loginBtnActive";
     }
