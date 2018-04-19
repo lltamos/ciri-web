@@ -129,7 +129,6 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
-            console.log(this.articles.length + "----" + res.data.total);
             // this.isMore = this.articles.length != res.data.total;
             if(this.articles.length != res.data.total){
               this.moreText='查看更多'

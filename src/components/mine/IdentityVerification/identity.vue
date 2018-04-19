@@ -76,7 +76,6 @@
               this.idCardNum = res.data.data.idCardNum;
 
             }
-            console.log(res.data);
           });
       }
     },

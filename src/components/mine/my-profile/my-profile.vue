@@ -104,7 +104,6 @@
         this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
           .then(res => {
             if (res.data.code === 200) {
-              console.log(res.data);
               let params = new URLSearchParams();
               params.append("name",tool.getuser());
               params.append("portraitFileSize",res.data.data[0].fileSize);

@@ -57,8 +57,6 @@
         }
       },
       choose (e ,item) {
-        //获取当前值
-        console.log(item.name);
         //回显
         this.chooseCountry = item.name;
         this.chooseCountryId = item.id;

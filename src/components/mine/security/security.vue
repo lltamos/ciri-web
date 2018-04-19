@@ -94,7 +94,6 @@
         .get(tool.domind() + "/gateway/security/securityInfo?name="+tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
-            console.log(res.data.code);
             this.bindEmail = res.data.data.email;
             this.bindPhone = res.data.data.phone;
           }

@@ -95,7 +95,6 @@
         this.axios.post(tool.domind() + '/gateway/user/batchDealWithUserCollect', param)
           .then(res => {
             if (res.data.code === 200) {
-              console.log(res.data);
             }
           });
 
@@ -108,10 +107,8 @@
         let element = e.currentTarget;
         if (element.classList.contains('quit-favorite')) {
           this.proArray.pop(projId);
-          console.log(this.proArray);
         } else {
           this.proArray.push(projId);
-          console.log(this.proArray);
         }
         element.classList.toggle('quit-favorite');
         element.classList.toggle('icon-favorite');

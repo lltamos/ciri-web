@@ -187,7 +187,6 @@
         param.append('name', this.aisle === 0 ? this.phone : this.email);
         if (tag) {
           this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-            console.log(res)
           }).catch(err => {
             console.log(err)
           })

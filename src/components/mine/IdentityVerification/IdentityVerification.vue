@@ -145,7 +145,6 @@
             if (res.data.code > 100 & res.data.code < 200) {
               alert(res.data.msg);
             }else if (res.data.code === 200) {
-              console.log(res.data.data);
               this.$router.push({path: '/mine/identity?tag=1'});
             }
           })

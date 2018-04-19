@@ -49,10 +49,9 @@ function checkCode(res) {
 }
 
 export default {
-  post(url, data, reject) {
+  post(url, data) {
     return axios({
       method: 'post',
-      baseURL: tool.domind() + tool.path(),
       url,
       data: qs.stringify(data),
       timeout: 10000,
@@ -70,10 +69,9 @@ export default {
       }
     )
   },
-  get(url, params, reject) {
+  get(url, params) {
     return axios({
       method: 'get',
-      baseURL: tool.domind() + tool.path(),
       url,
       params, // get 参数
       timeout: 10000,
