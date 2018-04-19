@@ -1,16 +1,101 @@
 <template>
-    <div>project progress</div>
+    <div class="project-progress">
+      <div class="progress-warp" v-if="progressShow">
+        <div class="reminder">这里记录了项目发起人更新的项目进展，您可以提问了解更多项目相关细节。</div>
+        <div class="project">
+          <div class="img">
+            <img src="../../../news/img/p_1.jpg" alt="">
+          </div>
+          <div class="main-news">
+            <h2>巴西卡坦杜瓦卡坦杜瓦卡坦杜瓦 卡坦杜瓦60MW 风电厂项目</h2>
+            <div class="small-btn" @click="askQuestion">我要提问</div>
+          </div>
+        </div>
+        <div class="timer-shaft clearfix">
+          <ul class="timer-warp">
+            <li>
+              <div class="time">2018-04-13</div>
+              <h2><span>-</span>已完成建设许可申请</h2>
+              <router-link to="/project/project-detail/progress-detail">
+                <em>查看</em>
+              </router-link>
+            </li>
+            <li>
+              <div class="time">2018-04-13</div>
+              <h2><span>-</span>已完成建设许可申请</h2>
+              <em>查看</em>
+              <div class="img-warp clearfix">
+                <div class="img">
+                  <img src="../../../news/img/p_1.jpg" alt="">
+                </div>
+                <div class="img">
+                  <img src="../../../news/img/p_1.jpg" alt="">
+                </div>
+                <div class="img">
+                  <img src="../../../news/img/p_1.jpg" alt="">
+                </div>
+              </div>
+
+            </li>
+            <li>
+              <div class="time">2018-04-13</div>
+              <h2><span>-</span>已完成建设许可申请</h2>
+              <em>查看</em>
+            </li>
+          </ul>
+        </div>
+        <div class="ask-pop pop-bg" v-show="askPop">
+          <div class="pop-up">
+            <div class="ask-describe"></div>
+            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑去哟"></textarea>
+            <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
+            <div class="file-warp">
+              <FileDelete></FileDelete>
+              <FileDelete></FileDelete>
+              <FileDelete></FileDelete>
+            </div>
+            <div class="pop-bottom clearfix">
+              <div class="fl">
+                <i class="icon-uploading"></i>
+                <span class="upload-file">上传文件</span>
+                <input type="file" class="fill-input">
+              </div>
+              <div class="fr btn-warp">
+                <input type="checkbox">匿名
+                <div class="small-btn">提交</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--信息正在完善中背景图片-->
+      <div class="progress-bg" v-if="!progressShow">
+      </div>
+      <CrossLine></CrossLine>
+    </div>
 </template>
 
 <script>
+  import CrossLine from '@/components/base/cross-line/cross-line'
+  import FileDelete from '@/components/base/file-delete/file-delete'
     export default {
-        components: {},
+        components: {
+          CrossLine,
+          FileDelete
+        },
         data() {
-            return {}
+            return {
+              askPop : false,
+              progressShow :true,
+            }
         },
         props: {},
         watch: {},
-        methods: {},
+        methods: {
+          askQuestion (){
+            this.askPop = true;
+          }
+        },
         filters: {},
         computed: {},
         created() {
@@ -25,5 +110,218 @@
 <style lang="scss" scoped>
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
+    @import '~@/assets/scss/const.scss';
+  .project-progress{
+    text-align: left;
+    .progress-warp{
+      .reminder{
+        padding: 0 10px;
+        height:28px;
+        overflow: hidden;
+        line-height:28px;
+        background: #f5f5f5;
+        margin:15px 0 ;
+        color:#528de8;
+        font-size: 10px;
+      }
+      .project{
+        position: relative;
+        height:71px;
+        padding: 0 10px 10px 129px;
+        border-bottom: 1px dashed #dedede;
+        .img{
+          width: 110px;
+          height: 71px;
+          position: absolute;
+          top: 0;
+          left: 10px;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .main-news{
+          h2{
+            font-size: 14px;
+            color: #333;
+            height: 38px;
+            line-height: 19px;
+            overflow: hidden;
+            font-weight: normal;
+          }
+          .small-btn{
+            position: absolute;
+            right:10px;
+            bottom:10px;
+          }
+
+        }
+      }
+      .timer-shaft{
+        padding:10px 10px 22px 55px;
+        .timer-warp{
+          padding-left: 45px;
+          border-left: 1px dashed #dedede;
+          li{
+            position: relative;
+            border-bottom: 1px dashed #dedede;
+            padding: 10px 0 15px 0px;
+            margin-left: 5px;
+            &:first-child{
+              padding-top: 0;
+              em{
+                top:2px;
+              }
+              .time{
+                top:-2px;
+              }
+            }
+            &:last-child{
+              border-bottom: none;
+              padding-bottom: 0;
+            }
+            .time{
+              position: absolute;
+              left: -95px;
+              top:7px;
+              width:90px;
+              height:20px;
+              line-height: 20px;
+              border: 2px solid #bbb;
+              border-radius: 20px;
+              background: #fff;
+              font-size: 12px;
+              text-align: center;
+
+            }
+            h2{
+              font-size: 14px;
+              color:#333;
+              height:20px;
+              line-height: 20px;
+              span{
+                margin: 0 5px;
+              }
+            }
+            em{
+              position: absolute;
+              right:0;
+              top:12px;
+              font-size: 12px;
+              color:#666;
+
+            }
+            .img{
+              margin-top: 15px;
+              margin-right: 4.5%;
+              width: 28%;
+              height:47px;
+              float:left;
+              img{
+                width:100%;
+                height:100%;
+
+              }
+            }
+          }
+        }
+      }
+      .ask-pop{
+        padding: 0;
+        .pop-up{
+          width:100%;
+          background: #fff;
+          padding: 0 15px;
+          box-sizing: border-box;
+          position: fixed;
+          bottom: 0;
+          .ask-describe{
+            height:40px;
+            width:215px;
+            @include bg-image('../../img/ask-describe');
+            background-size: 215px 40px;
+          }
+          textarea{
+            height:97px;
+            width: 100%;
+            border:1px solid #dedede;
+            border-radius: 3px;
+            outline: none;
+            padding: 10px;
+            font-size: 13px;
+            color:#666;
+            box-sizing: border-box;
+
+          }
+          p.hint{
+            margin-top:10px ;
+          }
+          .pop-bottom{
+            height:27px;
+            line-height: 27px;
+            margin-top: 21px;
+            position: relative;
+            .icon-uploading{
+              height:27px;
+              width:15px;
+              margin-right: 10px;
+              display: inline-block;
+              @include bg-image('../../img/upload-file');
+              background-size: 15px 17px;
+              background-repeat: no-repeat;
+              background-position: center;
+
+            }
+            .upload-file{
+              font-size: 12px;
+              color:#528de8;
+              display: inline-block;
+              height:27px;
+              line-height: 27px;
+              position: absolute;
+              top:0;
+              left: 25px;
+
+            }
+            .fill-input{
+              position: absolute;
+              top:0;
+              left: 0px;
+              height:27px;
+              opacity: 0;
+              z-index: 111;
+            }
+            .btn-warp{
+              font-size: 11px;
+              color:#333;
+              input{
+                margin-right: 6px;
+                vertical-align: middle;
+
+              }
+              .small-btn{
+                height:27px;
+                line-height:27px;
+                width:52px;
+                display: inline-block;
+                margin-left: 15px;
+                font-size: 15px;
+
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+    .progress-bg{
+      width:100%;
+      height:190px;
+      @include bg-image('../../img/progress-bg');
+      background-size: 100% 190px;
+    }
+
+  }
 
 </style>

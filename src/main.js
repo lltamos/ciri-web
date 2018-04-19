@@ -5,6 +5,8 @@ import router from './router/index'
 import token from '@/router/token'
 import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+// 图片预览
+import VuePreview from 'vue-preview'
 import 'swiper/dist/css/swiper.css'
 import '@/assets/scss/reset.scss'
 import '@/assets/scss/mixin.scss'
@@ -25,6 +27,8 @@ Vue.use(VueLazyload, {
   // loading: '/static/loading-bars.svg'
   loading: require('@/assets/img/logo.png')
 })
+// 图片预览
+Vue.use(VuePreview)
 
 let vm = new Vue({
   el: '#app',

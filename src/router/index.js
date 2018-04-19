@@ -22,6 +22,7 @@ import ProjectFile from '@/components/project/project-detail/project-evaluation/
 import FeasibilityAnalysis from '@/components/project/project-detail/project-evaluation/feasibility-analysis'
 import ProjectDeveloper from '@/components/project/project-detail/project-evaluation/project-developer'
 import ProjectProgress from '@/components/project/project-detail/project-progress/project-progress'
+import ProgressDetail from '@/components/project/project-detail/project-progress/progress-detail'
 import ProjectAnswering from '@/components/project/project-detail/project-answering/project-answering'
 import InvestmentIntent from '@/components/project/project-detail/investment-intent/investment-intent'
 import Msg from '@/components/msg/msg'
@@ -201,6 +202,12 @@ export default new Router({
         }
 
       ]
+    },
+
+    // 项目进展  详情页
+    {
+      path: '/project/project-detail/progress-detail',
+      component: ProgressDetail
     },
     // 消息
     {

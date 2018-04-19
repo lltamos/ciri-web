@@ -31,6 +31,19 @@
   text-align: center;
   margin-bottom: 80px;
 }
+
+.small-btn{
+  width:75px;
+  height:22px;
+  line-height:22px;
+  margin-top: -11px;
+  font-size: 13px;
+  background: #528de8;
+  color:#fff;
+  border-radius: 3px;
+  text-align: center;
+
+}
 //设置body 背景颜色
 .ping-bg{
   position: fixed;
@@ -100,5 +113,41 @@ em{
 }
 #sliderIndex1 .mint-swipe-indicator.is-active{
 background: #3f83e6;
+}
+#big-img{
+  .structure-warp{
+    padding: 0 10px;
+    text-align: left;
+    figure{
+      background: #fff;
+      width: 48.7%;
+      float: left;
+      position: relative;
+      margin: 0;
+      &:nth-of-type(odd){
+        margin-right:2.6%;
+      }
+      img{
+        height:129px;
+        width:100%;
+      }
+      figcaption{
+        display: block!important;
+        text-align: center;
+        font-size: 13px;
+        color: #333;
+        line-height: 1;
+        overflow: hidden;
+        margin: 10px 0 15px;
+        font-weight: normal;
+        text-align: center;
+      }
+    }
+    .pswp__ui{
+      .pswp__button--share{
+        display: none;
+      }
+    }
+  }
 }
 
