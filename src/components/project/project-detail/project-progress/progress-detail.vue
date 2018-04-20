@@ -8,7 +8,17 @@
   <div class="main">
     <h4>
       <i class="left-line"></i><span>中国投资方来项目地考察</span>
+      <span class="time">2017-05-13</span>
     </h4>
+    <div class="img">
+      <img src="../../../news/img/p_1.jpg" alt="">
+    </div>
+    <div class="article">
+      <p>中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察
+        中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察
+        中国投资方来项目地考察中国投资方来项目地考察</p>
+    </div>
+    <div class="small-btn" @click="back">返回</div>
 
   </div>
 </div>
@@ -22,7 +32,11 @@
         },
         props: {},
         watch: {},
-        methods: {},
+        methods: {
+          back() {
+            window.history.back()
+          }
+        },
         filters: {},
         computed: {},
         created() {
@@ -71,26 +85,61 @@
 
       }
     }
-    .main{
-      h4{
-        text-align: left;
-        overflow: hidden;
+    h4{
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 15px 10px 15px 10px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      position: relative;
+      @include onepx('bottom');
+      .left-line{
+        position: absolute;
+        display: block;
+        width: 3px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top:15px;
+      }
+      .time{
+        position: absolute;
+        right:0;
+        top:17px;
         line-height: 1;
-        height: 16px;
-        padding: 15px 10px 15px 10px;
-        color: #333;
-        font-size: 16px;
-        font-weight: normal;
-        @include onepx('bottom');
-        .left-line{
-          position: absolute;
-          display: block;
-          width: 3px;
-          height: 15px;
-          background-color: #528de8;
-          left: 0;
-          top:15px;
+        font-size: 12px;
+        color:#666;
+      }
+    }
+    .main{
+      padding: 10px;
+      .img{
+        height:231px;
+        width:100%;
+        margin: 10px 0;
+        img{
+          width: 100%;
+          height:100%;
         }
+      }
+      .article{
+        text-align: left;
+        p{
+          margin-bottom:17px ;
+          font-size: 13px;
+          color:#333;
+          line-height: 20px;
+          text-indent: 2em;
+        }
+      }
+      .small-btn{
+        display: table;
+        margin:0 auto 30px;
+        width:52px;
+
       }
     }
   }

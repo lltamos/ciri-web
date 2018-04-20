@@ -16,6 +16,7 @@
             <li>
               <div class="time">2018-04-13</div>
               <h2><span>-</span>已完成建设许可申请</h2>
+              <!--点击查看详情-->
               <router-link to="/project/project-detail/progress-detail">
                 <em>查看</em>
               </router-link>
@@ -47,7 +48,7 @@
         <div class="ask-pop pop-bg" v-show="askPop">
           <div class="pop-up">
             <div class="ask-describe"></div>
-            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑去哟"></textarea>
+            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟"></textarea>
             <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
             <div class="file-warp">
               <FileDelete></FileDelete>
@@ -72,29 +73,43 @@
       <div class="progress-bg" v-if="!progressShow">
       </div>
       <CrossLine></CrossLine>
+      <!--权限弹框-->
+      <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
     </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import FileDelete from '@/components/base/file-delete/file-delete'
+  import Authority from '@/components/base/authority/authority'
     export default {
         components: {
           CrossLine,
-          FileDelete
+          FileDelete,
+          Authority
         },
         data() {
             return {
               askPop : false,
               progressShow :true,
+              authorityShow : true
             }
         },
         props: {},
         watch: {},
         methods: {
+          // 提问弹框
           askQuestion (){
             this.askPop = true;
+          },
+          //权限弹框
+          authorityHide () {
+            this.authorityShow = false;
+          },
+          upgrade () {
+            this.$router.replace({ path: "/mine/member-center" });
           }
+
         },
         filters: {},
         computed: {},
@@ -230,7 +245,7 @@
         padding: 0;
         .pop-up{
           width:100%;
-          background: #fff;
+          background: #fcfcfc;
           padding: 0 15px;
           box-sizing: border-box;
           position: fixed;
@@ -290,6 +305,7 @@
               height:27px;
               opacity: 0;
               z-index: 111;
+              width: 100px;
             }
             .btn-warp{
               font-size: 11px;
