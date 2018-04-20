@@ -31,82 +31,15 @@
           <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>6</em></li>
         </ul>
         <div class="all-warp" v-show="questionShow">
-          <div class="question-list">
-            <div class="head-portrait">
-              <img src="../../../news/img/p_1.jpg" alt="">
-            </div>
-            <div class="main-news">
-              <div class="user-name">13201154229</div>
-              <div class="delete">删除</div>
-              <div class="ques-title">这个项目有完整的审批和许可吗？</div>
-              <div class="file-warp">
-                <div class="file">
-                  <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
-                </div>
-                <div class="file">
-                  <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
-                </div>
+          <div class="question-warp">
+            <div class="question-list">
+              <div class="head-portrait">
+                <img src="../../../news/img/p_1.jpg" alt="">
               </div>
-              <div class="qs-bottom clearfix">
-                <div class="time fl">2018-04-09</div>
-                <div class="fr dz-hf">
-                  <span class="dz-count">2</span>
-                  <i class="icon-dz"></i>
-                  <span class="reply">回复<em>(0)</em></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="question-list">
-            <div class="head-portrait">
-              <img src="../../../news/img/p_1.jpg" alt="">
-            </div>
-            <div class="main-news">
-              <div class="user-name">13201154229</div>
-              <div class="delete">删除</div>
-              <div class="ques-title">这个项目有完整的审批和许可吗？</div>
-              <div class="file-warp">
-                <div class="file">
-                  <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
-                </div>
-                <div class="file">
-                  <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
-                </div>
-              </div>
-              <div class="qs-bottom clearfix">
-                <div class="time fl">2018-04-09</div>
-                <div class="fr dz-hf">
-                  <span class="dz-count">2</span>
-                  <i class="icon-dz"></i>
-                  <span class="reply">回复<em>(0)</em></span>
-                </div>
-              </div>
-              <div class="questioner-visible">
-                <div class="marked-warp">
-                  <div class="marked-words">仅提问者可见</div>
-                  <div class="marked-words">仅提问者可见</div>
-                  <div class="marked-words">
-                    <div class="user-warp clearfix">
-                      <div class="head-portrait">
-                        <img src="../../../news/img/p_1.jpg" alt="">
-                      </div>
-                      <div class="fl">
-                        <div class="user-name">13201154229 <em>(仅提问者可见)</em></div>
-                        <div class="delete">删除</div>
-                        <div class="time">2018-04-09</div>
-                      </div>
-                    </div>
-                    <div class="ques-title">这个项目有完整的审批和许可。</div>
-                  </div>
-                </div>
+              <div class="main-news">
+                <div class="user-name">13201154229</div>
+                <div class="delete">删除</div>
+                <div class="ques-title">这个项目有完整的审批和许可吗？</div>
                 <div class="file-warp">
                   <div class="file">
                     <i class="icon-type icon-pdf"></i>
@@ -117,6 +50,75 @@
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">建设许可证.pdf</span>
                     <div class="view">查看</div>
+                  </div>
+                </div>
+                <div class="qs-bottom clearfix">
+                  <div class="time fl">2018-04-09</div>
+                  <div class="fr dz-hf">
+                    <span class="dz-count">2</span>
+                    <i class="icon-dz"></i>
+                    <span class="reply" @click="askQuestion">回复<em>(0)</em></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="question-list">
+              <div class="head-portrait">
+                <img src="../../../news/img/p_1.jpg" alt="">
+              </div>
+              <div class="main-news">
+                <div class="user-name">13201154229</div>
+                <div class="delete">删除</div>
+                <div class="ques-title">这个项目有完整的审批和许可吗？</div>
+                <div class="file-warp">
+                  <div class="file">
+                    <i class="icon-type icon-pdf"></i>
+                    <span class="file-title">建设许可证.pdf</span>
+                    <div class="view">查看</div>
+                  </div>
+                  <div class="file">
+                    <i class="icon-type icon-pdf"></i>
+                    <span class="file-title">建设许可证.pdf</span>
+                    <div class="view">查看</div>
+                  </div>
+                </div>
+                <div class="qs-bottom clearfix">
+                  <div class="time fl">2018-04-09</div>
+                  <div class="fr dz-hf">
+                    <span class="dz-count">2</span>
+                    <i class="icon-dz"></i>
+                    <span class="reply" @click="askQuestion">回复<em>(0)</em></span>
+                  </div>
+                </div>
+                <div class="questioner-visible">
+                  <div class="marked-warp">
+                    <div class="marked-words">仅提问者可见</div>
+                    <div class="marked-words">仅提问者可见</div>
+                    <div class="marked-words">
+                      <div class="user-warp clearfix">
+                        <div class="head-portrait">
+                          <img src="../../../news/img/p_1.jpg" alt="">
+                        </div>
+                        <div class="fl">
+                          <div class="user-name">13201154229 <em>(仅提问者可见)</em></div>
+                          <div class="delete">删除</div>
+                          <div class="time">2018-04-09</div>
+                        </div>
+                      </div>
+                      <div class="ques-title">这个项目有完整的审批和许可。</div>
+                    </div>
+                  </div>
+                  <div class="file-warp">
+                    <div class="file">
+                      <i class="icon-type icon-pdf"></i>
+                      <span class="file-title">建设许可证.pdf</span>
+                      <div class="view">查看</div>
+                    </div>
+                    <div class="file">
+                      <i class="icon-type icon-pdf"></i>
+                      <span class="file-title">建设许可证.pdf</span>
+                      <div class="view">查看</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -179,7 +181,7 @@
             </div>
             <div class="fr btn-warp">
               <input type="checkbox">匿名
-              <div class="small-btn">提交</div>
+              <div class="small-btn" @click="submitQuestion">提交</div>
             </div>
           </div>
         </div>
@@ -218,6 +220,9 @@
       // 提问弹框
       askQuestion (){
         this.askPop = true;
+      },
+      submitQuestion (){
+        this.askPop = false;
       },
       //权限弹框
       authorityHide () {

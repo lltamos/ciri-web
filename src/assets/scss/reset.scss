@@ -65,3 +65,11 @@ body {
 .slider{
   touch-action: none;
 }
+//1px 边框
+.border { border: 1px solid #dedede }
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  .border { border: 0.5px solid #dedede }
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+  .border { border: 0.333333px solid #dedede }
+}
