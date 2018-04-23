@@ -50,7 +50,9 @@
   <!--客户经理-->
   <project-manager></project-manager>
   <project-bottom :collects="collects"
-                  :shares="shares"></project-bottom>
+                  :shares="shares"
+                  :setCollects="setCollects"
+                  :projId="projId"></project-bottom>
 </div>
 </template>
 
@@ -116,15 +118,15 @@
           }
           if (tool.getuser() === null) {
             this.$router.replace({ path: '/login' })
-          } else {
-            this.$api.post(tool.domind() + '/gateway/app/project/addLike',
-              {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-                console.log(res)
-                if (res.code === 200)
-                  this.likes = this.likes + 1
-            })
           }
-        }
+          this.$api.post(tool.domind() + '/gateway/app/project/addLike',
+            {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
+              console.log(res)
+              if (res.code === 200)
+                this.likes = this.likes + 1
+          })
+        },
+
       },
       created () {
         this.projId = this.$route.query.projId

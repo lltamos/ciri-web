@@ -45,13 +45,13 @@
         },
         props: {
           irr: String,
-          amount: Number,
+          amount: String,
           projDevelopers: {
             type: String,
             default: 'CIRI'
           },
           potentialInvestorSize: Number,
-          financingProgress: String
+          financingProgress: Number
 
         },
         watch: {},
