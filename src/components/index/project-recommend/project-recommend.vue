@@ -1,39 +1,36 @@
 <template>
   <div class="project-recommend">
-    <div class="pro-card">
+    <div class="pro-card" v-for="project in this.projects" :key="project.projId">
       <div class="co-investing">
-        合投中
+        {{project.status}}
       </div>
       <div class="img">
-        <img src="../../base/img/p_1.jpg" alt="">
+        <img :src="project.url" alt="">
       </div>
       <div class="main-news">
         <div class="title">
           <div class="icon-quality fl">精品</div>
-          <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2>
+          <h2 class="fl">{{project.name}}</h2>
           <div class="thumbs-up fr">
             <i class="icon-dianzan"></i>
             <span class="count-warp">看好</span>
-            <span class="count">(2)</span>
+            <span class="count">({{project.likes}})</span>
           </div>
         </div>
         <div class="tip">
-          <div class="f1">
-            <div class="fl red">高收益</div>
-          </div>
-          <div class="f1">
-            <div class="fl red">建设期短</div>
+          <div v-for="tag in project.tags" :key="tag" class="f1">
+            <div class="fl red">{{tag}}</div>
           </div>
           <div class="video fl"></div>
         </div>
         <ul class="proj-info">
           <li>
-            <em><i class="large">7200</i>万美金</em>
+            <em><i class="large">{{project.fund}}</i>万美金</em>
             <span>项目总投资</span>
             <div class="fg-line"></div>
           </li>
           <li>
-            <em><i class="large">32%</i>万美金</em>
+            <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
             <span>预期收益率</span>
             <div class="fg-line"></div>
           </li>
@@ -41,8 +38,8 @@
             <div class="row" style="top:-105px">
               <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
                    data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                <div class="pie_progress1 svg_jdft">30%</div>
-                <div class="pie_progress2 svg_jdft">融资中</div>
+                <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
+                <div class="pie_progress2 svg_jdft">融资进度</div>
                 <div class="pie_progress__svg">
                   <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
                     <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
@@ -58,40 +55,70 @@
         </ul>
         <div class="tip-news">
           <i class="loc"></i>
-          <span class="country">伊朗</span>
+          <span class="country">{{project.countryName}}</span>
           <i class="indu"></i>
-          <span class="industry">新能源</span>
+          <span class="industry">{{project.industryName}}</span>
           <i class="mold"></i>
-          <span class="genre">绿地投资</span>
+          <span class="genre">{{project.constructionTypeName}}</span>
           <i class="view"></i>
-          <span class="count">1000</span>
+          <span class="count">{{project.visit}}</span>
 
         </div>
       </div>
 
     </div>
-    <div class="more">
-      <span v-text="moreText">查看更多</span><i></i>
+    <div @click="loadMore" class="more">
+      <span v-text="moreText">{{this.moreText}}</span><i></i>
     </div>
   </div>
 </template>
 <script>
   export default {
     components: {},
+
     data() {
       return {
-        moreText: '查看更多'
+        moreText: '查看更多',
+        projects: [],
+        pageId: 1,
+        industryCategory: ''
+
       }
     },
     props: {},
     watch: {},
-    methods: {},
+    methods: {
+      loadMore() {
+        this.$api.post('/app/home/fetprojects', {
+          pageId: this.pageId,
+          pageSize: 5,
+          industry: [],
+          status: [7],
+          tag: [101001, 101002]
+        }).then(r => {
+          if (this.pageId == 1) {
+            this.projects = r.data.list;
+          } else {
+            this.projects = this.projects.concat(r.data.list);
+          }
+          this.pageId = this.pageId + 1;
+          if (this.projects.length>= r.data.total){
+            this.moreText='没有更多了';
+          }
+        });
+      }
+
+
+    },
     filters: {},
     computed: {},
     created() {
+
     },
     mounted() {
-      this.$api.post()
+      this.industryCategory = this.$route.query.industry;
+      this.loadMore();
+
     },
     destroyed() {
     }
