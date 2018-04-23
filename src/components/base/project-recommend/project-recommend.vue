@@ -149,7 +149,7 @@
         line-height: 32px;
         text-align: center;
         background-repeat: no-repeat;
-        @include bg-image("../img/co-investing");
+        @include bg-image("../../index/img/co-investing");
         background-size: 50px 32px;
         background-position: center;
         font-size: 12px;
@@ -200,7 +200,7 @@
               background-repeat: no-repeat;
               background-size: 9px auto;
               background-position: center;
-              @include bg-image("../img/thumb-up");
+              @include bg-image("../../index/img/thumb-up");
               vertical-align: middle;
             }
             .count-warp {
@@ -244,7 +244,7 @@
             width: 20px;
             height: 20px;
             background-repeat: no-repeat;
-            @include bg-image("../../base/img/video");
+            @include bg-image("../img/video");
             background-size: 20px auto;
             background-position: center;
             margin-top: -3px;
@@ -266,16 +266,16 @@
             background-size: 10px auto;
           }
           .loc {
-            @include bg-image("../../base/img/location");
+            @include bg-image("../img/location");
           }
           .indu {
-            @include bg-image("../../base/img/industry");
+            @include bg-image("../img/industry");
           }
           .mold {
-            @include bg-image("../../base/img/mold");
+            @include bg-image("../img/mold");
           }
           .view {
-            @include bg-image("../../base/img/view");
+            @include bg-image("../img/view");
           }
 
           span {
