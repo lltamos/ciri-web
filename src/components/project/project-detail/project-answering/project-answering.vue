@@ -27,138 +27,153 @@
       <!--<div class="small-btn" @click="askQuestion">我要提问</div>-->
       <div class="question">
         <ul class="tab clearfix">
-          <li :class="{active:tabActive==1}" @click="allShow">全部 <em>3</em></li>
-          <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>6</em></li>
+          <li :class="{active:tabActive==1}" @click="allShow">全部 <em>{{questionCount}}</em></li>
+          <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>{{myQuestionCount}}</em></li>
         </ul>
-        <div class="all-warp" v-show="questionShow">
-          <div class="question-warp">
-            <div class="question-list">
+        <div class="all-warp" v-show="questionShow"   >
+          <div class="question-warp"  >
+            <div class="question-list" v-for="question in questions" :key="question.id">
               <div class="head-portrait">
-                <img src="../../../news/img/p_1.jpg" alt="">
+                <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+                <img  :src="question.headUrl"  alt="">
               </div>
               <div class="main-news">
-                <div class="user-name">13201154229</div>
-                <div class="delete">删除</div>
-                <div class="ques-title">这个项目有完整的审批和许可吗？</div>
+                <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
+                <div class="user-name">{{(question.userid == null ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null ? "匿名": question.userid)}}</div>
+                <div class="delete">{{question.oneselfInfo == true?"删除" :""}}</div>
+                <div class="ques-title">{{question.message}}</div>
                 <div class="file-warp">
-                  <div class="file">
+                  <div class="file" v-for="fileMeta in question.fileMetas">
                     <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">建设许可证.pdf</span>
-                    <div class="view">查看</div>
-                  </div>
-                  <div class="file">
-                    <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">建设许可证.pdf</span>
-                    <div class="view">查看</div>
+                    <span class="file-title">{{fileMeta.fileName}}</span>
+                    <div class="view" @click="lookFile(fileMeta.url)">查看</div>
                   </div>
                 </div>
                 <div class="qs-bottom clearfix">
-                  <div class="time fl">2018-04-09</div>
+                  <div class="time fl">{{question.updateTime|time}}</div>
                   <div class="fr dz-hf">
-                    <span class="dz-count">2</span>
-                    <i class="icon-dz"></i>
-                    <span class="reply" @click="askQuestion">回复<em>(0)</em></span>
+                    <span class="dz-count">{{question.likes}}</span>
+                    <template v-if="question.likeStatus==true">
+                      <i class="icon-dz active" ></i>
+                    </template>
+                    <template v-if="question.likeStatus==false">
+                      <i class="icon-dz" ></i>
+                    </template>
+                    <span class="reply" @click="askQuestion">回复<em>({{question.total>999?"999+":question.total}})</em></span>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="question-list">
-              <div class="head-portrait">
-                <img src="../../../news/img/p_1.jpg" alt="">
-              </div>
-              <div class="main-news">
-                <div class="user-name">13201154229</div>
-                <div class="delete">删除</div>
-                <div class="ques-title">这个项目有完整的审批和许可吗？</div>
-                <div class="file-warp">
-                  <div class="file">
-                    <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">建设许可证.pdf</span>
-                    <div class="view">查看</div>
-                  </div>
-                  <div class="file">
-                    <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">建设许可证.pdf</span>
-                    <div class="view">查看</div>
-                  </div>
-                </div>
-                <div class="qs-bottom clearfix">
-                  <div class="time fl">2018-04-09</div>
-                  <div class="fr dz-hf">
-                    <span class="dz-count">2</span>
-                    <i class="icon-dz"></i>
-                    <span class="reply" @click="askQuestion">回复<em>(0)</em></span>
-                  </div>
-                </div>
-                <div class="questioner-visible">
+                <!--回答信息-->
+                <div class="questioner-visible" v-for="ask in question.projectChatList" :key="ask.id">
+                  <!--回复的信息-->
                   <div class="marked-warp">
-                    <div class="marked-words">仅提问者可见</div>
-                    <div class="marked-words">仅提问者可见</div>
                     <div class="marked-words">
                       <div class="user-warp clearfix">
                         <div class="head-portrait">
-                          <img src="../../../news/img/p_1.jpg" alt="">
+                          <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+                          <img :src="ask.headUrl" alt="">
                         </div>
                         <div class="fl">
-                          <div class="user-name">13201154229 <em>(仅提问者可见)</em></div>
-                          <div class="delete">删除</div>
-                          <div class="time">2018-04-09</div>
+                          <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                          <div class="delete">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                          <div class="time">{{ask.updateTime|time}}</div>
+                          <!--回复点赞数量-->
+                          <!--<div class="fr dz-hf">-->
+                            <!--<span class="dz-count">{{ask.likes}}</span>-->
+                            <!--<template v-if="ask.likeStatus==true">-->
+                              <!--<i class="icon-dz active" ></i>-->
+                            <!--</template>-->
+                            <!--<template v-if="ask.likeStatus==false">-->
+                              <!--<i class="icon-dz" ></i>-->
+                            <!--</template>-->
+                          <!--</div>-->
                         </div>
                       </div>
-                      <div class="ques-title">这个项目有完整的审批和许可。</div>
+                      <div class="ques-title">{{ask.message}}</div>
                     </div>
                   </div>
+                  <!--设置回答文件信息-->
                   <div class="file-warp">
-                    <div class="file">
+                    <div class="file" v-for="askFileMeta in ask.fileMetas">
                       <i class="icon-type icon-pdf"></i>
-                      <span class="file-title">建设许可证.pdf</span>
-                      <div class="view">查看</div>
-                    </div>
-                    <div class="file">
-                      <i class="icon-type icon-pdf"></i>
-                      <span class="file-title">建设许可证.pdf</span>
-                      <div class="view">查看</div>
+                      <span class="file-title">{{askFileMeta.fileName}}</span>
+                      <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="read-more" @click="readMore" v-show="moreShow">
+          <div class="read-more" @click="allQuestion" v-show="moreShow">
             <span v-text="moreQuestion">查看更多</span>
             <i :class="iconMore"></i>
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
-          <div class="question-list">
+          <div class="question-list" v-for="myQuestion in myQuestions" >
             <div class="head-portrait">
-              <img src="../../../news/img/p_1.jpg" alt="">
+              <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+              <img :src="myQuestion.headUrl" alt="">
             </div>
             <div class="main-news">
-              <div class="user-name">13201154229</div>
-              <div class="delete">删除</div>
-              <div class="ques-title">这个项目有完整的审批和许可吗？</div>
+              <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
+              <div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>
+              <div class="delete">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="ques-title">{{myQuestion.message}}</div>
               <div class="file-warp">
-                <div class="file">
+                <div class="file" v-for="fileMeta in myQuestion.fileMetas">
                   <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
-                </div>
-                <div class="file">
-                  <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">建设许可证.pdf</span>
-                  <div class="view">查看</div>
+                  <span class="file-title">{{fileMeta.fileName}}</span>
+                  <div class="view" @click="lookFile(fileMeta.url)">查看</div>
                 </div>
               </div>
               <div class="qs-bottom clearfix">
-                <div class="time fl">2018-04-09</div>
+                <div class="time fl">{{myQuestion.updateTime|time}}</div>
                 <div class="fr dz-hf">
-                  <span class="dz-count">2</span>
-                  <i class="icon-dz"></i>
-                  <span class="reply">回复<em>(0)</em></span>
+                  <span class="dz-count">{{myQuestion.likes}}</span>
+                  <template v-if="myQuestion.likeStatus==true">
+                    <i class="icon-dz active" ></i>
+                  </template>
+                  <template v-if="myQuestion.likeStatus==false">
+                    <i class="icon-dz" ></i>
+                  </template>
+                  <span class="reply" @click="askQuestion">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                </div>
+              </div>
+              <!--回答信息-->
+              <div class="questioner-visible" v-for="ask in myQuestion.projectChatList" :key="ask.id">
+                <!--回复的信息-->
+                <div class="marked-warp">
+                  <div class="marked-words">
+                    <div class="user-warp clearfix">
+                      <div class="head-portrait">
+                        <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+                        <img :src="ask.headUrl" alt="">
+                      </div>
+                      <div class="fl">
+                        <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                        <div class="delete">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="time">{{ask.updateTime|time}}</div>
+                        <!--回复点赞数量-->
+                      </div>
+                    </div>
+                    <div class="ques-title">{{ask.message}}</div>
+                  </div>
+                </div>
+                <!--设置回答文件信息-->
+                <div class="file-warp">
+                  <div class="file" v-for="askFileMeta in ask.fileMetas">
+                    <i class="icon-type icon-pdf"></i>
+                    <span class="file-title">{{askFileMeta.fileName}}</span>
+                    <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <!--点击加载更多我的问题-->
+          <div class="read-more" @click="myQuestion" v-show="moreShow">
+            <span v-text="moreMyQuestion">查看更多</span>
+            <i :class="iconMyMore"></i>
           </div>
         </div>
       </div>
@@ -196,11 +211,14 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import FileDelete from '@/components/base/file-delete/file-delete'
   import Authority from '@/components/base/authority/authority'
+  import moment from 'moment'
+  import tool from "../../../../api/tool";
   export default {
     components: {
       CrossLine,
       FileDelete,
-      Authority
+      Authority,
+      tool
     },
     data() {
       return {
@@ -209,9 +227,17 @@
         authorityShow : false,
         questionShow : true,
         tabActive : 1,
-        moreQuestion : '查看更多',
+        page:1,      //全部问题默认页码数
+        myPage:0,    //我的提问默认页码数
+        moreQuestion : '查看更多', //所有问题下拉按钮
+        moreMyQuestion:'查看更多',//我的提问下拉按钮
         iconMore :'icon-more',
+        iconMyMore :'icon-more',
         moreShow : true,
+        questionCount:0,
+        myQuestionCount:0,
+        questions:null,  //项目提问信息
+        myQuestions:null //我的问题
       }
     },
     props: {},
@@ -232,33 +258,145 @@
         this.$router.replace({ path: "/mine/member-center" });
       },
       allShow () {
-        this.questionShow = true
-        this.tabActive = 1
+        this.questionShow = true;
+        this.tabActive = 1;
       },
       mineShow () {
-        this.questionShow = false
-        this.tabActive = 2
-      },
-      readMore () {
-        if(this.moreQuestion == '查看更多'){
-          this.moreQuestion = '收起'
-          this.iconMore = 'pack-up'
-        }else {
-          this.moreQuestion = '查看更多';
-          this.iconMore = 'icon-more'
+        this.questionShow = false;
+        this.tabActive = 2;
+        //初始化我的问题
+        if(this.myPage==0){
+          this.myPage=this.myPage+1;
+          this.myQuestion();
         }
       },
+      readMore () {
 
-
+      },
+      lookFile(fileUrl){
+        alert(fileUrl);
+      },
+      //获取所有的问答信息15201197830
+      allQuestion(){
+        //数据长度不为空
+        if(this.questions != null){
+          if(this.moreQuestion == '收起'){
+            if(this.questions.length >=5){
+              this.questions= this.questions.slice(0,5);
+            }else {
+              this.questions= this.questions.slice(0,this.questions.length-1);
+            }
+            this.moreQuestion = '查看更多';
+            this.iconMore = 'icon-more'
+            this.page=1;
+            return;
+          }else {
+            //已经显示的提问数等于总的提问数时
+            if(this.questions.length >= this.questionCount){
+              this.moreQuestion='收起'
+              this.iconMore = 'pack-up'
+              return;
+            }
+          }
+        }
+        //发送请求分页查询数据
+        this.$api.post('/app/projectChat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:17611581353,proId:364000018}).then(r => {
+          //设置总问题数
+          this.questionCount=r.total;
+          //设置我的提问数
+          this.myQuestionCount= r.myTotal;
+          console.log(r.data);
+          if(r.data != 'null' && r.data.length>0){
+            //如追加数据
+            if (this.page === 1) {
+              this.questions= r.data;
+            } else {
+              this.questions = this.questions.concat(r.data);
+            }
+            //设置下拉提示
+            if(this.questions.length < r.total){
+              this.moreQuestion = '查看更多';
+              this.iconMore = 'icon-more'
+            }else{
+              this.moreQuestion='收起'
+              this.iconMore = 'pack-up'
+            }
+            //增加页码
+            this.page =this.page+1;
+          }
+        });
+      }
+      ,
+      //获取我的提问信息
+      myQuestion(){
+        if(this.myQuestions != null){
+          //判读收起
+          if(this.moreMyQuestion == '收起'){
+            if(this.myQuestions.length >=5){
+              this.myQuestions= this.myQuestions.slice(0,5);
+            }else {
+              this.myQuestions= this.myQuestions.slice(0,this.myQuestions.length);
+            }
+            this.moreMyQuestion = '查看更多';
+            this.iconMyMore = 'icon-more';
+            this.myPage=1;
+            return;
+          }else {
+              //已经显示的提问数时等于我的提问数时
+             if(this.myQuestions.length >= this.myQuestionCount){
+               this.moreMyQuestion='收起'
+               this.iconMyMore = 'pack-up'
+               return;
+             }
+          }
+        }
+        //发送请求分页查询数据
+        this.$api.post('/app/projectChat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:15201197830,proId:364000018}).then(r => {
+          console.log(r.data);
+          if(r.data != 'null' && r.data.length>0) {
+            if (this.myPage === 1) {
+              //如追加数据
+              this.myQuestions = r.data;
+            } else {
+              this.myQuestions = this.myQuestions.concat(r.data);
+            }
+            if(this.moreQuestion == '查看更多'){
+              this.moreMyQuestion = '收起'
+              this.iconMyMore = 'pack-up'
+            }else {
+              this.moreMyQuestion = '查看更多';
+              this.iconMyMore = 'icon-more'
+            }
+            //设置下拉提示
+            if(this.myQuestions.length < r.total){
+              this.moreMyQuestion = '查看更多';
+              this.iconMyMore = 'icon-more'
+            }else{
+              this.moreMyQuestion='收起'
+              this.iconMyMore = 'pack-up'
+            }
+            //增加页码
+            this.myPage =this.myPage+1;
+          }
+        });
+      }
 
     },
-    filters: {},
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      }
+    },
     computed: {},
     created() {
     },
     mounted() {
+      //tool.getuser();
+      this.allQuestion()
     },
     destroyed() {
+
+
     }
   }
 </script>
