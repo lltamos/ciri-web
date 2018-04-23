@@ -7,7 +7,7 @@
       <circle class="circle-train" stroke-width="16" fill="none" stroke="#FBB161" cx="130" cy="225" r="115" stroke-dasharray="723" stroke-dashoffset="722.5663103256525" transform="rotate(-1 130 225)"></circle>
     </g>
     <text x="130" y="214" text-anchor="middle" fill="#fff">
-      <tspan font-size="30">50</tspan>
+      <tspan font-size="30">{{financingProgress}}</tspan>
       <tspan font-size="30">％</tspan>
     </text>
     <text x="130" y="260" fill="#fff" text-anchor="middle" font-size="30" class="fsn bold">融资进度</text>
@@ -17,21 +17,21 @@
     <polyline fill="none" stroke-miterlimit="10" points="700,350.3 506.5,350.3 236.6,350.3 214.5,322.5"></polyline>
     <text x="700" y="85" text-anchor="end" fill="black">
       <tspan x="500" y="85"  class="Stitle">项目总投资：</tspan>
-      <tspan x="700" y="85" class=" fz-large c-primary Skey" fill="#333">8000万人民币</tspan>
+      <tspan x="700" y="85" class=" fz-large c-primary Skey" fill="#333">{{amount}}</tspan>
     </text>
     <text x="700" y="165" text-anchor="end" fill="black">
       <tspan x="500" y="165">预期收益率：</tspan>
-      <tspan x="700" y="165" class="fz-large c-primary" fill="#333">32%</tspan>
+      <tspan x="700" y="165" class="fz-large c-primary" fill="#333">{{irr}}%</tspan>
 
     </text>
 
     <text x="700" y="256" text-anchor="end" fill="black">
       <tspan x="500" y="256">项目开发商：</tspan>
-      <tspan x="700" y="256"  class="fz-large c-primary"  fill="#333">CIRI</tspan>
+      <tspan x="700" y="256"  class="fz-large c-primary"  fill="#333">{{projDevelopers}}</tspan>
     </text>
     <text x="700" y="342" text-anchor="end" fill="black">
       <tspan x="500" y="342">意向投资方：</tspan>
-      <tspan x="700" y="342" class="c-primary">3位</tspan>
+      <tspan x="700" y="342" class="c-primary">{{potentialInvestorSize}}位</tspan>
     </text>
   </svg>
 
@@ -43,7 +43,17 @@
         data() {
             return {}
         },
-        props: {},
+        props: {
+          irr: String,
+          amount: Number,
+          projDevelopers: {
+            type: String,
+            default: 'CIRI'
+          },
+          potentialInvestorSize: Number,
+          financingProgress: String
+
+        },
         watch: {},
         methods: {},
         filters: {},

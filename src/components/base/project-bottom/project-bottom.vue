@@ -3,11 +3,11 @@
     <ul class="tab-warp">
       <li class="favorite">
         <i class="icon-fav"></i>
-        <span>30人已收藏</span>
+        <span>{{collects}}人已收藏</span>
       </li>
       <li class="share">
         <i class="icon-share"></i>
-        <span>12人已分享</span>
+        <span>{{shares}}人已分享</span>
       </li>
       <li class="appoint">
         <i class="icon-appoint"></i>
@@ -21,6 +21,10 @@
     export default {
       components: {
       },
+      props: {
+        collects: String,
+        shares: String
+      }
     }
 </script>
 

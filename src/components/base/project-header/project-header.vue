@@ -7,29 +7,27 @@
   </div>
   <div class="project">
     <div class="img">
-      <div class="icon-state">认证中</div> <img src="../img/p_1.jpg" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
+      <div class="icon-state">{{status}}</div> <img v-bind:src="projPhoto"  alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
     <div class="main-news">
       <div class="title">
-        <div class="icon-quality fl">精品</div>
-        <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2></div>
+        <div class="icon-quality fl">{{cornerTag}}</div>
+        <h2 class="fl">{{projName}}</h2></div>
       <div class="tip">
-        <div class="f1">
-          <div class="fl red">高收益</div>
+        <div v-if="tags!=null" class="f1" v-for="t in tags">
+          <div class="fl red">{{t}}</div>
         </div>
-        <div class="f1">
-          <div class="fl red">建设期短</div>
-        </div>
-        <div class="video fl"></div>
+
+        <div v-show="setProjVideo" class="video fl"></div>
       </div>
       <div class="tip-news">
         <i class="loc"></i>
         <span class="country">伊朗</span>
         <i class="indu"></i>
-        <span class="industry">新能源</span>
+        <span class="industry">{{projType}}</span>
         <i class="mold"></i>
-        <span class="genre">绿地投资</span>
+        <span class="genre">{{tag}}</span>
         <i class="view"></i>
-        <span class="count">1000</span>
+        <span class="count">{{visit}}</span>
 
       </div>
     </div>
@@ -63,6 +61,17 @@
     components: {
       CrossLine
     },
+    props: {
+      visit: String,
+      projName: String,
+      cornerTag: String,
+      projType: String,
+      tag: String,
+      status: String,
+      tags: Array,
+      setProjVideo: Boolean,
+      projPhoto: String
+    },
     data() {
       return {
       };
@@ -72,7 +81,6 @@
         window.history.back()
       }
     },
-    props: {},
     created() {
     },
     mounted() {}
