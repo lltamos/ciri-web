@@ -146,7 +146,7 @@
             if (res.data.projDevelopers !== '')
               this.projDevelopers = res.data.projDevelopers
             this.potentialInvestor = res.data.potentialInvestor
-            this.potentialInvestorSize = res.data.potentialInvestor.length > 0 ? this.potentialInvestor.length : 0
+            this.potentialInvestorSize = res.data.potentialInvestorSize
             this.financingProgress = res.data.financingProgress
             this.visit = res.data.visit
             this.projName = res.data.projName
