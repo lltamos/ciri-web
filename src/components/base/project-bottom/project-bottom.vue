@@ -1,7 +1,7 @@
 <template>
   <div class="project-bottom">
     <ul class="tab-warp">
-      <li class="favorite">
+      <li class="favorite" @click="collect">
         <i class="icon-fav"></i>
         <span>{{collects}}人已收藏</span>
       </li>
@@ -18,13 +18,39 @@
 </template>
 
 <script>
+  import tool from '@/api/tool'
+
     export default {
       components: {
+        tool
       },
       props: {
         collects: String,
-        shares: String
+        shares: String,
+        setCollects: Boolean,
+        projId: String
+      },
+      methods: {
+        collect () {
+          if (tool.getuser() === null) {
+            this.$router.replace({path: '/login'})
+          }
+          this.$api.post(tool.domind() + '/gateway/user/batchDealWithUserCollect',
+            {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.setCollects, name: tool.getuser()}).then(res => {
+              if (this.setCollects) {
+                if (this.collects > 1)
+                  this.collects = parseInt(this.collects) - 1
+              }else {
+                if (this.collects < 999)
+                  this.collects = parseInt(this.collects) + 1
+                else
+                  this.collects = '999+'
+              }
+            this.setCollects = !this.setCollects
+          })
+        }
       }
+
     }
 </script>
 
