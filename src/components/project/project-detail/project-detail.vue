@@ -41,7 +41,7 @@
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr">
+          <div class="state-focus fr" @click="interest">
             <i class="icon-focus"></i>
             <span>{{potentialInvestorSize}}人已关注</span>
           </div>
@@ -219,8 +219,19 @@
         }
         this.$api.post(tool.domind() + '/gateway/app/project/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-          console.log(res)
           if (res.code === 200)
+            this.likes = this.likes + 1
+        })
+      },
+      interest () {
+        this.$api.post(tool.domind() + '/gateway/user/interest',
+          {username: tool.getuser(), projId: this.projId}).then(res => {
+          if (res.code === 2000){
+            if (this.potentialInvestorSize > 999)
+              this.potentialInvestorSize = '999+'
+            else
+              this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
+          }
             this.likes = this.likes + 1
         })
       }
