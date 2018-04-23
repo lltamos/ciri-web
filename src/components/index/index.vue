@@ -30,27 +30,27 @@
       <swiper :options="swiperOption">
         <swiper-slide style="margin-right: 0">
           <i class="icon-renewable"></i>
-          <span>可再生能源</span>
+          <span @click="changeIndustry(1)">可再生能源</span>
         </swiper-slide>
         <swiper-slide style="margin-right: 0">
           <i class="icon-Infra"></i>
-          <span>基础设施</span>
+          <span @click="changeIndustry(2)">基础设施</span>
         </swiper-slide>
         <swiper-slide>
           <i class="icon-forestry"></i>
-          <span>农林牧渔</span>
+          <span @click="changeIndustry(3)">农林牧渔</span>
         </swiper-slide>
         <swiper-slide>
           <i class="icon-fuelgas"></i>
-          <span>供水燃气</span>
+          <span @click="changeIndustry(4)">供水燃气</span>
         </swiper-slide>
         <swiper-slide>
           <i class="icon-building"></i>
-          <span>建筑建材</span>
+          <span @click="changeIndustry(5)">建筑建材</span>
         </swiper-slide>
         <swiper-slide>
           <i class="icon-Petroleum"></i>
-          <span>石油化工</span>
+          <span @click="changeIndustry(6)">石油化工</span>
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
@@ -59,7 +59,7 @@
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
-        <router-link to="/index/project-recommend">
+        <router-link :to="{path:'/index/project-recommend',query:{industry:this.industry}}">
           <div class="recommend fl tab-box">项目推荐</div>
         </router-link>
         <router-link to="/index/successful-cases">
@@ -129,6 +129,7 @@
     },
     data() {
       return {
+        industry: '0',
         host: tool.oos(),
         animate: false,
         lastnotify: [],
@@ -159,6 +160,10 @@
           this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
         }, 1000)
       },
+      changeIndustry(str) {
+        this.industry = str;
+        alert(this.industry);
+      }
     }
   }
 </script>

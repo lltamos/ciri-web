@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
 })
 
 axios.defaults.headers.token = tool.gettoken()
-axios.defaults.baseURL=tool.domind()+tool.path()
+
 export default {
-  
+
 }
