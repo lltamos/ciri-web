@@ -59,14 +59,14 @@
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
-        <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="recommendShow">项目推荐</div>
-        <div class="case fl tab-box" :class="{active:tabActive==2}" @click="caseShow">成功案例</div>
+        <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
+        <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
       </div>
       <div class="pro-recommend" v-show="proRecommend">
-        <ProjectRecommend></ProjectRecommend>
-      </div>
-      <div class="successful-case" v-show="!proRecommend">
-        <ProjectRecommend></ProjectRecommend>
+        <ProjectRecommend :tabPanel="this.tabActive"
+                          :industryCategory="this.industryCategory"
+
+        ></ProjectRecommend>
       </div>
     </div>
     <CrossLine></CrossLine>
@@ -130,7 +130,7 @@
     },
     data() {
       return {
-        industry: '0',
+        category:null,
         host: tool.oos(),
         animate: false,
         lastnotify: [],
@@ -143,8 +143,13 @@
             prevEl: '.swiper-button-prev'
           }
         },
-        tabActive:1,
-        proRecommend :true
+        tabActive: 1,
+        proRecommend: true
+      }
+    },
+    computed: {
+      industryCategory: function () {
+        return this.category;
       }
     },
     mounted() {
@@ -163,18 +168,11 @@
           this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
         }, 1000)
       },
-      changeIndustry(str) {
-        this.industry = str;
-        alert(this.industry);
+      changeIndustry(category) {
+        this.category = category;
       },
-      // 项目推荐、成功案例切换
-      recommendShow(){
-        this.tabActive = 1;
-        this.proRecommend = true;
-      },
-      caseShow(){
-        this.tabActive = 2;
-        this.proRecommend = false;
+      changePanel(tab) {
+        this.tabActive = tab;
       }
     }
   }
@@ -331,7 +329,7 @@
         font-size: 16px;
         .tab-box {
           color: #333;
-          &.active{
+          &.active {
             color: #3f83e6;
             @include bottom-bar();
           }

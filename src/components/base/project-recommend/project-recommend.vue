@@ -1,6 +1,6 @@
 <template>
   <div class="project-recommend">
-    <div class="pro-card" v-for="project in this.projects" :key="project.projId">
+    <div class="pro-card" v-for="(project,index) in this.projects">
       <div class="co-investing">
         {{project.status}}
       </div>
@@ -62,39 +62,58 @@
           <span class="genre">{{project.constructionTypeName}}</span>
           <i class="view"></i>
           <span class="count">{{project.visit}}</span>
-
         </div>
       </div>
 
     </div>
-    <div @click="loadMore" class="more">
+    <button @click="loadMore" :disabled="this.disabled" class="more">
       <span v-text="moreText">{{this.moreText}}</span><i></i>
-    </div>
+    </button>
   </div>
 </template>
 <script>
   export default {
     components: {},
-
     data() {
       return {
         moreText: '查看更多',
         projects: [],
         pageId: 1,
-        industryCategory: ''
-
+        status: [7],
+        tag: [101001, 101002],
+        disabled: false
       }
     },
-    props: {},
-    watch: {},
+    props: {
+      tabPanel: Number,
+      industryCategory: Number,
+    },
+    watch: {
+      industryCategory(val) {
+        this.status = val == 1 ? [7] : [16]
+        this.tag = val == 1 ? [101001, 101002] : []
+        this.projects = null;
+        this.pageId = 1;
+        this.industryCategory = val;
+        this.loadMore();
+      },
+      tabPanel(val) {
+        this.status = val == 1 ? [7] : [16]
+        this.tag = val == 1 ? [101001, 101002] : []
+        this.projects = null;
+        this.pageId = 1;
+        this.loadMore();
+      }
+    },
     methods: {
       loadMore() {
         this.$api.post('/app/home/fetprojects', {
           pageId: this.pageId,
           pageSize: 5,
           industry: [],
-          status: [7],
-          tag: [101001, 101002]
+          status: this.status,
+          tag: this.tag,
+          industryCategory: this.industryCategory
         }).then(r => {
           if (this.pageId == 1) {
             this.projects = r.data.list;
@@ -102,13 +121,12 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length>= r.data.total){
-            this.moreText='没有更多了';
+          if (this.projects.length >= r.data.total) {
+            this.moreText = '没有更多了';
+            this.disabled = 'disabled';
           }
         });
       }
-
-
     },
     filters: {},
     computed: {},
@@ -116,9 +134,7 @@
 
     },
     mounted() {
-      this.industryCategory = this.$route.query.industry;
       this.loadMore();
-
     },
     destroyed() {
     }
