@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>project-list</div>
-    <router-link to="/project/project-land">to项目着陆页</router-link>
+    <router-link to="/project/project-land?projId=364000101">to项目着陆页</router-link>
 
     <tab-bar></tab-bar>
   </div>

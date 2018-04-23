@@ -8,7 +8,8 @@
                  :status="status"
                  :tags="tags"
                  :setProjVideo="setProjVideo"
-                 :projPhoto="projPhoto"></projectHeader>
+                 :projPhoto="projPhoto"
+                 :projAddress="projAddress"></projectHeader>
   <div class="project-intro">
     <h4>
       <i class="left-line"></i><span>项目简介</span>
@@ -72,6 +73,7 @@
       },
       data () {
         return {
+          projId: '',
           projAbstract: null,
           likes: 0,
           collects: null,
@@ -91,13 +93,16 @@
           tags: null,
           setProjVideo: false,
           projPhoto: '',
-          url: '/project/project-detail?projId='
+          url: '/project/project-detail?projId=',
+          isLikes: null,
+          setCollects: false,
+          projAddress: ''
         }
       },
       methods: {
         addVisit () {
           this.$api.post(tool.domind() + '/gateway/app/project/updateRecord',
-            {projId: 364000101, tag: 2}).then(res => {
+            {projId: this.projId, tag: 2}).then(res => {
           })
         },
 
@@ -105,27 +110,33 @@
           this.$router.replace({ path: this.url })
         },
         giveLikes () {
+          if (this.isLikes !== null) {
+            alert('不能重复点赞')
+            return
+          }
           if (tool.getuser() === null) {
             this.$router.replace({ path: '/login' })
           } else {
             this.$api.post(tool.domind() + '/gateway/app/project/addLike',
-              {userId: tool.getuser(), projId: '364000101', tag: 0}).then(res => {
+              {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
                 console.log(res)
                 if (res.code === 200)
                   this.likes = this.likes + 1
             })
           }
-
         }
       },
       created () {
+        this.projId = this.$route.query.projId
+        this.url = this.url + this.projId
+
         this.addVisit()
 
         this.$api.post(tool.domind() + '/gateway/app/project/getProjectHeadInfo',
-          {username: tool.getuser(), projId: '364000101'}).then(res => {
+          {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
-            this.likes = parseInt(res.data.likes)
+            this.likes = parseInt(res.data.likes) //todo 是否点赞 控制 点赞图标的样式
             this.collects = res.data.collects
             this.shares = res.data.shares
             this.irr = res.data.irr.replace(/.00/g, '')
@@ -144,8 +155,9 @@
             this.tags = res.data.tags
             this.setProjVideo = res.data.setProjVideo
             this.projPhoto = res.data.projPhoto
-            this.url = this.url + res.data.projId
-
+            this.isLikes = res.data.isLikes
+            this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
+            this.projAddress = res.data.projAddress
           }
         });
       }
