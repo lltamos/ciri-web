@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/index/index'
-import ProjectRecommend from '@/components/index/project-recommend/project-recommend'
-import SuccessfulCases from '@/components/index/successful-cases/successful-cases'
+// import ProjectRecommend from '@/components/index/project-recommend/project-recommend'
+// import SuccessfulCases from '@/components/index/successful-cases/successful-cases'
 import News from '@/components/news/news'
 import NewsDetail from '@/components/news/news-detail/news-detail'
 import CIRINews from '@/components/news/CIRI-News/CIRI-News'
@@ -59,27 +59,26 @@ export default new Router({
     // 根路径
     {
       path: '/',
-      redirect: '/index/project-recommend',
+      redirect: '/index',
       component: Index
     },
     // 首页
     {
       path: '/index',
-      redirect: '/index/project-recommend',
       component: Index,
-      children: [
-        // 首页 项目推荐
-        {
-          path: 'project-recommend',
-          component: ProjectRecommend
-        },
-        // 首页 成功案例
-        {
-          path: 'successful-cases',
-          component: SuccessfulCases
-        },
-
-      ]
+      // children: [
+      //   // 首页 项目推荐
+      //   {
+      //     path: 'project-recommend',
+      //     component: ProjectRecommend
+      //   },
+      //   // 首页 成功案例
+      //   {
+      //     path: 'successful-cases',
+      //     component: SuccessfulCases
+      //   },
+      //
+      // ]
     },
     // 登录
     {

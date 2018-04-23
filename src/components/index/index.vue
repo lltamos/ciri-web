@@ -59,17 +59,16 @@
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
-        <router-link :to="{path:'/index/project-recommend',query:{industry:this.industry}}">
-          <div class="recommend fl tab-box">项目推荐</div>
-        </router-link>
-        <router-link to="/index/successful-cases">
-          <div class="case fl tab-box">成功案例</div>
-        </router-link>
+        <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="recommendShow">项目推荐</div>
+        <div class="case fl tab-box" :class="{active:tabActive==2}" @click="caseShow">成功案例</div>
+      </div>
+      <div class="pro-recommend" v-show="proRecommend">
+        <ProjectRecommend></ProjectRecommend>
+      </div>
+      <div class="successful-case" v-show="!proRecommend">
+        <ProjectRecommend></ProjectRecommend>
       </div>
     </div>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <CrossLine></CrossLine>
     <div class="feedback">
       <div class="title">
@@ -120,12 +119,14 @@
 <script>
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import ProjectRecommend from '@/components/base/project-recommend/project-recommend'
   import tool from "../../api/tool";
 
   export default {
     components: {
       TabBar,
-      CrossLine
+      CrossLine,
+      ProjectRecommend
     },
     data() {
       return {
@@ -141,7 +142,9 @@
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
           }
-        }
+        },
+        tabActive:1,
+        proRecommend :true
       }
     },
     mounted() {
@@ -163,6 +166,15 @@
       changeIndustry(str) {
         this.industry = str;
         alert(this.industry);
+      },
+      // 项目推荐、成功案例切换
+      recommendShow(){
+        this.tabActive = 1;
+        this.proRecommend = true;
+      },
+      caseShow(){
+        this.tabActive = 2;
+        this.proRecommend = false;
       }
     }
   }
@@ -317,18 +329,12 @@
         margin: auto;
         display: table;
         font-size: 16px;
-
-        a {
+        .tab-box {
           color: #333;
-        }
-
-        .router-link-active {
-          color: #3f83e6;
-
-          .tab-box {
+          &.active{
+            color: #3f83e6;
             @include bottom-bar();
           }
-
         }
         .recommend {
           @include right-bar();
