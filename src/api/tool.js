@@ -56,6 +56,12 @@ export default {
     else
       return username
   },
+  isBank: function (str) {
+    if (typeof str === 'undefined' || str === '' || str === null)
+      return true
+    else
+      return false
+  },
   islogin: function () {
     return sessionStorage.getItem('islogin')
   },
