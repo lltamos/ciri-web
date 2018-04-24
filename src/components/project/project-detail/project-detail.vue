@@ -32,7 +32,7 @@
       <div class="pro-focus">
         <!-- swiper -->
         <swiper :options="swiperOption" class="slider">
-          <swiper-slide v-if="potentialInvestor!=null" v-for="p in potentialInvestor">
+          <swiper-slide v-if="potentialInvestor!=null" v-for="p in potentialInvestor" :key="p.id">
             <div class="img">
               <img :src="p.url" alt=""/>
             </div>
