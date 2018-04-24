@@ -3,84 +3,89 @@
     <router-link v-if="projects!=null" v-for="project in this.projects" :key="project.projId"
                  :to="{path:'/project/project-land',query: {projId: project.projId}}">
       <div class="pro-card">
-  <div class="project-loading" v-if="notloading">
-    <div class="loading-wrap">
-      <i class="icon-loading"></i>
-      <p>加载中...</p>
-    </div>
-  </div>
-  <div class="project-recommend" v-else>
-    <router-link v-for="(project) in this.projects" :key="project.projId" :to="{path:'/project/project-land',query: {projId: project.projId}}">
-      <div class="pro-card" >
-        <div class="co-investing">
-          {{project.status}}
-        </div>
-        <div class="img">
-          <img :src="project.url" alt="">
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl">精品</div>
-            <h2 class="fl">{{project.name}}</h2>
-            <div class="thumbs-up fr">
-              <i class="icon-dianzan"></i>
-              <span class="count-warp">看好</span>
-              <span class="count">({{project.likes}})</span>
-            </div>
+        <div class="project-loading" v-if="notloading">
+          <div class="loading-wrap">
+            <i class="icon-loading"></i>
+            <p>加载中...</p>
           </div>
-          <div class="tip">
-            <div v-for="tag in project.tags" :key="tag" class="f1">
-              <div class="fl red">{{tag}}</div>
-            </div>
-            <div class="video fl"></div>
-          </div>
-          <ul class="proj-info">
-            <li>
-              <em><i class="large">{{project.fund}}</i>万美金</em>
-              <span>项目总投资</span>
-              <div class="fg-line"></div>
-            </li>
-            <li>
-              <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
-              <span>预期收益率</span>
-              <div class="fg-line"></div>
-            </li>
-            <div class="svg-circle fr">
-              <div class="row" style="top:-105px">
-                <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
-                     data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                  <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
-                  <div class="pie_progress2 svg_jdft">融资进度</div>
-                  <div class="pie_progress__svg">
-                    <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
-                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
-                      <path fill="none" stroke-width="10" stroke="#3699ea"
-                            d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
-                            style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
-                    </svg>
+        </div>
+        <div class="project-recommend" v-else>
+          <router-link v-for="(project) in this.projects" :key="project.projId"
+                       :to="{path:'/project/project-land',query: {projId: project.projId}}">
+            <div class="pro-card">
+              <div class="co-investing">
+                {{project.status}}
+              </div>
+              <div class="img">
+                <img :src="project.url" alt="">
+              </div>
+              <div class="main-news">
+                <div class="title">
+                  <div class="icon-quality fl">精品</div>
+                  <h2 class="fl">{{project.name}}</h2>
+                  <div class="thumbs-up fr">
+                    <i class="icon-dianzan"></i>
+                    <span class="count-warp">看好</span>
+                    <span class="count">({{project.likes}})</span>
                   </div>
                 </div>
+                <div class="tip">
+                  <div v-for="tag in project.tags" :key="tag" class="f1">
+                    <div class="fl red">{{tag}}</div>
+                  </div>
+                  <div class="video fl"></div>
+                </div>
+                <ul class="proj-info">
+                  <li>
+                    <em><i class="large">{{project.fund}}</i>万美金</em>
+                    <span>项目总投资</span>
+                    <div class="fg-line"></div>
+                  </li>
+                  <li>
+                    <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
+                    <span>预期收益率</span>
+                    <div class="fg-line"></div>
+                  </li>
+                  <div class="svg-circle fr">
+                    <div class="row" style="top:-105px">
+                      <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
+                           data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+                        <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
+                        <div class="pie_progress2 svg_jdft">融资进度</div>
+                        <div class="pie_progress__svg">
+                          <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
+                            <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none"
+                                     stroke-width="10"></ellipse>
+                            <path fill="none" stroke-width="10" stroke="#3699ea"
+                                  d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
+                                  style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </ul>
+                <div class="tip-news">
+                  <i class="loc"></i>
+                  <span class="country">{{project.countryName}}</span>
+                  <i class="indu"></i>
+                  <span class="industry">{{project.industryName}}</span>
+                  <i class="mold"></i>
+                  <span class="genre">{{project.constructionTypeName}}</span>
+                  <i class="view"></i>
+                  <span class="count">{{project.visit}}</span>
+                </div>
               </div>
+
             </div>
-
-          </ul>
-          <div class="tip-news">
-            <i class="loc"></i>
-            <span class="country">{{project.countryName}}</span>
-            <i class="indu"></i>
-            <span class="industry">{{project.industryName}}</span>
-            <i class="mold"></i>
-            <span class="genre">{{project.constructionTypeName}}</span>
-            <i class="view"></i>
-            <span class="count">{{project.visit}}</span>
-          </div>
+          </router-link>
+          <button @click="loadMore" :disabled="this.disabled" class="more">
+            <span v-text="moreText">{{this.moreText}}</span><i></i>
+          </button>
         </div>
-
       </div>
     </router-link>
-    <button @click="loadMore" :disabled="this.disabled" class="more">
-      <span v-text="moreText">{{this.moreText}}</span><i></i>
-    </button>
   </div>
 </template>
 <script>
@@ -163,15 +168,15 @@
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
 
-  .project-loading{
+  .project-loading {
     height: 80px;
     position: relative;
-    .loading-wrap{
+    .loading-wrap {
       position: absolute;
       top: 50%;
       left: 50%;
       margin: -20px 0px 0px -24px;
-      .icon-loading{
+      .icon-loading {
         display: inline-block;
         width: 22px;
         height: 22px;
@@ -181,12 +186,13 @@
         background-image: url("../../index/img/icon-loading.gif");
         vertical-align: middle;
       }
-      p{
+      p {
         font-size: 13px;
       }
     }
 
   }
+
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
