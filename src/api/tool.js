@@ -51,10 +51,16 @@ export default {
   },
   getuser: function () {
     let username = sessionStorage.getItem('username')
-    if (typeof username === 'undefined' || username === '') {
+    if (typeof username === 'undefined' || username === '')
       return null
-    }else{
+    else
       return username
+  },
+  isBank: function (str) {
+    if (typeof str === 'undefined' || str === '' || str === null)
+      return true
+    else
+      return false
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')
