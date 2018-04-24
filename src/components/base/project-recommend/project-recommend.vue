@@ -1,5 +1,11 @@
 <template>
-  <div class="project-recommend">
+  <div class="project-loading" v-if="notloading">
+    <div class="loading-wrap">
+      <i class="icon-loading"></i>
+      <p>加载中...</p>
+    </div>
+  </div>
+  <div class="project-recommend" v-else>
     <router-link v-for="(project) in this.projects" :key="project.projId" :to="{path:'/project/project-land',query: {projId: project.projId}}">
       <div class="pro-card" >
         <div class="co-investing">
@@ -83,12 +89,13 @@
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
-        disabled: false
+        disabled: false,
+        notloading: true
       }
     },
     props: {
       tabPanel: Number,
-      industryCategory: Number,
+      industryCategory: Number
     },
     watch: {
       industryCategory(val) {
@@ -97,14 +104,18 @@
         this.projects = null;
         this.pageId = 1;
         this.industryCategory = val;
+        this.notloading = true;
         this.loadMore();
+
       },
       tabPanel(val) {
         this.status = val == 1 ? [7] : [16]
         this.tag = val == 1 ? [101001, 101002] : []
         this.projects = null;
         this.pageId = 1;
+        this.notloading = true;
         this.loadMore();
+
       }
     },
     methods: {
@@ -117,6 +128,7 @@
           tag: this.tag,
           industryCategory: this.industryCategory
         }).then(r => {
+          this.notloading = false;
           if (this.pageId == 1) {
             this.projects = r.data.list;
           } else {
@@ -147,6 +159,30 @@
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
 
+  .project-loading{
+    height: 80px;
+    position: relative;
+    .loading-wrap{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -20px 0px 0px -24px;
+      .icon-loading{
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-size: 22px auto;
+        background-position: center;
+        background-image: url("../../index/img/icon-loading.gif");
+        vertical-align: middle;
+      }
+      p{
+        font-size: 13px;
+      }
+    }
+
+  }
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
