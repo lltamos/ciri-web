@@ -53,10 +53,10 @@
     <!--项目tab-->
     <div class="tab-warp">
       <ul class="project-tab">
-        <router-link tag="li" to="/project/project-detail/project-evaluation">项目评估</router-link>
-        <router-link tag="li" to="/project/project-detail/project-progress">项目进展</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: { 'projId': projId }}">项目交流</router-link>
-        <router-link tag="li" to="/project/project-detail/investment-intent">投资意向</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}">项目评估</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}">项目进展</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}">项目交流</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}">投资意向</router-link>
       </ul>
     </div>
     <keep-alive>
@@ -205,7 +205,8 @@
         url: '/project/project-detail?projId=',
         isLikes: null,
         setCollects: false,
-        projAddress: ''
+        projAddress: '',
+        focus: false
       }
     },
     methods: {
@@ -217,13 +218,17 @@
         if (tool.getuser() === null) {
           this.$router.replace({ path: '/login' })
         }
-        this.$api.post(tool.domind() + '/gateway/app/project/addLike',
+        this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
           if (res.code === 200)
             this.likes = this.likes + 1
         })
       },
       interest () {
+        if (focus) {
+          alert('不能重复关注')
+          return
+        }
         this.$api.post(tool.domind() + '/gateway/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 2000){
@@ -232,7 +237,7 @@
             else
               this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
           }
-            this.likes = this.likes + 1
+            this.potentialInvestorSize = this.potentialInvestorSize + 1
         })
       }
     },
@@ -244,7 +249,7 @@
         {username: tool.getuser(), projId: this.projId}).then(res => {
         if (res.code === 200) {
           this.projAbstract = res.data.projAbstract
-          this.likes = parseInt(res.data.likes) //todo 是否点赞 控制 点赞图标的样式
+          this.likes = parseInt(res.data.likes)
           this.collects = res.data.collects
           this.shares = res.data.shares
           this.irr = res.data.irr.replace(/.00/g, '')
@@ -263,7 +268,7 @@
           this.tags = res.data.tags
           this.setProjVideo = res.data.setProjVideo
           this.projPhoto = res.data.projPhoto
-          this.isLikes = res.data.isLikes
+          this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
           this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
           this.projAddress = res.data.projAddress
         }
@@ -408,6 +413,9 @@
               background-size: 15px auto;
               background-position: center;
               @include bg-image("../img/focus");
+              &:active{
+                @include bg-image("../img/focused");
+              }
             }
             span{
               display: block;
