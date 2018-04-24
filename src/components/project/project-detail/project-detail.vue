@@ -55,7 +55,7 @@
       <ul class="project-tab">
         <router-link tag="li" to="/project/project-detail/project-evaluation">项目评估</router-link>
         <router-link tag="li" to="/project/project-detail/project-progress">项目进展</router-link>
-        <router-link tag="li" to="/project/project-detail/project-answering">项目交流</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: { 'projId': projId }}">项目交流</router-link>
         <router-link tag="li" to="/project/project-detail/investment-intent">投资意向</router-link>
       </ul>
     </div>
