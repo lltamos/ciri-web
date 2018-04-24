@@ -1,6 +1,6 @@
 import 'mint-ui/lib/style.css'
 import {Toast} from 'mint-ui';
-import { MessageBox } from 'mint-ui';
+import {MessageBox} from 'mint-ui';
 
 export default {
   domind: function () {
@@ -12,12 +12,12 @@ export default {
   },
 
   oos: function () {
-    return 'http://ciri-test.oss-cn-beijing.aliyuncs.com/'
+    return 'http://ciri-prod.oss-cn-beijing.aliyuncs.com/'
   },
 
   generatorUrl: function (url) {
-    if (url === '' || url == null) {
-      return 'https://pic.36krcnd.com/201804/02064202/jvdwa1onvundut5k!1200'
+    if (url.indexOf ('/img')!=-1) {
+      return url
     } else {
       return this.oos() + url
     }
@@ -57,10 +57,7 @@ export default {
       return username
   },
   isBank: function (str) {
-    if (typeof str === 'undefined' || str === '' || str === null)
-      return true
-    else
-      return false
+    return typeof str === 'undefined' || str === '' || str === null;
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')

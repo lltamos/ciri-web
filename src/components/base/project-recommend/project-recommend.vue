@@ -1,7 +1,15 @@
 <template>
-  <div class="project-recommend">
-    <router-link v-for="(project) in this.projects" :key="project.projId" :to="{path:'/project/project-land',query: {projId: project.projId}}">
-      <div class="pro-card" >
+  <div class="project-loading" v-if="notloading">
+    <div class="loading-wrap">
+      <i class="icon-loading"></i>
+      <p>加载中...</p>
+    </div>
+  </div>
+
+  <div class="project-recommend" v-else>
+    <router-link v-for="(project) in this.projects" :key="project.projId"
+                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
+      <div class="pro-card">
         <div class="co-investing">
           {{project.status}}
         </div>
@@ -43,7 +51,8 @@
                   <div class="pie_progress2 svg_jdft">融资进度</div>
                   <div class="pie_progress__svg">
                     <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
-                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
+                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none"
+                               stroke-width="10"></ellipse>
                       <path fill="none" stroke-width="10" stroke="#3699ea"
                             d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
                             style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
@@ -79,16 +88,17 @@
     data() {
       return {
         moreText: '查看更多',
-        projects: [],
+        projects: null,
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
-        disabled: false
+        disabled: false,
+        notloading: true
       }
     },
     props: {
       tabPanel: Number,
-      industryCategory: Number,
+      industryCategory: Number
     },
     watch: {
       industryCategory(val) {
@@ -97,14 +107,18 @@
         this.projects = null;
         this.pageId = 1;
         this.industryCategory = val;
+        this.notloading = true;
         this.loadMore();
+
       },
       tabPanel(val) {
         this.status = val == 1 ? [7] : [16]
         this.tag = val == 1 ? [101001, 101002] : []
         this.projects = null;
         this.pageId = 1;
+        this.notloading = true;
         this.loadMore();
+
       }
     },
     methods: {
@@ -117,13 +131,14 @@
           tag: this.tag,
           industryCategory: this.industryCategory
         }).then(r => {
+          this.notloading = false;
           if (this.pageId == 1) {
             this.projects = r.data.list;
           } else {
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length==0||this.projects.length >= r.data.total) {
+          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
           }
@@ -146,6 +161,31 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
+
+  .project-loading {
+    height: 80px;
+    position: relative;
+    .loading-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -20px 0px 0px -24px;
+      .icon-loading {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-size: 22px auto;
+        background-position: center;
+        background-image: url("../../index/img/icon-loading.gif");
+        vertical-align: middle;
+      }
+      p {
+        font-size: 13px;
+      }
+    }
+
+  }
 
   .project-recommend {
     padding: 0px 10px 20px;

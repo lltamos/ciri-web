@@ -4,9 +4,9 @@
       <i class="icon_search"></i>
     </header>
     <!-- 轮播图 -->
-    <div class="slider" id="sliderIndex1">
-      <mt-swipe :auto="3000">
-        <mt-swipe-item v-for="banner in topsbanner" :key="banner.id">
+    <div  class="slider" id="sliderIndex1">
+      <mt-swipe :auto="3000" v-if="topsbanner!=null">
+        <mt-swipe-item  v-for="banner in topsbanner" :key="banner.id">
           <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
             <img @click="toArticle(banner.id)" :src="host+banner.thumbnail" alt=""/>
           </router-link>
