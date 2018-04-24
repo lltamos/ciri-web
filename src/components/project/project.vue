@@ -1,14 +1,15 @@
 <template>
   <div class="project-list">
-    <!--<router-link to="/project/project-land">to项目着陆页</router-link>-->
-    <header class="gradient">INDUSTRYC2C</header>
-    <div class="banner">
+    <!--<header>INDUSTRYC2C</header>-->
+    <div class="banner" id="bannerScroll">
       <div class="img">
         <img src="../news/img/p_1.jpg" alt=""/>
       </div>
-      <div class="search">
-        <i class="icon-search"></i>
-        <input type="text" placeholder="项目 投资人">
+      <div class="search-warp" id="search-warp">
+        <div class="search" :class="scrollSearch">
+          <i class="icon-search"></i>
+          <input type="text" placeholder="项目 投资人">
+        </div>
       </div>
     </div>
     <!--本周推荐-->
@@ -52,62 +53,55 @@
       <h4>
         <i class="left-line"></i><span>全部项目</span>
       </h4>
-      <ul class="tab">
-        <li>
-          <span>国别</span>
-          <i class="more"></i>
-        </li>
-        <li>
-          <span>行业</span>
-          <i class="more"></i></li>
-        <li>
-          <span>类型</span>
-          <i class="country-more"></i>
-        </li>
-        <li>
-          <span>进度</span>
-          <i class="more"></i>
-        </li>
-      </ul>
+      <div class="tab-warp">
+        <ul class="tab" :class="searchBarFixed == true ? 'isFixed' :''">
+          <Nationality text="国别"></Nationality>
+          <Nationality text="行业"></Nationality>
+          <Nationality text="类型"></Nationality>
+          <Nationality text="进度"></Nationality>
+        </ul>
+      </div>
       <div class="main">
-        <div class="pro-list">
-          <div class="img">
-            <!--<div class="icon-state">认证中</div>-->
-            <img src="../base/img/p_1.jpg" alt="" width="100%" height="100%">
-            <i class="favorite icon-favorite"></i>
-          </div>
-          <div class="main-news">
-            <div class="title">
-              <div class="icon-quality fl">精品</div>
-              <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2></div>
-            <div class="tip">
-              <div class="f1">
-                <div class="fl red">高收益</div>
-              </div>
-              <div class="f1">
-                <div class="fl red">建设期短</div>
-              </div>
-              <div class="video fl"></div>
+        <router-link to="/project/project-land">
+          <div class="pro-list">
+            <div class="img">
+              <!--<div class="icon-state">认证中</div>-->
+              <img src="../base/img/p_1.jpg" alt="" width="100%" height="100%">
+              <i class="favorite icon-favorite"></i>
             </div>
-            <div class="maturity clearfix">
-              <p>项目成熟度：<em>可研阶段</em></p>
-              <p>意向投资方：<em>3位</em></p>
-            </div>
-            <div class="tip-news">
-              <i class="loc"></i>
-              <span class="country">伊朗</span>
-              <i class="indu"></i>
-              <span class="industry">新能源</span>
-              <i class="mold"></i>
-              <span class="genre">绿地投资</span>
-              <i class="view"></i>
-              <span class="count">1000</span>
-              <span class="thumb-up fr">2</span>
-              <i class="icon-thumbup fr"></i>
+            <div class="main-news">
+              <div class="title">
+                <div class="icon-quality fl">精品</div>
+                <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2></div>
+              <div class="tip">
+                <div class="f1">
+                  <div class="fl red">高收益</div>
+                </div>
+                <div class="f1">
+                  <div class="fl red">建设期短</div>
+                </div>
+                <div class="video fl"></div>
+              </div>
+              <div class="maturity clearfix">
+                <p>项目成熟度：<em>可研阶段</em></p>
+                <p>意向投资方：<em>3位</em></p>
+              </div>
+              <div class="tip-news">
+                <i class="loc"></i>
+                <span class="country">伊朗</span>
+                <i class="indu"></i>
+                <span class="industry">新能源</span>
+                <i class="mold"></i>
+                <span class="genre">绿地投资</span>
+                <i class="view"></i>
+                <span class="count">1000</span>
+                <span class="thumb-up fr">2</span>
+                <i class="icon-thumbup fr"></i>
 
+              </div>
             </div>
           </div>
-        </div>
+        </router-link>
         <div class="pro-list">
           <div class="img">
             <!--<div class="icon-state">认证中</div>-->
@@ -155,25 +149,46 @@
 <script>
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import Nationality from '@/components/base/nationality/nationality'
+  import tool from "../../api/tool";
   export default {
     components: {
       TabBar,
-      CrossLine
+      CrossLine,
+      Nationality
     },
     data () {
       return {
+        scrollSearch: 'fixed',
+        searchBarFixed : false,
       }
     },
     props: {},
     watch: {},
     methods: {
+      //页面滚动时
+      handleScroll () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        let searchWarp =document.getElementById('search-warp');
+        if (scrollTop > 350) {
+          this.searchBarFixed = true
+        } else {
+          this.searchBarFixed = false
+        }
+
+        var opcaity=(scrollTop/350>1)?1:scrollTop/350;
+        searchWarp.style.background='rgba(82,141,232,'+opcaity+')';
+      },
 
     },
     filters: {},
     computed: {},
     created () {
     },
-    mounted () {},
+    mounted () {
+      //页面滚动时
+      window.addEventListener('scroll', this.handleScroll)
+    },
     destroyed () {}
   }
 </script>
@@ -190,7 +205,11 @@
       color: #fff;
       font-size: 20px;
       text-align: center;
-      position: relative;
+      background: #528de8;
+      position:fixed;
+      top:0;
+      z-index:999;
+      width: 100%;
     }
     h4{
       text-align: left;
@@ -212,6 +231,13 @@
         top:12px;
       }
     }
+    .isFixed{
+      position:fixed;
+      top:0;
+      z-index:999;
+      width: 100%;
+      box-sizing: border-box;
+    }
     .banner{
       width:100%;
       height:150px;
@@ -224,9 +250,15 @@
           height:100%;
         }
       }
+      .search-warp{
+        position:fixed;
+        top:0;
+        z-index:999;
+        left: 0;
+        right:0;
+        padding: 10px 0;
+      }
       .search{
-        position: absolute;
-        top:10px;
         width:94.7%;
         height:30px;
         border-radius: 30px;
@@ -328,44 +360,23 @@
       }
     }
     .project{
-      .tab{
-        display: flex;
-        flex-direction: row;
+      .tab-warp{
         height:35px;
-        line-height: 35px;
-        padding: 0 4.5%;
-        li{
-          flex: 1;
-          width:16%;
-          margin-right: 9%;
-          height:25px;
-          line-height: 25px;
-          margin-top: 5px;
-          border-radius: 25px;
-          box-shadow: 2px 2px 2px #ccc;
-          &:last-child{
-            margin-right: 0;
-          }
-          span{
-            font-size: 13px;
-            color:#333;
-
-          }
-          i{
-            display: inline-block;
-            width:6px;
-            height:6px;
-            background-size: 6px auto;
-            background-position: center;
-            background-repeat: no-repeat;
-            @include bg-image('./img/country-more');
-            vertical-align: middle;
-            margin-top: -3px;
-
-          }
-          i.active{
-            @include bg-image('./img/country-packup')
-          }
+        .tab{
+          display: flex;
+          flex-direction: row;
+          height:35px;
+          line-height: 35px;
+          padding: 0 4.5%;
+          background: #fff;
+        }
+        .tab.isFixed{
+          position:fixed;
+          background-color:#Fff;
+          top:50px;
+          z-index:999;
+          width: 100%;
+          box-sizing: border-box;
         }
       }
       .main{
