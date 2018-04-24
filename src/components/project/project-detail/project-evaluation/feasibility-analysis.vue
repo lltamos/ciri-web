@@ -1,7 +1,7 @@
 <template>
   <div class="feasibility-analysis">
-    <Article text="项目现场勘查" :content="1"></Article>
-    <BigImg></BigImg>
+    <Article text="项目现场勘查" :content="this.InfraInfo"></Article>
+    <BigImg v-if="this.InfraPhoto!=null" :content="this.InfraPhoto"></BigImg>
     <CrossLine></CrossLine>
     <Article text="项目技术与工程方案"></Article>
     <CrossLine></CrossLine>
@@ -50,6 +50,7 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
   import BigImg from '@/components/base/big-img/big-img'
+  import tool from "../../../../api/tool";
 
   export default {
     components: {
@@ -59,20 +60,34 @@
     },
     data() {
       return {
-        projId: null
+        projId: null,
+        projContent: null,
+        InfraInfo: null,
+        InfraPhoto: null
       }
     },
     props: {},
     watch: {},
-    methods: {},
+    methods: {
+      content(str) {
+        if (!tool.isBank(str)) {
+          return str
+        } else {
+          return null
+        }
+      }
+    },
     filters: {},
     computed: {},
     created() {
       this.projId = this.$route.query.projId
     },
     mounted() {
-      this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: 364000092}).then(r => {
-        console.log(r);
+      this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: 364000101}).then(r => {
+        this.projContent = r.data;
+        this.InfraInfo = this.projContent.InfraInfo.valueCn;
+        this.InfraPhoto = this.projContent.InfraPhoto;
+        console.log(this.InfraPhoto)
       });
     },
     destroyed() {
