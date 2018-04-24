@@ -4,7 +4,7 @@
       <h4>
         <i class="left-line"></i><span>{{text}}</span>
       </h4>
-      <div :class="article" ref="articleRef">
+      <div v-if="this.content!=null" :class="article" ref="articleRef">
         {{this.content}}
       </div>
       <div class="read-more" @click="readMore" v-show="moreShow">
