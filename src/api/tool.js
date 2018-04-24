@@ -5,7 +5,7 @@ import { MessageBox } from 'mint-ui';
 export default {
   domind: function () {
     // return 'http://60.205.7.211:8816'
-    return 'http://192.168.2.5:8080'
+    return 'http://127.0.0.1:8080'
   },
   path: function () {
     return '/gateway'
@@ -50,7 +50,11 @@ export default {
     return param
   },
   getuser: function () {
-    return sessionStorage.getItem('username')
+    let username = sessionStorage.getItem('username')
+    if (typeof username === 'undefined' || username === '') {
+      return null
+    }else{
+      return username
   },
   islogin: function () {
     return sessionStorage.getItem('islogin')
