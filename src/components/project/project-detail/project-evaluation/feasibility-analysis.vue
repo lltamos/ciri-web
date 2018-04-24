@@ -58,6 +58,7 @@
         },
         data() {
           return {
+
           }
         },
         props: {},
@@ -68,8 +69,8 @@
         created() {
         },
         mounted() {
-          this.$api.post('/ah/s3/p/projViabilityAnalysis', {lang: 0, rouCount: 5}).then(r => {
-
+          this.$api.get('/ah/s3/p/projViabilityAnalysis', {pid: 0, rouCount: 5}).then(r => {
+              console.log(r);
           });
         },
         destroyed() {
