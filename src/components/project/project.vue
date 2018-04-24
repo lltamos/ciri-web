@@ -55,12 +55,28 @@
       </h4>
       <div class="tab-warp">
         <ul class="tab" :class="searchBarFixed == true ? 'isFixed' :''">
-          <Nationality text="国别" @countryShow="countryShow"></Nationality>
-          <Nationality text="行业"></Nationality>
-          <Nationality text="类型"></Nationality>
-          <Nationality text="进度"></Nationality>
+          <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
+            <span>{{item}}</span>
+            <i></i>
+          </li>
         </ul>
-        <div class="pop-bg" v-show="popShow">
+
+        <div class="pop-bg" v-show="popShow" @click="popSwitch"></div>
+        <div class="tabCon" v-show="popShow" >
+          <ul class="content"
+            v-for='(itemCon,index) in tabContents'
+            v-show=" index == num" :key="index">
+            <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
+              <input type="checkbox" value="全部"/>
+            </li>
+            <li v-for='(item,t) in itemCon' @click="liActive($event)" :class="{active:liSwitch}" :key="t">{{item}}
+              <input type="checkbox" :value="item"/>
+            </li>
+            <div class="btn-warp clearfix">
+              <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
+              <button class="small-btn confirm fr">确定</button>
+            </div>
+          </ul>
         </div>
       </div>
       <div class="main">
@@ -163,7 +179,18 @@
       return {
         scrollSearch: 'fixed',
         searchBarFixed : false,
-        popShow : false
+        popShow : false,
+        tabs: ["国别", "行业","类型","进度"],
+        tabContents:
+          [
+            [ "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥"],
+            ["全部", "电力能源", "食品", "新能源"],
+            [],
+            []
+          ],
+        num: 5,
+        activeSwitch :true,
+        liSwitch : false
       }
     },
     props: {},
@@ -182,9 +209,39 @@
         var opcaity=(scrollTop/350>1)?1:scrollTop/350;
         searchWarp.style.background='rgba(82,141,232,'+opcaity+')';
       },
-      countryShow(){
+      tab(index) {
+        this.num = index;
+        let searchWarp =document.getElementById('search-warp');
         this.searchBarFixed = true
         this.popShow = true;
+        searchWarp.style.background='rgba(82,141,232,1)';
+      },
+      liActive(e){
+        let element = e.currentTarget;
+        if (element.classList.contains('active')) {
+          element.classList.remove('active');
+        } else {
+          element.classList.add('active')
+        }
+        this.activeSwitch =false
+      },
+
+      popSwitch(){
+        this.popShow = false ;
+      },
+      allActive(e){
+        let element = e.currentTarget;
+        element.classList.add('active')
+        this.liSwitch =false
+      },
+      resetActive(index){
+        let all =document.getElementById('all'+ index);
+        console.log(all);
+        all.classList.add('active')
+        this.liSwitch = false
+      },
+      all(index){
+        return 'all'+index;
       }
 
     },
@@ -376,6 +433,41 @@
           line-height: 35px;
           padding: 0 4.5%;
           background: #fff;
+          li{
+            flex: 1;
+            width:16%;
+            margin-right: 9%;
+            height:25px;
+            line-height: 25px;
+            margin-top: 5px;
+            border-radius: 25px;
+            box-shadow: 2px 2px 2px #ccc;
+            &:last-child{
+              margin-right: 0;
+            }
+            span{
+              font-size: 13px;
+              color:#333;
+
+            }
+            i{
+              display: inline-block;
+              width:6px;
+              height:6px;
+              background-size: 6px auto;
+              background-position: center;
+              background-repeat: no-repeat;
+              vertical-align: middle;
+              margin-top: -3px;
+              @include bg-image('./img/country-packup');
+
+            }
+            &.active{
+              i{
+                @include bg-image('./img/country-more');
+              }
+            }
+          }
         }
         .tab.isFixed{
           position:fixed;
@@ -387,7 +479,70 @@
         }
         .pop-bg{
           z-index: 998;
-          /*display: none;*/
+          padding: 0;
+          touch-action: none;
+        }
+        .tabCon{
+          z-index: 999;
+          position: fixed;
+          top:85px;
+          width: 100%;
+          min-height: 150px;
+          .content{
+            background: #fff;
+            max-height: 350px;
+            overflow: scroll;
+            padding: 10px 10px 0;
+            text-align: left;
+            li{
+              padding: 4px 13px;
+              border:1px solid #999;
+              font-size: 14px;
+              color:#999;
+              border-radius: 2px;
+              margin-right: 10px;
+              margin-bottom: 16px;
+              display: inline-block;
+              position: relative;
+              &.active{
+                background: #528de8;
+                color:#fff;
+                border: 1px solid #333;
+              }
+              input{
+                position: absolute;
+                top:0;
+                left:0;
+                width: 100%;
+                height:100%;
+                opacity: 0;
+              }
+
+            }
+            .btn-warp{
+              color:#fff;
+              font-size: 15px;
+              box-sizing: border-box;
+              margin: 8px 0 16px;
+              .reset{
+                background: #5c5c5c;
+                width: 35.8%;
+                height:37px;
+                line-height: 37px;
+                margin: 0;
+                margin-right: 2.8%;
+                display:inline-block;
+              }
+              .confirm{
+                width: 61.4%;
+                height:37px;
+                line-height: 37px;
+                margin: 0;
+                display:inline-block;
+              }
+            }
+
+          }
         }
       }
       .main{
