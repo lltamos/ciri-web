@@ -1,71 +1,74 @@
 <template>
   <div class="project-recommend">
-    <div class="pro-card" v-for="(project,index) in this.projects">
-      <div class="co-investing">
-        {{project.status}}
-      </div>
-      <div class="img">
-        <img :src="project.url" alt="">
-      </div>
-      <div class="main-news">
-        <div class="title">
-          <div class="icon-quality fl">精品</div>
-          <h2 class="fl">{{project.name}}</h2>
-          <div class="thumbs-up fr">
-            <i class="icon-dianzan"></i>
-            <span class="count-warp">看好</span>
-            <span class="count">({{project.likes}})</span>
-          </div>
+    <router-link v-if="projects!=null" v-for="project in this.projects" :key="project.projId"
+                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
+      <div class="pro-card">
+        <div class="co-investing">
+          {{project.status}}
         </div>
-        <div class="tip">
-          <div v-for="tag in project.tags" :key="tag" class="f1">
-            <div class="fl red">{{tag}}</div>
-          </div>
-          <div class="video fl"></div>
+        <div class="img">
+          <img :src="project.url" alt="">
         </div>
-        <ul class="proj-info">
-          <li>
-            <em><i class="large">{{project.fund}}</i>万美金</em>
-            <span>项目总投资</span>
-            <div class="fg-line"></div>
-          </li>
-          <li>
-            <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
-            <span>预期收益率</span>
-            <div class="fg-line"></div>
-          </li>
-          <div class="svg-circle fr">
-            <div class="row" style="top:-105px">
-              <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
-                   data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
-                <div class="pie_progress2 svg_jdft">融资进度</div>
-                <div class="pie_progress__svg">
-                  <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
-                    <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
-                    <path fill="none" stroke-width="10" stroke="#3699ea"
-                          d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
-                          style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
-                  </svg>
+        <div class="main-news">
+          <div class="title">
+            <div class="icon-quality fl">精品</div>
+            <h2 class="fl">{{project.name}}</h2>
+            <div class="thumbs-up fr">
+              <i class="icon-dianzan"></i>
+              <span class="count-warp">看好</span>
+              <span class="count">({{project.likes}})</span>
+            </div>
+          </div>
+          <div class="tip">
+            <div v-for="tag in project.tags" :key="tag" class="f1">
+              <div class="fl red">{{tag}}</div>
+            </div>
+            <div class="video fl"></div>
+          </div>
+          <ul class="proj-info">
+            <li>
+              <em><i class="large">{{project.fund}}</i>万美金</em>
+              <span>项目总投资</span>
+              <div class="fg-line"></div>
+            </li>
+            <li>
+              <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
+              <span>预期收益率</span>
+              <div class="fg-line"></div>
+            </li>
+            <div class="svg-circle fr">
+              <div class="row" style="top:-105px">
+                <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
+                     data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+                  <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
+                  <div class="pie_progress2 svg_jdft">融资进度</div>
+                  <div class="pie_progress__svg">
+                    <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
+                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none" stroke-width="10"></ellipse>
+                      <path fill="none" stroke-width="10" stroke="#3699ea"
+                            d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
+                            style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
+
+          </ul>
+          <div class="tip-news">
+            <i class="loc"></i>
+            <span class="country">{{project.countryName}}</span>
+            <i class="indu"></i>
+            <span class="industry">{{project.industryName}}</span>
+            <i class="mold"></i>
+            <span class="genre">{{project.constructionTypeName}}</span>
+            <i class="view"></i>
+            <span class="count">{{project.visit}}</span>
           </div>
-
-        </ul>
-        <div class="tip-news">
-          <i class="loc"></i>
-          <span class="country">{{project.countryName}}</span>
-          <i class="indu"></i>
-          <span class="industry">{{project.industryName}}</span>
-          <i class="mold"></i>
-          <span class="genre">{{project.constructionTypeName}}</span>
-          <i class="view"></i>
-          <span class="count">{{project.visit}}</span>
         </div>
-      </div>
 
-    </div>
+      </div>
+    </router-link>
     <button @click="loadMore" :disabled="this.disabled" class="more">
       <span v-text="moreText">{{this.moreText}}</span><i></i>
     </button>
@@ -77,7 +80,7 @@
     data() {
       return {
         moreText: '查看更多',
-        projects: [],
+        projects: null,
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
@@ -107,7 +110,7 @@
     },
     methods: {
       loadMore() {
-        this.$api.post('/app/home/fetprojects', {
+        this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
           pageSize: 5,
           industry: [],
@@ -121,7 +124,7 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length >= r.data.total) {
+          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
           }

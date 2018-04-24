@@ -1,6 +1,6 @@
 <template>
     <div class="feasibility-analysis">
-      <Article text="项目现场勘查"></Article>
+      <Article text="项目现场勘查" :content="1"></Article>
       <BigImg></BigImg>
       <CrossLine></CrossLine>
       <Article text="项目技术与工程方案"></Article>
@@ -68,6 +68,9 @@
         created() {
         },
         mounted() {
+          this.$api.post('/ah/s3/p/projViabilityAnalysis', {lang: 0, rouCount: 5}).then(r => {
+
+          });
         },
         destroyed() {
         }

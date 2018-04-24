@@ -4,9 +4,9 @@
       <i class="icon_search"></i>
     </header>
     <!-- 轮播图 -->
-    <div class="slider" id="sliderIndex1">
-      <mt-swipe :auto="3000">
-        <mt-swipe-item v-for="banner in topsbanner" :key="banner.id">
+    <div  class="slider" id="sliderIndex1">
+      <mt-swipe :auto="3000" v-if="topsbanner!=null">
+        <mt-swipe-item  v-for="banner in topsbanner" :key="banner.id">
           <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
             <img @click="toArticle(banner.id)" :src="host+banner.thumbnail" alt=""/>
           </router-link>
@@ -62,7 +62,7 @@
         <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
         <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
       </div>
-      <div class="pro-recommend" v-show="proRecommend">
+      <div class="pro-recommend">
         <ProjectRecommend :tabPanel="this.tabActive"
                           :industryCategory="this.industryCategory"
 
@@ -144,7 +144,6 @@
           }
         },
         tabActive: 1,
-        proRecommend: true
       }
     },
     computed: {
@@ -155,7 +154,7 @@
     mounted() {
       //今日公告
       setInterval(this.scroll, 2000);
-      this.$api.post('/app/home/fethomescene', {lang: 0, rouCount: 5}).then(r => {
+      this.$api.post('/pb/i/fethomescene', {lang: 0, rouCount: 5}).then(r => {
         this.lastnotify = r.data.lastnotify;
         this.topsbanner = r.data.topsbanner;
       });
