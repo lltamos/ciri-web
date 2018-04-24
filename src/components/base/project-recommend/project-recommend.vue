@@ -1,4 +1,8 @@
 <template>
+  <div class="project-recommend">
+    <router-link v-if="projects!=null" v-for="project in this.projects" :key="project.projId"
+                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
+      <div class="pro-card">
   <div class="project-loading" v-if="notloading">
     <div class="loading-wrap">
       <i class="icon-loading"></i>
@@ -85,7 +89,7 @@
     data() {
       return {
         moreText: '查看更多',
-        projects: [],
+        projects: null,
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
@@ -135,7 +139,7 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length==0||this.projects.length >= r.data.total) {
+          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
           }

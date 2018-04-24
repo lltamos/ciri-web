@@ -8,39 +8,39 @@
       <tbody>
         <tr>
           <td>项目名称</td>
-          <td>蒙古格兰村房产项目</td>
+          <td>{{projName}}</td>
         </tr>
         <tr>
           <td align="center">项目类型</td>
-          <td>新建</td>
+          <td>{{constructionType}}</td>
         </tr>
         <tr>
           <td align="center">所属行业</td>
-          <td>房地产</td>
+          <td>{{industry}}</td>
         </tr>
         <tr>
           <td align="center">项目位置</td>
-          <td>蒙古 乌兰巴托 蒙古乌兰巴托</td>
+          <td>{{projAddress}}</td>
         </tr>
         <tr>
           <td>所在区域</td>
-          <td>内陆</td>
+          <td>{{projArea}}</td>
         </tr>
         <tr>
           <td align="center">项目规模</td>
-          <td>1433 万 美元</td>
+          <td>{{amount}}</td>
         </tr>
         <tr>
           <td align="center">投资方式</td>
-          <td>合资企业-中方控股</td>
+          <td>{{investMode}}</td>
         </tr>
         <tr>
           <td align="center">投资收益率</td>
-          <td>25%</td>
+          <td>{{irr}}%</td>
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td>G***C</td>
+          <td>{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
         </tr>
       </tbody>
     </table>
@@ -123,6 +123,7 @@
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
+  import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
@@ -144,7 +145,17 @@
                 loop: true,
                 loopedSlides: 5, //looped slides should be the same
                 slideToClickedSlide: true,
-              }
+              },
+              projId: null,
+              projName: null,//名字
+              amount: null,//总投资
+              irr: null,//收益率
+              projDevelopers: null,//开发商
+              projAddress: null,//项目地点 如伊朗
+              projArea: null,//所在区域  内陆
+              constructionType: null,//项目类型 （新建）
+              investMode: null,//投资方式
+              industry: null,//所属行业
             }
         },
         props: {},
@@ -160,6 +171,19 @@
         filters: {},
         computed: {},
         created() {
+          this.projId = this.$route.query.projId
+          this.$api.post(tool.domind() + '/gateway/ah/s0/getProjectAbstractInfo',
+            {projId: this.projId, username: tool.getuser()}).then(res => {
+              this.projName = res.data.projName
+              this.amount = res.data.amount
+              this.irr = res.data.irr.replace(/.00/g, '')
+              this.projDevelopers = res.data.projDevelopers
+              this.projAddress = res.data.projAddress
+              this.projArea = res.data.projArea
+              this.constructionType = res.data.constructionType
+              this.investMode = res.data.investMode
+              this.industry = res.data.industry
+          })
         },
       mounted() {
         //项目视频
