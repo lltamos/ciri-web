@@ -27,7 +27,7 @@
 
     <text x="700" y="256" text-anchor="end" fill="black">
       <tspan x="500" y="256">项目开发商：</tspan>
-      <tspan x="700" y="256" class="fz-large c-primary" fill="#333">
+      <tspan x="700" y="256" class="fz-large c-primary" fill="#333" v-if="projDevelopers.length != null">
         {{projDevelopers.length>7?projDevelopers.substring(0,4)+'...'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}
       </tspan>
     </text>

@@ -13,7 +13,7 @@
         <div class="icon-quality fl">{{cornerTag}}</div>
         <h2 class="fl">{{projName}}</h2></div>
       <div class="tip">
-        <div v-if="tags!=null" class="f1" v-for="t in tags">
+        <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
           <div class="fl red">{{t}}</div>
         </div>
 

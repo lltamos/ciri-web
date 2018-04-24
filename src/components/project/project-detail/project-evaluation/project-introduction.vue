@@ -40,7 +40,7 @@
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td>{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
+          <td v-if="projDevelopers.length != null">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
         </tr>
       </tbody>
     </table>
@@ -72,7 +72,7 @@
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video">
+  <div class="intro-video" v-show="setProjVideo">
     <h4>
       <i class="left-line"></i><span>项目视频</span>
     </h4>
@@ -81,33 +81,12 @@
         <swiper-slide class="slide-1">
           <video @click="video($event)" controls src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4"></video>
         </swiper-slide>
-        <swiper-slide class="slide-2">
-          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
-        </swiper-slide>
-        <swiper-slide class="slide-3">
-          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
-        </swiper-slide>
-        <swiper-slide class="slide-4">
-          <video @click="video($event)" src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4" controls></video>
-        </swiper-slide>
       </swiper>
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-        <swiper-slide class="slide-1">
-          <img src="../../../news/img/p_1.jpg" alt="">
-          <div class="title">项目现场勘查</div>
-        </swiper-slide>
-        <swiper-slide class="slide-2">
-          <img src="../../../news/img/p_2.jpg" alt="">
-          <div class="title">项目业主访谈</div>
-        </swiper-slide>
-        <swiper-slide class="slide-3">
-          <img src="../../../news/img/p_3.jpg" alt="">
-          <div class="title">项目路演解说</div>
-        </swiper-slide>
-        <swiper-slide class="slide-4">
-          <img src="../../../news/img/p_1.jpg" alt="">
-          <div class="title">项目现场勘查</div>
+        <swiper-slide class="slide-1" v-if="videos != null"  v-for="(v, index) in videos" :key="index" >
+          <img :src="v.cover.name" alt="">
+          <div class="title">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
     </div>
@@ -165,7 +144,9 @@
               environmentApprovalDone: false,//项目各项许可
               infrastructureDone: false ,//完成项目建设
               productService: null,
-              operateMetric: null
+              operateMetric: null,
+              setProjVideo: false,
+              videos: null
 
             }
         },
@@ -204,6 +185,8 @@
               this.infrastructureDone = res.data.infrastructureDone
               this.productService = res.data.productService
               this.operateMetric = res.data.operateMetric
+              this.setProjVideo = res.data.setProjVideo
+              this.videos = res.data.videos
           })
         },
       mounted() {
