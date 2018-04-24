@@ -32,7 +32,7 @@
       <div class="pro-focus">
         <!-- swiper -->
         <swiper :options="swiperOption" class="slider">
-          <swiper-slide v-if="potentialInvestor!=null" v-for="p in potentialInvestor" :key="p.id">
+          <swiper-slide v-for="(p, potentialInvestor) in tags" :key="potentialInvestor" v-if="potentialInvestor!=null">
             <div class="img">
               <img :src="p.url" alt=""/>
             </div>
@@ -41,7 +41,7 @@
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr">
+          <div class="state-focus fr" @click="interest">
             <i class="icon-focus"></i>
             <span>{{potentialInvestorSize}}人已关注</span>
           </div>
@@ -55,7 +55,7 @@
       <ul class="project-tab">
         <router-link tag="li" to="/project/project-detail/project-evaluation">项目评估</router-link>
         <router-link tag="li" to="/project/project-detail/project-progress">项目进展</router-link>
-        <router-link tag="li" to="/project/project-detail/project-answering">项目交流</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: { 'projId': projId }}">项目交流</router-link>
         <router-link tag="li" to="/project/project-detail/investment-intent">投资意向</router-link>
       </ul>
     </div>
@@ -219,8 +219,19 @@
         }
         this.$api.post(tool.domind() + '/gateway/app/project/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-          console.log(res)
           if (res.code === 200)
+            this.likes = this.likes + 1
+        })
+      },
+      interest () {
+        this.$api.post(tool.domind() + '/gateway/user/interest',
+          {username: tool.getuser(), projId: this.projId}).then(res => {
+          if (res.code === 2000){
+            if (this.potentialInvestorSize > 999)
+              this.potentialInvestorSize = '999+'
+            else
+              this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
+          }
             this.likes = this.likes + 1
         })
       }
@@ -229,7 +240,7 @@
       this.projId = this.$route.query.projId
       this.url = this.url + this.projId
 
-      this.$api.post(tool.domind() + '/gateway/app/project/getProjectHeadInfo',
+      this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
         {username: tool.getuser(), projId: this.projId}).then(res => {
         if (res.code === 200) {
           this.projAbstract = res.data.projAbstract
