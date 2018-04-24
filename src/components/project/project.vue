@@ -480,6 +480,7 @@
         .pop-bg{
           z-index: 998;
           padding: 0;
+          touch-action: none;
         }
         .tabCon{
           z-index: 999;
