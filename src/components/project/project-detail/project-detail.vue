@@ -240,7 +240,7 @@
       this.projId = this.$route.query.projId
       this.url = this.url + this.projId
 
-      this.$api.post(tool.domind() + '/gateway/app/project/getProjectHeadInfo',
+      this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
         {username: tool.getuser(), projId: this.projId}).then(res => {
         if (res.code === 200) {
           this.projAbstract = res.data.projAbstract
