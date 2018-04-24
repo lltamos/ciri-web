@@ -38,14 +38,17 @@
           this.$api.post(tool.domind() + '/gateway/user/batchDealWithUserCollect',
             {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.setCollects, name: tool.getuser()}).then(res => {
               if (this.setCollects) {
-                if (this.collects > 1)
+                if (parseInt(this.collects) > 0) {
                   this.collects = parseInt(this.collects) - 1
-                this.collects = '0'
+                }else {
+                  this.collects = '0'
+                }
               }else {
-                if (this.collects < 999)
+                if (parseInt(this.collects) < 999) {
                   this.collects = parseInt(this.collects) + 1
-                else
+                }else {
                   this.collects = '999+'
+                }
               }
             this.setCollects = !this.setCollects
           })
