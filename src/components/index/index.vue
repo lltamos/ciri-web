@@ -446,6 +446,7 @@
             line-height: 16px;
             height: 101px;
             resize: none;
+            font-family: "Microsoft Yahei";
           }
 
           #feedbackAction {
