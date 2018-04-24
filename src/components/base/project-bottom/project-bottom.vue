@@ -40,6 +40,7 @@
               if (this.setCollects) {
                 if (this.collects > 1)
                   this.collects = parseInt(this.collects) - 1
+                this.collects = '0'
               }else {
                 if (this.collects < 999)
                   this.collects = parseInt(this.collects) + 1
