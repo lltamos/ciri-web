@@ -32,7 +32,7 @@
         </ul>
         <div class="all-warp" v-show="questionShow"   >
           <div class="question-warp"  >
-            <div class="question-list" v-for="question in questions" :key="question.id">
+            <div class="question-list" v-for="(question,index) in questions" :key="index" >
               <div class="head-portrait">
                 <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                 <img  :src="question.headUrl"  alt="">
@@ -40,18 +40,18 @@
               <div class="main-news">
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
                 <div class="user-name">{{(question.userid == null ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null ? "匿名": question.userid)}}</div>
-                <div class="delete">{{question.oneselfInfo == true?"删除" :""}}</div>
+                <div class="delete" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
                 <div class="ques-title">{{question.message}}</div>
                 <div class="file-warp">
-                  <div class="file" v-for="fileMeta in question.fileMetas">
+                  <div class="file" v-for="(fileMeta,index) in question.fileMetas" :key="index">
                     <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">{{fileMeta.fileName}}</span>
+                    <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(fileMeta.url)">查看</div>
                   </div>
                 </div>
                 <div class="qs-bottom clearfix">
                   <div class="time fl">{{question.updateTime|time}}</div>
-                  <div class="fr dz-hf">
+                  <div class="fr dz-hf" @click="likesChat(question)">
                     <span class="dz-count">{{question.likes}}</span>
                     <template v-if="question.likeStatus==true">
                       <i class="icon-dz active" ></i>
@@ -63,7 +63,7 @@
                   </div>
                 </div>
                 <!--回答信息-->
-                <div class="questioner-visible" v-for="ask in question.projectChatList" :key="ask.id">
+                <div class="questioner-visible" v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
                   <div class="marked-warp">
                     <div class="marked-words">
@@ -74,7 +74,7 @@
                         </div>
                         <div class="fl">
                           <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                          <div class="delete">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                          <div class="delete" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                           <div class="time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
                           <!--<div class="fr dz-hf">-->
@@ -93,12 +93,17 @@
                   </div>
                   <!--设置回答文件信息-->
                   <div class="file-warp">
-                    <div class="file" v-for="askFileMeta in ask.fileMetas">
+                    <div class="file" v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
                       <i class="icon-type icon-pdf"></i>
-                      <span class="file-title">{{askFileMeta.fileName}}</span>
+                      <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                       <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                     </div>
                   </div>
+                </div>
+                <!--判断当回复的总数大于显示的数量时显示查看更多-->
+                <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                  <span>查看更多</span>
+                  <i class="icon-more"></i>
                 </div>
               </div>
             </div>
@@ -109,7 +114,7 @@
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
-          <div class="question-list" v-for="myQuestion in myQuestions" >
+          <div class="question-list" v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
             <div class="head-portrait">
               <!--<img src="../../../news/img/p_1.jpg" alt="">-->
               <img :src="myQuestion.headUrl" alt="">
@@ -117,18 +122,18 @@
             <div class="main-news">
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>
-              <div class="delete">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="delete" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
               <div class="ques-title">{{myQuestion.message}}</div>
               <div class="file-warp">
-                <div class="file" v-for="fileMeta in myQuestion.fileMetas">
+                <div class="file" v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
                   <i class="icon-type icon-pdf"></i>
-                  <span class="file-title">{{fileMeta.fileName}}</span>
+                  <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                   <div class="view" @click="lookFile(fileMeta.url)">查看</div>
                 </div>
               </div>
               <div class="qs-bottom clearfix">
                 <div class="time fl">{{myQuestion.updateTime|time}}</div>
-                <div class="fr dz-hf">
+                <div class="fr dz-hf" @click="likesChat(myQuestion)">
                   <span class="dz-count">{{myQuestion.likes}}</span>
                   <template v-if="myQuestion.likeStatus==true">
                     <i class="icon-dz active" ></i>
@@ -140,7 +145,7 @@
                 </div>
               </div>
               <!--回答信息-->
-              <div class="questioner-visible" v-for="ask in myQuestion.projectChatList" :key="ask.id">
+              <div class="questioner-visible" v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
                 <!--回复的信息-->
                 <div class="marked-warp">
                   <div class="marked-words">
@@ -151,7 +156,7 @@
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="delete" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                         <div class="time">{{ask.updateTime|time}}</div>
                         <!--回复点赞数量-->
                       </div>
@@ -161,12 +166,17 @@
                 </div>
                 <!--设置回答文件信息-->
                 <div class="file-warp">
-                  <div class="file" v-for="askFileMeta in ask.fileMetas">
+                  <div class="file" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
                     <i class="icon-type icon-pdf"></i>
-                    <span class="file-title">{{askFileMeta.fileName}}</span>
+                    <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                   </div>
                 </div>
+              </div>
+              <!--判断当回复的总数大于显示的数量时显示查看更多-->
+              <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
+                <span>查看更多</span>
+                <i class="icon-more"></i>
               </div>
             </div>
           </div>
@@ -236,6 +246,7 @@
         moreShow : true,
         questionCount:0,
         myQuestionCount:0,
+        askPage:1,
         questions:null,  //项目提问信息
         myQuestions:null //我的问题
       }
@@ -273,8 +284,88 @@
       readMore () {
 
       },
+      likesChat(question){
+        // question.id,question.likes,question.likeStatus
+        let tag = 0;
+        if(question.likeStatus){
+          tag= 1;
+        }
+        //alert(tag)
+        this.$api.post('/ah/s0/chat/giveLikes', {userId: tool.getuser(), chatId: question.id, tag: tag}).then(r => {
+          console.log(r.data);
+          if (r.code == 200) {
+            if (!question.likeStatus) {
+              question.likes = question.likes + 1;
+            } else {
+              question.likes = question.likes - 1;
+            }
+            question.likeStatus=!(question.likeStatus);
+          }
+        })
+      },
+      //查看文件
       lookFile(fileUrl){
-        alert(fileUrl);
+        tool.toast(fileUrl);
+        window.location.href = fileUrl;
+      },
+      //删除交流信息
+      deleteAsk(chatId){
+        // let temp=false;
+        // tool.MessageBox("确实删除",temp);
+        // alert(temp);
+        if(!confirm("确定删除吗")){
+          return;
+        }
+        this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
+          if(r.code==200){
+            tool.toast('删除成功');
+            //所有项目删除列表中信息
+            for (var i = 0; i < this.questions.length; i++) {
+              let que = this.questions[i];
+              if (que.id == chatId) {
+                //注意对比这行代码：删除元素后调整i的值
+                this.questions.splice(i--, 1);
+                alert(chatId);
+                break;
+              }
+              //删除回复中信息
+              if (que.projectChatList.length > 0) {
+                for (var j = 0; j < que.projectChatList.length; j++) {
+                  let ask = que.projectChatList[j];
+                  if (ask.id == chatId) {
+                    //注意对比这行代码：删除元素后调整i的值
+                    que.projectChatList.splice(j--, 1);
+                    alert(chatId);
+                  }
+                }
+              }
+            }
+            //删除我的问题中的信息
+            for (var i = 0; i < this.myQuestions.length; i++) {
+              let que = this.myQuestions[i];
+              if (que.id == chatId) {
+                //注意对比这行代码：删除元素后调整i的值
+                this.myQuestions.splice(i--, 1);
+                alert(chatId);
+                break;
+              }
+              //删除回复中信息
+              if (que.projectChatList.length > 0) {
+                for (var j = 0; j < que.projectChatList.length; j++) {
+                  let ask = que.projectChatList[j];
+                  if (ask.id == chatId) {
+                    //注意对比这行代码：删除元素后调整i的值
+                    que.projectChatList.splice(j--, 1);
+                    alert(chatId);
+                  }
+                }
+              }
+            }
+
+          }else {
+            tool.toast('删除失败请重试');
+          }
+        });
       },
       //获取所有的问答信息15201197830
       allQuestion(){
@@ -300,7 +391,7 @@
           }
         }
         //发送请求分页查询数据
-        this.$api.post('/app/projectChat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:17611581353,proId:364000018}).then(r => {
+        this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:364000018}).then(r => {
           //设置总问题数
           this.questionCount=r.total;
           //设置我的提问数
@@ -325,8 +416,7 @@
             this.page =this.page+1;
           }
         });
-      }
-      ,
+      },
       //获取我的提问信息
       myQuestion(){
         if(this.myQuestions != null){
@@ -351,7 +441,7 @@
           }
         }
         //发送请求分页查询数据
-        this.$api.post('/app/projectChat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:15201197830,proId:364000018}).then(r => {
+        this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:364000018}).then(r => {
           console.log(r.data);
           if(r.data != 'null' && r.data.length>0) {
             if (this.myPage === 1) {
@@ -379,7 +469,27 @@
             this.myPage =this.myPage+1;
           }
         });
-      }
+      },
+      //获取
+      moreAsk(quesiton,e){
+        var d = e.currentTarget;
+        let pageId= parseInt(d.getAttribute("pageId"))+1;
+        //获取更多信息
+        console.log(pageId  );
+        this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:364000018,parentId:quesiton.id}).then(r => {
+          if(r.code==200){
+            quesiton.total=r.total;
+            quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
+            console.log(quesiton.projectChatList);
+            d.setAttribute("pageId",pageId);
+          }
+        })
+      },
+      //提问和回复
+
+
+
+
 
     },
     filters: {
