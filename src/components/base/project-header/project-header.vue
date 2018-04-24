@@ -21,7 +21,7 @@
       </div>
       <div class="tip-news">
         <i class="loc"></i>
-        <span class="country">伊朗</span>
+        <span class="country">{{projAddress}}</span>
         <i class="indu"></i>
         <span class="industry">{{projType}}</span>
         <i class="mold"></i>
@@ -70,7 +70,8 @@
       status: String,
       tags: Array,
       setProjVideo: Boolean,
-      projPhoto: String
+      projPhoto: String,
+      projAddress: String
     },
     data() {
       return {

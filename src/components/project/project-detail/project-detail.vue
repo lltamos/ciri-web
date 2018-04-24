@@ -1,69 +1,49 @@
 <template>
   <div class="project-detail">
-    <projectHeader></projectHeader>
+    <projectHeader :visit="visit"
+                   :projName="projName"
+                   :cornerTag="cornerTag"
+                   :projType="projType"
+                   :tag="tag"
+                   :status="status"
+                   :tags="tags"
+                   :setProjVideo="setProjVideo"
+                   :projPhoto="projPhoto"
+                   :projAddress="projAddress"></projectHeader>
     <div class="project-intro">
       <h4>
         <i class="left-line"></i><span>项目简介</span>
       </h4>
-      <p class="document-txt">
-        建设地点位于俄罗斯克拉斯诺达尔洲，索契冬奥会举办地，
-        投资建设528MW风力发电项目，建设地点位于俄罗斯克拉斯诺达尔洲，索契冬奥会举办地，投资建设528MW风力发电项目
-      </p>
+      <p class="document-txt">{{projAbstract}}</p>
       <div class="progress-model">
-        <svgIcon></svgIcon>
+        <svgIcon :irr="irr"
+                 :amount="amount"
+                 :projDevelopers="projDevelopers"
+                 :potentialInvestorSize="potentialInvestorSize"
+                 :financingProgress="financingProgress"></svgIcon>
       </div>
-      <div class="thumbs-up">
+      <div class="thumbs-up" @click="giveLikes">
         <i class="icon-dianzan"></i>
         <span class="count-warp">看好</span>
-        <span class="count">(2)</span>
+        <span class="count">({{likes}})</span>
       </div>
       <CrossLine></CrossLine>
       <!--关注项目动态-->
       <div class="pro-focus">
         <!-- swiper -->
         <swiper :options="swiperOption" class="slider">
-          <swiper-slide>
+          <swiper-slide v-for="(p, potentialInvestor) in tags" :key="potentialInvestor" v-if="potentialInvestor!=null">
             <div class="img">
-              <img src="../../index/img/javi.png" alt=""/>
+              <img :src="p.url" alt=""/>
             </div>
-            <span>132......450</span>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="img">
-              <img src="../../index/img/javi.png" alt=""/>
-            </div>
-            <span>132......450</span>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="img">
-              <img src="../../news/img/p_1.jpg" alt=""/>
-            </div>
-            <span>132......450</span>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="img">
-              <img src="../../index/img/javi.png" alt=""/>
-            </div>
-            <span>132......450</span>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="img">
-              <img src="../../index/img/javi.png" alt=""/>
-            </div>
-            <span>132......450</span>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="img">
-              <img src="../../news/img/p_1.jpg" alt=""/>
-            </div>
-            <span>132......450</span>
+            <span>{{p.name}}</span>
           </swiper-slide>
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr">
+          <div class="state-focus fr" @click="interest">
             <i class="icon-focus"></i>
-            <span>20人已关注</span>
+            <span>{{potentialInvestorSize}}人已关注</span>
           </div>
         </div>
       </div>
@@ -75,7 +55,7 @@
       <ul class="project-tab">
         <router-link tag="li" to="/project/project-detail/project-evaluation">项目评估</router-link>
         <router-link tag="li" to="/project/project-detail/project-progress">项目进展</router-link>
-        <router-link tag="li" to="/project/project-detail/project-answering">项目交流</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: { 'projId': projId }}">项目交流</router-link>
         <router-link tag="li" to="/project/project-detail/investment-intent">投资意向</router-link>
       </ul>
     </div>
@@ -168,7 +148,10 @@
     </div>
     <!--客户经理-->
     <project-manager></project-manager>
-    <project-bottom></project-bottom>
+    <project-bottom :collects="collects"
+                    :shares="shares"
+                    :setCollects="setCollects"
+                    :projId="projId"></project-bottom>
   </div>
 </template>
 
@@ -178,6 +161,7 @@
   import projectManager from '@/components/base/project-manager/project-manager'
   import svgIcon from '@/components/base/svg-icon/svg-icon'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
   export default {
     components: {
       projectHeader,
@@ -197,8 +181,93 @@
             el: '.swiper-pagination',
             clickable: true
           }
-        }
+        },
+        projId: '',
+        projAbstract: null,
+        likes: 0,
+        collects: null,
+        shares: null,
+        irr: '0',
+        amount: null,
+        projDevelopers: 'CIRI',
+        potentialInvestor: null,
+        potentialInvestorSize: 0,
+        financingProgress: null,
+        visit: null,
+        projName: null,
+        cornerTag: null,
+        projType: null,
+        tag: null,
+        status: null,
+        tags: null,
+        setProjVideo: false,
+        projPhoto: '',
+        url: '/project/project-detail?projId=',
+        isLikes: null,
+        setCollects: false,
+        projAddress: ''
       }
+    },
+    methods: {
+      giveLikes () {
+        if (this.isLikes !== null) {
+          alert('不能重复点赞')
+          return
+        }
+        if (tool.getuser() === null) {
+          this.$router.replace({ path: '/login' })
+        }
+        this.$api.post(tool.domind() + '/gateway/app/project/addLike',
+          {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
+          if (res.code === 200)
+            this.likes = this.likes + 1
+        })
+      },
+      interest () {
+        this.$api.post(tool.domind() + '/gateway/user/interest',
+          {username: tool.getuser(), projId: this.projId}).then(res => {
+          if (res.code === 2000){
+            if (this.potentialInvestorSize > 999)
+              this.potentialInvestorSize = '999+'
+            else
+              this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
+          }
+            this.likes = this.likes + 1
+        })
+      }
+    },
+    created () {
+      this.projId = this.$route.query.projId
+      this.url = this.url + this.projId
+
+      this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        {username: tool.getuser(), projId: this.projId}).then(res => {
+        if (res.code === 200) {
+          this.projAbstract = res.data.projAbstract
+          this.likes = parseInt(res.data.likes) //todo 是否点赞 控制 点赞图标的样式
+          this.collects = res.data.collects
+          this.shares = res.data.shares
+          this.irr = res.data.irr.replace(/.00/g, '')
+          this.amount = res.data.amount
+          if (res.data.projDevelopers !== '')
+            this.projDevelopers = res.data.projDevelopers
+          this.potentialInvestor = res.data.potentialInvestor
+          this.potentialInvestorSize = res.data.potentialInvestorSize
+          this.financingProgress = res.data.financingProgress
+          this.visit = res.data.visit
+          this.projName = res.data.projName
+          this.cornerTag = res.data.cornerTag
+          this.projType = res.data.projType
+          this.tag = res.data.tag
+          this.status = res.data.status
+          this.tags = res.data.tags
+          this.setProjVideo = res.data.setProjVideo
+          this.projPhoto = res.data.projPhoto
+          this.isLikes = res.data.isLikes
+          this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
+          this.projAddress = res.data.projAddress
+        }
+      });
     }
   }
 </script>

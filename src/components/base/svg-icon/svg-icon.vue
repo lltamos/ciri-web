@@ -27,7 +27,9 @@
 
     <text x="700" y="256" text-anchor="end" fill="black">
       <tspan x="500" y="256">项目开发商：</tspan>
-      <tspan x="700" y="256"  class="fz-large c-primary"  fill="#333">{{projDevelopers}}</tspan>
+      <tspan x="700" y="256" class="fz-large c-primary" fill="#333">
+        {{projDevelopers.length>7?projDevelopers.substring(0,4)+'...'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}
+      </tspan>
     </text>
     <text x="700" y="342" text-anchor="end" fill="black">
       <tspan x="500" y="342">意向投资方：</tspan>
@@ -45,13 +47,13 @@
         },
         props: {
           irr: String,
-          amount: Number,
+          amount: String,
           projDevelopers: {
             type: String,
             default: 'CIRI'
           },
           potentialInvestorSize: Number,
-          financingProgress: String
+          financingProgress: Number
 
         },
         watch: {},
