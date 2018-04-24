@@ -3,7 +3,7 @@
     <Article text="项目现场勘查" :content="this.InfraInfo"></Article>
     <BigImg v-if="this.InfraPhoto!=null" :content="this.InfraPhoto"></BigImg>
     <CrossLine></CrossLine>
-    <Article text="项目技术与工程方案"></Article>
+    <Article text="项目技术与工程方案" :content="this.riskInfo"></Article>
     <CrossLine></CrossLine>
     <Article text="项目行业与市场分析"></Article>
     <CrossLine></CrossLine>
@@ -63,7 +63,8 @@
         projId: null,
         projContent: null,
         InfraInfo: null,
-        InfraPhoto: null
+        InfraPhoto: null,
+        riskInfo:null
       }
     },
     props: {},
@@ -87,7 +88,7 @@
         this.projContent = r.data;
         this.InfraInfo = this.projContent.InfraInfo.valueCn;
         this.InfraPhoto = this.projContent.InfraPhoto;
-        console.log(this.InfraPhoto)
+        this.riskInfo=this.projContent.riskInfo;
       });
     },
     destroyed() {
