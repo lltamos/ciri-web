@@ -55,11 +55,13 @@
       </h4>
       <div class="tab-warp">
         <ul class="tab" :class="searchBarFixed == true ? 'isFixed' :''">
-          <Nationality text="国别"></Nationality>
+          <Nationality text="国别" @countryShow="countryShow"></Nationality>
           <Nationality text="行业"></Nationality>
           <Nationality text="类型"></Nationality>
           <Nationality text="进度"></Nationality>
         </ul>
+        <div class="pop-bg" v-show="popShow">
+        </div>
       </div>
       <div class="main">
         <router-link to="/project/project-land">
@@ -161,6 +163,7 @@
       return {
         scrollSearch: 'fixed',
         searchBarFixed : false,
+        popShow : false
       }
     },
     props: {},
@@ -179,6 +182,10 @@
         var opcaity=(scrollTop/350>1)?1:scrollTop/350;
         searchWarp.style.background='rgba(82,141,232,'+opcaity+')';
       },
+      countryShow(){
+        this.searchBarFixed = true
+        this.popShow = true;
+      }
 
     },
     filters: {},
@@ -378,9 +385,13 @@
           width: 100%;
           box-sizing: border-box;
         }
+        .pop-bg{
+          z-index: 998;
+          /*display: none;*/
+        }
       }
       .main{
-        min-height: 300px;
+        min-height: 1000px;
         padding: 0 10px;
         .pro-list {
           padding: 15px 0 15px 96px;

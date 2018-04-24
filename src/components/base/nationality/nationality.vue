@@ -28,6 +28,7 @@
             } else {
               element.classList.add('active')
             }
+            this.$emit('countryShow')
           }
         },
         filters: {},

@@ -1,10 +1,10 @@
 <template>
     <div class="pro-evaluat">
       <ul class="eval-tab">
-        <router-link tag="li" to="/project/project-detail/project-evaluation/project-introduction">项目介绍</router-link>
-        <router-link tag="li" to="/project/project-detail/project-evaluation/project-file">项目文件</router-link>
-        <router-link tag="li" to="/project/project-detail/project-evaluation/feasibility-analysis">可行性分析</router-link>
-        <router-link tag="li" to="/project/project-detail/project-evaluation/project-developer">项目开发商</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-introduction', query: {'projId': projId}}">项目介绍</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-file', query: {'projId': projId}}">项目文件</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/feasibility-analysis', query: {'projId': projId}}">可行性分析</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-developer', query: {'projId': projId}}">项目开发商</router-link>
       </ul>
       <keep-alive>
         <router-view></router-view>
@@ -16,7 +16,9 @@
     export default {
         components: {},
         data() {
-            return {}
+            return {
+              projId: ''
+            }
         },
         props: {},
         watch: {},
@@ -24,6 +26,7 @@
         filters: {},
         computed: {},
         created() {
+          this.projId = this.$route.query.projId
         },
         mounted() {
         },

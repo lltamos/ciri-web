@@ -66,19 +66,6 @@ export default new Router({
     {
       path: '/index',
       component: Index,
-      // children: [
-      //   // 首页 项目推荐
-      //   {
-      //     path: 'project-recommend',
-      //     component: ProjectRecommend
-      //   },
-      //   // 首页 成功案例
-      //   {
-      //     path: 'successful-cases',
-      //     component: SuccessfulCases
-      //   },
-      //
-      // ]
     },
     // 登录
     {
@@ -153,6 +140,9 @@ export default new Router({
     {
       path: '/project/project-detail',
       redirect: '/project/project-detail/project-evaluation',
+      meta: {
+        requireAuth: true,
+      },
       component: ProjectDetail,
       children: [
         // 项目评估
@@ -164,21 +154,33 @@ export default new Router({
             // 项目介绍
             {
               path: 'project-introduction',
+              meta: {
+                requireAuth: true,
+              },
               component: ProjectIntroduction
             },
             // 项目文件
             {
               path: 'project-file',
+              meta: {
+                requireAuth: true,
+              },
               component: ProjectFile
             },
             // 可行性分析
             {
               path: 'feasibility-analysis',
+              meta: {
+                requireAuth: true,
+              },
               component: FeasibilityAnalysis
             },
             // 项目开发商
             {
               path: 'project-developer',
+              meta: {
+                requireAuth: true,
+              },
               component: ProjectDeveloper
             }
 
@@ -187,16 +189,25 @@ export default new Router({
         // 项目进展
         {
           path: 'project-progress',
+          meta: {
+            requireAuth: true,
+          },
           component: ProjectProgress
         },
         // 项目答疑
         {
           path: 'project-answering',
+          meta: {
+            requireAuth: true,
+          },
           component: ProjectAnswering
         },
         // 投资意向
         {
           path: 'investment-intent',
+          meta: {
+            requireAuth: true,
+          },
           component: InvestmentIntent
         }
 

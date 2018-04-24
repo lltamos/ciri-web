@@ -138,7 +138,7 @@
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
-            this.likes = parseInt(res.data.likes) //todo 是否点赞 控制 点赞图标的样式
+            this.likes = parseInt(res.data.likes)
             this.collects = res.data.collects
             this.shares = res.data.shares
             this.irr = res.data.irr.replace(/.00/g, '')
@@ -157,7 +157,7 @@
             this.tags = res.data.tags
             this.setProjVideo = res.data.setProjVideo
             this.projPhoto = res.data.projPhoto
-            this.isLikes = res.data.isLikes
+            this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
             this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
           }
@@ -232,6 +232,9 @@
         padding:5px 10px;
         line-height: 1;
         border-radius: 2px;
+        &:active{
+          background: #bbb;
+        }
         .icon-dianzan{
           display: inline-block;
           width: 9px;
