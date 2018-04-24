@@ -41,7 +41,7 @@
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr" @click="interest">
+          <div class="state-focus fr" @click="interest1">
             <i class="icon-focus"></i>
             <span>{{potentialInvestorSize}}人已关注</span>
           </div>
@@ -150,7 +150,7 @@
     <project-manager></project-manager>
     <project-bottom :collects="collects"
                     :shares="shares"
-                    :setCollects="setCollects"
+                    :collected="collected"
                     :projId="projId"></project-bottom>
   </div>
 </template>
@@ -182,7 +182,7 @@
             clickable: true
           }
         },
-        projId: '',
+        projId: 0,
         projAbstract: null,
         likes: 0,
         collects: null,
@@ -204,9 +204,9 @@
         projPhoto: '',
         url: '/project/project-detail?projId=',
         isLikes: null,
-        setCollects: false,
+        collected: false,
         projAddress: '',
-        focus: false
+        interest: false
       }
     },
     methods: {
@@ -224,8 +224,8 @@
             this.likes = this.likes + 1
         })
       },
-      interest () {
-        if (focus) {
+      interest1 () {
+        if (this.interest) {
           alert('不能重复关注')
           return
         }
@@ -237,42 +237,47 @@
             else
               this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
           }
-            this.potentialInvestorSize = this.potentialInvestorSize + 1
+          this.interest = true
+          this.init()
         })
+      },
+      init () {
+        this.projId = this.$route.query.projId
+        this.url = this.url + this.projId
+
+        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+          {username: tool.getuser(), projId: this.projId}).then(res => {
+          if (res.code === 200) {
+            this.projAbstract = res.data.projAbstract
+            this.likes = parseInt(res.data.likes)
+            this.collects = res.data.collects
+            this.shares = res.data.shares
+            this.irr = res.data.irr.replace(/.00/g, '')
+            this.amount = res.data.amount
+            if (res.data.projDevelopers !== '')
+              this.projDevelopers = res.data.projDevelopers
+            this.potentialInvestor = res.data.potentialInvestor
+            this.potentialInvestorSize = res.data.potentialInvestorSize
+            this.financingProgress = res.data.financingProgress
+            this.visit = res.data.visit
+            this.projName = res.data.projName
+            this.cornerTag = res.data.cornerTag
+            this.projType = res.data.projType
+            this.tag = res.data.tag
+            this.status = res.data.status
+            this.tags = res.data.tags
+            this.setProjVideo = res.data.setProjVideo
+            this.projPhoto = res.data.projPhoto
+            this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
+            this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
+            this.projAddress = res.data.projAddress
+            this.interest = res.data.interest
+          }
+        });
       }
     },
     created () {
-      this.projId = this.$route.query.projId
-      this.url = this.url + this.projId
-
-      this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
-        {username: tool.getuser(), projId: this.projId}).then(res => {
-        if (res.code === 200) {
-          this.projAbstract = res.data.projAbstract
-          this.likes = parseInt(res.data.likes)
-          this.collects = res.data.collects
-          this.shares = res.data.shares
-          this.irr = res.data.irr.replace(/.00/g, '')
-          this.amount = res.data.amount
-          if (res.data.projDevelopers !== '')
-            this.projDevelopers = res.data.projDevelopers
-          this.potentialInvestor = res.data.potentialInvestor
-          this.potentialInvestorSize = res.data.potentialInvestorSize
-          this.financingProgress = res.data.financingProgress
-          this.visit = res.data.visit
-          this.projName = res.data.projName
-          this.cornerTag = res.data.cornerTag
-          this.projType = res.data.projType
-          this.tag = res.data.tag
-          this.status = res.data.status
-          this.tags = res.data.tags
-          this.setProjVideo = res.data.setProjVideo
-          this.projPhoto = res.data.projPhoto
-          this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
-          this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
-          this.projAddress = res.data.projAddress
-        }
-      });
+      this.init()
     }
   }
 </script>

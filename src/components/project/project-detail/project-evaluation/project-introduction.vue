@@ -53,20 +53,20 @@
     <table width="100%" cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
-          <td>1.项目现场勘查 <i class="progress-finished"></i> </td>
-          <td>5.完成项目投资签约<i class="progress-unfinished"></i></td>
+          <td>1.项目现场勘查 <i v-bind:class="[foreignCurrencyApprovalDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
+          <td>5.完成项目投资签约<i v-bind:class="[investAgreementDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
         <tr>
-          <td>2.项目可研报告 <i class="progress-finished"></i> </td>
-          <td>6.完成项目融资流程<i class="progress-unfinished"></i></td>
+          <td>2.项目可研报告 <i v-bind:class="[feasibilityReportDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
+          <td>6.完成项目融资流程<i v-bind:class="[financingContractDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
         <tr>
-          <td>3.项目土地批复 <i class="progress-finished"></i> </td>
-          <td>7.完成项目承建签约<i class="progress-unfinished"></i></td>
+          <td>3.项目土地批复 <i v-bind:class="[landApplyDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
+          <td>7.完成项目承建签约<i v-bind:class="[generalContractorAgreementDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
         <tr>
-          <td>4.项目各项许可 <i class="progress-finished"></i> </td>
-          <td>8.完成项目建设<i class="progress-unfinished"></i></td>
+          <td>4.项目各项许可 <i v-bind:class="[environmentApprovalDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
+          <td>8.完成项目建设<i v-bind:class="[infrastructureDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
       </tbody>
     </table>
@@ -113,9 +113,9 @@
     </div>
   </div>
   <CrossLine></CrossLine>
-  <Article text="项目详情"></Article>
+  <Article :content="productService" text="项目详情"></Article>
   <CrossLine></CrossLine>
-  <Article text="投资环境"></Article>
+  <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
 </div>
 </template>
@@ -156,6 +156,17 @@
               constructionType: null,//项目类型 （新建）
               investMode: null,//投资方式
               industry: null,//所属行业
+              foreignCurrencyApprovalDone: false,//项目现场勘察
+              investAgreementDone: false,//完成项目投资签约
+              feasibilityReportDone: false,//项目可研报告
+              financingContractDone: false,//完成项目融资流程
+              landApplyDone: false,//项目土地批复
+              generalContractorAgreementDone: false,//完成项目承建签约
+              environmentApprovalDone: false,//项目各项许可
+              infrastructureDone: false ,//完成项目建设
+              productService: null,
+              operateMetric: null
+
             }
         },
         props: {},
@@ -183,6 +194,16 @@
               this.constructionType = res.data.constructionType
               this.investMode = res.data.investMode
               this.industry = res.data.industry
+              this.foreignCurrencyApprovalDone = res.data.foreignCurrencyApprovalDone
+              this.investAgreementDone = res.data.investAgreementDone
+              this.feasibilityReportDone = res.data.feasibilityReportDone
+              this.financingContractDone = res.data.financingContractDone
+              this.landApplyDone = res.data.landApplyDone
+              this.generalContractorAgreementDone = res.data.generalContractorAgreementDone
+              this.environmentApprovalDone = res.data.environmentApprovalDone
+              this.infrastructureDone = res.data.infrastructureDone
+              this.productService = res.data.productService
+              this.operateMetric = res.data.operateMetric
           })
         },
       mounted() {
