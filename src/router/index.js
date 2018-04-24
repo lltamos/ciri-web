@@ -70,6 +70,9 @@ export default new Router({
     // 登录
     {
       path: '/login',
+      meta: {
+        auth: false
+      },
       component: login,
     },
     // 资讯
@@ -140,9 +143,6 @@ export default new Router({
     {
       path: '/project/project-detail',
       redirect: '/project/project-detail/project-evaluation',
-      meta: {
-        requireAuth: true,
-      },
       component: ProjectDetail,
       children: [
         // 项目评估
@@ -156,6 +156,7 @@ export default new Router({
               path: 'project-introduction',
               meta: {
                 requireAuth: true,
+                keep: true
               },
               component: ProjectIntroduction
             },

@@ -169,7 +169,7 @@ export default {
               sessionStorage.setItem("username", res.data.username);
               sessionStorage.setItem("islogin", "true");
               this.axios.defaults.headers.token = res.data.token;
-              this.$router.replace({ path: "/mine" });
+              this.$router.push({ path: "/mine" });
             } else {
               this.error = "账号或密码错误，请重新输入";
               this.errorShow = true;
