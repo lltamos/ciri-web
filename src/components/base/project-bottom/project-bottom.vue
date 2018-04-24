@@ -27,7 +27,7 @@
       props: {
         collects: String,
         shares: String,
-        setCollects: Boolean,
+        collected: Boolean,
         projId: String
       },
       methods: {
@@ -36,8 +36,8 @@
             this.$router.replace({path: '/login'})
           }
           this.$api.post(tool.domind() + '/gateway/user/batchDealWithUserCollect',
-            {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.setCollects, name: tool.getuser()}).then(res => {
-              if (this.setCollects) {
+            {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.collected, name: tool.getuser()}).then(res => {
+              if (this.collected) {
                 if (parseInt(this.collects) > 0) {
                   this.collects = parseInt(this.collects) - 1
                 }else {
@@ -50,7 +50,7 @@
                   this.collects = '999+'
                 }
               }
-            this.setCollects = !this.setCollects
+            this.collected = !this.collected
           })
         }
       }

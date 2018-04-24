@@ -51,7 +51,7 @@
   <project-manager></project-manager>
   <project-bottom :collects="collects"
                   :shares="shares"
-                  :setCollects="setCollects"
+                  :collected="collected"
                   :projId="projId"></project-bottom>
 </div>
 </template>
@@ -97,7 +97,7 @@
           projPhoto: '',
           url: '/project/project-detail?projId=',
           isLikes: null,
-          setCollects: false,
+          collected: false,
           projAddress: ''
         }
       },
@@ -158,7 +158,7 @@
             this.setProjVideo = res.data.setProjVideo
             this.projPhoto = res.data.projPhoto
             this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
-            this.setCollects = res.data.setCollects //todo  是否收藏 控制收藏图标的样式
+            this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
           }
         });
