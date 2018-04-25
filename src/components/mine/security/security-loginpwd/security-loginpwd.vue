@@ -57,9 +57,7 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       Focus () {
         this.registerClass = 'registerBtnActive';
@@ -118,8 +116,8 @@
           {'name': tool.getuser(), 'originalPassword': this.password1, 'newPassword': this.password2, 'confirmPassword': this.password3}
         ).then(res => {
           if (res.data.code === 200) {
-            alert('修改成功');
-            this.$router.push({path: '/login'});
+            tool.toast('绑定成功');
+            window.history.back();
           } else if (res.data.code === 101){
             this.error = '原始密码错误';
             this.errorShow = true;

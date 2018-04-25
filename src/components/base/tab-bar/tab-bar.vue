@@ -1,32 +1,35 @@
 <!-- 底部导航栏 组件 -->
 
 <template>
-  <ul class="tab-bar">
-    <!-- ?_? 当设置 to="/" 时，首页ico总是高亮，搞不懂 ?_? -->
-    <router-link class="index" tag="li" to="/index">
-      <i class="ico-index"></i>
-      <span>首页</span>
-    </router-link>
+  <div class="tab-warp">
+    <ul class="tab-bar">
+      <!-- ?_? 当设置 to="/" 时，首页ico总是高亮，搞不懂 ?_? -->
+      <router-link class="index" tag="li" to="/index">
+        <i class="icon-index"></i>
+        <span>首页</span>
+      </router-link>
 
-    <router-link class="find" tag="li" to="/news">
-      <i class="ico-find"></i>
-      <span>资讯</span>
-    </router-link>
+      <router-link class="news" tag="li" to="/news">
+        <i class="icon-news"></i>
+        <span>资讯</span>
+      </router-link>
 
-    <router-link class="order" tag="li" to="/project">
-      <i class="ico-order"></i>
-      <span>项目</span>
-    </router-link>
+      <router-link class="project" tag="li" to="/project">
+        <i class="icon-project"></i>
+        <span class="title-project">项目</span>
+      </router-link>
 
-    <router-link class="mine" tag="li" to="/msg">
-      <i class="ico-mine"></i>
-      <span>消息</span>
-    </router-link>
-    <router-link class="mine" tag="li" to="/mine">
-      <i class="ico-mine"></i>
-      <span>我的</span>
-    </router-link>
-  </ul>
+      <router-link class="msg" tag="li" to="/msg">
+        <i class="icon-msg"></i>
+        <span>消息</span>
+      </router-link>
+      <router-link class="mine" tag="li" to="/mine">
+        <i class="icon-mine"></i>
+        <span>我的</span>
+      </router-link>
+    </ul>
+    <div class="tab-bar tab-border"></div>
+  </div>
 </template>
 
 <script>
@@ -49,66 +52,95 @@ export default {
 <style lang="scss" scoped>
 @import '~@/assets/scss/const.scss';
 @import '~@/assets/scss/mixin.scss';
-
-.tab-bar {
-  @include onepx();
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  background-color: #fcfcfc;
-  z-index: 99;
-  li {
-    flex: 1;
-    color: #999;
-    display: block;
-    i {
+.tab-warp{
+  .tab-bar {
+    height: 33px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 99;
+    padding: 7px 0 6px;
+    li {
+      flex: 1;
+      color: #666;
       display: block;
-      width: 25px;
-      height: 25px;
-      margin: 3px auto;
-      background: url('./tab-icons.png') no-repeat;
-      background-size: 25px auto;
+      position: relative;
+      i {
+        display: block;
+        width: 22px;
+        height: 22px;
+        margin:auto;
+        @include bg-image("./icon-index");
+        background-size: 22px auto;
+        background-repeat: no-repeat;
+      }
+      span {
+        display: block;
+        font-size: 10px;
+        height:10px;
+        line-height: 10px;
+        margin-top: 3px;
+      }
+      .title-project{
+        margin-top: 5px;
+      }
     }
-    span {
-      display: block;
-      font-size: 12px;
+
+    li.router-link-active {
+      color: #009fe8;
+    }
+
+    .icon-index {
+      @include bg-image("./icon-index");
+    }
+    .index.router-link-active .icon-index {
+      @include bg-image("./index-active");
+    }
+
+    .icon-news {
+      @include bg-image("./icon-news");
+    }
+    .news.router-link-active .icon-news {
+      @include bg-image("./news-active");
+    }
+
+    .icon-project {
+      width: 40px;
+      height: 40px;
+      margin-bottom:5px;
+      background-size: 40px auto;
+      background-repeat: no-repeat;
+      @include bg-image("./project-active");
+      margin-top: -20px;
+    }
+    .project.router-link-active .icon-project {
+      background-position: 0 0;
+      @include bg-image("./project-active");
+    }
+
+    .icon-msg {
+      @include bg-image("./icon-msg");
+    }
+    .msg.router-link-active .icon-msg {
+      @include bg-image("./msg-active");
+    }
+
+    .icon-mine {
+      @include bg-image("./icon-mine");
+    }
+    .mine.router-link-active .icon-mine {
+      @include bg-image("./mine-active");
     }
   }
-
-  li.router-link-active {
-    color: #333;
-  }
-
-  .ico-index {
-    background-position: 0 -75px;
-  }
-  .index.router-link-active .ico-index {
-    background-position: 0 -50px;
-  }
-
-  .ico-find {
-    background-image: url('./find.png');
-  }
-  .find.router-link-active .ico-find {
-    background-image: url('./find1.png');
-  }
-
-  .ico-order {
-    background-position: 0 -25px;
-  }
-  .order.router-link-active .ico-order {
-    background-position: 0 0;
-  }
-
-  .ico-mine {
-    background-position: 0 -125px;
-  }
-  .mine.router-link-active .ico-mine {
-    background-position: 0 -100px;
+  .tab-border{
+    @include onepx();
+    position: fixed;
+    background-color: #fcfcfc;
+    z-index: 98;
   }
 }
 </style>

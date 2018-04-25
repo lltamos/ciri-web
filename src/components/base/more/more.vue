@@ -1,11 +1,13 @@
 <!-- 顶部栏 组件 -->
 
 <template>
-  <div class="more-bar">
-    <router-link :to=to v-show="show"><i class="icon-more"></i></router-link>
-    <h1 :class="keyClass">{{textKey}}</h1>
-    <h1>{{text}}</h1>
-  </div>
+  <router-link :to=to>
+    <div class="more-bar">
+      <i class="icon-more" v-show="show"></i>
+      <h1 :class="keyClass">{{textKey}}</h1>
+      <h1>{{text}}</h1>
+    </div>
+  </router-link>
 </template>
 
 <script>
@@ -71,7 +73,7 @@
       background-position: center;
     }
     .icon-more {
-      background-image: url('../img/more.png');
+      @include bg-image("../img/more");
     }
     h1 {
       display: inline-block;

@@ -27,33 +27,36 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       updateUserInfo(){
         let params = new URLSearchParams();
         let flag = this.$route.params.id;
         params.append("name",tool.getuser());
-        alert(tool.getuser());
         params.append(flag,this.info);
         this.axios
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
           .then(res => {
-            console.log(res);
             if (res.data.code === 200) {
               alert("修改个人信息成功");
+              window.history.back();
             }else {
-              alert("修改个人信息失败")
+              alert("修改个人信息失败");
             }
           });
       }
     },
     created () {
       let flag=this.$route.params.id;
-      let text=this.$route.params.name;
-      this.info=text;
-      console.log(this.$route);
+      //截取url参数
+      let url = window.location.href;
+      url=decodeURI(url);
+      let vs = url.split('/');
+      let last = vs.pop();
+      if (last !== 'null' && last !== '') {
+        this.info=last;
+      }
+
       if( flag=='realName' ){
         this.headTitle ='修改姓名'
       }else if(flag=='corpName'){

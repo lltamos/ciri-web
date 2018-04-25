@@ -50,7 +50,8 @@
         errorShow : false,
         showCode:true,
         currentPhone:"",
-        phone:""
+        phone:"",
+        auchcode:''
       }
     },mounted() {
       this.axios.get(tool.domind() + "/gateway/security/securityInfo?name="+tool.getuser()).then(res => {
@@ -61,28 +62,47 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       //input获取焦点时执行
       Focus () {
         this.loginClass='loginBtnActive';
       },
       getCode () {
-        // let tag = tool.checkMobile(this.email);
-        // if (!tag) {
-        //   return
-        // }
-        // let param = new URLSearchParams();
-        // param.append('name', this.phone);
-        // if (tag) {
-        //   this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-        //     console.log(res)
-        //   }).catch(err => {
-        //     console.log(err)
-        //   })
-        // }
+        if (!tool.checkMobile(this.phone)) {
+          this.errorShow = true;
+          this.error = '手机格式不正确';
+          return ;
+        }
+
+        let params = new URLSearchParams();
+        params.append("phone", this.phone);
+        this.axios.post(tool.domind()+'/gateway/security/phoneCode',params
+        ).then(res => {
+          if(res.data === 10){
+          }else if(res.data === null){
+            this.errorShow = true;
+            this.error = '发送失败';
+          }else if(res.data === 1){
+            this.errorShow = true;
+            this.error = '格式不正确';
+          }else if(res.data === 2) {
+            this.errorShow = true;
+            this.error = '手机号已经被注册';
+          }else if(res.data ===3) {
+            this.errorShow = true;
+            this.error = '发送失败';
+          }else if(res.data === 4) {
+            this.errorShow = true;
+            this.error = '发送频率过快';
+          }else if(res.data === 0) {
+            this.errorShow = true;
+            this.error = '手机号不能为空';
+          }
+        }).catch(err => {
+          alert(err);
+          console.log(err)
+        })
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -111,45 +131,22 @@
         }
       },
       verifyCode (){
-        if (!this.auchcode) {
+        if (this.auchcode==null||this.auchcode=='') {
           this.errorShow = true;
           this.error = '验证码错误，请重新输入';
         }else {
         this.errorShow = false;
         }
       },
-      getCode(){
-        let params = new URLSearchParams();
-        params.append("phone", this.phone);
-        this.axios.post(tool.domind()+'/gateway/security/phoneCode',params
-        ).then(res => {
-          if(res.data === 10){
-            alert('发送成功');
-          }else if(res.data === null){
-            this.errorShow = true;
-            this.error = '发送失败';
-          }else if(res.data === 1){
-            this.errorShow = true;
-            this.error = '格式不正确';
-          }else if(res.data === 2) {
-            this.errorShow = true;
-            this.error = '手机号已经被注册';
-          }else if(res.data ===3) {
-            this.errorShow = true;
-            this.error = '发送失败';
-          }else if(res.data === 4) {
-            this.errorShow = true;
-            this.error = '发送频率过快';
-          }else if(res.data === 0) {
-            this.errorShow = true;
-            this.error = '手机号不能为空';
-          }
-        }).catch(err => {
-          alert(err);
-          console.log(err)
-        })
-      },
       bindPhone(){
+        this.verifyPhone();
+        if(this.errorShow)
+          return ;
+
+        this.verifyCode();
+        if(this.errorShow)
+          return ;
+
         let params = new URLSearchParams();
         params.append("phone", this.phone);
         params.append("code", this.auchcode);
@@ -157,7 +154,8 @@
         this.axios.post(tool.domind()+'/gateway/security/bindPhone',params
         ).then(res => {
           if(res.data === 10){
-            alert('绑定成功');
+            tool.toast('绑定成功');
+            window.history.back();
           }else if(res.data === null){
             this.errorShow = true;
             this.error = '绑定失败';
@@ -186,9 +184,6 @@
         })
       }
       }
-
-
-
   }
 </script>
 

@@ -31,6 +31,19 @@
   text-align: center;
   margin-bottom: 80px;
 }
+
+.small-btn{
+  width:75px;
+  height:22px;
+  line-height:22px;
+  margin-top: -11px;
+  font-size: 13px;
+  background: #528de8;
+  color:#fff;
+  border-radius: 3px;
+  text-align: center;
+
+}
 //设置body 背景颜色
 .ping-bg{
   position: fixed;
@@ -52,13 +65,88 @@
 em{
   font-style: normal;
 }
+//资讯页面通用样式
 .news{
   .title-box{
+    //浏览数
     .count{
       height:18px;
       display: inline-block;
       line-height: 18px;
       margin-top: 2px;
+    }
+  }
+}
+
+#slider1 .mint-swipe-indicators {
+  right:-70px;
+  left: initial;
+  bottom:10px;
+  z-index: 99;
+}
+
+//修改资讯页面轮播样式
+#slider1 .mint-swipe-indicator{
+  width:20px;
+  height:3px;
+  background: #fff;
+  margin-left: 9px;
+  opacity: 1;
+  border-radius: initial;
+}
+#slider1 .mint-swipe-indicator.is-active{
+  background: #3f83e6;
+}
+//渐变背景
+.gradient{
+  background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* 标准的语法 */
+}
+//修改首页banner轮播样式
+#sliderIndex1 .mint-swipe-indicator{
+  width:6px;
+  height:6px;
+  background:#fff;
+  opacity:1;
+}
+#sliderIndex1 .mint-swipe-indicator.is-active{
+background: #3f83e6;
+}
+#big-img{
+  .structure-warp{
+    padding: 0 10px;
+    text-align: left;
+    figure{
+      background: #fff;
+      width: 48.7%;
+      float: left;
+      position: relative;
+      margin: 0;
+      &:nth-of-type(odd){
+        margin-right:2.6%;
+      }
+      img{
+        height:129px;
+        width:100%;
+      }
+      figcaption{
+        display: block!important;
+        text-align: center;
+        font-size: 13px;
+        color: #333;
+        line-height: 1;
+        overflow: hidden;
+        margin: 10px 0 15px;
+        font-weight: normal;
+        text-align: center;
+      }
+    }
+    .pswp__ui{
+      .pswp__button--share{
+        display: none;
+      }
     }
   }
 }

@@ -60,8 +60,8 @@
       </div>
       </router-link>
     </div>
-    <div v-show="isMore" class="more">
-      <span @click="loadMore">查看更多</span>
+    <div class="more">
+      <span @click="loadMore" v-text="moreText">查看更多</span>
       <i></i>
     </div>
     <div class="blank"></div>
@@ -81,7 +81,9 @@ export default {
       host: tool.oos(),
       page: 1,
       topArticle: null,
-      isMore: false
+      isMore: false,
+      moreText:'查看更多'
+
     };
   },
   methods: {
@@ -101,7 +103,11 @@ export default {
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
-            this.isMore = this.articles.length !== res.data.total;
+            if(this.articles.length != res.data.total){
+              this.moreText='查看更多'
+            }else{
+              this.moreText='没有更多了'
+            }
           }
           this.page = this.page + 1;
         });
@@ -170,7 +176,7 @@ export default {
     }
   }
   .project1 {
-    margin-top: 14px;
+    margin-top: 0px;
     .img {
       width: 100%;
       height: 186px;
@@ -229,7 +235,7 @@ export default {
     }
   }
   .blank{
-    height:65px;
+    height:75px;
   }
 }
 </style>

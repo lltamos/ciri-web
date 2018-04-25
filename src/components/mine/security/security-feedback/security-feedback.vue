@@ -16,8 +16,8 @@
       <div class="clear"></div>
     </div>
     <div class="heart_comment clearfix">
-      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="contact">
       <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="content1"></textarea>
+      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="contact">
       <div id="feedbackAction" class="btn" @click="feedback">提交</div>
     </div>
   </div>
@@ -35,19 +35,23 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       feedback (){
+        if (!this.content1) {
+          alert('请输入问题或建议');
+          return ;
+        }
         let param = tool.buildForm([
           { key: "contact", v: this.contcat },
           { key: "content", v: this.context1 }
         ]);
         this.axios.post(tool.domind()+'/gateway/app/feedback',param
         ).then(res => {
-          if(res.data.code === 200)
+          if (res.data.code === 200) {
             alert('提交成功');
+            window.history.back();
+          }
         }).catch(err => {
           alert(err);
           console.log(err)
@@ -105,12 +109,13 @@
         border: 1px solid #dedede;
         border-radius: 3px;
         padding: 0 3.4%;
-        margin-top: 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
       }
 
       .tit_inp {
         margin-top: 13px;
-        margin-bottom: 21px;
+        margin-bottom: 10px;
         width: 92%;
         background: #fff;
         outline: 0;

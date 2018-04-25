@@ -114,7 +114,7 @@ export default {
       }
       if (!tool.checkMobile(this.phone)) {
         this.errorShow = true;
-        this.error = "账号错误，请重新输入1111";
+        this.error = "账号错误，请重新输入";
         return;
       }
       if (!this.verifyCode) {
@@ -133,19 +133,21 @@ export default {
         return;
       }
 
-      let params = new URLSearchParams();
-      params.append("roleId", this.checked);
-      params.append("name", this.phone);
-      params.append("password", this.password1);
-      params.append("verifyCode", this.verifyCode);
+      // let params = new URLSearchParams();
+      // params.append("roleId", this.checked);
+      // params.append("name", this.phone);
+      // params.append("password", this.password1);
+      // params.append("verifyCode", this.verifyCode);
 
       this.axios
-        .post(tool.domind() + "/gateway/app/sys/regist", params)
+        .post(tool.domind() + "/gateway/app/sys/regist", {'roleId':this.checked,'name':this.phone,'password':this.password1,'verifyCode':this.verifyCode})
         .then(res => {
-          console.log(res);
           if (res.data.code === 200) {
             this.$router.replace({ path: "/login" });
-          } else {
+          } else if(res.data.code === 101){
+            this.error = res.data.msg;
+            this.errorShow = true;
+          }else {
             this.error = "账号或密码错误，请重新输入";
             this.errorShow = true;
           }
@@ -155,9 +157,7 @@ export default {
         });
     },
     back() {
-      this.$router.push({
-        path: this.$router.go(-1)
-      });
+      window.history.back()
     },
     //input获取焦点时执行
     Focus() {
@@ -174,28 +174,33 @@ export default {
       param.append("name",this.phone);
       if (tag) {
         this.axios
-          .post(tool.domind() + "/gateway/app/sms/verify/other", param)
+          .post(tool.domind() + "/gateway/app/sms/verify/regist", param)
           .then(res => {
-            console.log(res);
+            if (res.data.code === 101) {
+              this.error = res.data.msg;
+              this.errorShow = true;
+              clearInterval(this.timer);
+              this.show = true;
+            }else {
+              const TIME_COUNT = 60;
+              if (!this.timer) {
+                this.count = TIME_COUNT;
+                this.show = false;
+                this.timer = setInterval(() => {
+                  if (this.count > 0 && this.count <= TIME_COUNT) {
+                    this.count--;
+                  } else {
+                    this.show = true;
+                    clearInterval(this.timer);
+                    this.timer = null;
+                  }
+                }, 1000);
+              }
+            }
           })
           .catch(err => {
             console.log(err);
           });
-      }
-
-      const TIME_COUNT = 60;
-      if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.show = false;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--;
-          } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
-          }
-        }, 1000);
       }
     },
     pswShow1() {

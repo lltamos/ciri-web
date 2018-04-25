@@ -89,9 +89,7 @@
     },
     methods: {
       back () {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
 
       uploadImg (e, tag) {
@@ -147,8 +145,7 @@
             if (res.data.code > 100 & res.data.code < 200) {
               alert(res.data.msg);
             }else if (res.data.code === 200) {
-              console.log(res.data.data);
-              this.$router.push({path: '/mine/identity'});
+              this.$router.push({path: '/mine/identity?tag=1'});
             }
           })
       }

@@ -32,9 +32,7 @@
     },
     methods: {
       back() {
-        this.$router.push({
-          path: '/mine/member-center'
-        })
+        window.history.back()
       }
     }
   }

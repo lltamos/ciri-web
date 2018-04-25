@@ -45,9 +45,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push({
-        path: this.$router.go(-1)
-      });
+      window.history.back()
     }
   },
   props: {},
@@ -55,10 +53,8 @@ export default {
     this.axios
       .get(tool.domind() + "/gateway/app/news/article/" + this.$route.query.id)
       .then(res => {
-        console.log(res);
         if (res.data.code === 200) {
           this.content = res.data.data;
-          console.log(res.data.content);
         }
       });
   },

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/index/index'
+// import ProjectRecommend from '@/components/index/project-recommend/project-recommend'
+// import SuccessfulCases from '@/components/index/successful-cases/successful-cases'
 import News from '@/components/news/news'
 import NewsDetail from '@/components/news/news-detail/news-detail'
 import CIRINews from '@/components/news/CIRI-News/CIRI-News'
@@ -11,153 +13,66 @@ import Activities from '@/components/news/CIRI-News/Activities/Activities'
 import RecentNews from '@/components/news/CIRI-News/recent-news/recent-news'
 import Investigation from '@/components/news/CIRI-News/investigation/investigation'
 import Cooperation from '@/components/news/CIRI-News/cooperation/cooperation'
-import Project from'@/components/project/project'
-import Msg from'@/components/msg/msg'
+import Project from '@/components/project/project'
+import ProjectLand from '@/components/project/project-land/project-land'
+import ProjectDetail from '@/components/project/project-detail/project-detail'
+import ProjectEvaluation from '@/components/project/project-detail/project-evaluation/project-evaluation'
+import ProjectIntroduction from '@/components/project/project-detail/project-evaluation/project-introduction'
+import ProjectFile from '@/components/project/project-detail/project-evaluation/project-file'
+import FeasibilityAnalysis from '@/components/project/project-detail/project-evaluation/feasibility-analysis'
+import ProjectDeveloper from '@/components/project/project-detail/project-evaluation/project-developer'
+import ProjectProgress from '@/components/project/project-detail/project-progress/project-progress'
+import ProgressDetail from '@/components/project/project-detail/project-progress/progress-detail'
+import ProjectAnswering from '@/components/project/project-detail/project-answering/project-answering'
+import InvestmentIntent from '@/components/project/project-detail/investment-intent/investment-intent'
+import Msg from '@/components/msg/msg'
 import Mine from '@/components/mine/mine'
+import MyProfile from '@/components/mine/my-profile/my-profile'
+import ChangeKey from '@/components/mine/my-profile/change-key'
+import ChangeCountry from '@/components/mine/my-profile/change-country'
+import FocusCountry from '@/components/mine/my-profile/focus-country'
+import MemberCenter from '@/components/mine/member-center/member-center'
+import Security from '@/components/mine/security/security'
+import AboutUs from '@/components/mine/security/about-us/about-us'
+import BrazilBranch from '@/components/mine/security/about-us/brazil-branch'
+import BusinessArea from '@/components/mine/security/about-us/business-area'
+import CompanyProfile from '@/components/mine/security/about-us/company-profile'
+import ContactUs from '@/components/mine/security/about-us/contact-us'
+import IranianBranch from '@/components/mine/security/about-us/iranian-branch'
+import SecurityEmail from '@/components/mine/security/security-email/security-email'
+import SecurityFeedback from '@/components/mine/security/security-feedback/security-feedback'
+import SecurityLoginpwd from '@/components/mine/security/security-loginpwd/security-loginpwd'
+import SecurityPhone from '@/components/mine/security/security-phone/security-phone'
+import IdentityVerification from '@/components/mine/IdentityVerification/IdentityVerification'
+import IdentitySuccess from '@/components/mine/IdentityVerification/identity'
+import MemberDredge from '@/components/mine/member-center/member-dredge'
+import MyFavorite from '@/components/mine/my-favorite/my-favorite'
+import login from '@/components/login/login'
+import Register from '@/components/login/register'
+import Resetpwd from '@/components/login/resetpwd'
+import Authcode from '@/components/login/authcode'
+import Deal from '@/components/login/deal'
+
 Vue.use(Router)
-
-const Security = (resolve) => {
-  import('@/components/mine/security/security').then((module) => {
-    resolve(module)
-  })
-}
-const AboutUs = (resolve) => {
-  import('@/components/mine/security/about-us/about-us').then((module) => {
-    resolve(module)
-  })
-}
-const BrazilBranch = (resolve) => {
-  import('@/components/mine/security/about-us/brazil-branch').then((module) => {
-    resolve(module)
-  })
-}
-const BusinessArea = (resolve) => {
-  import('@/components/mine/security/about-us/business-area').then((module) => {
-    resolve(module)
-  })
-}
-const CompanyProfile = (resolve) => {
-  import('@/components/mine/security/about-us/company-profile').then((module) => {
-    resolve(module)
-  })
-}
-const ContactUs = (resolve) => {
-  import('@/components/mine/security/about-us/contact-us').then((module) => {
-    resolve(module)
-  })
-}
-const IranianBranch = (resolve) => {
-  import('@/components/mine/security/about-us/iranian-branch').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityEmail = (resolve) => {
-  import('@/components/mine/security/security-email/security-email').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityFeedback = (resolve) => {
-  import('@/components/mine/security/security-feedback/security-feedback').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityLoginpwd = (resolve) => {
-  import('@/components/mine/security/security-loginpwd/security-loginpwd').then((module) => {
-    resolve(module)
-  })
-}
-const SecurityPhone = (resolve) => {
-  import('@/components/mine/security/security-phone/security-phone').then((module) => {
-    resolve(module)
-  })
-}
-const IdentityVerification = (resolve) => {
-  import('@/components/mine/IdentityVerification/IdentityVerification').then((module) => {
-    resolve(module)
-  })
-}
-const IdentitySuccess = (resolve) => {
-  import('@/components/mine/IdentityVerification/identity').then((module) => {
-    resolve(module)
-  })
-}
-const MemberCenter = (resolve) => {
-  import('@/components/mine/member-center/member-center').then((module) => {
-    resolve(module)
-  })
-}
-const MemberDredge = (resolve) => {
-  import('@/components/mine/member-center/member-dredge').then((module) => {
-    resolve(module)
-  })
-}
-const MyFavorite = (resolve) => {
-  import('@/components/mine/my-favorite/my-favorite').then((module) => {
-    resolve(module)
-  })
-}
-const MyProfile = (resolve) => {
-  import('@/components/mine/my-profile/my-profile').then((module) => {
-    resolve(module)
-  })
-}
-const ChangeKey = (resolve) => {
-  import('@/components/mine/my-profile/change-key').then((module) => {
-    resolve(module)
-  })
-}
-const ChangeCountry = (resolve) => {
-  import('@/components/mine/my-profile/change-country').then((module) => {
-    resolve(module)
-  })
-}
-const FocusCountry = (resolve) => {
-  import('@/components/mine/my-profile/focus-country').then((module) => {
-    resolve(module)
-  })
-}
-const login = (resolve) => {
-  import('@/components/login/login').then((module) => {
-    resolve(module)
-  })
-}
-const Register = (resolve) => {
-  import('@/components/login/register').then((module) => {
-    resolve(module)
-  })
-}
-const Resetpwd = (resolve) => {
-  import('@/components/login/resetpwd').then((module) => {
-    resolve(module)
-  })
-}
-const Authcode = (resolve) => {
-  import('@/components/login/authcode').then((module) => {
-    resolve(module)
-  })
-}
-const Deal = (resolve) => {
-  import('@/components/login/deal').then((module) => {
-    resolve(module)
-  })
-}
-
 export default new Router({
   routes: [
     // 根路径
     {
       path: '/',
-      redirect: 'index',
+      redirect: '/index',
       component: Index
     },
     // 首页
     {
       path: '/index',
-      component: Index
+      component: Index,
     },
     // 登录
     {
       path: '/login',
+      meta: {
+        auth: false
+      },
       component: login,
     },
     // 资讯
@@ -165,7 +80,7 @@ export default new Router({
       path: '/news',
       redirect: '/news/home',
       component: News,
-      children : [
+      children: [
         // 资讯  走出去情报
         {
           path: 'go-out',
@@ -179,13 +94,13 @@ export default new Router({
         // 资讯  项目情报
         {
           path: 'news-project',
-          component:NewsProject
+          component: NewsProject
         },
         {
           path: 'CIRI-News',
           redirect: '/news/CIRI-News/Activities',
           component: CIRINews,
-          children : [
+          children: [
             // 资讯  最新活动
             {
               path: 'Activities',
@@ -219,6 +134,92 @@ export default new Router({
       path: '/project',
       component: Project
     },
+    // 项目着陆页
+    {
+      path: '/project/project-land',
+      component: ProjectLand
+    },
+    // 项目详情页
+    {
+      path: '/project/project-detail',
+      redirect: '/project/project-detail/project-evaluation',
+      component: ProjectDetail,
+      children: [
+        // 项目评估
+        {
+          path: 'project-evaluation',
+          redirect: '/project/project-detail/project-evaluation/project-introduction',
+          component: ProjectEvaluation,
+          children: [
+            // 项目介绍
+            {
+              path: 'project-introduction',
+              meta: {
+                requireAuth: true,
+                keep: true
+              },
+              component: ProjectIntroduction
+            },
+            // 项目文件
+            {
+              path: 'project-file',
+              meta: {
+                requireAuth: true,
+              },
+              component: ProjectFile
+            },
+            // 可行性分析
+            {
+              path: 'feasibility-analysis',
+              meta: {
+                requireAuth: true,
+              },
+              component: FeasibilityAnalysis
+            },
+            // 项目开发商
+            {
+              path: 'project-developer',
+              meta: {
+                requireAuth: true,
+              },
+              component: ProjectDeveloper
+            }
+
+          ]
+        },
+        // 项目进展
+        {
+          path: 'project-progress',
+          meta: {
+            requireAuth: true,
+          },
+          component: ProjectProgress
+        },
+        // 项目答疑
+        {
+          path: 'project-answering',
+          meta: {
+            requireAuth: true,
+          },
+          component: ProjectAnswering
+        },
+        // 投资意向
+        {
+          path: 'investment-intent',
+          meta: {
+            requireAuth: true,
+          },
+          component: InvestmentIntent
+        }
+
+      ]
+    },
+
+    // 项目进展  详情页
+    {
+      path: '/project/project-detail/progress-detail',
+      component: ProgressDetail
+    },
     // 消息
     {
       path: '/msg',
@@ -232,6 +233,9 @@ export default new Router({
     //安全设置
     {
       path: '/mine/security',
+      meta: {
+        requireAuth: true,
+      },
       component: Security
     },
     //安全设置   关于我们
@@ -288,6 +292,9 @@ export default new Router({
     //实名认证
     {
       path: '/mine/IdentityVerification',
+      meta: {
+        requireAuth: true,
+      },
       component: IdentityVerification
     },
     {
@@ -297,9 +304,12 @@ export default new Router({
     //会员中心
     {
       path: '/mine/member-center',
+      meta: {
+        requireAuth: true,
+      },
       component: MemberCenter
     },
-    //会员中心
+    //会员等级
     {
       path: '/mine/member-dredge',
       component: MemberDredge
@@ -307,6 +317,9 @@ export default new Router({
     //项目收藏
     {
       path: '/mine/my-favorite',
+      meta: {
+        requireAuth: true,
+      },
       component: MyFavorite
     },
     //个人资料
@@ -316,7 +329,7 @@ export default new Router({
     },
     //修改个人资料  动态路由
     {
-      path: '/mine/change-key/:id/:name',
+      path: '/mine/change-key/:id/**',
       component: ChangeKey
     },
     //修改国家

@@ -91,9 +91,7 @@
         }
       },
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       //input获取焦点时执行
       Focus() {
@@ -109,7 +107,6 @@
         param.append('name', this.phone);
         if (tag) {
           this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-            console.log(res)
           }).catch(err => {
             console.log(err)
           })

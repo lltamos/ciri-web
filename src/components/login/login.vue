@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      loginClass: "loginBtn",
+      loginClass: "loginBtnActive",
       showPhone: true,
       showEmail: false,
       pswTypeChange: "password",
@@ -85,9 +85,7 @@ export default {
   watch: {},
   methods: {
     back() {
-      this.$router.push({
-        path: this.$router.go(-1)
-      });
+      window.history.back()
     },
     //input获取焦点时执行
     Focus() {
@@ -167,11 +165,14 @@ export default {
           .post(tool.domind() + "/gateway/app/sys/login", params)
           .then(res => {
             if (res.data.code === 200) {
-              sessionStorage.setItem("token", res.data.token);
-              sessionStorage.setItem("username", res.data.username);
+              sessionStorage.setItem("token", res.data.data.token);
+              sessionStorage.setItem("username", res.data.data.username);
               sessionStorage.setItem("islogin", "true");
-              this.axios.defaults.headers.token = res.data.token;
-              this.$router.replace({ path: "/mine" });
+              this.axios.defaults.headers.token = res.data.data.token;
+              let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+              this.$router.push({
+                path: redirect
+              });
             } else {
               this.error = "账号或密码错误，请重新输入";
               this.errorShow = true;
@@ -189,7 +190,11 @@ export default {
   },
   filters: {},
   computed: {},
-  created() {},
+  created() {
+    if(this.phone){
+      this.loginClass = "loginBtnActive";
+    }
+  },
   mounted() {}
 };
 </script>

@@ -6,7 +6,7 @@
       <div class="more-bar head-portrait">
         <i class="icon-more" @click="headShow"></i>
         <div class="key icon-head" @click="headShow">
-            <img :src="userInfo.portraitFileUrl"/>
+            <img :src="userInfo.portraitFileUrl" />
         </div>
         <h1>头像</h1>
       </div>
@@ -79,14 +79,12 @@
         showBounced: false,
         to : '',
         userInfo:"",
-        img: null,
+        img: null
       }
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
       headShow () {
         this.showBounced = true;
@@ -106,14 +104,13 @@
         this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
           .then(res => {
             if (res.data.code === 200) {
-              console.log(res.data);
               let params = new URLSearchParams();
               params.append("name",tool.getuser());
               params.append("portraitFileSize",res.data.data[0].fileSize);
               params.append("portraitFileId",res.data.data[0].fileId);
               this.updateUserInfo(params);
               //刷新页面
-              this.userInfo.portraitFileUrl=res.data.data[0].url ;
+              this.userInfo.portraitFileUrl=res.data.data[0].url;
             }else{
               alert("上传用户头像失败")
             }
@@ -142,6 +139,9 @@
             if (res.data.code === 200) {
               this.userInfo=res.data.data;
               var level=this.userInfo.memberLevelId;
+              if(!this.userInfo.portraitFileUrl){
+                this.userInfo.portraitFileUrl = require('../img/user_face.png');
+              }
               if(level>=5){
                 this.userInfo.memberLevelId='源合网会员'
               }else if(level >=3){
@@ -209,17 +209,13 @@
     .icon-head{
       height:66px;
       width:66px;
-      border:1px solid #ccc;
       margin-right: 5px;
-      border-radius: 50%;
-      @include bg-image("../img/user_face");
-      background-size: 66px auto;
       margin-top: 17px;
       cursor: pointer;
       img{
         height: 66px;
         width: 66px;
-        border: 2px solid #ccc;
+        border:1px solid #ccc;
         border-radius: 50%;
       }
     }
@@ -251,10 +247,14 @@
       font-size: 13px;
       color:#333;
       margin-bottom: 15px;
+      position: relative;
       .uploadImg{
         position: absolute;
         left: 0px;
         top: 0px;
+        right:0;
+        bottom:0;
+        width:100%;
         opacity: 0;
         -ms-filter: 'alpha(opacity=0)';
       }

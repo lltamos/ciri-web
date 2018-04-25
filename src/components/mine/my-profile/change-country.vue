@@ -1,5 +1,5 @@
 <template>
-  <div class="change-country">
+  <div :class="changeCountry">
     <header-bar text="修改国家" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
@@ -10,15 +10,15 @@
         </div>
       </div>
       <div class="country-warp" v-show="show">
-        <div class="country" @click="choose($event ,item)" v-for="item in country" :key="item">
+        <div class="country" @click="choose($event,item)" v-for="item in country" :key="item">
           {{item.name}}
         </div>
       </div>
-
-
-
-
     </div>
+    <div class="btn-warp">
+      <div class="btn change-save" @click="updateUserInfo">保存</div>
+    </div>
+
   </div>
 </template>
 
@@ -37,51 +37,53 @@
         showCountry : 'show-country',
         show : true,
         country : [{name:'中国',id:"11156"},{name:'日本',id:"11392"},{name:'伊朗',id:"15364"},{name:'巴西',id:"73076"}],
-        chooseCountry :'请选择国家'
+        chooseCountry :'请选择国家',
+        chooseCountryId :'',
+        changeCountry : 'change-country'
       }
     },
     methods: {
       back() {
-        this.$router.push({
-          path: this.$router.go(-1)
-        })
+        window.history.back()
       },
-      Country () {
+      Country(){
         this.show = !this.show
         if(this.show){
           this.showCountry= 'show-country';
+          this.changeCountry = 'change-country'
         }else {
           this.showCountry= 'hide-country';
+          this.changeCountry = 'change-country ping-bg'
         }
       },
       choose (e ,item) {
-        //获取当前值
-        console.log(item.name);
-        //修改国家信息
-        let params = new URLSearchParams();
-        params.append("name",tool.getuser());
-        params.append("countryId",item.id);
-        this.updateUserInfo(params,item);
+        //回显
+        this.chooseCountry = item.name;
+        this.chooseCountryId = item.id;
+        this.Country();
       },
-      updateUserInfo(params,item){
-        this.axios
-          .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
-          .then(res => {
-            console.log(res);
-            if (res.data.code === 200) {
-              alert("修改国家成功");
-              //回显
-              this.chooseCountry = item.name;
-            }else {
-              alert("修改国家失败,请重新选择")
-            }
-          });
-      }
+      updateUserInfo(){
+          //修改国家信息
+          let params = new URLSearchParams();
+          params.append("name",tool.getuser());
+          params.append("countryId",this.chooseCountryId);
+          this.axios
+            .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
+            .then(res => {
+              console.log(res);
+              if (res.data.code === 200) {
+                alert("修改国家成功");
+                window.history.back();
+              }else {
+                alert("修改国家失败,请重新选择");
+              }
+            });
+        }
     },
     created () {
       let flag=this.$route.params.id;
       //判断用户是否已经选择国家
-      if(flag != null && flag !=''){
+      if(flag != null && flag !=='' && flag !="null"){
         this.chooseCountry=flag;
       }
       //查询所有的国家信息
@@ -99,43 +101,53 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
-  .main{
-    margin: 0 10px;
-    background: #fff;
-    text-align: left;
-    border:1px solid #dedede;
-    border-bottom: none;
-    color:#333;
-    .change{
-      overflow: hidden;
-      height:35px;
-      line-height: 35px;
-      border-bottom:1px solid #dedede;
-      font-size: 13px;
-      padding: 0 15px;
-      i{
-        display: block;
-        float:right;
-        width: 18px;
-        height: 35px;
-        background-repeat: no-repeat;
-        background-size: 18px auto;
-        background-position: center;
+  .change-country{
+    background: #f5f5f5;
+    .main{
+      margin: 0 10px;
+      background: #fff;
+      text-align: left;
+      border:1px solid #dedede;
+      border-bottom: none;
+      color:#333;
+      .change{
+        overflow: hidden;
+        height:35px;
+        line-height: 35px;
+        border-bottom:1px solid #dedede;
+        font-size: 13px;
+        padding: 0 15px;
+        i{
+          display: block;
+          float:right;
+          width: 18px;
+          height: 35px;
+          background-repeat: no-repeat;
+          background-size: 18px auto;
+          background-position: center;
 
+        }
+        .show-country{
+          @include bg-image("../img/show-country");
+        }
+        .hide-country{
+          @include bg-image("../img/hide-country");
+        }
       }
-      .show-country{
-        @include bg-image("../img/show-country");
-      }
-      .hide-country{
-        @include bg-image("../img/hide-country");
+      .country{
+        height:40px;
+        line-height: 40px;
+        padding:0 15px;
+        border-bottom: 1px dashed #dedede;
+        font-size: 14px;
       }
     }
-    .country{
-      height:40px;
-      line-height: 40px;
-      padding:0 15px;
-      border-bottom: 1px dashed #dedede;
-      font-size: 14px;
+    .btn-warp{
+      overflow: hidden;
+      .change-save{
+        width:150px;
+        margin: 65px auto;
+      }
     }
   }
 </style>
