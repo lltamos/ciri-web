@@ -1,27 +1,26 @@
 <template>
   <div class="project-answering">
     <div class="answering-warp">
-
       <div class="ask-warp ask-bt">
-        <div class="ask-describe"></div>
-        <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟"></textarea>
-        <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
-        <div class="file-warp">
-          <FileDelete></FileDelete>
-          <FileDelete></FileDelete>
-          <FileDelete></FileDelete>
-        </div>
-        <div class="pop-bottom clearfix">
-          <div class="fl">
-            <i class="icon-uploading"></i>
-            <span class="upload-file">上传文件</span>
-            <input type="file" class="fill-input">
+          <div class="ask-describe"></div>
+          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
+          <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
+          <div class="file-warp">
+            <FileDelete v-for="(file,index) in askFileList"  :key="index"
+                          :file="file" :index="index" :tag="1"
+                          @delete="deleteAskFile"></FileDelete>
           </div>
-          <div class="fr btn-warp">
-            <input type="checkbox">匿名
-            <div class="small-btn">提交</div>
+          <div class="pop-bottom clearfix">
+            <div class="fl">
+              <i class="icon-uploading"></i>
+              <span class="upload-file">上传文件</span>
+              <input type="file" class="fill-input"  @change="UploadFile($event,1)">
+            </div>
+            <div class="fr btn-warp">
+              <input type="checkbox" v-model="askChecked">匿名
+              <div class="small-btn" @click="askAQuestion">提交</div>
+            </div>
           </div>
-        </div>
       </div>
       <CrossLine></CrossLine>
       <!--<div class="small-btn" @click="askQuestion">我要提问</div>-->
@@ -51,15 +50,15 @@
                 </div>
                 <div class="qs-bottom clearfix">
                   <div class="time fl">{{question.updateTime|time}}</div>
-                  <div class="fr dz-hf" @click="likesChat(question)">
-                    <span class="dz-count">{{question.likes}}</span>
+                  <div class="fr dz-hf" >
+                    <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
                     <template v-if="question.likeStatus==true">
                       <i class="icon-dz active" ></i>
                     </template>
                     <template v-if="question.likeStatus==false">
                       <i class="icon-dz" ></i>
                     </template>
-                    <span class="reply" @click="askQuestion">回复<em>({{question.total>999?"999+":question.total}})</em></span>
+                    <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
                   </div>
                 </div>
                 <!--回答信息-->
@@ -133,15 +132,15 @@
               </div>
               <div class="qs-bottom clearfix">
                 <div class="time fl">{{myQuestion.updateTime|time}}</div>
-                <div class="fr dz-hf" @click="likesChat(myQuestion)">
-                  <span class="dz-count">{{myQuestion.likes}}</span>
+                <div class="fr dz-hf" >
+                  <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
                   <template v-if="myQuestion.likeStatus==true">
                     <i class="icon-dz active" ></i>
                   </template>
                   <template v-if="myQuestion.likeStatus==false">
                     <i class="icon-dz" ></i>
                   </template>
-                  <span class="reply" @click="askQuestion">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                  <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
                 </div>
               </div>
               <!--回答信息-->
@@ -190,22 +189,23 @@
       <div class="ask-pop pop-bg" v-show="askPop">
         <div class="pop-up ask-warp">
           <div class="checkbox-warp">
-            <input type="checkbox">仅提问者可见
+            <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
           </div>
-          <textarea name="" id="" cols="30" rows="10" placeholder="写回复"></textarea>
+          <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
           <div class="file-warp">
-            <FileDelete></FileDelete>
-            <FileDelete></FileDelete>
-            <FileDelete></FileDelete>
+            <FileDelete v-for="(file,index) in backFileList"  :key="index"
+                        :file="file" :index="index" :tag="2"
+                        @delete="deleteAskFile"></FileDelete>
           </div>
           <div class="pop-bottom clearfix">
             <div class="fl">
               <i class="icon-uploading"></i>
               <span class="upload-file">上传文件</span>
-              <input type="file" class="fill-input">
+              <input type="file" class="fill-input" @change="UploadFile($event,2)">
             </div>
             <div class="fr btn-warp">
-              <input type="checkbox">匿名
+              <input type="checkbox"  v-model="backChecked" >匿名
+              <!--<label for="checkbox">{{ askChecked }}</label>-->
               <div class="small-btn" @click="submitQuestion">提交</div>
             </div>
           </div>
@@ -222,16 +222,19 @@
   import FileDelete from '@/components/base/file-delete/file-delete'
   import Authority from '@/components/base/authority/authority'
   import moment from 'moment'
-  import tool from "../../../../api/tool";
+  import tool from "../../../../api/tool"
+  import MessageBox from 'mint-ui';
   export default {
     components: {
       CrossLine,
       FileDelete,
       Authority,
-      tool
+      tool,
+      MessageBox
     },
     data() {
       return {
+        proId:364000018,//项目id
         askPop : false,
         // 权限弹框
         authorityShow : false,
@@ -248,18 +251,24 @@
         myQuestionCount:0,
         askPage:1,
         questions:null,  //项目提问信息
-        myQuestions:null //我的问题
+        myQuestions:null, //我的问题
+        message:"",        //提问的信息栏
+        askChecked:false,  //提问匿名选项框
+        askFileList:[],  //提问的文件数组
+        backFileList:[],  //回复的文件数组
+        backVisibleStatus:false, //回复仅提问者可见
+        backChecked:false,       //回复匿名
+        backMessage:"",          //回复信息
+        parentId:""             //回复的父id值
       }
     },
     props: {},
     watch: {},
     methods: {
       // 提问弹框
-      askQuestion (){
+      askQuestion (id){
+        this.parentId = id;
         this.askPop = true;
-      },
-      submitQuestion (){
-        this.askPop = false;
       },
       //权限弹框
       authorityHide () {
@@ -391,13 +400,13 @@
           }
         }
         //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:364000018}).then(r => {
+        this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
           //设置总问题数
           this.questionCount=r.total;
           //设置我的提问数
           this.myQuestionCount= r.myTotal;
           console.log(r.data);
-          if(r.data != 'null' && r.data.length>0){
+          if(r.data !== null && r.data.length >0){
             //如追加数据
             if (this.page === 1) {
               this.questions= r.data;
@@ -441,7 +450,7 @@
           }
         }
         //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:364000018}).then(r => {
+        this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
           console.log(r.data);
           if(r.data != 'null' && r.data.length>0) {
             if (this.myPage === 1) {
@@ -473,10 +482,10 @@
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        let pageId= parseInt(d.getAttribute("pageId"))+1;
-        //获取更多信息
+        let pageId= parseInt(d.getAttribute(""))+1;
+        //获取更多信息pageId
         console.log(pageId  );
-        this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:364000018,parentId:quesiton.id}).then(r => {
+        this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
@@ -485,12 +494,101 @@
           }
         })
       },
-      //提问和回复
-
-
-
-
-
+      //提问
+      askAQuestion(){
+        if(this.message==""){
+          tool.toast("提问信息不能为空")
+          return
+        }
+        let fileStr=[];
+        for (var file of this.askFileList) {
+          fileStr.push(file.fileName+","+file.fileId)
+        }
+        var files=fileStr.join(";");
+        this.$api.post('/ah/s0/chat/addProjectChat',
+          { userid: tool.getuser(),
+            projid: this.proId, files: files,
+            message: this.message,
+            status : this.askChecked ? 1 : 0,
+          }).then(r => {
+          if(r.code===200){
+            tool.toast("提问成功");
+            //刷新页面
+            location.reload();
+          }
+        });
+      },
+      //回复
+      submitQuestion(){
+        if(this.backMessage==""){
+          tool.toast("回复信息不能为空")
+          return
+        }
+        let fileStr=[];
+        for (var file of this.backFileList) {
+          fileStr.push(file.fileName+","+file.fileId)
+        }
+        var files=fileStr.join(";");
+        this.askPop = false;
+        this.$api.post('/ah/s0/chat/addProjectChat',
+          { userid: tool.getuser(),
+            projid: this.proId, files: files,
+            message: this.backMessage,
+            parent: this.parentId,
+            status: this.askChecked ? 1 : 0,
+            isVisible: this.backVisibleStatus ? 1 : 0
+          }).then(r => {
+          if (r.code === 200) {
+            //隐藏弹窗
+            this.askPop = false;
+            //提示信息
+            tool.toast("回复成功");
+            //内容重置
+            this.backMessage="";
+            //回答问题的id重置
+            this.parentId="";
+          }
+        });
+      },
+      //上传文件
+      UploadFile(e, tag) {
+        tool.toast("正在上传文件....");
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        var imgFormData = new FormData();
+        imgFormData.append('upload', files[0]);
+        let config = {headers: {'Content-Type': 'multipart/form-data'}};
+        //上传文件
+        this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+          .then(res => {
+            if (res.data.code === 200) {
+              let temp = res.data.data[0]
+              switch (tag) {
+                case 1:
+                  this.askFileList.push(temp);
+                  console.log(this.askFileList);
+                  break;
+            case 2:
+                  this.backFileList.push(temp);
+                  console.log(this.backFileList);
+                  break;
+              }
+            }
+          });
+      },
+      //删除文件
+      deleteAskFile(msg){
+          let tag=msg.tag;
+          let index=msg.index;
+          //删除文件
+          if(tag===1){
+            this.askFileList.splice(index,1)
+          }
+          if(index===2){
+            this.backFileList.splice(index,1)
+          }
+      }
     },
     filters: {
       time(time) {
