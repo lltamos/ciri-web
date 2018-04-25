@@ -22,7 +22,7 @@
                  :potentialInvestorSize="potentialInvestorSize"
                  :financingProgress="financingProgress"></svgIcon>
       </div>
-      <div class="thumbs-up" @click="giveLikes">
+      <div v-bind:class="[isLikes ? 'thumbs-down' : 'thumbs-up', '']" @click="giveLikes">
         <i class="icon-dianzan"></i>
         <span class="count-warp">看好</span>
         <span class="count">({{likes}})</span>
@@ -41,7 +41,7 @@
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr" @click="interest1">
+          <div v-bind:class="[ interest ? 'focused' : 'state-focus' ,'fr']" @click="interest1">
             <i class="icon-focus"></i>
             <span>{{potentialInvestorSize}}人已关注</span>
           </div>
@@ -68,81 +68,26 @@
     <div class="project-rec">
       <h4>
         <i class="left-line"></i><span>项目推荐</span>
-        <router-link to="" class="detail-warp">
+        <router-link to="/project" class="detail-warp">
           <span class="to-detail">查看更多</span>
           <i class="more"></i>
         </router-link>
       </h4>
       <ul class="recommdnd-warp clearfix">
-        <li class="recommdnd-card">
+        <li class="recommdnd-card" @click="gotoProjLand(f.projId)" v-if="fetprojects != null" v-for="(f, index) in fetprojects.list" :key="index">
          <div class="img">
-           <img src="../../news/img/p_1.jpg" alt="">
+           <img :src="f.url" alt="">
          </div>
           <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
+            <h2>{{f.name}}</h2>
             <div class="tip-news">
               <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
+              <span class="industry fl" v-if="f.constructionTypeName != null">{{f.constructionTypeName}}</span>
+              <span class="count fr" v-if="f.visit != null">{{f.visit}}</span>
               <i class="view fr"></i>
-
             </div>
           </div>
-
-
         </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-
       </ul>
 
     </div>
@@ -203,10 +148,11 @@
         setProjVideo: false,
         projPhoto: '',
         url: '/project/project-detail?projId=',
-        isLikes: null,
+        isLikes: false,
         collected: false,
         projAddress: '',
-        interest: false
+        interest: false,
+        fetprojects: null
       }
     },
     methods: {
@@ -218,10 +164,12 @@
         if (tool.getuser() === null) {
           this.$router.replace({ path: '/login' })
         }
-        this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+        this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-          if (res.code === 200)
+          if (res.code === 200) {
             this.likes = this.likes + 1
+            this.isLikes = true
+          }
         })
       },
       interest1 () {
@@ -229,7 +177,7 @@
           alert('不能重复关注')
           return
         }
-        this.$api.post(tool.domind() + '/gateway/user/interest',
+        this.$api.post('/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 2000){
             if (this.potentialInvestorSize > 999)
@@ -245,7 +193,7 @@
         this.projId = this.$route.query.projId
         this.url = this.url + this.projId
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
@@ -274,6 +222,17 @@
             this.interest = res.data.interest
           }
         });
+
+        this.$api.post('/pb/i/fetprojects',
+          {pageSize: 4, status: 7,tag:101001}).then(res => {
+        if (res.code == 200){
+          this.fetprojects = res.data
+        }
+        })
+
+      },
+      gotoProjLand (id) {
+        this.$router.replace({ path: '/project/project-land?projId=' + id })
       }
     },
     created () {
@@ -341,6 +300,40 @@
         display: table;
         margin:-5px auto 25px;
         background: #4285f4;
+        color:#fefeff;
+        font-size: 11px;
+        height:23px;
+        padding:5px 10px;
+        line-height: 1;
+        border-radius: 2px;
+        &:active{
+          background: #bbb;
+        }
+        .icon-dianzan{
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
+        .count-warp{
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
+        .count{
+          font-size: 7px;
+          margin-left: 5px;
+        }
+      }
+      .thumbs-down{
+        display: table;
+        margin:-5px auto 25px;
+        background: #bbb;
         color:#fefeff;
         font-size: 11px;
         height:23px;
@@ -418,9 +411,22 @@
               background-size: 15px auto;
               background-position: center;
               @include bg-image("../img/focus");
-              &:active{
-                @include bg-image("../img/focused");
-              }
+            }
+            span{
+              display: block;
+            }
+          }
+          .focused{
+            width: 22%;
+            i{
+              display: block;
+              width: 15px;
+              height: 15px;
+              margin:0 auto 5px;
+              background-repeat: no-repeat;
+              background-size: 15px auto;
+              background-position: center;
+              @include bg-image("../img/focused");
             }
             span{
               display: block;

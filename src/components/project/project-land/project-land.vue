@@ -9,7 +9,8 @@
                  :tags="tags"
                  :setProjVideo="setProjVideo"
                  :projPhoto="projPhoto"
-                 :projAddress="projAddress"></projectHeader>
+                 :projAddress="projAddress"
+                 :projMaturity="projMaturity"></projectHeader>
   <div class="project-intro">
     <h4>
       <i class="left-line"></i><span>项目简介</span>
@@ -27,7 +28,7 @@
                :potentialInvestorSize="potentialInvestorSize"
                :financingProgress="financingProgress"></svgIcon>
     </div>
-    <div class="thumbs-up" @click="giveLikes">
+    <div v-bind:class="[isLikes ? 'thumbs-down' : 'thumbs-up', '']" @click="giveLikes">
       <i class="icon-dianzan"></i>
       <span class="count-warp">看好</span>
       <span class="count">({{likes}})</span>
@@ -98,12 +99,13 @@
           url: '/project/project-detail?projId=',
           isLikes: null,
           collected: false,
-          projAddress: ''
+          projAddress: '',
+          projMaturity: null
         }
       },
       methods: {
         addVisit () {
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/updateRecord',
+          this.$api.post('/pb/s0/l/updateRecord',
             {projId: this.projId, tag: 2}).then(res => {
           })
         },
@@ -119,11 +121,13 @@
           if (tool.getuser() === null) {
             this.$router.replace({ path: '/login' })
           }
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+          this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               console.log(res)
-              if (res.code === 200)
+              if (res.code === 200) {
                 this.likes = this.likes + 1
+                this.isLikes = true
+              }
           })
         },
 
@@ -134,7 +138,7 @@
 
         this.addVisit()
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
@@ -160,6 +164,7 @@
             this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
             this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
+            this.projMaturity = res.data.projMaturity
           }
         });
       }
@@ -235,6 +240,38 @@
         &:active{
           background: #bbb;
         }
+        .icon-dianzan{
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
+        .count-warp{
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
+        .count{
+          font-size: 7px;
+          margin-left: 5px;
+        }
+      }
+
+      .thumbs-down{
+        display: table;
+        margin:-5px auto 25px;
+        background: #bbb;
+        color:#fefeff;
+        font-size: 11px;
+        height:23px;
+        padding:5px 10px;
+        line-height: 1;
+        border-radius: 2px;
         .icon-dianzan{
           display: inline-block;
           width: 9px;
