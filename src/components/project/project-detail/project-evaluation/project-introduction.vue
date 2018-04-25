@@ -159,9 +159,6 @@
             // element.classList.add('active');
             element.play();
           },
-          chooseVideo () {
-            alert(1)
-          }
         },
         filters: {},
         computed: {},
@@ -200,7 +197,8 @@
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
               if (res.code === 403) {
-                alert('项目视频无权限')//todo  此处增加 无权限页
+                //
+                // alert('项目视频无权限')//todo  此处增加 无权限页
                 return
               }
               let arr = null
