@@ -9,7 +9,8 @@
                  :tags="tags"
                  :setProjVideo="setProjVideo"
                  :projPhoto="projPhoto"
-                 :projAddress="projAddress"></projectHeader>
+                 :projAddress="projAddress"
+                 :projMaturity="projMaturity"></projectHeader>
   <div class="project-intro">
     <h4>
       <i class="left-line"></i><span>项目简介</span>
@@ -98,12 +99,13 @@
           url: '/project/project-detail?projId=',
           isLikes: null,
           collected: false,
-          projAddress: ''
+          projAddress: '',
+          projMaturity: null
         }
       },
       methods: {
         addVisit () {
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/updateRecord',
+          this.$api.post('/pb/s0/l/updateRecord',
             {projId: this.projId, tag: 2}).then(res => {
           })
         },
@@ -119,7 +121,7 @@
           if (tool.getuser() === null) {
             this.$router.replace({ path: '/login' })
           }
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+          this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               console.log(res)
               if (res.code === 200)
@@ -134,7 +136,7 @@
 
         this.addVisit()
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
@@ -160,6 +162,7 @@
             this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
             this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
+            this.projMaturity = res.data.projMaturity
           }
         });
       }

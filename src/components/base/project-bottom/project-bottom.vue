@@ -35,7 +35,7 @@
           if (tool.getuser() === null) {
             this.$router.replace({path: '/login'})
           }
-          this.$api.post(tool.domind() + '/gateway/user/batchDealWithUserCollect',
+          this.$api.post('/user/batchDealWithUserCollect',
             {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.collected, name: tool.getuser()}).then(res => {
               if (this.collected) {
                 if (parseInt(this.collects) > 0) {

@@ -35,21 +35,21 @@
   <CrossLine></CrossLine>
   <div class="progress">
     <div class="title">项目成熟度</div>
-    <div class="icon">规划</div>
-    <div class="line"></div>
-    <div class="icon">概念</div>
-    <div class="line"></div>
-    <div class="icon">审批</div>
-    <div class="line"></div>
-    <div class="icon">可研</div>
-    <div class="line"></div>
-    <div class="icon">投融资</div>
-    <div class="line"></div>
-    <div class="icon">建设</div>
-    <div class="line"></div>
-    <div class="icon">运营</div>
-    <div class="line"></div>
-    <div class="icon">出售</div>
+    <div v-bind:class="[parseInt(projMaturity) == 0 ? 'icon1' : '','icon']">规划</div>
+    <div v-bind:class="[projMaturity >= 0 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 1 ? 'icon1' : '','icon']">概念</div>
+    <div v-bind:class="[projMaturity >= 1 ? 'line1' : 'line','line']"></div>
+    <div v-bind:class="[projMaturity >= 2 ? 'icon1' : '','icon']">审批</div>
+    <div v-bind:class="[projMaturity >= 2 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 3 ? 'icon1' : '','icon']">可研</div>
+    <div v-bind:class="[projMaturity >= 3 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 4 ? 'icon1' : '','icon']">投融资</div>
+    <div v-bind:class="[projMaturity >= 4 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 5 ? 'icon1' : '','icon']">建设</div>
+    <div v-bind:class="[projMaturity >= 5 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 6 ? 'icon1' : '','icon']">运营</div>
+    <div v-bind:class="[projMaturity >= 6 ? 'line1' : 'line','']"></div>
+    <div v-bind:class="[projMaturity >= 7 ? 'icon1' : '','icon']">出售</div>
   </div>
   <CrossLine></CrossLine>
 </div>
@@ -71,7 +71,8 @@
       tags: Array,
       setProjVideo: Boolean,
       projPhoto: String,
-      projAddress: String
+      projAddress: String,
+      projMaturity: Number
     },
     data() {
       return {
@@ -92,6 +93,15 @@
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
   .project-header{
+    .icon1 {
+      color: #3f83e6
+    }
+    .line1{
+      height:1px;
+      width:9px;
+      background: #3f83e6;
+      margin: 20px 1px 0;
+    }
     .header-bar {
       height: 44px;
       line-height: 44px;
@@ -274,7 +284,6 @@
         width:9px;
         background: #dedede;
         margin: 20px 1px 0;
-
       }
     }
   }

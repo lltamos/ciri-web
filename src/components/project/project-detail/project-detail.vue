@@ -68,81 +68,26 @@
     <div class="project-rec">
       <h4>
         <i class="left-line"></i><span>项目推荐</span>
-        <router-link to="" class="detail-warp">
+        <router-link to="/project" class="detail-warp">
           <span class="to-detail">查看更多</span>
           <i class="more"></i>
         </router-link>
       </h4>
       <ul class="recommdnd-warp clearfix">
-        <li class="recommdnd-card">
+        <li class="recommdnd-card" @click="gotoProjLand(f.projId)" v-if="fetprojects != null" v-for="(f, index) in fetprojects.list" :key="index">
          <div class="img">
-           <img src="../../news/img/p_1.jpg" alt="">
+           <img :src="f.url" alt="">
          </div>
           <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
+            <h2>{{f.name}}</h2>
             <div class="tip-news">
               <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
+              <span class="industry fl" v-if="f.constructionTypeName != null">{{f.constructionTypeName}}</span>
+              <span class="count fr" v-if="f.visit != null">{{f.visit}}</span>
               <i class="view fr"></i>
-
             </div>
           </div>
-
-
         </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
-
-            </div>
-          </div>
-
-
-        </li>
-
       </ul>
 
     </div>
@@ -206,7 +151,8 @@
         isLikes: null,
         collected: false,
         projAddress: '',
-        interest: false
+        interest: false,
+        fetprojects: null
       }
     },
     methods: {
@@ -218,7 +164,7 @@
         if (tool.getuser() === null) {
           this.$router.replace({ path: '/login' })
         }
-        this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+        this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
           if (res.code === 200)
             this.likes = this.likes + 1
@@ -229,7 +175,7 @@
           alert('不能重复关注')
           return
         }
-        this.$api.post(tool.domind() + '/gateway/user/interest',
+        this.$api.post('/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 2000){
             if (this.potentialInvestorSize > 999)
@@ -245,7 +191,7 @@
         this.projId = this.$route.query.projId
         this.url = this.url + this.projId
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
@@ -274,6 +220,17 @@
             this.interest = res.data.interest
           }
         });
+
+        this.$api.post('/pb/i/fetprojects',
+          {pageSize: 4, status: 7,tag:101001}).then(res => {
+        if (res.code == 200){
+          this.fetprojects = res.data
+        }
+        })
+
+      },
+      gotoProjLand (id) {
+        this.$router.replace({ path: '/project/project-land?projId=' + id })
       }
     },
     created () {
