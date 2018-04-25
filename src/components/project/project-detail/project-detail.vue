@@ -22,7 +22,7 @@
                  :potentialInvestorSize="potentialInvestorSize"
                  :financingProgress="financingProgress"></svgIcon>
       </div>
-      <div class="thumbs-up" @click="giveLikes">
+      <div v-bind:class="[isLikes ? 'thumbs-down' : 'thumbs-up', '']" @click="giveLikes">
         <i class="icon-dianzan"></i>
         <span class="count-warp">看好</span>
         <span class="count">({{likes}})</span>
@@ -41,7 +41,7 @@
         </swiper>
         <div class="title-focus clearfix">
           <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div class="state-focus fr" @click="interest1">
+          <div v-bind:class="[ interest ? 'focused' : 'state-focus' ,'fr']" @click="interest1">
             <i class="icon-focus"></i>
             <span>{{potentialInvestorSize}}人已关注</span>
           </div>
@@ -148,7 +148,7 @@
         setProjVideo: false,
         projPhoto: '',
         url: '/project/project-detail?projId=',
-        isLikes: null,
+        isLikes: false,
         collected: false,
         projAddress: '',
         interest: false,
@@ -166,8 +166,10 @@
         }
         this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-          if (res.code === 200)
+          if (res.code === 200) {
             this.likes = this.likes + 1
+            this.isLikes = true
+          }
         })
       },
       interest1 () {
@@ -304,6 +306,40 @@
         padding:5px 10px;
         line-height: 1;
         border-radius: 2px;
+        &:active{
+          background: #bbb;
+        }
+        .icon-dianzan{
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
+        .count-warp{
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
+        .count{
+          font-size: 7px;
+          margin-left: 5px;
+        }
+      }
+      .thumbs-down{
+        display: table;
+        margin:-5px auto 25px;
+        background: #bbb;
+        color:#fefeff;
+        font-size: 11px;
+        height:23px;
+        padding:5px 10px;
+        line-height: 1;
+        border-radius: 2px;
         .icon-dianzan{
           display: inline-block;
           width: 9px;
@@ -375,9 +411,22 @@
               background-size: 15px auto;
               background-position: center;
               @include bg-image("../img/focus");
-              &:active{
-                @include bg-image("../img/focused");
-              }
+            }
+            span{
+              display: block;
+            }
+          }
+          .focused{
+            width: 22%;
+            i{
+              display: block;
+              width: 15px;
+              height: 15px;
+              margin:0 auto 5px;
+              background-repeat: no-repeat;
+              background-size: 15px auto;
+              background-position: center;
+              @include bg-image("../img/focused");
             }
             span{
               display: block;

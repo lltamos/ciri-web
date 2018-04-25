@@ -28,7 +28,7 @@
                :potentialInvestorSize="potentialInvestorSize"
                :financingProgress="financingProgress"></svgIcon>
     </div>
-    <div class="thumbs-up" @click="giveLikes">
+    <div v-bind:class="[isLikes ? 'thumbs-down' : 'thumbs-up', '']" @click="giveLikes">
       <i class="icon-dianzan"></i>
       <span class="count-warp">看好</span>
       <span class="count">({{likes}})</span>
@@ -124,8 +124,10 @@
           this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               console.log(res)
-              if (res.code === 200)
+              if (res.code === 200) {
                 this.likes = this.likes + 1
+                this.isLikes = true
+              }
           })
         },
 
@@ -238,6 +240,38 @@
         &:active{
           background: #bbb;
         }
+        .icon-dianzan{
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
+        .count-warp{
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
+        .count{
+          font-size: 7px;
+          margin-left: 5px;
+        }
+      }
+
+      .thumbs-down{
+        display: table;
+        margin:-5px auto 25px;
+        background: #bbb;
+        color:#fefeff;
+        font-size: 11px;
+        height:23px;
+        padding:5px 10px;
+        line-height: 1;
+        border-radius: 2px;
         .icon-dianzan{
           display: inline-block;
           width: 9px;
