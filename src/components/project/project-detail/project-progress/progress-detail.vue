@@ -7,16 +7,14 @@
   </div>
   <div class="main">
     <h4>
-      <i class="left-line"></i><span>中国投资方来项目地考察</span>
-      <span class="time">2017-05-13</span>
+      <i class="left-line"></i><span>{{this.detailContent.title.valueCn}}</span>
+      <span class="time">{{this.detailContent.time}}</span>
     </h4>
     <div class="img">
       <img src="../../../news/img/p_1.jpg" alt="">
     </div>
     <div class="article">
-      <p>中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察
-        中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察中国投资方来项目地考察
-        中国投资方来项目地考察中国投资方来项目地考察</p>
+      <p>{{this.detailContent.content.valueCn}}</p>
     </div>
     <div class="small-btn" @click="back">返回</div>
 
@@ -28,7 +26,9 @@
     export default {
         components: {},
         data() {
-            return {}
+            return {
+              detailContent:null
+            };
         },
         props: {},
         watch: {},
@@ -40,6 +40,17 @@
         filters: {},
         computed: {},
         created() {
+          let param = {
+            projId:this.$route.query.projId,
+            createTime:this.$route.query.createTime
+          };
+          this.$api
+            .post("/ah/s3/getProjectProgressDetail",param)
+            .then(res => {
+              this.detailContent = res.projectProgressDetail;
+
+            });
+
         },
         mounted() {
         },
@@ -92,7 +103,7 @@
       height: 16px;
       padding: 15px 10px 15px 10px;
       color: #333;
-      font-size: 16px;
+      font-size: 13px;
       font-weight: normal;
       position: relative;
       @include onepx('bottom');
