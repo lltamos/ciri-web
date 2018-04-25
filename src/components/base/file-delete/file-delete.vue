@@ -1,23 +1,25 @@
 <template>
   <div class="file">
     <i class="icon-type icon-pdf"></i>
-    <span class="file-title">建设许可证.pdf</span>
+    <span class="file-title">{{file.fileName.length >15 ? file.fileName.substr(0,15)+'...'+file.fileName.replace(/.+\./, "") :file.fileName}}</span>
+    <!--<span class="file-title">{{file}}</span>-->
     <div class="delete-warp">
       <i class="icon-delete" v-show="deleteShow" @click="Delete"></i>
-      <div v-show="!deleteShow" class="btn-warp"><span class="cancel" @click="Cancel">取消</span><span class="confirm">确定</span></div>
+      <div v-show="!deleteShow" class="btn-warp"><span class="cancel" @click="Cancel">取消</span><span class="confirm" @click="deleteFile">确定</span></div>
     </div>
   </div>
 </template>
 
 <script>
     export default {
-        components: {},
+        components: {
+        },
         data() {
             return {
               deleteShow : true
             }
         },
-        props: {},
+        props: ["file","index","tag"],
         watch: {},
         methods: {
           Delete () {
@@ -25,6 +27,10 @@
           },
           Cancel () {
             this.deleteShow = true ;
+          },
+          //删除文件返回方法
+          deleteFile(){
+            this.$emit('delete',{index:this.index,tag:this.tag});
           }
         },
         filters: {},
