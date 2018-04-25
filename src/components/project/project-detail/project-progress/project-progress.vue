@@ -44,22 +44,22 @@
         <div class="ask-pop pop-bg" v-show="askPop">
           <div class="pop-up">
             <div class="ask-describe"></div>
-            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟"></textarea>
+            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
             <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
             <div class="file-warp">
-              <FileDelete></FileDelete>
-              <FileDelete></FileDelete>
-              <FileDelete></FileDelete>
+              <FileDelete v-for="(file,index) in askFileList"  :key="index"
+                          :file="file" :index="index" :tag="1"
+                          @delete="deleteAskFile"></FileDelete>
             </div>
             <div class="pop-bottom clearfix">
               <div class="fl">
                 <i class="icon-uploading"></i>
                 <span class="upload-file">上传文件</span>
-                <input type="file" class="fill-input">
+                <input type="file" class="fill-input"  @change="UploadFile($event,1)">
               </div>
               <div class="fr btn-warp">
-                <input type="checkbox">匿名
-                <div class="small-btn">提交</div>
+                <input type="checkbox" v-model="askChecked">匿名
+                <div class="small-btn" @click="askAQuestion">提交</div>
               </div>
             </div>
           </div>
@@ -78,6 +78,7 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import FileDelete from '@/components/base/file-delete/file-delete'
   import Authority from '@/components/base/authority/authority'
+  import tool from "../../../../api/tool"
     export default {
         components: {
           CrossLine,
@@ -89,7 +90,11 @@
               progressList:[],
               askPop : false,
               progressShow :true,
-              authorityShow : true
+              proId:"",    //
+              authorityShow : true,
+              message:"",        //提问的信息栏
+              askChecked:false,  //提问匿名选项框
+              askFileList:[],  //提问的文件数组
             }
         },
         props: {},
@@ -105,15 +110,70 @@
           },
           upgrade () {
             this.$router.replace({ path: "/mine/member-center" });
+          },
+          //提问
+          askAQuestion(){
+            if(this.message==""){
+              tool.toast("提问信息不能为空")
+              return
+            }
+            let fileStr=[];
+            for (var file of this.askFileList) {
+              fileStr.push(file.fileName+","+file.fileId)
+            }
+            var files=fileStr.join(";");
+            this.$api.post('/ah/s0/chat/addProjectChat',
+              { userid: tool.getuser(),
+                projid: this.projId, files: files,
+                message: this.message,
+                status : this.askChecked ? 1 : 0,
+              }).then(r => {
+              if(r.code===200){
+                tool.toast("提问成功");
+                //隐藏提示框
+                this.askPop = false;
+              }
+            });
+          },
+          //上传文件
+          UploadFile(e, tag) {
+            tool.toast("正在上传文件....");
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+              return;
+            var imgFormData = new FormData();
+            imgFormData.append('upload', files[0]);
+            let config = {headers: {'Content-Type': 'multipart/form-data'}};
+            //上传文件
+            this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
+              .then(res => {
+                if (res.data.code === 200) {
+                  let temp = res.data.data[0]
+                  if (tag===1) {
+                    this.askFileList.push(temp);
+                    console.log(this.askFileList);
+                  }
+                }
+              });
+          },
+          //删除文件
+          deleteAskFile(msg){
+            let tag=msg.tag;
+            let index=msg.index;
+            //删除文件
+            if(tag===1){
+              this.askFileList.splice(index,1)
+            }
           }
 
         },
         filters: {},
         computed: {},
         created() {
+          this.projId = this.$route.query.projId;
           let param = {
             //projId:window.location.href.split('?')[1].split('=')[1];
-            projId:364000018
+            projId:this.projId
           };
           this.$api
             .post("/ah/s0/getProjectProgress",param)
