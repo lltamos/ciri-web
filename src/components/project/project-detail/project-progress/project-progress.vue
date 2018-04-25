@@ -17,7 +17,7 @@
                 <div class="time">{{item.time}}</div>
                 <h2><span>-</span>{{item.title.valueCn}}</h2>
                 <!--点击查看详情-->
-                <router-link :to="{path:'/project/project-detail/progress-detail',query: {projId: 364000018,createTime:item.editInfo.createTime}}">
+                <router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
                   <em>查看</em>
                 </router-link>
               </li>
@@ -90,7 +90,7 @@
               progressList:[],
               askPop : false,
               progressShow :true,
-              proId:"",    //
+              projId:"",    //
               authorityShow : true,
               message:"",        //提问的信息栏
               askChecked:false,  //提问匿名选项框
