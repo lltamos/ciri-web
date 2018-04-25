@@ -127,6 +127,8 @@
           pageId: this.pageId,
           pageSize: 5,
           industry: [],
+          country:[],
+          invest:[],
           status: this.status,
           tag: this.tag,
           industryCategory: this.industryCategory
@@ -163,7 +165,7 @@
   @import '~@/assets/scss/mixin.scss';
 
   .project-loading {
-    height: 80px;
+    height: 280px;
     position: relative;
     .loading-wrap {
       position: absolute;
