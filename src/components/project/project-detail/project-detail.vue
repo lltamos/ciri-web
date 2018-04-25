@@ -218,7 +218,7 @@
         if (tool.getuser() === null) {
           this.$router.replace({ path: '/login' })
         }
-        this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+        this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
           if (res.code === 200)
             this.likes = this.likes + 1
@@ -229,7 +229,7 @@
           alert('不能重复关注')
           return
         }
-        this.$api.post(tool.domind() + '/gateway/user/interest',
+        this.$api.post('/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 2000){
             if (this.potentialInvestorSize > 999)
@@ -245,7 +245,7 @@
         this.projId = this.$route.query.projId
         this.url = this.url + this.projId
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract

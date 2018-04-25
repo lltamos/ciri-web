@@ -72,21 +72,21 @@
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video" v-show="setProjVideo">
+  <div class="intro-video">
     <h4>
       <i class="left-line"></i><span>项目视频</span>
     </h4>
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-        <swiper-slide class="slide-1">
-          <video @click="video($event)" controls src="http://ciri-video.oss-cn-beijing.aliyuncs.com/output/1de147adf8274f8ba513bccaffe1af6c/PT-IR-202-CW4-XMJS-PUB.mp4"></video>
+        <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index" v-bind:style="{backgroundImage: 'url(' +v.cover.name+ ')'}">
+          <video @click="video($event)" controls :src="v.url"></video>
         </swiper-slide>
       </swiper>
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-        <swiper-slide class="slide-1" v-if="videos != null"  v-for="(v, index) in videos" :key="index" >
+        <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
           <img :src="v.cover.name" alt="">
-          <div class="title">{{v.summary.valueCn}}</div>
+          <div class="title" v-if="v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
     </div>
@@ -154,39 +154,61 @@
         watch: {},
         methods: {
           //项目视频
-          video (e) {
+          video (e ,url) {
             let element = e.currentTarget;
             // element.classList.add('active');
             element.play();
+          },
+          chooseVideo () {
+            alert(1)
           }
         },
         filters: {},
         computed: {},
         created() {
           this.projId = this.$route.query.projId
-          this.$api.post(tool.domind() + '/gateway/ah/s0/getProjectAbstractInfo',
+          this.$api.post('/ah/s0/getProjectAbstractInfo',
             {projId: this.projId, username: tool.getuser()}).then(res => {
-              this.projName = res.data.projName
-              this.amount = res.data.amount
-              this.irr = res.data.irr.replace(/.00/g, '')
-              this.projDevelopers = res.data.projDevelopers
-              this.projAddress = res.data.projAddress
-              this.projArea = res.data.projArea
-              this.constructionType = res.data.constructionType
-              this.investMode = res.data.investMode
-              this.industry = res.data.industry
-              this.foreignCurrencyApprovalDone = res.data.foreignCurrencyApprovalDone
-              this.investAgreementDone = res.data.investAgreementDone
-              this.feasibilityReportDone = res.data.feasibilityReportDone
-              this.financingContractDone = res.data.financingContractDone
-              this.landApplyDone = res.data.landApplyDone
-              this.generalContractorAgreementDone = res.data.generalContractorAgreementDone
-              this.environmentApprovalDone = res.data.environmentApprovalDone
-              this.infrastructureDone = res.data.infrastructureDone
-              this.productService = res.data.productService
-              this.operateMetric = res.data.operateMetric
-              this.setProjVideo = res.data.setProjVideo
-              this.videos = res.data.videos
+            this.projName = res.data.projName
+            this.amount = res.data.amount
+            this.irr = res.data.irr.replace(/.00/g, '')
+            this.projDevelopers = res.data.projDevelopers
+            this.projAddress = res.data.projAddress
+            this.projArea = res.data.projArea
+            this.constructionType = res.data.constructionType
+            this.investMode = res.data.investMode
+            this.industry = res.data.industry
+            this.foreignCurrencyApprovalDone = res.data.foreignCurrencyApprovalDone
+            this.investAgreementDone = res.data.investAgreementDone
+            this.feasibilityReportDone = res.data.feasibilityReportDone
+            this.financingContractDone = res.data.financingContractDone
+            this.landApplyDone = res.data.landApplyDone
+            this.generalContractorAgreementDone = res.data.generalContractorAgreementDone
+            this.environmentApprovalDone = res.data.environmentApprovalDone
+            this.infrastructureDone = res.data.infrastructureDone
+            this.productService = res.data.productService
+            this.operateMetric = res.data.operateMetric
+            this.setProjVideo = res.data.setProjVideo
+            this.videos = res.data.videos
+            if (!this.setProjVideo)
+              return
+            let urlStr = ''
+            for (var i = 0; i < this.videos.length; i++) {
+              urlStr = urlStr.concat(',').concat(this.videos[i].url)
+            }
+            urlStr = urlStr.substring(1, urlStr.length);
+            this.$api.post('/ah/s3/p/getProjVideoUrl',
+              {urlStr: urlStr}).then(res => {
+              if (res.code === 403) {
+                alert('项目视频无权限')//todo  此处增加 无权限页
+                return
+              }
+              let arr = null
+              arr = res.split(",")
+              for (var i = 0; i < arr.length; i++) {
+                this.videos[i].url = arr[i]
+              }
+            })
           })
         },
       mounted() {

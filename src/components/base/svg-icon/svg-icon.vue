@@ -33,7 +33,7 @@
     </text>
     <text x="700" y="342" text-anchor="end" fill="black">
       <tspan x="500" y="342">意向投资方：</tspan>
-      <tspan x="700" y="342" class="c-primary">{{potentialInvestorSize}}位</tspan>
+      <tspan x="700" y="342" class="c-primary" v-if="potentialInvestorSize != null">{{potentialInvestorSize}}位</tspan>
     </text>
   </svg>
 

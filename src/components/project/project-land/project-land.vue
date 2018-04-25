@@ -103,7 +103,7 @@
       },
       methods: {
         addVisit () {
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/updateRecord',
+          this.$api.post('/pb/s0/l/updateRecord',
             {projId: this.projId, tag: 2}).then(res => {
           })
         },
@@ -119,7 +119,7 @@
           if (tool.getuser() === null) {
             this.$router.replace({ path: '/login' })
           }
-          this.$api.post(tool.domind() + '/gateway/pb/s0/l/addLike',
+          this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               console.log(res)
               if (res.code === 200)
@@ -134,7 +134,7 @@
 
         this.addVisit()
 
-        this.$api.post(tool.domind() + '/gateway/pb/p/getProjectHeadInfo',
+        this.$api.post('/pb/p/getProjectHeadInfo',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 200) {
             this.projAbstract = res.data.projAbstract
