@@ -1,53 +1,20 @@
 <template>
 <div class="project-file">
   <div class="file-warp">
-    <div class="file">
+    <div class="file" v-for="(item,index) in projectFileList" :key="index">
       <div class="title">
-        <i class="icon-type icon-pdf"></i>
-        <span class="file-title">建设许可证.pdf</span>
+        <i class="icon-type" :class='"icon-"+item.originalName.split(".")[1]'></i>
+        <span class="file-title">{{item.originalName}}</span>
       </div>
       <dl class="intro">
         <dt>文件说明：</dt>
-        <dd>建设许可建设许可建设许可建设许可建设许可</dd>
+        <dd v-if="item.summary">{{item.summary.valueCn}}</dd>
+        <dd v-else>暂无</dd>
       </dl>
-      <div class="applyFile btn bg-blue">申请查看</div>
-      <!--<div class="agreed btn"><i class="icon-agreed"></i>已同意</div>-->
-    </div>
-    <div class="file">
-      <div class="title">
-        <i class="icon-type icon-jpg"></i>
-        <span class="file-title">建设许可证.pdf</span>
-      </div>
-      <dl class="intro">
-        <dt>文件说明：</dt>
-        <dd>建设许可建设许可建设许可建设许可建设许可</dd>
-      </dl>
-      <div class="applyFile btn bg-gray">已申请</div>
-      <!--<div class="agreed btn bg-gray"><i class="icon-agreed"></i>已同意</div>-->
-    </div>
-    <div class="file">
-      <div class="title">
-        <i class="icon-type icon-ppt"></i>
-        <span class="file-title">建设许可证.pdf</span>
-      </div>
-      <dl class="intro">
-        <dt>文件说明：</dt>
-        <dd>建设许可建设许可建设许可建设许可建设许可</dd>
-      </dl>
-      <!--<div class="applyFile btn bg-blue">申请查看</div>-->
-      <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
-    </div>
-    <div class="file">
-      <div class="title">
-        <i class="icon-type icon-xls"></i>
-        <span class="file-title">建设许可证.pdf</span>
-      </div>
-      <dl class="intro">
-        <dt>文件说明：</dt>
-        <dd>建设许可建设许可建设许可建设许可建设许可</dd>
-      </dl>
-      <div class="applyFile btn bg-blue">申请查看</div>
-      <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
+      <div class="applyFile btn bg-blue" @click="showFileDetail">申请查看</div>
+      <!--<div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
+           <div class="applyFile btn bg-gray">已申请</div>
+      -->
     </div>
   </div>
   <CrossLine></CrossLine>
@@ -55,19 +22,36 @@
 </template>
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "../../../../api/tool";
   export default {
     components: {
-      CrossLine
+      CrossLine,
+      tool
     },
     data() {
-        return {}
+        return {
+          projectFileList: []
+        }
     },
     props: {},
     watch: {},
-    methods: {},
+    methods: {
+      showFileDetail(){
+        tool.MessageBox('是否申请查看？')
+      }
+    },
     filters: {},
     computed: {},
     created() {
+      let param = {
+        //projectId:window.location.href.split('?')[1].split('=')[1];
+        projectId:'496000001'
+      };
+      this.$api
+        .get("/ah/s0/p/projfiles",param)
+        .then(res => {
+          this.projectFileList = res.fileViews;
+        });
     },
     mounted() {
     },
