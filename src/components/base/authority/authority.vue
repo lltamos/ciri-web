@@ -3,7 +3,7 @@
       <div class="pop-up">
         <p class="title">仅限 项目库会员 及更高等级会员查看，您当前会员等级为<span>注册会员</span>！</p>
         <div class="btn-warp clearfix">
-          <div class="cancel fl" @click="authorityHide">取消</div>
+        <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
           <div class="upgrade fr" @click="upgrade">升级</div>
         </div>
       </div>
