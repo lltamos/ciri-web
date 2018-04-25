@@ -163,7 +163,7 @@
   @import '~@/assets/scss/mixin.scss';
 
   .project-loading {
-    height: 80px;
+    height: 280px;
     position: relative;
     .loading-wrap {
       position: absolute;
