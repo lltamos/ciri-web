@@ -18,34 +18,23 @@
         <i class="left-line"></i><span>本周推荐</span>
       </h4>
       <ul class="recommdnd-warp clearfix">
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
+        <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
+          <li class="">
+            <div class="img">
+              <img :src="project.url" alt="">
             </div>
-          </div>
-        </li>
-        <li class="recommdnd-card">
-          <div class="img">
-            <img src="../news/img/p_1.jpg" alt="">
-          </div>
-          <div class="main-news">
-            <h2>巴西卡坦杜瓦市 600MW 风电厂项目</h2>
-            <div class="tip-news">
-              <i class="indu fl"></i>
-              <span class="industry fl">新能源</span>
-              <span class="count fr">1000</span>
-              <i class="view fr"></i>
+            <div class="main-news">
+              <h2>{{project.name}}</h2>
+              <div class="tip-news">
+                <i class="indu fl"></i>
+                <span class="industry fl">{{project.industryName}}</span>
+                <span class="count fr">{{project.visit}}</span>
+                <i class="view fr"></i>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+        </router-link>
       </ul>
       <CrossLine></CrossLine>
     </div>
@@ -63,102 +52,67 @@
 
         <div class="pop-bg" v-show="popShow" @click="popSwitch"></div>
         <div class="tabCon" v-show="popShow" >
-          <ul class="content"
-            v-for='(itemCon,index) in tabContents'
-            v-show=" index == num" :key="index">
-            <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
-              <input type="checkbox" value="全部"/>
-            </li>
-            <li v-for='(item,t) in itemCon' @click="liActive($event)" :class="{active:liSwitch}" :key="t">{{item}}
-              <input type="checkbox" :value="item"/>
-            </li>
-            <div class="btn-warp clearfix">
-              <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-              <button class="small-btn confirm fr">确定</button>
-            </div>
-          </ul>
+          <div class="content" v-for='(itemCon,index) in tabContents'
+               v-show=" index == num" :key="index">
+            <form @submit.prevent="submit">
+              <ul>
+                <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
+                  <input type="checkbox" value="全部"/>
+                </li>
+                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :key="t">{{item}}
+                  <input type="checkbox" :value="t"/>
+                </li>
+              </ul>
+              <div class="btn-warp clearfix">
+                <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
+                <button class="small-btn confirm fr">确定</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="main">
-        <router-link to="/project/project-land">
+        <router-link v-for="(project) in this.projects" :key="project.projId"
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img src="../base/img/p_1.jpg" alt="" width="100%" height="100%">
+              <img :src="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div class="main-news">
               <div class="title">
                 <div class="icon-quality fl">精品</div>
-                <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2></div>
+                <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
-                <div class="f1">
-                  <div class="fl red">高收益</div>
-                </div>
-                <div class="f1">
-                  <div class="fl red">建设期短</div>
+                <div v-for="tag in project.tags" :key="tag" class="f1">
+                  <div class="fl red">{{tag}}</div>
                 </div>
                 <div class="video fl"></div>
               </div>
               <div class="maturity clearfix">
-                <p>项目成熟度：<em>可研阶段</em></p>
-                <p>意向投资方：<em>3位</em></p>
+                <p>项目成熟度：<em>{{project.mature}}</em></p>
+                <p>意向投资方：<em>{{project.investors}}位</em></p>
               </div>
               <div class="tip-news">
                 <i class="loc"></i>
-                <span class="country">伊朗</span>
+                <span class="country">{{project.countryName}}</span>
                 <i class="indu"></i>
-                <span class="industry">新能源</span>
+                <span class="industry">{{project.industryName}}</span>
                 <i class="mold"></i>
-                <span class="genre">绿地投资</span>
+                <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
-                <span class="count">1000</span>
-                <span class="thumb-up fr">2</span>
+                <span class="count">{{project.visit}}</span>
+                <span class="thumb-up fr">{{project.likes}}</span>
                 <i class="icon-thumbup fr"></i>
-
               </div>
             </div>
           </div>
         </router-link>
-        <div class="pro-list">
-          <div class="img">
-            <!--<div class="icon-state">认证中</div>-->
-            <img src="../base/img/p_1.jpg" alt="" width="100%" height="100%">
-            <i class="favorite icon-favorite"></i>
-          </div>
-          <div class="main-news">
-            <div class="title">
-              <div class="icon-quality fl">精品</div>
-              <h2 class="fl">伊朗专业垃圾处理厂建设项目</h2></div>
-            <div class="tip">
-              <div class="f1">
-                <div class="fl red">高收益</div>
-              </div>
-              <div class="f1">
-                <div class="fl red">建设期短</div>
-              </div>
-              <div class="video fl"></div>
-            </div>
-            <div class="maturity clearfix">
-              <p>项目成熟度：<em>可研阶段</em></p>
-              <p>意向投资方：<em>3位</em></p>
-            </div>
-            <div class="tip-news">
-              <i class="loc"></i>
-              <span class="country">伊朗</span>
-              <i class="indu"></i>
-              <span class="industry">新能源</span>
-              <i class="mold"></i>
-              <span class="genre">绿地投资</span>
-              <i class="view"></i>
-              <span class="count">1000</span>
-              <span class="thumb-up fr">2</span>
-              <i class="icon-thumbup fr"></i>
-
-            </div>
-          </div>
-        </div>
       </div>
+      <button @click="loadMore" :disabled="this.disabled" class="more">
+        <span v-text="moreText">{{this.moreText}}</span><i></i>
+      </button>
     </div>
     <tab-bar></tab-bar>
   </div>
@@ -183,19 +137,68 @@
         tabs: ["国别", "行业","类型","进度"],
         tabContents:
           [
-            [ "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥", "巴基斯坦", "泰国", "墨西哥"],
-            ["全部", "电力能源", "食品", "新能源"],
-            [],
-            []
+            ["绿地投资", "项目出售", "项目扩建", "其他"],
+            ["规划阶段", "概念阶段", "审批阶段", "可研阶段", "决策阶段", "建设阶段", "运营阶段", "出售阶段"]
           ],
         num: 5,
         activeSwitch :true,
-        liSwitch : false
+        liSwitch : false,
+        //加载数据
+        moreText: '查看更多',
+        projects: null,
+        weekProjects : null,
+        pageId: 1,
+        status: [7],
+        tag: [101001, 101002],
+        disabled: false,
+        notloading: true,
+        countryList : [],
+        indestryList : [],
       }
     },
     props: {},
-    watch: {},
     methods: {
+      loadMore() {
+        this.$api.post('/pb/i/fetprojects', {
+          pageId: this.pageId,
+          pageSize: 5,
+          industry: [],
+          status: null,
+          tag: null,
+        }).then(r => {
+          this.notloading = false;
+          if (this.pageId == 1) {
+            this.projects = r.data.list;
+          } else {
+            this.projects = this.projects.concat(r.data.list);
+          }
+          this.pageId = this.pageId + 1;
+          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
+            this.moreText = '没有更多了';
+            this.disabled = 'disabled';
+          }
+        });
+      },
+      // 国家列表
+      country (path,type) {
+        this.axios
+          .get(tool.domind() + "/gateway/app/" + path)
+          .then(res => {
+            if (res.data.code === 200) {
+              let country = res.data.data;
+              country.forEach( v=> {
+                let countryName = v.name;
+                let j = countryName;
+                type.push(j);
+              });
+            }
+          });
+        return this.type;
+      },
+
+      submit(){
+        console.log()
+      },
       //页面滚动时
       handleScroll () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
@@ -223,16 +226,17 @@
         } else {
           element.classList.add('active')
         }
+        console.log(element);
         this.activeSwitch =false
       },
-
       popSwitch(){
         this.popShow = false ;
+        this.searchBarFixed = false
       },
       allActive(e){
         let element = e.currentTarget;
         element.classList.add('active')
-        this.liSwitch =false
+        this.liSwitch =false;
       },
       resetActive(index){
         let all =document.getElementById('all'+ index);
@@ -248,10 +252,33 @@
     filters: {},
     computed: {},
     created () {
+      // 本周推荐
+      this.$api.post('/pb/i/fetprojects', {
+        pageId: this.pageId,
+        pageSize: 5,
+        industry: [],
+        status: this.status,
+        tag: this.tag,
+        industryCategory: this.industryCategory
+      }).then(r => {
+        this.notloading = false;
+        if (this.pageId == 1) {
+          this.weekProjects = r.data.list;
+        } else {
+          this.weekProjects = this.projects.concat(r.data.list);
+        }
+        this.pageId = this.pageId + 1;
+      });
+
+
     },
     mounted () {
       //页面滚动时
-      window.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('scroll', this.handleScroll);
+      this.loadMore();
+      this.country('getAllCountry',this.countryList);
+      this.country('getAllIndustry',this.indestryList);
+      this.tabContents.unshift(this.countryList,this.indestryList)
     },
     destroyed () {}
   }
@@ -263,6 +290,7 @@
 @import '~@/assets/scss/mixin.scss';
 
   .project-list{
+    padding-bottom: 60px;
     header {
       height: 44px;
       line-height: 44px;
@@ -362,6 +390,8 @@
       .recommdnd-warp{
         text-align: left;
         padding: 0 10px;
+        height:205px;
+        overflow: hidden;
         .recommdnd-card{
           border: 1px solid #dedede;
           box-sizing: border-box;
@@ -490,40 +520,42 @@
           min-height: 150px;
           .content{
             background: #fff;
-            max-height: 350px;
-            overflow: scroll;
-            padding: 10px 10px 0;
             text-align: left;
-            li{
-              padding: 4px 13px;
-              border:1px solid #999;
-              font-size: 14px;
-              color:#999;
-              border-radius: 2px;
-              margin-right: 10px;
-              margin-bottom: 16px;
-              display: inline-block;
-              position: relative;
-              &.active{
-                background: #528de8;
-                color:#fff;
-                border: 1px solid #333;
-              }
-              input{
-                position: absolute;
-                top:0;
-                left:0;
-                width: 100%;
-                height:100%;
-                opacity: 0;
-              }
+            padding: 10px 10px 16px;
+            ul{
+              overflow: scroll;
+              max-height: 350px;
+              li{
+                padding: 4px 13px;
+                border:1px solid #999;
+                font-size: 14px;
+                color:#999;
+                border-radius: 2px;
+                margin-right: 10px;
+                margin-bottom: 16px;
+                display: inline-block;
+                position: relative;
+                &.active{
+                  background: #528de8;
+                  color:#fff;
+                  border: 1px solid #333;
+                }
+                input{
+                  position: absolute;
+                  top:0;
+                  left:0;
+                  width: 100%;
+                  height:100%;
+                  opacity: 0;
+                }
 
+              }
             }
             .btn-warp{
               color:#fff;
               font-size: 15px;
               box-sizing: border-box;
-              margin: 8px 0 16px;
+              margin: 8px 0 0;
               .reset{
                 background: #5c5c5c;
                 width: 35.8%;
@@ -546,7 +578,7 @@
         }
       }
       .main{
-        min-height: 1000px;
+        min-height: 300px;
         padding: 0 10px;
         .pro-list {
           padding: 15px 0 15px 96px;
@@ -559,7 +591,10 @@
             position: absolute;
             top: 15px;
             left: 0;
-
+            img{
+              width:100%;
+              height:100%;
+            }
             .icon-state {
               position: absolute;
               left: 5px;
@@ -700,6 +735,22 @@
               }
             }
           }
+        }
+      }
+      .more {
+        font-size: 12px;
+        color: #3f80e9;
+        margin-top: 20px;
+        text-align: center;
+        background: #fff;
+
+        i {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          @include bg-image("../news/img/more");
+          background-size: 12px auto;
+          margin-left: 6px;
         }
       }
     }
