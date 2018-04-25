@@ -13,15 +13,15 @@
         </div>
         <div class="timer-shaft clearfix">
           <ul class="timer-warp">
-            <li>
-              <div class="time">2018-04-13</div>
-              <h2><span>-</span>已完成建设许可申请</h2>
-              <!--点击查看详情-->
-              <router-link to="/project/project-detail/progress-detail">
-                <em>查看</em>
-              </router-link>
-            </li>
-            <li>
+              <li v-for="(item,index) in progressList" :key="index">
+                <div class="time">{{item.time}}</div>
+                <h2><span>-</span>{{item.title.valueCn}}</h2>
+                <!--点击查看详情-->
+                <router-link :to="{path:'/project/project-detail/progress-detail',query: {projId: 364000018,createTime:item.editInfo.createTime}}">
+                  <em>查看</em>
+                </router-link>
+              </li>
+            <!--<li>
               <div class="time">2018-04-13</div>
               <h2><span>-</span>已完成建设许可申请</h2>
               <em>查看</em>
@@ -37,12 +37,8 @@
                 </div>
               </div>
 
-            </li>
-            <li>
-              <div class="time">2018-04-13</div>
-              <h2><span>-</span>已完成建设许可申请</h2>
-              <em>查看</em>
-            </li>
+            </li>-->
+
           </ul>
         </div>
         <div class="ask-pop pop-bg" v-show="askPop">
@@ -90,6 +86,7 @@
         },
         data() {
             return {
+              progressList:[],
               askPop : false,
               progressShow :true,
               authorityShow : true
@@ -114,9 +111,18 @@
         filters: {},
         computed: {},
         created() {
+          let param = {
+            //projId:window.location.href.split('?')[1].split('=')[1];
+            projId:364000018
+          };
+          this.$api
+            .post("/ah/s0/getProjectProgress",param)
+            .then(res => {
+              this.progressList = res.data;
+
+            });
         },
-        mounted() {
-        },
+        mounted() {},
         destroyed() {
         }
     }
@@ -214,6 +220,10 @@
               color:#333;
               height:20px;
               line-height: 20px;
+              width: 210px;
+              text-overflow:ellipsis;
+              white-space : nowrap;
+              overflow : hidden;
               span{
                 margin: 0 5px;
               }
