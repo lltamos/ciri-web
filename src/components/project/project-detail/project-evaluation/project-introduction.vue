@@ -78,7 +78,7 @@
     </h4>
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-        <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
+        <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index" v-bind:style="{backgroundImage: 'url(' +v.cover.name+ ')'}">
           <video @click="video($event)" controls :src="v.url"></video>
         </swiper-slide>
       </swiper>
@@ -86,7 +86,7 @@
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
           <img :src="v.cover.name" alt="">
-          <div class="title">{{v.summary.valueCn}}</div>
+          <div class="title" v-if="v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
     </div>
