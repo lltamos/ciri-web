@@ -47,7 +47,7 @@
   </div>
   <CrossLine></CrossLine>
   <h4>
-    <i class="left-line"></i><span>项目进度</span>
+    <i class="left-line"></i><span>项目里程碑</span>
   </h4>
   <div class="intro-progress">
     <table width="100%" cellspacing="0" cellpadding="0">
@@ -66,7 +66,7 @@
         </tr>
         <tr>
           <td>4.项目各项许可 <i v-bind:class="[environmentApprovalDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
-          <td>8.完成项目建设<i v-bind:class="[infrastructureDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
+          <td>8.完成项目建设&#12288;&#12288;<i v-bind:class="[infrastructureDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
       </tbody>
     </table>
@@ -79,14 +79,14 @@
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index" v-bind:style="{backgroundImage: 'url(' +v.cover.name+ ')'}">
-          <video @click="video($event)" controls :src="v.url"></video>
+          <video  @click="video($event)" controls :src="v.url"></video>
         </swiper-slide>
       </swiper>
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
           <img :src="v.cover.name" alt="">
-          <div class="title" v-if="v.summary.valueCn != null">{{v.summary.valueCn}}</div>
+          <div class="title" v-if="v.summary != null && v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
     </div>
@@ -96,32 +96,36 @@
   <CrossLine></CrossLine>
   <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
+  <!--权限弹框-->
+  <Authority :authorityShow="authorityShow" @upgrade="upgrade"></Authority>
 </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
+  import Authority from '@/components/base/authority/authority'
   import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
-          Article
+          Article,
+          Authority
         },
         data() {
             return {
               //项目视频
               swiperOptionTop: {
                 spaceBetween: 10,
-                loop: true,
+                // loop: true,
                 loopedSlides: 5, //looped slides should be the same
               },
               swiperOptionThumbs: {
                 spaceBetween: 5,
-                // centeredSlides: true,
+                centeredSlides: true,
                 slidesPerView: 3,
                 touchRatio: 0.2,
-                loop: true,
+                // loop: true,
                 loopedSlides: 5, //looped slides should be the same
                 slideToClickedSlide: true,
               },
@@ -146,7 +150,8 @@
               productService: null,
               operateMetric: null,
               setProjVideo: false,
-              videos: null
+              videos: null,
+              authorityShow:false
 
             }
         },
@@ -158,6 +163,9 @@
             let element = e.currentTarget;
             // element.classList.add('active');
             element.play();
+          },
+          upgrade () {
+            this.$router.push({ path: "/mine/member-center" });
           },
         },
         filters: {},
@@ -197,7 +205,8 @@
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
               if (res.code === 403) {
-                tool.toast("项目视频无权限 此处增加无权限页"); //todo  此处增加 无权限页
+                // tool.toast("项目视频无权限 此处增加无权限页"); //todo  此处增加 无权限页
+                this.authorityShow=true;
                 return
               }
               let arr = null

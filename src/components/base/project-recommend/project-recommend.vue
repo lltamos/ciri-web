@@ -140,7 +140,8 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
+          console.log(this.projects.length)
+          if (r.data.list.length == 0 || r.data.list.length <5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
           }
@@ -420,6 +421,7 @@
     .more {
       font-size: 12px;
       color: #3f80e9;
+      background: #fff;
       margin-top: 20px;
       text-align: center;
 

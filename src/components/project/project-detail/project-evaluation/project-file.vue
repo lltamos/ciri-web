@@ -3,7 +3,7 @@
   <div class="file-warp">
     <div class="file" v-for="(item,index) in projectFileList" :key="index">
       <div class="title">
-        <i class="icon-type" :class='"icon-"+item.originalName.split(".")[1]'></i>
+        <i class="icon-type" :class='"icon-"+item.originalName.replace(/.+\./, "")'></i>
         <span class="file-title">{{item.originalName}}</span>
       </div>
       <dl class="intro">

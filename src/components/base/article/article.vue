@@ -110,8 +110,7 @@
     line-height: 22px;
     color: #666;
 
-  &
-  .active {
+  &.active {
     /*height:330px;*/
     overflow: hidden;
     text-overflow: ellipsis;
