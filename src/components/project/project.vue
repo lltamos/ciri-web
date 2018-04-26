@@ -322,7 +322,7 @@
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 5,
+        pageSize: 2,
         status: this.status,
         CornerTag: this.CornerTag,
         tag: this.tag,
