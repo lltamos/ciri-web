@@ -70,7 +70,6 @@
           this.axios
             .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
             .then(res => {
-              console.log(res);
               if (res.data.code === 200) {
                 alert("修改国家成功");
                 window.history.back();
