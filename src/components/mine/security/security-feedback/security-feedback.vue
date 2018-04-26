@@ -35,6 +35,12 @@
       HeaderBar,
       CrossLine
     },
+    data() {
+      return {
+        contact:'',
+        content1:''
+      }
+    },
     methods: {
       back() {
         window.history.back()
