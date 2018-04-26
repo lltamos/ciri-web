@@ -147,8 +147,13 @@
             this.shares = res.data.shares
             this.irr = res.data.irr.replace(/.00/g, '')
             this.amount = res.data.amount
-            if (res.data.projDevelopers !== '')
-              this.projDevelopers = res.data.projDevelopers
+            let rdp = res.data.projDevelopers
+            if (rdp !== null && rdp.length > 0){
+              if (rdp.length > 7)
+                this.projDevelopers = rdp.substring(0,4) + '...' + rdp.substring(rdp.length-2 , rdp.length)
+              else
+                this.projDevelopers = rdp
+            }
             this.potentialInvestor = res.data.potentialInvestor
             this.potentialInvestorSize = res.data.potentialInvestorSize
             this.financingProgress = res.data.financingProgress
@@ -237,9 +242,6 @@
         padding:5px 10px;
         line-height: 1;
         border-radius: 2px;
-        &:active{
-          background: #bbb;
-        }
         .icon-dianzan{
           display: inline-block;
           width: 9px;
