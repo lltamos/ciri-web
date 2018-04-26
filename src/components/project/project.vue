@@ -59,7 +59,7 @@
                 <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[0]}}{{item[1]}}
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[1]}}
                   <input type="checkbox"/>
                 </li>
               </ul>
@@ -167,6 +167,8 @@
       init1(){
         this.pageId = 1
         this.loadMore()
+        this.searchBarFixed = false
+        this.popShow = false
       },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
