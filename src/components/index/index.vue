@@ -146,6 +146,8 @@
           }
         },
         tabActive: 1,
+        homeContent1:'',
+        homeContact: ''
       }
     },
     computed: {
