@@ -13,7 +13,7 @@
         </div>
         <div class="timer-shaft clearfix">
           <ul class="timer-warp">
-              <li v-for="(item,index) in progressList" :key="index">
+              <li v-for="(item,index) in progressList" :key="index" v-if="progressList != null && progressList.length !=0">
                 <div class="time">{{item.time}}</div>
                 <h2><span>-</span>{{item.title.valueCn}}</h2>
                 <!--点击查看详情-->
@@ -21,6 +21,7 @@
                   <em>查看</em>
                 </router-link>
               </li>
+
             <!--<li>
               <div class="time">2018-04-13</div>
               <h2><span>-</span>已完成建设许可申请</h2>
@@ -40,6 +41,9 @@
             </li>-->
 
           </ul>
+        </div>
+        <div class="timer-none" v-if="progressList == null || progressList.length ==0">
+          <img src="../../img/timer-none.png" alt="">
         </div>
         <div class="ask-pop pop-bg" v-show="askPop">
           <div class="pop-up">
@@ -95,6 +99,7 @@
               message:"",        //提问的信息栏
               askChecked:false,  //提问匿名选项框
               askFileList:[],  //提问的文件数组
+              item: '',
             }
         },
         props: {},
@@ -172,14 +177,17 @@
         created() {
           this.projId = this.$route.query.projId;
           let param = {
-            //projId:window.location.href.split('?')[1].split('=')[1];
             projId:this.projId
           };
           this.$api
-            .post("/ah/s0/getProjectProgress",param)
+            .post("/ah/s3/getProjectProgress",param)
             .then(res => {
-              this.progressList = res.data;
-
+              if (res.code === 200) {
+                this.authorityShow = false;
+                this.progressList = res.data;
+              }else if(res.code === 403){
+                this.authorityShow = true;
+              }
             });
         },
         mounted() {},
@@ -243,6 +251,14 @@
         .timer-warp{
           padding-left: 45px;
           border-left: 1px dashed #dedede;
+          .timer-none{
+            height:190px;
+            width:80%;
+            img{
+              position: relative;
+              left: -100px;
+            }
+          }
           li{
             position: relative;
             border-bottom: 1px dashed #dedede;
