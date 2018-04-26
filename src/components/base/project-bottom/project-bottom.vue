@@ -24,11 +24,16 @@
     components: {
       tool
     },
+    data(){
+      return{
+        projid:this.$route.query.projId
+      }
+    },
     props: {
       collects: String,
       shares: String,
       collected: Boolean,
-      projId: String
+      // projId: String
     },
     methods: {
       collect () {
