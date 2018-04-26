@@ -2,7 +2,7 @@
 <div class="home">
   <!-- 轮播图 -->
   <div class="slider" id="slider1">
-    <mt-swipe :auto="3000" @change="handleChange" :prevent="false">
+    <mt-swipe :auto="0" @change="handleChange" :prevent="false">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
          <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
         <img v-lazy="host+item.thumbnail">
@@ -183,13 +183,18 @@ export default {
       height: 100%;
     }
     #slider2 {
-      font-size: 14px;
+      font-size: 15px;
+      font-weight: 600;
       color: #fff;
       height: 36px;
       line-height: 18px;
-      margin-top: -100px;
-      padding: 0 10px;
+      margin-top: -60px;
+      padding: 0px 3px;
       text-align: left;
+      width: 300px;
+      text-overflow:ellipsis;
+      white-space : nowrap;
+      overflow : hidden;
     }
   }
   #slider1 {
