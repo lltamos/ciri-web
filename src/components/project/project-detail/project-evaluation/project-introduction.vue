@@ -72,9 +72,9 @@
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video">
+  <div class="intro-video" v-show="setProjVideo">
     <h4>
-      <i class="left-line"></i><span>项目视频</span>
+      <i class="left-line" ></i><span>项目视频</span>
     </h4>
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
