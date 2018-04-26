@@ -3,7 +3,7 @@
     <div class="answering-warp">
       <div class="ask-warp ask-bt">
           <div class="ask-describe"></div>
-          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="askMessage"></textarea>
+          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟~" v-model="askMessage"></textarea>
           <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
           <div class="file-warp">
             <FileDelete v-for="(file,index) in askFileList"  :key="index"
@@ -107,7 +107,7 @@
               </div>
             </div>
           </div>
-          <div class="read-more" @click="allQuestion" v-show="moreShow">
+          <div class="read-more" @click="allQuestion" v-show="moreShow" v-if="questions!=null && questions.length>0">
             <span v-text="moreQuestion">查看更多</span>
             <i :class="iconMore"></i>
           </div>
@@ -179,7 +179,7 @@
             </div>
           </div>
           <!--点击加载更多我的问题-->
-          <div class="read-more" @click="myQuestion" v-show="moreShow">
+          <div class="read-more" @click="myQuestion" v-show="moreShow" v-if="myQuestions != null && myQuestions.length>0">
             <span v-text="moreMyQuestion">查看更多</span>
             <i :class="iconMyMore"></i>
           </div>
@@ -198,6 +198,7 @@
           </div>
           <div class="pop-bottom clearfix">
             <div class="fl">
+
               <i class="icon-uploading"></i>
               <span class="upload-file">上传文件</span>
               <input type="file" class="fill-input" @change="UploadFile($event,2)">
@@ -680,7 +681,7 @@
           font-size: 13px;
           color:#666;
           box-sizing: border-box;
-
+          font-family: "Microsoft Yahei";
         }
         p.hint{
           margin-top:10px ;
@@ -763,7 +764,7 @@
             margin-right: 15px;
             color:#528de8;
             font-size: 10px;
-            width:60px;
+            width:75px;
             height:20px;
             line-height: 20px;
             border-radius: 20px;
@@ -958,6 +959,7 @@
           margin-top: 10px;
           padding-right: 10px;
           margin-bottom: 16px;
+          padding-bottom: 10px;
           i {
             display: inline-block;
             width: 10px;
