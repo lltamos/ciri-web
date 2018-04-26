@@ -1,7 +1,7 @@
 <template>
 <div class="project-file">
   <div class="file-warp">
-    <div class="file" v-for="(item,index) in projectFileList" :key="index">
+    <div class="file" v-for="(item,index) in projectFileList" :key="index" v-if="projectFileList != null && projectFileList.length !=0">
       <div class="title">
         <i class="icon-type" :class='"icon-"+item.originalName.replace(/.+\./, "")'></i>
         <span class="file-title">{{item.originalName}}</span>
@@ -15,6 +15,9 @@
       <!--<div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
            <div class="applyFile btn bg-gray">已申请</div>
       -->
+    </div>
+    <div v-if="projectFileList == null || projectFileList.length ==0">
+      <img src="../../img/timer-none.png" alt="">
     </div>
   </div>
   <CrossLine></CrossLine>
