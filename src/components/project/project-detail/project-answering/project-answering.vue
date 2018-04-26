@@ -31,10 +31,12 @@
         </ul>
         <div class="all-warp" v-show="questionShow" >
           <div class="question-warp"  >
-            <div class="question-list" v-if="questions != null && questions != '' " v-for="(question,index) in questions" :key="index" >
+            <div class="question-list" v-if="questions != null && questions.length != 0 " v-for="(question,index) in questions" :key="index" >
               <div class="head-portrait">
                 <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                <img  :src="question.headUrl"  alt="">
+
+                <img v-if="question.headUrl != null && question.headUrl !='' "  :src="question.headUrl"  alt="">
+                <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
               </div>
               <div class="main-news">
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
@@ -43,7 +45,7 @@
                 <div class="delete" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
                 <div class="ques-title">{{question.message}}</div>
                 <div class="file-warp">
-                  <div class="file" v-for="(fileMeta,index) in question.fileMetas" :key="index">
+                  <div class="file" v-if="question.fileMetas != null && question.fileMetas.length !=0 " v-for="(fileMeta,index) in question.fileMetas" :key="index">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(fileMeta.url)">查看</div>
@@ -63,14 +65,15 @@
                   </div>
                 </div>
                 <!--回答信息-->
-                <div class="questioner-visible" v-for="(ask,index) in question.projectChatList" :key="index">
+                <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList != '' && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
                   <div class="marked-warp">
                     <div class="marked-words">
                       <div class="user-warp clearfix">
                         <div class="head-portrait">
                           <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                          <img :src="ask.headUrl" alt="">
+                          <img v-if="ask.headUrl != null && ask.headUrl !='' "  :src="ask.headUrl"  alt="">
+                          <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                         </div>
                         <div class="fl">
                           <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
@@ -93,7 +96,7 @@
                   </div>
                   <!--设置回答文件信息-->
                   <div class="file-warp">
-                    <div class="file" v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
+                    <div class="file"  v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
                       <i class="icon-type icon-pdf"></i>
                       <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                       <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
@@ -101,7 +104,7 @@
                   </div>
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多-->
-                <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                <div class="read-more" v-if="question.projectChatList!=null && question.projectChatList.length >0 && question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
                   <span>查看更多</span>
                   <i class="icon-more"></i>
                 </div>
@@ -114,10 +117,11 @@
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
-          <div class="question-list" v-if="myQuestions != null " v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
+          <div class="question-list" v-if="myQuestions != null && myQuestions.length >0 " v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
             <div class="head-portrait">
               <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-              <img :src="myQuestion.headUrl" alt="">
+              <img v-if="myQuestion.headUrl != null && myQuestion.headUrl !='' "  :src="myQuestion.headUrl"  alt="">
+              <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
             </div>
             <div class="main-news">
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
@@ -126,7 +130,7 @@
               <div class="delete" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
               <div class="ques-title">{{myQuestion.message}}</div>
               <div class="file-warp">
-                <div class="file" v-if="myQuestion.fileMetas != '' " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
+                <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
                   <i class="icon-type icon-pdf"></i>
                   <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                   <div class="view" @click="lookFile(fileMeta.url)">查看</div>
@@ -146,14 +150,15 @@
                 </div>
               </div>
               <!--回答信息-->
-              <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null" v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
+              <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 " v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
                 <!--回复的信息-->
                 <div class="marked-warp">
                   <div class="marked-words">
                     <div class="user-warp clearfix">
                       <div class="head-portrait">
                         <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                        <img :src="ask.headUrl" alt="">
+                        <img v-if="ask.headUrl != null && ask.headUrl !=''"  :src="ask.headUrl"  alt="">
+                        <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
@@ -167,7 +172,7 @@
                 </div>
                 <!--设置回答文件信息-->
                 <div class="file-warp">
-                  <div class="file" v-if="ask.fileMetas != 'null'" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
+                  <div class="file" v-if="ask.fileMetas != null && ask.fileMetas.length > 0" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
@@ -175,7 +180,7 @@
                 </div>
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多-->
-              <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
+              <div class="read-more" v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 && myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
                 <span>查看更多</span>
                 <i class="icon-more"></i>
               </div>
@@ -289,7 +294,7 @@
         this.questionShow = false;
         this.tabActive = 2;
         //初始化我的问题
-        this.myPage=1;
+        this.page=1;
         this.myQuestion();
       },
       readMore () {
@@ -401,6 +406,9 @@
         }
         //发送请求分页查询数据
         this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
+          if(r.level==0){
+           tool.toast("会员等级太低，无法查看回复信息");
+          }
           //设置总问题数
           this.questionCount=r.total;
           //设置我的提问数
@@ -443,6 +451,9 @@
         //发送请求分页查询数据
         this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
           console.log(r.data);
+          if(r.level==0){
+            tool.toast("会员等级太低，无法查看回复信息");
+          }
           if(r.data !== "" && r.data !== null && r.data.length>0) {
             //设置我的回答总数
             this.myQuestionCount=r.total;
@@ -475,11 +486,17 @@
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        let pageId= parseInt(d.getAttribute(""))+1;
+        let pageId=1;
+        if(!isNaN(parseInt(d.getAttribute("")))){
+          pageId++;
+        }
         //获取更多信息pageId
         console.log(pageId);
         this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
+            if(r.level==0){
+              tool.toast("会员等级太低，无法查看回复信息");
+            }
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
             console.log(quesiton.projectChatList);
@@ -505,18 +522,20 @@
             status : this.askChecked ? 1 : 0,
           }).then(r => {
           if(r.code===200){
+            this.askMessage="";
+            this.askFileList=Array();
             tool.toast("提问成功");
             if(this.tabActive === 1){
               //刷新全部问题页面
-              allShow ();
+              this.page=1;
+              this.allQuestion();
             }else if(this.tabActive === 2){
               this.questionCount=this.questionCount+1;
               this.myQuestionCount=this.myQuestionCount+1;
               //刷新我的页面
-              mineShow();
+              this.myPage=1;
+              this.myQuestion();
             }
-            this.askMessage=="";
-            this.askFileList=[];
 
           }
         });
@@ -552,17 +571,25 @@
                 // myQuestions:null
               for (var question of this.questions) {
                 if(question.id == this.parentId){
-                  question.projectChatList.unshift(r.data);
                   question.total=question.total+1;
+                  if(question.projectChatList==null||question.projectChatList.length<0){
+                    question.projectChatList=new Array(r.data);
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
                   break;
                 }
               }
-              // allShow ();
+              // this.allShow ();
             }else if(this.tabActive==2){
-              // mineShow();
+              // this.mineShow();
               for (var question of this.myQuestions) {
                 if(question.id == this.parentId){
-                  question.projectChatList.unshift(r.data);
+                  if(question.projectChatList==null||question.projectChatList.length<0){
+                    question.projectChatList=new Array(r.data);
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
                   question.total=question.total+1;
                   break;
                 }
