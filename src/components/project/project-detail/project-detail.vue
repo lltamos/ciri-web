@@ -74,7 +74,8 @@
         </router-link>
       </h4>
       <ul class="recommdnd-warp clearfix">
-        <li class="recommdnd-card" @click="gotoProjLand(f.projId)" v-if="fetprojects != null" v-for="(f, index) in fetprojects.list" :key="index">
+        <li class="recommdnd-card" @click="gotoProjLand(f.projId)"
+            v-if="fetprojectsList != null" v-for="(f, index) in fetprojectsList" :key="index">
          <div class="img">
            <img :src="f.url" alt="">
          </div>
@@ -152,7 +153,7 @@
         collected: false,
         projAddress: '',
         interest: false,
-        fetprojects: null
+        fetprojectsList: null
       }
     },
     methods: {
@@ -226,7 +227,7 @@
         this.$api.post('/pb/i/fetprojects',
           {pageSize: 4, status: 7,tag:101001}).then(res => {
         if (res.code == 200){
-          this.fetprojects = res.data
+          this.fetprojectsList = res.data.list
         }
         })
 
