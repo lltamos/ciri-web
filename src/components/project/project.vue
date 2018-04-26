@@ -59,13 +59,13 @@
                 <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :key="t">{{item[0]}}{{item[1]}}
-                  <input type="checkbox" :value="t"/>
+                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :name="'li'+index" :key="t">{{item[0]}}{{item[1]}}
+                  <input type="checkbox" :value="item[0]"/>
                 </li>
               </ul>
               <div class="btn-warp clearfix">
                 <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                <button class="small-btn confirm fr">确定</button>
+                <button class="small-btn confirm fr" @click="submitData()">确定</button>
               </div>
             </form>
           </div>
@@ -241,8 +241,13 @@
       },
       resetActive(index){
         let all =document.getElementById('all'+ index);
-        console.log(all);
         all.classList.add('active')
+        let lis = document.getElementsByName("li" + index);
+        for (var i=0;i<lis.length;i++) {
+          if (lis[i].classList.contains('active')) {
+            lis[i].classList.remove('active');
+          }
+        }
         this.liSwitch = false
       },
       all(index){
