@@ -41,7 +41,7 @@
     },
     data(){
       return{
-        projid:this.$route.query.projId,
+        //projid:this.$route.query.projId,
         appointShow : false
       }
     },
@@ -49,7 +49,7 @@
       collects: String,
       shares: String,
       collected: Boolean,
-      // projId: String
+      projId: String
     },
     methods: {
       collect () {
