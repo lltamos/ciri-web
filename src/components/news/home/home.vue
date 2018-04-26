@@ -88,7 +88,7 @@
       </router-link>
     </div>
   <div class="more">
-    <span @click='loadMore' v-text="moreText">查看更多</span><i></i>
+    <span @click='loadMore' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
   </div>
   <div class="blank"></div>
 </div>
@@ -109,7 +109,8 @@ export default {
       },
       page: 1,
       articles: null,
-      moreText: '查看更多'
+      moreText: '查看更多',
+      isIcon: true
     };
   },
   methods: {
@@ -133,7 +134,8 @@ export default {
             if(this.articles.length != res.data.total){
               this.moreText='查看更多'
             }else{
-              this.moreText='没有更多了'
+              this.moreText='没有更多了';
+              this.isIcon = false;
             }
           }
           this.page = this.page + 1;
