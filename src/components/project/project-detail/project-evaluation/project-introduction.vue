@@ -40,7 +40,9 @@
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
+          <td>
+            <div v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</div>
+          </td>
         </tr>
       </tbody>
     </table>
