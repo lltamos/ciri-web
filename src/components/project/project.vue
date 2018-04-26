@@ -59,7 +59,7 @@
                 <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :key="t">{{item}}
+                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :key="t">{{item[0]}}{{item[1]}}
                   <input type="checkbox" :value="t"/>
                 </li>
               </ul>
@@ -136,9 +136,9 @@
         popShow : false,
         tabs: ["国别", "行业","类型","进度"],
         tabContents:
-          [
-            ["绿地投资", "项目出售", "项目扩建", "其他"],
-            ["规划阶段", "概念阶段", "审批阶段", "可研阶段", "决策阶段", "建设阶段", "运营阶段", "出售阶段"]
+          [0规划1概念2审批3可研4投融资5建设6运营7出售
+            [[3,"绿地投资"], [4,"项目出售"], [5,"项目扩建"], [6,"其他"]],
+            [[0,"规划阶段"], [1,"概念阶段"], [2,"审批阶段"], [3,"可研阶段"], [4,"投融资阶段"], [5,"建设阶段"], [6,"运营阶段"], [7,"出售阶段"]]
           ],
         num: 5,
         activeSwitch :true,
@@ -187,9 +187,10 @@
             if (res.data.code === 200) {
               let country = res.data.data;
               country.forEach( v=> {
-                let countryName = v.name;
-                let j = countryName;
-                type.push(j);
+                let temp = new Array()
+                temp.push(v.id)
+                temp.push(v.name)
+                type.push(temp);
               });
             }
           });
