@@ -85,7 +85,7 @@
                 <div class="icon-quality fl">精品</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
-                <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
+                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
                   <div class="fl red">{{t}}</div>
                 </div>
                 <div v-show="project.projVideoStatus" class="video fl"></div>
