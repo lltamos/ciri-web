@@ -11,7 +11,7 @@
       <span class="time">{{this.detailContent.time}}</span>
     </h4>
     <div class="img">
-      <img src="../../../news/img/p_1.jpg" alt="">
+      <img src="../../../news/img/p_1.jpg" alt="" title="">
     </div>
     <div class="article">
       <p>{{this.detailContent.content.valueCn}}</p>
@@ -27,7 +27,8 @@
         components: {},
         data() {
             return {
-              detailContent:null
+              detailContent:null,
+              title:null,
             };
         },
         props: {},
