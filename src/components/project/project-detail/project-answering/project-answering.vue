@@ -3,7 +3,7 @@
     <div class="answering-warp">
       <div class="ask-warp ask-bt">
           <div class="ask-describe"></div>
-          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
+          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="askMessage"></textarea>
           <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
           <div class="file-warp">
             <FileDelete v-for="(file,index) in askFileList"  :key="index"
@@ -29,16 +29,17 @@
           <li :class="{active:tabActive==1}" @click="allShow">全部 <em>{{questionCount}}</em></li>
           <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>{{myQuestionCount}}</em></li>
         </ul>
-        <div class="all-warp" v-show="questionShow"   >
+        <div class="all-warp" v-show="questionShow" >
           <div class="question-warp"  >
-            <div class="question-list" v-for="(question,index) in questions" :key="index" >
+            <div class="question-list" v-if="questions != null && questions != '' " v-for="(question,index) in questions" :key="index" >
               <div class="head-portrait">
                 <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                 <img  :src="question.headUrl"  alt="">
               </div>
               <div class="main-news">
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-                <div class="user-name">{{(question.userid == null ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null ? "匿名": question.userid)}}</div>
+                <!--<div class="user-name">{{(question.userid == null || question.userid == ""  ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null || question.userid == "" ? "匿名": question.userid)}}</div>-->
+                <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
                 <div class="delete" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
                 <div class="ques-title">{{question.message}}</div>
                 <div class="file-warp">
@@ -113,18 +114,19 @@
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
-          <div class="question-list" v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
+          <div class="question-list" v-if="myQuestions != null " v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
             <div class="head-portrait">
               <!--<img src="../../../news/img/p_1.jpg" alt="">-->
               <img :src="myQuestion.headUrl" alt="">
             </div>
             <div class="main-news">
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-              <div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>
+              <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
+              <div class="user-name">{{myQuestion.userid.length >15 ? myQuestion.userid.substr(0,15)+'...' : myQuestion.userid}}</div>
               <div class="delete" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
               <div class="ques-title">{{myQuestion.message}}</div>
               <div class="file-warp">
-                <div class="file" v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
+                <div class="file" v-if="myQuestion.fileMetas != '' " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
                   <i class="icon-type icon-pdf"></i>
                   <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                   <div class="view" @click="lookFile(fileMeta.url)">查看</div>
@@ -144,7 +146,7 @@
                 </div>
               </div>
               <!--回答信息-->
-              <div class="questioner-visible" v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
+              <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null" v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
                 <!--回复的信息-->
                 <div class="marked-warp">
                   <div class="marked-words">
@@ -165,7 +167,7 @@
                 </div>
                 <!--设置回答文件信息-->
                 <div class="file-warp">
-                  <div class="file" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
+                  <div class="file" v-if="ask.fileMetas != 'null'" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
@@ -250,9 +252,9 @@
         questionCount:0,
         myQuestionCount:0,
         askPage:1,
-        questions:null,  //项目提问信息
-        myQuestions:null, //我的问题
-        message:"",        //提问的信息栏
+        questions:[],  //项目提问信息
+        myQuestions:[], //我的问题
+        askMessage:"",        //提问的信息栏
         askChecked:false,  //提问匿名选项框
         askFileList:[],  //提问的文件数组
         backFileList:[],  //回复的文件数组
@@ -280,15 +282,15 @@
       allShow () {
         this.questionShow = true;
         this.tabActive = 1;
+        this.myPage=1;
+        this.allQuestion();
       },
       mineShow () {
         this.questionShow = false;
         this.tabActive = 2;
         //初始化我的问题
-        if(this.myPage==0){
-          this.myPage=this.myPage+1;
-          this.myQuestion();
-        }
+        this.myPage=1;
+        this.myQuestion();
       },
       readMore () {
 
@@ -334,7 +336,10 @@
               if (que.id == chatId) {
                 //注意对比这行代码：删除元素后调整i的值
                 this.questions.splice(i--, 1);
-                alert(chatId);
+                // alert(chatId);
+                //提问总数减一
+                this.questionCount=this.questionCount-1;
+                this.myQuestionCount=this.myQuestionCount-1;
                 break;
               }
               //删除回复中信息
@@ -344,7 +349,9 @@
                   if (ask.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
                     que.projectChatList.splice(j--, 1);
-                    alert(chatId);
+                    // alert(chatId);
+                    //问题回答信息总数-1
+                    que.total = que.total - 1;
                   }
                 }
               }
@@ -355,7 +362,6 @@
               if (que.id == chatId) {
                 //注意对比这行代码：删除元素后调整i的值
                 this.myQuestions.splice(i--, 1);
-                alert(chatId);
                 break;
               }
               //删除回复中信息
@@ -365,7 +371,9 @@
                   if (ask.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
                     que.projectChatList.splice(j--, 1);
-                    alert(chatId);
+                    // alert(chatId);
+                    //问题回答信息总数-1
+                    que.total = que.total - 1;
                   }
                 }
               }
@@ -378,26 +386,18 @@
       },
       //获取所有的问答信息15201197830
       allQuestion(){
+
         //数据长度不为空
-        if(this.questions != null){
-          if(this.moreQuestion == '收起'){
-            if(this.questions.length >=5){
-              this.questions= this.questions.slice(0,5);
-            }else {
-              this.questions= this.questions.slice(0,this.questions.length-1);
-            }
-            this.moreQuestion = '查看更多';
-            this.iconMore = 'icon-more'
-            this.page=1;
-            return;
-          }else {
-            //已经显示的提问数等于总的提问数时
-            if(this.questions.length >= this.questionCount){
-              this.moreQuestion='收起'
-              this.iconMore = 'pack-up'
-              return;
-            }
+        if (this.moreQuestion == '收起') {
+          if (this.questions.length >= 5) {
+            this.questions = this.questions.slice(0, 5);
+          } else {
+            this.questions = this.questions.slice(0, this.questions.length - 1);
           }
+          this.moreQuestion = '查看更多';
+          this.iconMore = 'icon-more'
+          this.page=1;
+          return;
         }
         //发送请求分页查询数据
         this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
@@ -406,9 +406,9 @@
           //设置我的提问数
           this.myQuestionCount= r.myTotal;
           console.log(r.data);
-          if(r.data !== null && r.data.length >0){
-            //如追加数据
+          if(r.data !== "" && r.data !== null && r.data.length >0){
             if (this.page === 1) {
+              //如追加数据
               this.questions= r.data;
             } else {
               this.questions = this.questions.concat(r.data);
@@ -422,13 +422,12 @@
               this.iconMore = 'pack-up'
             }
             //增加页码
-            this.page =this.page+1;
+            this.page = this.page+1;
           }
         });
       },
       //获取我的提问信息
       myQuestion(){
-        if(this.myQuestions != null){
           //判读收起
           if(this.moreMyQuestion == '收起'){
             if(this.myQuestions.length >=5){
@@ -440,19 +439,13 @@
             this.iconMyMore = 'icon-more';
             this.myPage=1;
             return;
-          }else {
-              //已经显示的提问数时等于我的提问数时
-             if(this.myQuestions.length >= this.myQuestionCount){
-               this.moreMyQuestion='收起'
-               this.iconMyMore = 'pack-up'
-               return;
-             }
           }
-        }
         //发送请求分页查询数据
         this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
           console.log(r.data);
-          if(r.data != 'null' && r.data.length>0) {
+          if(r.data !== "" && r.data !== null && r.data.length>0) {
+            //设置我的回答总数
+            this.myQuestionCount=r.total;
             if (this.myPage === 1) {
               //如追加数据
               this.myQuestions = r.data;
@@ -475,7 +468,7 @@
               this.iconMyMore = 'pack-up'
             }
             //增加页码
-            this.myPage =this.myPage+1;
+            this.myPage = this.myPage + 1;
           }
         });
       },
@@ -484,7 +477,7 @@
         var d = e.currentTarget;
         let pageId= parseInt(d.getAttribute(""))+1;
         //获取更多信息pageId
-        console.log(pageId  );
+        console.log(pageId);
         this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
             quesiton.total=r.total;
@@ -496,7 +489,7 @@
       },
       //提问
       askAQuestion(){
-        if(this.message==""){
+        if(this.askMessage==""){
           tool.toast("提问信息不能为空")
           return
         }
@@ -508,13 +501,23 @@
         this.$api.post('/ah/s0/chat/addProjectChat',
           { userid: tool.getuser(),
             projid: this.proId, files: files,
-            message: this.message,
+            message: this.askMessage,
             status : this.askChecked ? 1 : 0,
           }).then(r => {
           if(r.code===200){
             tool.toast("提问成功");
-            //刷新页面
-            location.reload();
+            if(this.tabActive === 1){
+              //刷新全部问题页面
+              allShow ();
+            }else if(this.tabActive === 2){
+              this.questionCount=this.questionCount+1;
+              this.myQuestionCount=this.myQuestionCount+1;
+              //刷新我的页面
+              mineShow();
+            }
+            this.askMessage=="";
+            this.askFileList=[];
+
           }
         });
       },
@@ -543,6 +546,28 @@
             this.askPop = false;
             //提示信息
             tool.toast("回复成功");
+
+            if(this.tabActive == 1){
+              // questions:null,  //项目提问信息
+                // myQuestions:null
+              for (var question of this.questions) {
+                if(question.id == this.parentId){
+                  question.projectChatList.unshift(r.data);
+                  question.total=question.total+1;
+                  break;
+                }
+              }
+              // allShow ();
+            }else if(this.tabActive==2){
+              // mineShow();
+              for (var question of this.myQuestions) {
+                if(question.id == this.parentId){
+                  question.projectChatList.unshift(r.data);
+                  question.total=question.total+1;
+                  break;
+                }
+              }
+            }
             //内容重置
             this.backMessage="";
             //回答问题的id重置
@@ -597,14 +622,13 @@
     },
     computed: {},
     created() {
+      this.proId = this.$route.query.projId;
+      this.allQuestion();
     },
     mounted() {
       //tool.getuser();
-      this.allQuestion()
     },
     destroyed() {
-
-
     }
   }
 </script>
