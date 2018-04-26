@@ -167,7 +167,7 @@
           tag: null,
         }).then(r => {
           this.notloading = false;
-          if (this.pageId == 1) {
+          if (this.pageId == 1 || this.projects==null) {
             this.projects = r.data.list;
           } else {
             this.projects = this.projects.concat(r.data.list);
@@ -268,7 +268,7 @@
         industryCategory: this.industryCategory
       }).then(r => {
         this.notloading = false;
-        if (this.pageId == 1) {
+        if (this.pageId == 1 || this.projects==null) {
           this.weekProjects = r.data.list;
         } else {
           this.weekProjects = this.projects.concat(r.data.list);
