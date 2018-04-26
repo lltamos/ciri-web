@@ -23,11 +23,11 @@ Vue.use(VueAwesomeSwiper)
 Vue.prototype.$api = api
 Vue.prototype.axios = axios
 Vue.use(VueLazyload, {
-  // loading: require('@/assets/img/logo.png')
+  throttleWait:800,
   preLoad: 1.3,
   attempt: 1,
-  error: '@/assets/img/logo.png',
-  loading: '@/components/index/img/icon-loading'
+  error: require('@/assets/img/default.jpg'),
+  loading: require('@/assets/img/default.jpg')
 })
 Vue.use(Mint)
 // 图片预览

@@ -271,17 +271,23 @@
       removeList(index ,v){
         switch (index){
           case 0:
-            this.c.pop(v)
+            this.delList(this.c ,v);
             break;
           case 1:
-            this.i.pop(v)
+            this.delList(this.i ,v);
             break;
           case 2:
-            this.t.pop(v)
+            this.delList(this.v ,v);
             break;
           case 3:
-            this.m.pop(v)
+            this.delList(this.m ,v);
             break;
+        }
+      },
+      delList (array , v) {
+        for (var i = 0; i < array.length ;i++){
+          if (array[i] == v)
+            return array.splice(i ,1)
         }
       },
       clearList(index){
