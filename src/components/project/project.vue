@@ -22,7 +22,7 @@
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
             </div>
             <div class="main-news">
               <h2>{{project.name}}</h2>
@@ -77,7 +77,7 @@
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div class="main-news">

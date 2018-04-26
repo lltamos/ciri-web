@@ -7,7 +7,7 @@
   </div>
   <div class="project">
     <div class="img">
-      <div class="icon-state">{{status}}</div> <img v-bind:src="projPhoto"  alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
+      <div class="icon-state">{{status}}</div> <img v-lazy="projPhoto"  alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
     <div class="main-news">
       <div class="title">
         <div class="icon-quality fl">{{cornerTag}}</div>

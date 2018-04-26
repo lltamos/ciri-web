@@ -12,7 +12,7 @@
             <template v-if="!userId">
               <router-link to="/login">
                 <div class="user_face">
-                  <img :src="portraitUrl"/>
+                  <img v-lazy="portraitUrl"/>
                 </div>
               </router-link>
             </template>
@@ -20,7 +20,7 @@
             <template v-if="userId">
               <router-link to="/mine/my-profile">
                 <div class="user_face">
-                  <img :src="portraitUrl"/>
+                  <img v-lazy="portraitUrl"/>
                 </div>
               </router-link>
             </template>

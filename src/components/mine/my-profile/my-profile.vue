@@ -6,7 +6,7 @@
       <div class="more-bar head-portrait">
         <i class="icon-more" @click="headShow"></i>
         <div class="key icon-head" @click="headShow">
-            <img :src="userInfo.portraitFileUrl" />
+            <img v-lazy="userInfo.portraitFileUrl" />
         </div>
         <h1>头像</h1>
       </div>

@@ -1,9 +1,9 @@
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<template>
   <div class="news-main">
     <div v-if="topArticle!=null" class="project1">
       <router-link :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
         <div class="img">
-          <img v-bind:src="host+topArticle.thumbnail"/>
+          <img v-lazy="host+topArticle.thumbnail"/>
         </div>
         <h2>{{topArticle.title}}</h2>
         <div class="title-box">
@@ -36,13 +36,13 @@
           </div>
           <div class="fr img-warp">
             <div class="img">
-              <img v-bind:src="host+article.thumbnail"/>
+              <img v-lazy="host+article.thumbnail"/>
             </div>
           </div>
         </div>
         <div v-if="(index+1)%5===0" class="project1">
           <div class="img">
-            <img v-bind:src="host+article.thumbnail"/>
+            <img v-lazy="host+article.thumbnail"/>
           </div>
           <h2>{{article.title}}</h2>
           <div class="title-box">

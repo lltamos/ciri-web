@@ -87,7 +87,7 @@
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
-          <img :src="v.cover.name" alt="">
+          <img v-lazy="v.cover.name" alt="">
           <div class="title" v-if="v.summary != null && v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
