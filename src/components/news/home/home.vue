@@ -189,7 +189,7 @@ export default {
       height: 36px;
       line-height: 18px;
       margin-top: -60px;
-      padding: 0px 3px;
+      padding: 0px 10px;
       text-align: left;
       width: 300px;
       text-overflow:ellipsis;
