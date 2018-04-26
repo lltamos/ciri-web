@@ -14,7 +14,7 @@
           {{project.status}}
         </div>
         <div class="img">
-          <img v-lazy="project.url" alt="">
+          <img  class="item-pic" v-lazy="project.url" alt="" src="">
         </div>
         <div class="main-news">
           <div class="title">
