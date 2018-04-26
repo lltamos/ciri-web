@@ -85,10 +85,10 @@
                 <div class="icon-quality fl">精品</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
-                <div v-for="tag in project.tags" :key="tag" class="f1">
-                  <div class="fl red">{{tag}}</div>
+                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
+                  <div class="fl red">{{t}}</div>
                 </div>
-                <div class="video fl"></div>
+                <div v-show="project.projVideoStatus" class="video fl"></div>
               </div>
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
@@ -154,6 +154,7 @@
         notloading: true,
         countryList : [],
         indestryList : [],
+        CornerTag: 1,
         i: [],
         c: [],
         m: [],
@@ -321,8 +322,9 @@
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 5,
+        pageSize: 2,
         status: this.status,
+        CornerTag: this.CornerTag,
         tag: this.tag,
         industryCategory: this.industryCategory
       }).then(r => {
