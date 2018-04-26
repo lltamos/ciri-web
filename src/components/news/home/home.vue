@@ -5,7 +5,7 @@
     <mt-swipe :auto="3000" @change="handleChange" :prevent="false">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
          <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
-        <img :src="host+item.thumbnail">
+        <img v-lazy="host+item.thumbnail">
          <p id="slider2" v-text="item.title"> </p>
          </router-link>
       </mt-swipe-item>
@@ -65,13 +65,13 @@
         </div>
         <div class="fr img-warp">
           <div class="img">
-            <img v-bind:src="host+article.thumbnail"/>
+            <img v-lazy="host+article.thumbnail"/>
           </div>
         </div>
       </div>
       <div v-if="(index+1)%5===0" class="project1">
         <div class="img">
-          <img v-bind:src="host+article.thumbnail"/>
+          <img v-lazy="host+article.thumbnail" alt=""/>
         </div>
         <h2>{{article.title}}</h2>
         <div class="title-box">

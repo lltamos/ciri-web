@@ -18,13 +18,13 @@
       <div class="pop-up">
         <p class="title">约谈</p>
         <div class="input-warp">
-          <input type="text" placeholder="您的手机号码（必填）" v-model="phone">
-          <input type="text" placeholder="预约时间（如本周三）（必填）" v-model="talkDate">
+          <input type="text" placeholder="您的手机号码（必填）">
+          <input type="text" placeholder="预约时间（如本周三）（必填）">
         </div>
         <p class="msg">我们将会在第一时间和您取得联系，感谢支持！</p>
         <div class="btn-warp clearfix">
-            <div class="cancel fl" @click="appointExit">取消</div>
-          <div class="upgrade fr" @click="talk">确定</div>
+            <div class="cancel fl">取消</div>
+          <div class="upgrade fr">确定</div>
         </div>
       </div>
     </div>
@@ -41,17 +41,15 @@
     },
     data(){
       return{
-        projid:this.$route.query.projId,
-        appointShow : false,
-        phone:"",
-        talkDate:""
+        //projid:this.$route.query.projId,
+        appointShow : false
       }
     },
     props: {
       collects: String,
       shares: String,
       collected: Boolean,
-      // projId: String
+      projId: String
     },
     methods: {
       collect () {
@@ -78,28 +76,6 @@
       },
       appoint() {
         this.appointShow = true;
-      },
-      appointExit(){
-        this.appointShow = false;
-      },
-      talk(){
-        let flag = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if(this.phone==null||!flag.test(this.phone)){
-          tool.toast("手机号格式不正确");
-        }
-        if(this.talkDate == ""){
-          tool.toast("预约时间不能为空");
-        }
-        this.$api.post('/pb/talk/add',
-          {phone: this.phone, projid: this.projId,talkTime:this.talkDate}).then(res => {
-            if (res.code === 200) {
-              tool.toast("预约成功");
-            }else {
-              tool.toast("预约失败请重试");
-            }
-          this.appointShow = false;
-        });
-
       }
     }
 

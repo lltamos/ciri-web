@@ -40,7 +40,9 @@
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
+          <td>
+            <div v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -85,7 +87,7 @@
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
-          <img :src="v.cover.name" alt="">
+          <img v-lazy="v.cover.name" alt="">
           <div class="title" v-if="v.summary != null && v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>

@@ -22,11 +22,14 @@ Vue.config.productionTip = false
 Vue.use(VueAwesomeSwiper)
 Vue.prototype.$api = api
 Vue.prototype.axios = axios
-Vue.use(Mint)
 Vue.use(VueLazyload, {
-  // loading: '/static/loading-bars.svg'
-  loading: require('@/assets/img/logo.png')
+  // loading: require('@/assets/img/logo.png')
+  preLoad: 1.3,
+  attempt: 1,
+  error: '@/assets/img/logo.png',
+  loading: '@/components/index/img/icon-loading'
 })
+Vue.use(Mint)
 // 图片预览
 Vue.use(VuePreview)
 

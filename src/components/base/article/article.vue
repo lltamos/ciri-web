@@ -49,7 +49,7 @@
             }
           },
         },
-        filters: {},
+      filters: {},
         computed: {},
         created() {
         },

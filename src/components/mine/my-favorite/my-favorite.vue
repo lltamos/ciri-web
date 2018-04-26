@@ -8,7 +8,7 @@
 
         <div class="img">
           <div class="icon-state">{{pro.status}}</div>
-          <img v-bind:src="pro.url" alt="" width="100%" height="100%">
+          <img v-lazy="pro.url" alt="" width="100%" height="100%">
           <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
         </div>
         <div class="main-news">

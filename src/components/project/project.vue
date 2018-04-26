@@ -22,7 +22,7 @@
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
             </div>
             <div class="main-news">
               <h2>{{project.name}}</h2>
@@ -77,7 +77,7 @@
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div class="main-news">
@@ -85,7 +85,7 @@
                 <div class="icon-quality fl">精品</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
-                <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
+                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
                   <div class="fl red">{{t}}</div>
                 </div>
                 <div v-show="project.projVideoStatus" class="video fl"></div>
@@ -322,7 +322,7 @@
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 5,
+        pageSize: 2,
         status: this.status,
         CornerTag: this.CornerTag,
         tag: this.tag,
