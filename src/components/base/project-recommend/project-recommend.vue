@@ -102,8 +102,6 @@
     },
     watch: {
       industryCategory(val) {
-        this.status = val == 1 ? [7] : [16]
-        this.tag = val == 1 ? [101001, 101002] : []
         this.projects = null;
         this.pageId = 1;
         this.industryCategory = val;
@@ -127,8 +125,8 @@
           pageId: this.pageId,
           pageSize: 5,
           industry: [],
-          country:[],
-          invest:[],
+          country: [],
+          invest: [],
           status: this.status,
           tag: this.tag,
           industryCategory: this.industryCategory
@@ -141,7 +139,7 @@
           }
           this.pageId = this.pageId + 1;
           console.log(this.projects.length)
-          if (r.data.list.length == 0 || r.data.list.length <5) {
+          if (r.data.list.length == 0 || r.data.list.length < 5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
           }
