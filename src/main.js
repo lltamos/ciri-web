@@ -24,7 +24,7 @@ Vue.prototype.$api = api
 Vue.prototype.axios = axios
 Vue.use(VueLazyload, {
   // loading: require('@/assets/img/logo.png')
-  preLoad: 1.4,
+  preLoad: 1.3,
   attempt: 1,
   error: '@/assets/img/logo.png',
   loading: '@/components/index/img/icon-loading'

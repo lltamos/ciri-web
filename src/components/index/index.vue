@@ -227,7 +227,6 @@
           }
         }).catch(err => {
           alert(err);
-          console.log(err)
         })
       }
     }
