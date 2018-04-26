@@ -40,7 +40,7 @@
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td v-if="projDevelopers.length != null">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
+          <td v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
         </tr>
       </tbody>
     </table>
@@ -159,9 +159,6 @@
             // element.classList.add('active');
             element.play();
           },
-          chooseVideo () {
-            alert(1)
-          }
         },
         filters: {},
         computed: {},
@@ -200,7 +197,8 @@
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
               if (res.code === 403) {
-                alert('项目视频无权限')//todo  此处增加 无权限页
+                //
+                // alert('项目视频无权限')//todo  此处增加 无权限页
                 return
               }
               let arr = null

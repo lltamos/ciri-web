@@ -16,7 +16,7 @@ export default {
   },
 
   generatorUrl: function (url) {
-    if (url.indexOf ('/img')!=-1) {
+    if (url.indexOf('/img') !== -1) {
       return url
     } else {
       return this.oos() + url

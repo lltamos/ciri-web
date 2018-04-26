@@ -127,6 +127,8 @@
           pageId: this.pageId,
           pageSize: 5,
           industry: [],
+          country:[],
+          invest:[],
           status: this.status,
           tag: this.tag,
           industryCategory: this.industryCategory

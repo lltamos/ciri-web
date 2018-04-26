@@ -5,7 +5,7 @@
     <CrossLine></CrossLine>
     <Article text="项目技术与工程方案" :content="this.riskInfo"></Article>
     <CrossLine></CrossLine>
-    <Article text="项目行业与市场分析"></Article>
+    <Article text="项目行业与市场分析" :content="this.rawMaterialSalesPlan"></Article>
     <CrossLine></CrossLine>
     <div class="finance-info">
       <h4>
@@ -15,33 +15,38 @@
         <tbody>
         <tr>
           <td>目标融资金额</td>
-          <td>7200万美元</td>
+          <td>{{this.fund.requiredFund.amount}}</td>
         </tr>
         <tr>
           <td>项目自有资金</td>
-          <td>0万美元</td>
+          <td>{{this.fund.internalFund.amount}}万美元</td>
         </tr>
         <tr>
           <td>项目总投资额</td>
-          <td>7200万美元</td>
+          <td>{{this.fund.totalInvestFund.amount}}</td>
         </tr>
         <tr>
           <td>项目年收益率（IRR）</td>
-          <td>32.0%</td>
+          <td>{{this.fund.irr}}%</td>
         </tr>
         <tr>
-          <td>项目回报期（NPV）</td>
-          <td>0万美元</td>
+          <td>项目净产值（NPV）</td>
+          <td>{{this.fund.npv.amount}}万美元</td>
         </tr>
         <tr>
           <td>净现值说明</td>
-          <td>合资企业-中方控股</td>
+          <td>{{this.fund.npvSummary.valueCn}}</td>
         </tr>
         </tbody>
       </table>
     </div>
     <CrossLine></CrossLine>
-    <Article text="项目融资分析"></Article>
+    <Article text="项目融资分析" :content="this.marketAnalysis"></Article>
+    <CrossLine></CrossLine>
+    <Article text="项目财务评估" :content="this.competitionAdvantage"></Article>
+    <CrossLine></CrossLine>
+    <Article text="项目担保方式" :content="guaranteeType(this.fund.guaranteeId)"></Article>
+    <Article text="项目担保" :content="this.fund.guaranteeNote.valueCn"></Article>
     <CrossLine></CrossLine>
   </div>
 </template>
@@ -64,7 +69,12 @@
         projContent: null,
         InfraInfo: null,
         InfraPhoto: null,
-        riskInfo:null
+        riskInfo:null,
+        rawMaterialSalesPlan:null,
+        fund:null,
+        marketAnalysis:null,
+        competitionAdvantage:null,
+        estimatePhoto:null,
       }
     },
     props: {},
@@ -76,7 +86,21 @@
         } else {
           return null
         }
+      },
+      guaranteeType(i){
+        switch (i) {
+          case 1:
+            return '商业银行担保'
+          case 2:
+            return '主权担保'
+          case 3:
+            return '其他'
+          default:
+            return '无'
+
+        }
       }
+
     },
     filters: {},
     computed: {},
@@ -84,11 +108,16 @@
       this.projId = this.$route.query.projId
     },
     mounted() {
-      this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: 364000101}).then(r => {
+      this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: this.projId}).then(r => {
         this.projContent = r.data;
         this.InfraInfo = this.projContent.InfraInfo.valueCn;
         this.InfraPhoto = this.projContent.InfraPhoto;
         this.riskInfo=this.projContent.riskInfo;
+        this.rawMaterialSalesPlan=this.projContent.rawMaterialSalesPlan;
+        this.fund=this.projContent.fund;
+        this.marketAnalysis=this.projContent.marketAnalysis;
+        this.competitionAdvantage=this.projContent.competitionAdvantage;
+        this.estimatePhoto=this.projContent.estimatePhoto;
       });
     },
     destroyed() {

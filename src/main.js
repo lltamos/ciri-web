@@ -36,9 +36,6 @@ let vm = new Vue({
   token,
   components: {App},
   template: '<App/>',
-  data:{
-    alihost:'www'
-  }
 })
 
 Vue.use({
