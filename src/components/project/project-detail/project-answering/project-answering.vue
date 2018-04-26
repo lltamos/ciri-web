@@ -508,12 +508,12 @@
             tool.toast("提问成功");
             if(this.tabActive === 1){
               //刷新全部问题页面
-              allShow ();
+              this.allShow ();
             }else if(this.tabActive === 2){
               this.questionCount=this.questionCount+1;
               this.myQuestionCount=this.myQuestionCount+1;
               //刷新我的页面
-              mineShow();
+              this.mineShow();
             }
             this.askMessage=="";
             this.askFileList=[];

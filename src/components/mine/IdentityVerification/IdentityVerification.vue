@@ -143,7 +143,7 @@
         this.axios.post(tool.domind() + '/gateway/userAuth/saveUserAuth', params)
           .then(res => {
             if (res.data.code > 100 & res.data.code < 200) {
-              alert(res.data.msg);
+              tool.toast(res.data.msg);
             }else if (res.data.code === 200) {
               this.$router.push({path: '/mine/identity?tag=1'});
             }
