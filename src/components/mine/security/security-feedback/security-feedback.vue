@@ -27,6 +27,8 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import {Toast} from 'mint-ui'
+  import {MessageBox} from 'mint-ui'
   import tool from '@/api/tool';
   export default {
     components: {
@@ -39,8 +41,29 @@
       },
       feedback (){
         if (!this.content1) {
-          alert('请输入问题或建议');
+          Toast({
+            message: '请输入问题或建议',
+            position: 'top',
+            duration: 5000
+          });
           return ;
+        }
+        //验证手机号
+        let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!this.contact) {
+          Toast({
+            message: '手机号不能为空',
+            position: 'top',
+            duration: 5000
+          });
+          return;
+        } else if (!reg.test(this.contact)) {
+          Toast({
+            message: '手机号错误',
+            position: 'top',
+            duration: 5000
+          });
+          return;
         }
         let param = tool.buildForm([
           { key: "contact", v: this.contcat },
@@ -49,7 +72,10 @@
         this.axios.post(tool.domind()+'/gateway/app/feedback',param
         ).then(res => {
           if (res.data.code === 200) {
-            alert('提交成功');
+            MessageBox({
+              message: '提交成功，我们会尽快联系您！',
+              showCancelButton: false
+            });
             window.history.back();
           }
         }).catch(err => {
@@ -125,6 +151,7 @@
         line-height: 16px;
         height: 101px;
         resize: none;
+        font-family: "Microsoft Yahei";
       }
     }
   }
