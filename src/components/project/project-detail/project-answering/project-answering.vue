@@ -287,14 +287,14 @@
       allShow () {
         this.questionShow = true;
         this.tabActive = 1;
-        this.myPage=1;
+        this.page=1;
         this.allQuestion();
       },
       mineShow () {
         this.questionShow = false;
         this.tabActive = 2;
         //初始化我的问题
-        this.page=1;
+        this.myPage=1;
         this.myQuestion();
       },
       readMore () {
@@ -571,25 +571,17 @@
                 // myQuestions:null
               for (var question of this.questions) {
                 if(question.id == this.parentId){
+                  question.projectChatList.unshift(r.data);
                   question.total=question.total+1;
-                  if(question.projectChatList==null||question.projectChatList.length<0){
-                    question.projectChatList=new Array(r.data);
-                  }else {
-                    question.projectChatList.unshift(r.data);
-                  }
                   break;
                 }
               }
-              // this.allShow ();
+              // allShow ();
             }else if(this.tabActive==2){
-              // this.mineShow();
+              // mineShow();
               for (var question of this.myQuestions) {
                 if(question.id == this.parentId){
-                  if(question.projectChatList==null||question.projectChatList.length<0){
-                    question.projectChatList=new Array(r.data);
-                  }else {
-                    question.projectChatList.unshift(r.data);
-                  }
+                  question.projectChatList.unshift(r.data);
                   question.total=question.total+1;
                   break;
                 }

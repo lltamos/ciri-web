@@ -72,9 +72,9 @@
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video">
+  <div class="intro-video" v-show="setProjVideo">
     <h4>
-      <i class="left-line"></i><span>项目视频</span>
+      <i class="left-line" ></i><span>项目视频</span>
     </h4>
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
@@ -197,8 +197,7 @@
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
               if (res.code === 403) {
-                //
-                // alert('项目视频无权限')//todo  此处增加 无权限页
+                tool.toast("项目视频无权限 此处增加无权限页"); //todo  此处增加 无权限页
                 return
               }
               let arr = null

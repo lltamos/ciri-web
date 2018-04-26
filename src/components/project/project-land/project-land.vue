@@ -115,7 +115,7 @@
         },
         giveLikes () {
           if (this.isLikes !== null) {
-            alert('不能重复点赞')
+            tool.toast('不能重复点赞')
             return
           }
           if (tool.getuser() === null) {

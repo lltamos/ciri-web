@@ -159,7 +159,7 @@
     methods: {
       giveLikes () {
         if (this.isLikes !== null) {
-          alert('不能重复点赞')
+          tool.toast('不能重复点赞')
           return
         }
         if (tool.getuser() === null) {
@@ -175,7 +175,7 @@
       },
       interest1 () {
         if (this.interest) {
-          alert('不能重复关注')
+          tool.toast('不能重复关注')
           return
         }
         this.$api.post('/user/interest',
