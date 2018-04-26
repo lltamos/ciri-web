@@ -123,7 +123,6 @@
           }
           this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
-              console.log(res)
               if (res.code === 200) {
                 this.likes = this.likes + 1
                 this.isLikes = true
