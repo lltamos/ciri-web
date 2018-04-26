@@ -95,7 +95,7 @@
               askPop : false,
               progressShow :true,
               projId:"",    //
-              authorityShow : true,
+              authorityShow : false,
               message:"",        //提问的信息栏
               askChecked:false,  //提问匿名选项框
               askFileList:[],  //提问的文件数组
