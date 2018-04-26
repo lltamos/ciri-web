@@ -14,7 +14,7 @@
           {{project.status}}
         </div>
         <div class="img">
-          <img :src="project.url" alt="">
+          <img v-lazy="project.url" alt="">
         </div>
         <div class="main-news">
           <div class="title">
@@ -78,7 +78,7 @@
       </div>
     </router-link>
     <button @click="loadMore" :disabled="this.disabled" class="more">
-      <span v-text="moreText">{{this.moreText}}</span><i></i>
+      <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
   </div>
 </template>
@@ -93,7 +93,8 @@
         status: [7],
         tag: [101001, 101002],
         disabled: false,
-        notloading: true
+        notloading: true,
+        isIcon: true
       }
     },
     props: {
@@ -142,6 +143,7 @@
           if (r.data.list.length == 0 || r.data.list.length < 5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
+            this.isIcon = false;
           }
         });
       }

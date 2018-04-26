@@ -34,7 +34,7 @@
         <swiper :options="swiperOption" class="slider">
           <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
             <div class="img">
-              <img :src="p.url" alt=""/>
+              <img v-lazy="p.url" alt=""/>
             </div>
             <span>{{p.name}}</span>
           </swiper-slide>
@@ -77,7 +77,7 @@
         <li class="recommdnd-card" @click="gotoProjLand(f.projId)"
             v-if="fetprojectsList != null" v-for="(f, index) in fetprojectsList" :key="index">
          <div class="img">
-           <img :src="f.url" alt="">
+           <img v-lazy="f.url" alt="">
          </div>
           <div class="main-news">
             <h2>{{f.name}}</h2>

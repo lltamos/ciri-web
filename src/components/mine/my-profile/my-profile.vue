@@ -6,7 +6,7 @@
       <div class="more-bar head-portrait">
         <i class="icon-more" @click="headShow"></i>
         <div class="key icon-head" @click="headShow">
-            <img :src="userInfo.portraitFileUrl" />
+            <img v-lazy="userInfo.portraitFileUrl" />
         </div>
         <h1>头像</h1>
       </div>
@@ -122,7 +122,6 @@
         this.axios
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
           .then(res => {
-            console.log(res);
             if (res.data.code === 200) {
               alert("修改头像成功");
             }else {

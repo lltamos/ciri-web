@@ -22,7 +22,7 @@
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
             </div>
             <div class="main-news">
               <h2>{{project.name}}</h2>
@@ -77,7 +77,7 @@
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div class="main-news">
@@ -111,7 +111,7 @@
         </router-link>
       </div>
       <button @click="loadMore()" :disabled="this.disabled" class="more">
-        <span v-text="moreText">{{this.moreText}}</span><i></i>
+        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
     </div>
     <tab-bar></tab-bar>
@@ -141,6 +141,7 @@
             [[0,"规划阶段"], [1,"概念阶段"], [2,"审批阶段"], [3,"可研阶段"], [4,"投融资阶段"], [5,"建设阶段"], [6,"运营阶段"], [7,"出售阶段"]]
           ],
         num: 5,
+        isIcon: true,
         activeSwitch :true,
         liSwitch : false,
         //加载数据
@@ -186,6 +187,7 @@
           if (r.data.list.length == 0 || r.data.list.length <5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
+            this.isIcon = false;
           }
         });
       },
