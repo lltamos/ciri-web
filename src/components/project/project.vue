@@ -1,6 +1,5 @@
 <template>
   <div class="project-list">
-    <!--<header>INDUSTRYC2C</header>-->
     <div class="banner" id="bannerScroll">
       <div class="img">
         <img src="../news/img/p_1.jpg" alt=""/>
@@ -82,7 +81,9 @@
             </div>
             <div class="main-news">
               <div class="title">
-                <div class="icon-quality fl">精品</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 1">优质项目</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
