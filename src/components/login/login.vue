@@ -170,7 +170,7 @@ export default {
               sessionStorage.setItem("islogin", "true");
               this.axios.defaults.headers.token = res.data.data.token;
               let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-              this.$router.push({
+              this.$router.replace({
                 path: redirect
               });
             } else {

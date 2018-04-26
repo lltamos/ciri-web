@@ -59,13 +59,13 @@
                 <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :name="'li'+index" :key="t">{{item[0]}}{{item[1]}}
-                  <input type="checkbox" :value="item[0]"/>
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[0]}}{{item[1]}}
+                  <input type="checkbox"/>
                 </li>
               </ul>
               <div class="btn-warp clearfix">
                 <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                <button class="small-btn confirm fr" @click="submitData()">确定</button>
+                <button class="small-btn confirm fr" @click="init1">确定</button>
               </div>
             </form>
           </div>
@@ -110,7 +110,7 @@
           </div>
         </router-link>
       </div>
-      <button @click="loadMore" :disabled="this.disabled" class="more">
+      <button @click="loadMore()" :disabled="this.disabled" class="more">
         <span v-text="moreText">{{this.moreText}}</span><i></i>
       </button>
     </div>
@@ -154,20 +154,29 @@
         notloading: true,
         countryList : [],
         indestryList : [],
+        i: [],
+        c: [],
+        m: [],
+        t: []
       }
     },
     props: {},
     methods: {
+      init1(){
+        this.pageId = 1
+        this.loadMore()
+      },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
           pageSize: 5,
-          industry: [],
-          status: null,
-          tag: null,
+          industry: this.i,
+          country: this.c,
+          mature: this.m,
+          constructionTypeId: this.t
         }).then(r => {
           this.notloading = false;
-          if (this.pageId == 1 || this.projects==null) {
+          if (this.pageId == 1 || this.projects == null) {
             this.projects = r.data.list;
           } else {
             this.projects = this.projects.concat(r.data.list);
@@ -220,16 +229,18 @@
         this.popShow = true;
         searchWarp.style.background='rgba(82,141,232,1)';
       },
-      liActive(e){
+      liActive(e , v ,index){
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
+          this.removeList(index ,v)
         } else {
+          this.addList(index ,v)
           element.classList.add('active')
         }
-        console.log(element);
         this.activeSwitch =false
       },
+
       popSwitch(){
         this.popShow = false ;
         this.searchBarFixed = false
@@ -240,6 +251,7 @@
         this.liSwitch =false;
       },
       resetActive(index){
+        this.clearList(index)
         let all =document.getElementById('all'+ index);
         all.classList.add('active')
         let lis = document.getElementsByName("li" + index);
@@ -252,6 +264,54 @@
       },
       all(index){
         return 'all'+index;
+      },
+      removeList(index ,v){
+        switch (index){
+          case 0:
+            this.c.pop(v)
+            break;
+          case 1:
+            this.i.pop(v)
+            break;
+          case 2:
+            this.t.pop(v)
+            break;
+          case 3:
+            this.m.pop(v)
+            break;
+        }
+      },
+      clearList(index){
+        switch (index){
+          case 0:
+            this.c = []
+            break;
+          case 1:
+            this.i = []
+            break;
+          case 2:
+            this.t = []
+            break;
+          case 3:
+            this.m = []
+            break;
+        }
+      },
+      addList(index,v){
+        switch (index){
+          case 0:
+            this.c.push(v)
+            break;
+          case 1:
+            this.i.push(v)
+            break;
+          case 2:
+            this.t.push(v)
+            break;
+          case 3:
+            this.m.push(v)
+            break;
+        }
       }
 
     },
@@ -262,13 +322,12 @@
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
         pageSize: 5,
-        industry: [],
         status: this.status,
         tag: this.tag,
         industryCategory: this.industryCategory
       }).then(r => {
         this.notloading = false;
-        if (this.pageId == 1 || this.projects==null) {
+        if (this.pageId == 1 || this.projects == null) {
           this.weekProjects = r.data.list;
         } else {
           this.weekProjects = this.projects.concat(r.data.list);
@@ -281,19 +340,22 @@
     mounted () {
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
-      this.loadMore();
+      this.loadMore(this.pageId);
       this.country('getAllCountry',this.countryList);
       this.country('getAllIndustry',this.indestryList);
       this.tabContents.unshift(this.countryList,this.indestryList)
     },
     destroyed () {}
+
+
+
   }
 </script>
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
-@import '~@/assets/scss/const.scss';
-@import '~@/assets/scss/mixin.scss';
+  @import '~@/assets/scss/const.scss';
+  @import '~@/assets/scss/mixin.scss';
 
   .project-list{
     padding-bottom: 60px;
