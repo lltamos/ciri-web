@@ -55,12 +55,8 @@
                   <div class="time fl">{{question.updateTime|time}}</div>
                   <div class="fr dz-hf" >
                     <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
-                    <template v-if="question.likeStatus==true">
-                      <i class="icon-dz active" ></i>
-                    </template>
-                    <template v-if="question.likeStatus==false">
-                      <i class="icon-dz" ></i>
-                    </template>
+                      <i class="icon-dz active" v-if="question.likeStatus==true"></i>
+                      <i v-else class="icon-dz" ></i>
                     <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
                   </div>
                 </div>
@@ -140,12 +136,8 @@
                 <div class="time fl">{{myQuestion.updateTime|time}}</div>
                 <div class="fr dz-hf" >
                   <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
-                  <template v-if="myQuestion.likeStatus==true">
-                    <i class="icon-dz active" ></i>
-                  </template>
-                  <template v-if="myQuestion.likeStatus==false">
-                    <i class="icon-dz" ></i>
-                  </template>
+                  <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
+                  <i v-else class="icon-dz" ></i>
                   <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
                 </div>
               </div>
