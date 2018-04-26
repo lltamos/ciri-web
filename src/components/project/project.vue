@@ -210,7 +210,6 @@
       },
 
       submit(){
-        console.log()
       },
       //页面滚动时
       handleScroll () {
