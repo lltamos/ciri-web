@@ -164,7 +164,7 @@
     methods: {
       init1(){
         this.pageId = 1
-        loadMore()
+        this.loadMore()
       },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
@@ -354,8 +354,8 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
-@import '~@/assets/scss/const.scss';
-@import '~@/assets/scss/mixin.scss';
+  @import '~@/assets/scss/const.scss';
+  @import '~@/assets/scss/mixin.scss';
 
   .project-list{
     padding-bottom: 60px;
