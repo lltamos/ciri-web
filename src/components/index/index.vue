@@ -19,7 +19,7 @@
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
-            <li v-for='item in lastnotify'>{{item.title.length>15 ? item.title.substr(0,15)+'...' :item.title }}</li>
+            <li v-for='item in items'>{{item.length>20 ? item.substr(0,20)+'...' :item }}</li>
           </ul>
         </div>
       </div>
@@ -149,6 +149,7 @@
         animate: false,
         lastnotify: [],
         topsbanner: [],
+        items : [],
         swiperOption: {
           slidesPerView: 3,
           spaceBetween: 0,
@@ -172,6 +173,11 @@
       setInterval(this.scroll, 2000);
       this.$api.post('/pb/i/fethomescene', {lang: 0, rouCount: 5}).then(r => {
         this.lastnotify = r.data.lastnotify;
+        for(var i in r.data.lastnotify){
+          this.items.push(r.data.lastnotify[i].title);
+        }
+        console.log(this.items)
+
         this.topsbanner = r.data.topsbanner;
       });
     },
@@ -179,7 +185,9 @@
       //今日公告
       scroll() {
         this.animate = true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
-        setTimeout(() => {      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+        setTimeout(() => {
+          this.items.push(this.items[0]);  // 将数组的第一个元素添加到数组的
+          this.items.shift();//  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
           this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
         }, 1000)
       },

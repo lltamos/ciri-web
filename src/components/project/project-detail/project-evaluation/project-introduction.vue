@@ -99,6 +99,7 @@
   </div>
   <CrossLine></CrossLine>
   <Article :content="productService" text="项目详情"></Article>
+  <BigImg v-if="this.photo!=null" :content="this.photo"></BigImg>
   <CrossLine></CrossLine>
   <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
@@ -111,13 +112,15 @@
   import Article from '@/components/base/article/article'
   import Authority from '@/components/base/authority/authority'
   import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
+  import BigImg from '@/components/base/big-img/big-img'
   import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
           Article,
           Authority,
-          AuthorityPage
+          AuthorityPage,
+          BigImg
         },
         data() {
             return {
@@ -159,7 +162,8 @@
               setProjVideo: true,
               videos: null,
               authorityShow:false,
-              authrityStatus: false
+              authrityStatus: false,
+              photo: null
 
             }
         },
@@ -207,6 +211,7 @@
             this.operateMetric = res.data.operateMetric
             this.setProjVideo = res.data.setProjVideo
             this.videos = res.data.videos
+            this.photo = res.data.photo
             if (!this.setProjVideo)
               return
             let urlStr = ''
