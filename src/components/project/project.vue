@@ -70,7 +70,8 @@
           </div>
         </div>
       </div>
-      <div class="main">
+      <Loading v-if="notloading"></Loading>
+      <div class="main" v-else>
         <router-link v-for="(project) in this.projects" :key="project.projId"
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <div class="pro-list">
@@ -121,12 +122,14 @@
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Nationality from '@/components/base/nationality/nationality'
+  import Loading from '@/components/base/loading/loading'
   import tool from "../../api/tool";
   export default {
     components: {
       TabBar,
       CrossLine,
-      Nationality
+      Nationality,
+      Loading
     },
     data () {
       return {
