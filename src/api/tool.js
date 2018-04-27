@@ -1,5 +1,5 @@
 import 'mint-ui/lib/style.css'
-import {Toast,MessageBox} from 'mint-ui';
+import {Toast, MessageBox} from 'mint-ui';
 
 export default {
   domind: function () {
@@ -80,6 +80,11 @@ export default {
       message: msg,
       showCancelButton: true
     });
+  },
+  replaceAll: function (target, s1, s2) {
+    return target.replace(new RegExp(s1, "gm"), s2);
+
+
   }
 
 
