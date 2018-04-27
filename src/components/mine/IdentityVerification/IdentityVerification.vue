@@ -13,21 +13,21 @@
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><img v-bind:src="idCardFrontPortraitSrc==null?addPhoto:idCardFrontPortraitSrc" alt=""/></div>
+              <div class="img"><img v-lazy="idCardFrontPortraitSrc==null?addPhoto:idCardFrontPortraitSrc" alt=""/></div>
               <input type="file" class="input3" @change="uploadImg($event,1)"/>
               <em>身份证图片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img v-bind:src="idCardBackPortraitSrc==null?addPhoto:idCardBackPortraitSrc" alt=""/></div>
+              <div class="img"><img v-lazy="idCardBackPortraitSrc==null?addPhoto:idCardBackPortraitSrc" alt=""/></div>
               <input type="file" class="input3" @change="uploadImg($event,2)"/>
               <em>身份证图片(反面)</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img v-bind:src="idCardHoldPortraitSrc==null?addPhoto:idCardHoldPortraitSrc" alt=""/></div>
+              <div class="img"><img v-lazy="idCardHoldPortraitSrc==null?addPhoto:idCardHoldPortraitSrc" alt=""/></div>
               <input type="file" class="input3" @change="uploadImg($event,3)"/>
               <em class="mb20">身份证图片(手持)</em>
             </div>
@@ -37,14 +37,14 @@
         <ul class="img_upload">
           <li class="first">
             <div>
-              <div class="img"><img v-bind:src="nameCardFrontSrc==null?addPhoto:nameCardFrontSrc" alt=""/></div>
+              <div class="img"><img v-lazy="nameCardFrontSrc==null?addPhoto:nameCardFrontSrc" alt=""/></div>
               <input type="file" class="input3" @change="uploadImg($event,4)"/>
               <em class="mb20">名片正面照片</em>
             </div>
           </li>
           <li>
             <div>
-              <div class="img"><img v-bind:src="nameCardBackSrc==null?addPhoto:nameCardBackSrc" alt=""/></div>
+              <div class="img"><img v-lazy="nameCardBackSrc==null?addPhoto:nameCardBackSrc" alt=""/></div>
               <input type="file" class="input3" @change="uploadImg($event,5)"/>
               <em class="mb20">名片背面照片</em>
             </div>

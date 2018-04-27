@@ -8,7 +8,7 @@
       <mt-swipe :auto="3000" v-if="topsbanner!=null">
         <mt-swipe-item  v-for="banner in topsbanner" :key="banner.id">
           <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
-            <img @click="toArticle(banner.id)" :src="host+banner.thumbnail" alt=""/>
+            <img @click="toArticle(banner.id)" v-lazy="host+banner.thumbnail" alt=""/>
           </router-link>
         </mt-swipe-item>
       </mt-swipe>
@@ -227,7 +227,6 @@
           }
         }).catch(err => {
           alert(err);
-          console.log(err)
         })
       }
     }

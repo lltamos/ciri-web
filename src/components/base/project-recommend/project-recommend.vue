@@ -14,11 +14,13 @@
           {{project.status}}
         </div>
         <div class="img">
-          <img :src="project.url" alt="">
+          <img  class="item-pic" v-lazy="project.url" alt="" src="">
         </div>
         <div class="main-news">
           <div class="title">
-            <div class="icon-quality fl">精品</div>
+            <div class="icon-quality fl" v-show="project.cornerTag == 1">优质项目</div>
+            <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
+            <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
             <h2 class="fl">{{project.name}}</h2>
             <div class="thumbs-up fr">
               <i class="icon-dianzan"></i>
@@ -78,7 +80,7 @@
       </div>
     </router-link>
     <button @click="loadMore" :disabled="this.disabled" class="more">
-      <span v-text="moreText">{{this.moreText}}</span><i></i>
+      <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
   </div>
 </template>
@@ -93,7 +95,8 @@
         status: [7],
         tag: [101001, 101002],
         disabled: false,
-        notloading: true
+        notloading: true,
+        isIcon: true
       }
     },
     props: {
@@ -142,6 +145,7 @@
           if (r.data.list.length == 0 || r.data.list.length < 5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
+            this.isIcon = false;
           }
         });
       }

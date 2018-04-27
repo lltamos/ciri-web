@@ -17,7 +17,7 @@
     <div class="meber_user">
       <div class="user-warp">
         <div class="img">
-          <img :src="portraitUrl" alt=""/>
+          <img v-lazy="portraitUrl" alt=""/>
         </div>
         <p class="account">{{username}}</p>
       </div>

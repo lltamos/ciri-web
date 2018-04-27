@@ -19,13 +19,13 @@
           </div>
           <div class="fr img-warp">
             <div class="img">
-              <img v-bind:src="host+article.thumbnail"/>
+              <img v-lazy="host+article.thumbnail"/>
             </div>
           </div>
         </div>
         <div v-if="(index+1)%5===0" class="project1">
           <div class="img">
-            <img v-bind:src="host+article.thumbnail"/>
+            <img v-lazy="host+article.thumbnail"/>
           </div>
           <h2>{{article.title}}</h2>
           <div class="title-box">

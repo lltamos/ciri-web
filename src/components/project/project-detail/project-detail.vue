@@ -34,7 +34,7 @@
         <swiper :options="swiperOption" class="slider">
           <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
             <div class="img">
-              <img :src="p.url" alt=""/>
+              <img v-lazy="p.url" alt=""/>
             </div>
             <span>{{p.name}}</span>
           </swiper-slide>
@@ -77,7 +77,7 @@
         <li class="recommdnd-card" @click="gotoProjLand(f.projId)"
             v-if="fetprojectsList != null" v-for="(f, index) in fetprojectsList" :key="index">
          <div class="img">
-           <img :src="f.url" alt="">
+           <img v-lazy="f.url" alt="">
          </div>
           <div class="main-news">
             <h2>{{f.name}}</h2>
@@ -203,8 +203,13 @@
             this.shares = res.data.shares
             this.irr = res.data.irr.replace(/.00/g, '')
             this.amount = res.data.amount
-            if (res.data.projDevelopers !== '')
-              this.projDevelopers = res.data.projDevelopers
+            let rdp = res.data.projDevelopers
+            if (rdp !== null && rdp.length > 0){
+              if (rdp.length > 7)
+                this.projDevelopers = rdp.substring(0,4) + '...' + rdp.substring(rdp.length-2 , rdp.length)
+              else
+                this.projDevelopers = rdp
+            }
             this.potentialInvestor = res.data.potentialInvestor
             this.potentialInvestorSize = res.data.potentialInvestorSize
             this.financingProgress = res.data.financingProgress
@@ -307,9 +312,6 @@
         padding:5px 10px;
         line-height: 1;
         border-radius: 2px;
-        &:active{
-          background: #bbb;
-        }
         .icon-dianzan{
           display: inline-block;
           width: 9px;

@@ -2,10 +2,10 @@
 <div class="home">
   <!-- 轮播图 -->
   <div class="slider" id="slider1">
-    <mt-swipe :auto="3000" @change="handleChange" :prevent="false">
+    <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
          <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
-        <img :src="host+item.thumbnail">
+        <img v-lazy="host+item.thumbnail">
          <p id="slider2" v-text="item.title"> </p>
          </router-link>
       </mt-swipe-item>
@@ -65,13 +65,13 @@
         </div>
         <div class="fr img-warp">
           <div class="img">
-            <img v-bind:src="host+article.thumbnail"/>
+            <img v-lazy="host+article.thumbnail"/>
           </div>
         </div>
       </div>
       <div v-if="(index+1)%5===0" class="project1">
         <div class="img">
-          <img v-bind:src="host+article.thumbnail"/>
+          <img v-lazy="host+article.thumbnail" alt=""/>
         </div>
         <h2>{{article.title}}</h2>
         <div class="title-box">
@@ -88,7 +88,7 @@
       </router-link>
     </div>
   <div class="more">
-    <span @click='loadMore' v-text="moreText">查看更多</span><i></i>
+    <span @click='loadMore' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
   </div>
   <div class="blank"></div>
 </div>
@@ -109,7 +109,8 @@ export default {
       },
       page: 1,
       articles: null,
-      moreText: '查看更多'
+      moreText: '查看更多',
+      isIcon: true
     };
   },
   methods: {
@@ -133,7 +134,8 @@ export default {
             if(this.articles.length != res.data.total){
               this.moreText='查看更多'
             }else{
-              this.moreText='没有更多了'
+              this.moreText='没有更多了';
+              this.isIcon = false;
             }
           }
           this.page = this.page + 1;
@@ -181,13 +183,18 @@ export default {
       height: 100%;
     }
     #slider2 {
-      font-size: 14px;
+      font-size: 15px;
+      font-weight: 600;
       color: #fff;
       height: 36px;
       line-height: 18px;
-      margin-top: -100px;
-      padding: 0 10px;
+      margin-top: -60px;
+      padding: 0px 10px;
       text-align: left;
+      width: 300px;
+      text-overflow:ellipsis;
+      white-space : nowrap;
+      overflow : hidden;
     }
   }
   #slider1 {
@@ -198,7 +205,7 @@ export default {
   #slider3 {
     margin-top: 17px;
     margin-bottom: 13px;
-    .swiper-slide{width:110px;margin-right: 20px;}
+    .swiper-slide{width:110px; margin: 0 10px !important;}
     .invest-finance {
       width: 110px;
       height: 55px;

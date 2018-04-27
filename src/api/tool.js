@@ -1,6 +1,5 @@
 import 'mint-ui/lib/style.css'
-import {Toast} from 'mint-ui';
-import {MessageBox} from 'mint-ui';
+import {Toast,MessageBox} from 'mint-ui';
 
 export default {
   domind: function () {
