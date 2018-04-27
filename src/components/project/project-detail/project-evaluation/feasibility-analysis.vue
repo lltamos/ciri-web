@@ -15,27 +15,27 @@
         <tbody>
         <tr>
           <td>目标融资金额</td>
-          <td>{{this.fund.requiredFund.amount}}</td>
+          <td>{{this.requiredFund}}</td>
         </tr>
         <tr>
           <td>项目自有资金</td>
-          <td>{{this.fund.internalFund.amount}}万美元</td>
+          <td>{{this.internalFund}}万美元</td>
         </tr>
         <tr>
           <td>项目总投资额</td>
-          <td>{{this.fund.totalInvestFund.amount}}</td>
+          <td>{{this.totalInvestFund}}</td>
         </tr>
         <tr>
           <td>项目年收益率（IRR）</td>
-          <td>{{this.fund.irr}}%</td>
+          <td>{{this.irr}}%</td>
         </tr>
         <tr>
           <td>项目净产值（NPV）</td>
-          <td>{{this.fund.npv.amount}}万美元</td>
+          <td>{{this.npv}}万美元</td>
         </tr>
         <tr>
           <td>净现值说明</td>
-          <td>{{this.fund.npvSummary.valueCn}}</td>
+          <td>{{this.npvSummary}}</td>
         </tr>
         </tbody>
       </table>
@@ -45,9 +45,10 @@
     <CrossLine></CrossLine>
     <Article text="项目财务评估" :content="this.competitionAdvantage"></Article>
     <CrossLine></CrossLine>
-    <Article text="项目担保方式" :content="guaranteeType(this.fund.guaranteeId)" :content2="this.fund.guaranteeNote.valueCn" :secondShow="true"></Article>
+    <Article text="项目担保方式" :content="guaranteeType(this.guaranteeId)" :content2="this.guaranteeNote"
+             :secondShow="true"></Article>
     <CrossLine></CrossLine>
-    <Article text="融资规划" :content="this.fund.summary.valueCn"></Article>
+    <Article text="融资规划" :content="this.summary"></Article>
   </div>
 </template>
 
@@ -69,12 +70,20 @@
         projContent: null,
         InfraInfo: null,
         InfraPhoto: null,
-        riskInfo:null,
-        rawMaterialSalesPlan:null,
-        fund:null,
-        marketAnalysis:null,
-        competitionAdvantage:null,
-        estimatePhoto:null,
+        riskInfo: null,
+        rawMaterialSalesPlan: null,
+        marketAnalysis: null,
+        competitionAdvantage: null,
+        estimatePhoto: null,
+        requiredFund: null,
+        internalFund: null,
+        totalInvestFund: null,
+        irr: null,
+        npv: null,
+        npvSummary: null,
+        guaranteeId: null,
+        guaranteeNote: null,
+        summary: null,
       }
     },
     props: {},
@@ -87,7 +96,7 @@
           return null
         }
       },
-      guaranteeType(i){
+      guaranteeType(i) {
         switch (i) {
           case 1:
             return '商业银行担保'
@@ -112,12 +121,20 @@
         this.projContent = r.data;
         this.InfraInfo = this.projContent.InfraInfo.valueCn;
         this.InfraPhoto = this.projContent.InfraPhoto;
-        this.riskInfo=this.projContent.riskInfo;
-        this.rawMaterialSalesPlan=this.projContent.rawMaterialSalesPlan;
-        this.fund=this.projContent.fund;
-        this.marketAnalysis=this.projContent.marketAnalysis;
-        this.competitionAdvantage=this.projContent.competitionAdvantage;
-        this.estimatePhoto=this.projContent.estimatePhoto;
+        this.riskInfo = this.projContent.riskInfo;
+        this.rawMaterialSalesPlan = this.projContent.rawMaterialSalesPlan;
+        this.marketAnalysis = this.projContent.marketAnalysis;
+        this.competitionAdvantage = this.projContent.competitionAdvantage;
+        this.estimatePhoto = this.projContent.estimatePhoto;
+        this.requiredFund = this.projContent.fund.requiredFund.amount;
+        this.internalFund = this.projContent.fund.internalFund.amount;
+        this.totalInvestFund = this.projContent.fund.totalInvestFund.amount;
+        this.irr = this.projContent.fund.irr;
+        this.npv = this.projContent.fund.npv.amount;
+        this.npvSummary = this.projContent.fund.npvSummary.valueCn;
+        this.guaranteeId = this.projContent.fund.guaranteeId;
+        this.guaranteeNote = this.projContent.fund.guaranteeNote.valueCn;
+        this.summary = this.projContent.fund.summary.valueCn;
       });
     },
     destroyed() {
