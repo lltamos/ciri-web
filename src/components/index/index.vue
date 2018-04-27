@@ -92,7 +92,7 @@
           <div class="left crowdimg">
           </div>
           <div id="crowdtext">
-            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">
+            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;text-align: left;">
               您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
             <div style="text-align: right;margin-top:20px; ">
               <span
