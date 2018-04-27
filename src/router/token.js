@@ -4,7 +4,7 @@ import router from './index'
 
 router.beforeEach((to, from, next) => {
   // 切换页面时滚动条自动滚动到顶部的方法
-  window.scrollTo(0,0);
+  // window.scrollTo(0,0);
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
     if (tool.gettoken()) {  // 通过vuex state获取当前的token是否存在
       next();
