@@ -5,7 +5,7 @@
     <h1>项目名片</h1>
     <i class="icon_search"></i>
   </div>
-  <div class="main">
+  <div class="main" v-if="!tag">
     <h4>
       <i class="left-line"></i><span>{{this.detailContent.title.valueCn}}</span>
       <span class="time">{{this.detailContent.time}}</span>
@@ -19,6 +19,7 @@
     <div class="small-btn" @click="back">返回</div>
 
   </div>
+  <div v-if="tag">没有权限</div>
 </div>
 </template>
 
@@ -29,6 +30,7 @@
             return {
               detailContent:null,
               title:null,
+              tag:false
             };
         },
         props: {},
@@ -48,7 +50,13 @@
           this.$api
             .post("/ah/s3/getProjectProgressDetail",param)
             .then(res => {
-              this.detailContent = res.projectProgressDetail;
+              if (res.code === 200) {
+                this.detailContent = res.projectProgressDetail;
+                this.tag = false;
+              }else{
+                this.tag = true;
+              }
+
 
             });
 
