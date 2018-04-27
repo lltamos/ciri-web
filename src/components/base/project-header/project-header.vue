@@ -80,7 +80,9 @@
     },
     methods: {
       back() {
-        window.history.back()
+        this.$router.replace({
+          path: '/project'
+        });
       }
     },
     created() {

@@ -4,12 +4,12 @@
       <h4>
         <i class="left-line"></i><span>{{text}}</span>
       </h4>
+      <p class="title" v-show="secondShow">【担保方式】</p>
       <div v-if="this.content!=null" :class="article" ref="articleRef">
-        <p class="title" v-show="secondShow">【担保方式】</p>
         {{this.content}}
       </div>
+      <p class="title" v-show="secondShow">【担保说明】</p>
       <div class="second" :class="article" v-show="secondShow">
-        <p class="title" v-show="secondShow">【担保说明】</p>
         {{this.content2}}
       </div>
 
@@ -113,6 +113,10 @@
   }
   .pro-article {
     padding-bottom: 17px;
+    .title{
+      font-size: 16px;
+      color:#333;
+    }
 
   .article {
     margin-top: 10px;
