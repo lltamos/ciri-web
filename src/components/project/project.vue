@@ -1,6 +1,5 @@
 <template>
   <div class="project-list">
-    <!--<header>INDUSTRYC2C</header>-->
     <div class="banner" id="bannerScroll">
       <div class="img">
         <img src="../news/img/p_1.jpg" alt=""/>
@@ -56,10 +55,10 @@
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
               <ul>
-                <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
+                <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[0]}}{{item[1]}}
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[1]}}
                   <input type="checkbox"/>
                 </li>
               </ul>
@@ -82,7 +81,9 @@
             </div>
             <div class="main-news">
               <div class="title">
-                <div class="icon-quality fl">精品</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 1">优质项目</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
+                <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
@@ -167,6 +168,8 @@
       init1(){
         this.pageId = 1
         this.loadMore()
+        this.searchBarFixed = false
+        this.popShow = false
       },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
@@ -210,7 +213,6 @@
       },
 
       submit(){
-        console.log()
       },
       //页面滚动时
       handleScroll () {
@@ -248,10 +250,16 @@
         this.popShow = false ;
         this.searchBarFixed = false
       },
-      allActive(e){
-        let element = e.currentTarget;
-        element.classList.add('active')
-        this.liSwitch =false;
+      allActive(e , index){
+        let element = e.currentTarget
+        if (element.classList.contains('active')) {
+          element.classList.remove('active')
+        }else {
+          element.classList.add('active')
+          this.resetActive(index)
+        }
+
+        //
       },
       resetActive(index){
         this.clearList(index)
@@ -271,17 +279,23 @@
       removeList(index ,v){
         switch (index){
           case 0:
-            this.c.pop(v)
+            this.delList(this.c ,v);
             break;
           case 1:
-            this.i.pop(v)
+            this.delList(this.i ,v);
             break;
           case 2:
-            this.t.pop(v)
+            this.delList(this.v ,v);
             break;
           case 3:
-            this.m.pop(v)
+            this.delList(this.m ,v);
             break;
+        }
+      },
+      delList (array , v) {
+        for (var i = 0; i < array.length ;i++){
+          if (array[i] == v)
+            return array.splice(i ,1)
         }
       },
       clearList(index){

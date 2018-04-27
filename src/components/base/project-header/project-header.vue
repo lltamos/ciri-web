@@ -10,7 +10,7 @@
       <div class="icon-state">{{status}}</div> <img v-lazy="projPhoto"  alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
     <div class="main-news">
       <div class="title">
-        <div class="icon-quality fl">{{cornerTag}}</div>
+        <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != ''">{{cornerTag}}</div>
         <h2 class="fl">{{projName}}</h2></div>
       <div class="tip">
         <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
