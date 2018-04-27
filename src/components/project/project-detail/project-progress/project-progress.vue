@@ -84,7 +84,8 @@
               askFileList:[],  //提问的文件数组
               item: '',
               power:false,
-              askPop:false
+              askPop:false,
+              memberLevel:1
             }
         },
         props: {},
@@ -158,11 +159,14 @@
             }
           },
           seeDetail(id,time){
-            if(!this.power){
+            if(!this.power && this.memberLevel>=3){
               this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'createTime':time}});
               this.authorityShow = false;
             }else{
               this.authorityShow = true;
+              if(this.memberLevel<3){
+                this.authorityShow = true;
+              }
             }
 
           }
@@ -181,6 +185,7 @@
               if (res.code === 200) {
                 this.power = false;
                 this.progressList = res.data;
+                this.memberLevel = res.memberLevel;
               }else if(res.code === 403){
                 this.power = true;
               }
