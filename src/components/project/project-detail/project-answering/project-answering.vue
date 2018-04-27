@@ -185,29 +185,28 @@
           </div>
         </div>
       </div>
-      <div class="ask-pop pop-bg" v-show="askPop">
-        <div class="pop-up ask-warp">
-          <div class="checkbox-warp">
-            <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
-          </div>
-          <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
-          <div class="file-warp">
-            <FileDelete v-for="(file,index) in backFileList"  :key="index"
-                        :file="file" :index="index" :tag="2"
-                        @delete="deleteAskFile"></FileDelete>
-          </div>
-          <div class="pop-bottom clearfix">
-            <div class="fl">
+      <div class="ask-pop pop-bg" v-show="askPop" @click="switchShow"></div>
+      <div class="pop-up ask-warp" v-show="askPop">
+        <div class="checkbox-warp">
+          <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
+        </div>
+        <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
+        <div class="file-warp">
+          <FileDelete v-for="(file,index) in backFileList"  :key="index"
+                      :file="file" :index="index" :tag="2"
+                      @delete="deleteAskFile"></FileDelete>
+        </div>
+        <div class="pop-bottom clearfix">
+          <div class="fl">
 
-              <i class="icon-uploading"></i>
-              <span class="upload-file">上传文件</span>
-              <input type="file" class="fill-input" @change="UploadFile($event,2)">
-            </div>
-            <div class="fr btn-warp">
-              <input type="checkbox"  v-model="backChecked" >匿名
-              <!--<label for="checkbox">{{ askChecked }}</label>-->
-              <div class="small-btn" @click="submitQuestion">提交</div>
-            </div>
+            <i class="icon-uploading"></i>
+            <span class="upload-file">上传文件</span>
+            <input type="file" class="fill-input" @change="UploadFile($event,2)">
+          </div>
+          <div class="fr btn-warp">
+            <input type="checkbox"  v-model="backChecked" >匿名
+            <!--<label for="checkbox">{{ askChecked }}</label>-->
+            <div class="small-btn" @click="submitQuestion">提交</div>
           </div>
         </div>
       </div>
@@ -265,6 +264,9 @@
     props: {},
     watch: {},
     methods: {
+      switchShow(){
+        this.askPop = false;
+      },
       // 提问弹框
       askQuestion (id){
         this.parentId = id;
@@ -740,11 +742,13 @@
       }
       .ask-pop{
         padding: 0;
-        .pop-up{
-          position: fixed;
-          bottom: 0;
-          background: #fcfcfc;
-        }
+        z-index: 998;
+      }
+      .pop-up{
+        position: fixed;
+        bottom: 0;
+        background: #fcfcfc;
+        z-index: 999;
       }
       .question{
         padding: 0 10px;

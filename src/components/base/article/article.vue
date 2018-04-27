@@ -114,7 +114,8 @@
     padding-bottom: 17px;
     .title{
       font-size: 16px;
-      color:#333;
+      color:#666;
+      margin-top: 10px;
     }
 
   .article {
