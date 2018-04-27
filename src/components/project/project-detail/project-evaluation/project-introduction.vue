@@ -74,7 +74,7 @@
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video" v-show="setProjVideo">
+  <div class="intro-video" v-show="setProjVideo" v-if="authrityStatus">
     <h4>
       <i class="left-line" ></i><span>项目视频</span>
     </h4>
@@ -93,13 +93,16 @@
       </swiper>
     </div>
   </div>
+  <div v-if="!authrityStatus">
+    <!--权限弹框-->
+    <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthorityPage>
+  </div>
   <CrossLine></CrossLine>
   <Article :content="productService" text="项目详情"></Article>
   <CrossLine></CrossLine>
   <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
-  <!--权限弹框-->
-  <Authority :authorityShow="authorityShow" @upgrade="upgrade"></Authority>
+
 </div>
 </template>
 
@@ -107,12 +110,14 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
   import Authority from '@/components/base/authority/authority'
+  import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
   import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
           Article,
-          Authority
+          Authority,
+          AuthorityPage
         },
         data() {
             return {
@@ -151,9 +156,10 @@
               infrastructureDone: false ,//完成项目建设
               productService: null,
               operateMetric: null,
-              setProjVideo: false,
+              setProjVideo: true,
               videos: null,
-              authorityShow:false
+              authorityShow:false,
+              authrityStatus: false
 
             }
         },
@@ -168,6 +174,10 @@
           },
           upgrade () {
             this.$router.push({ path: "/mine/member-center" });
+          },
+          //权限弹框
+          authorityHide () {
+            this.authorityShow = false;
           },
         },
         filters: {},
@@ -209,12 +219,15 @@
               if (res.code === 403) {
                 // tool.toast("项目视频无权限 此处增加无权限页"); //todo  此处增加 无权限页
                 this.authorityShow=true;
+                this.authrityStatus = false;
                 return
-              }
-              let arr = null
-              arr = res.split(",")
-              for (var i = 0; i < arr.length; i++) {
-                this.videos[i].url = arr[i]
+              }else {
+                let arr = null
+                arr = res.split(",")
+                for (var i = 0; i < arr.length; i++) {
+                  this.videos[i].url = arr[i]
+                }
+                this.authrityStatus = true;
               }
             })
           })
