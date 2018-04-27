@@ -197,24 +197,9 @@
           });
           return;
         }
-        //验证手机号
-        let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        if (!this.homeContact) {
-          Toast({
-            message: '手机号不能为空',
-            duration: 5000
-          });
-          return;
-        } else if (!reg.test(this.homeContact)) {
-          Toast({
-            message: '手机号错误',
-            duration: 5000
-          });
-          return;
-        }
         let param = tool.buildForm([
-          { key: "contact", v: this.homeContent1 },
-          { key: "content", v: this.homeContact }
+          { key: "content", v: this.homeContent1 },
+          { key: "contact", v: this.homeContact }
         ]);
         this.axios.post(tool.domind()+'/gateway/app/feedback',param).then(res => {
           if (res.data.code === 200) {
