@@ -17,33 +17,17 @@
                 <div class="time">{{item.time}}</div>
                 <h2><span>-</span>{{item.title.valueCn}}</h2>
                 <!--点击查看详情-->
-                <router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
+                <!--<router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
                   <em>查看</em>
-                </router-link>
+                </router-link>-->
+                <em @click="seeDetail(projId,item.editInfo.createTime)">查看</em>
               </li>
-
-            <!--<li>
-              <div class="time">2018-04-13</div>
-              <h2><span>-</span>已完成建设许可申请</h2>
-              <em>查看</em>
-              <div class="img-warp clearfix">
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-              </div>
-
-            </li>-->
-
           </ul>
         </div>
-        <div class="timer-none" v-if="progressList == null || progressList.length ==0">
-          <img src="../../img/timer-none.png" alt="">
+        <div v-if="!this.power">
+          <div class="timer-none" v-if="progressList == null || progressList.length ==0">
+            <img src="../../img/timer-none.png" alt="">
+          </div>
         </div>
         <div class="ask-pop pop-bg" v-show="askPop">
           <div class="pop-up">
@@ -70,8 +54,8 @@
         </div>
       </div>
       <!--信息正在完善中背景图片-->
-      <div class="progress-bg" v-if="!progressShow">
-      </div>
+      <!--<div class="progress-bg" v-if="!progressShow">
+      </div>-->
       <CrossLine></CrossLine>
       <!--权限弹框-->
       <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
@@ -100,6 +84,7 @@
               askChecked:false,  //提问匿名选项框
               askFileList:[],  //提问的文件数组
               item: '',
+              power:false,
             }
         },
         props: {},
@@ -168,6 +153,15 @@
             if(tag===1){
               this.askFileList.splice(index,1)
             }
+          },
+          seeDetail(id,time){
+            if(!this.power){
+              this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'createTime':time}});
+              this.authorityShow = false;
+            }else{
+              this.authorityShow = true;
+            }
+
           }
 
         },
@@ -179,13 +173,13 @@
             projId:this.projId
           };
           this.$api
-            .post("/ah/s3/getProjectProgress",param)
+            .post("/ah/s0/getProjectProgress",param)
             .then(res => {
               if (res.code === 200) {
-                this.authorityShow = false;
+                this.power = false;
                 this.progressList = res.data;
               }else if(res.code === 403){
-                this.authorityShow = true;
+                this.power = true;
               }
             });
         },
