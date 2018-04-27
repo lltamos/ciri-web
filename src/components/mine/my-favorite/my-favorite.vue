@@ -13,7 +13,7 @@
           </div>
           <div class="main-news">
             <div class="title">
-              <div class="icon-quality fl" v-if="pro.cornerTags != null">{{pro.cornerTags}}</div>
+              <div class="icon-quality fl" v-if="pro.cornerTags != null && pro.cornerTags != ''">{{pro.cornerTags}}</div>
               <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
             </div>
             <div class="tip">
