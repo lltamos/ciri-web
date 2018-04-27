@@ -20,7 +20,7 @@
           <div class="title">
             <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
             <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
-            <h2 class="fl">{{project.name}}</h2>
+            <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
             <div class="thumbs-up fr "  v-bind:class="{active:project.likesStatus}" v-tap.prevent="{ methods : thumbSwitch ,project:project}">
               <i class="icon-dianzan"></i>
               <span class="count-warp">看好</span>
