@@ -55,7 +55,7 @@
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
               <ul>
-                <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
+                <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
                 <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[1]}}
@@ -250,10 +250,16 @@
         this.popShow = false ;
         this.searchBarFixed = false
       },
-      allActive(e){
-        let element = e.currentTarget;
-        element.classList.add('active')
-        this.liSwitch =false;
+      allActive(e , index){
+        let element = e.currentTarget
+        if (element.classList.contains('active')) {
+          element.classList.remove('active')
+        }else {
+          element.classList.add('active')
+          this.resetActive(index)
+        }
+
+        //
       },
       resetActive(index){
         this.clearList(index)
