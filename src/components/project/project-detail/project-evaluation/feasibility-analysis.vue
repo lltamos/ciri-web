@@ -45,8 +45,7 @@
     <CrossLine></CrossLine>
     <Article text="项目财务评估" :content="this.competitionAdvantage"></Article>
     <CrossLine></CrossLine>
-    <Article text="项目担保方式" :content="guaranteeType(this.fund.guaranteeId)"></Article>
-    <Article text="项目担保" :content="this.fund.guaranteeNote.valueCn"></Article>
+    <Article text="项目担保方式" :content="guaranteeType(this.fund.guaranteeId)" :content2="this.fund.guaranteeNote.valueCn" :secondShow="true"></Article>
     <CrossLine></CrossLine>
   </div>
 </template>

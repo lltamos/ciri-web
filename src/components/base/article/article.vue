@@ -5,8 +5,14 @@
         <i class="left-line"></i><span>{{text}}</span>
       </h4>
       <div v-if="this.content!=null" :class="article" ref="articleRef">
+        <p class="title" v-show="secondShow">【担保方式】</p>
         {{this.content}}
       </div>
+      <div class="second" :class="article" v-show="secondShow">
+        <p class="title" v-show="secondShow">【担保说明】</p>
+        {{this.content2}}
+      </div>
+
       <div class="read-more" @click="readMore" v-show="moreShow">
         <span v-text="moreText">阅读全文</span>
         <i :class="iconMore"></i>
@@ -33,7 +39,12 @@
           type: String,
           default: '商家列表'
         },
-        content: String
+        secondShow :{
+          type: Boolean,
+          default: false
+        },
+        content: String,
+        content2: String
       },
         watch: {},
         methods: {
@@ -109,6 +120,7 @@
     font-size: 13px;
     line-height: 22px;
     color: #666;
+    text-indent: 2em;
 
   &.active {
     /*height:330px;*/
