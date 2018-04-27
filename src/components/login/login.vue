@@ -168,6 +168,7 @@
                 sessionStorage.setItem("token", res.data.data.token);
                 sessionStorage.setItem("username", res.data.data.username);
                 sessionStorage.setItem("islogin", "true");
+                sessionStorage.setItem("userLevel", res.data.data.memberLevel);
                 this.axios.defaults.headers.token = res.data.data.token;
                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
                 this.$router.replace({
