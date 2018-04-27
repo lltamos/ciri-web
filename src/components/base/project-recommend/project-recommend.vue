@@ -7,9 +7,9 @@
   </div>
 
   <div class="project-recommend" v-else>
-    <router-link v-for="(project) in this.projects" :key="project.projId"
-                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
-      <div class="pro-card">
+    <!--<router-link v-for="(project) in this.projects" :key="project.projId"-->
+                 <!--:to="{path:'/project/project-land',query: {projId: project.projId}}">-->
+      <div class="pro-card" v-for="(project) in this.projects" :key="project.projId"  @click="routerLand(project.projId)">
         <div class="co-investing">
           {{project.status}}
         </div>
@@ -18,11 +18,10 @@
         </div>
         <div class="main-news">
           <div class="title">
-            <div class="icon-quality fl" v-show="project.cornerTag == 1">优质项目</div>
-            <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
-            <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
-            <h2 class="fl">{{project.name}}</h2>
-            <div class="thumbs-up fr">
+            <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
+            <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
+            <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
+            <div class="thumbs-up fr "  v-bind:class="{active:project.likesStatus}" v-tap.prevent="{ methods : thumbSwitch ,project:project}">
               <i class="icon-dianzan"></i>
               <span class="count-warp">看好</span>
               <span class="count">({{project.likes}})</span>
@@ -78,13 +77,15 @@
         </div>
 
       </div>
-    </router-link>
+    <!--</router-link>-->
     <button @click="loadMore" :disabled="this.disabled" class="more">
       <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
   </div>
 </template>
 <script>
+  import tool from "../../../api/tool";
+
   export default {
     components: {},
     data() {
@@ -126,6 +127,7 @@
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
+          userId:tool.getuser(),
           pageSize: 5,
           industry: [],
           country: [],
@@ -146,6 +148,27 @@
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
             this.isIcon = false;
+          }
+        });
+      },
+      routerLand (index) {
+        this.$router.replace({path:'/project/project-land',query: {projId: index}});
+      },
+      thumbSwitch (project) {
+        // console.log(project.project.projId);
+        let projId=project.project.projId;
+        if(tool.getuser()== null){
+          tool.toast("登录状态下才能点赞")
+          return
+        }
+        //不能重复点赞
+        if(project.project.likesStatus==true){
+          return ;
+        }
+        project.project.likesStatus=true;
+        project.project.likes=project.project.likes+1;
+        this.$api.post('/pb/s0/l/addLike', { projId:projId,userId:tool.getuser(),tag:0 }).then(r => {
+          if(r.code==200){
           }
         });
       }
@@ -256,6 +279,13 @@
             padding: 0 5px;
             font-size: 10px;
             line-height: 1;
+            &.active{
+              background: #4285f4;
+              color:#fff;
+              .icon-dianzan{
+                @include bg-image("../../index/img/thumb-uped");
+              }
+            }
             .icon-dianzan {
               display: inline-block;
               width: 9px;
