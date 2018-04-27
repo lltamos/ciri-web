@@ -1,190 +1,208 @@
 <template>
-  <div class="project-developer">
-    <!--项目开发商-->
-    <h4>
-      <i class="left-line"></i><span>项目开发商</span>
-    </h4>
-    <div v-if="this.projectOwnerContact!=null" class="company-msg">
-      <table width="100%" border="1" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-          <td>公司名称</td>
-          <td>{{projectOwnerContact.corpName.valueCn}}</td>
-        </tr>
-        <tr>
-          <td>公司类型</td>
-          <td>{{projectOwnerContact.corpTypeNote}}</td>
-        </tr>
-        <tr>
-          <td>公司地址</td>
-          <td>{{projectOwnerContact.corpAddress.valueCn}}</td>
-        </tr>
-        <tr>
-          <td>公司电话</td>
-          <td>{{projectOwnerContact.corpTel}}</td>
-        </tr>
-        <tr>
-          <td>公司传真</td>
-          <td>{{projectOwnerContact.corpTax}}</td>
-        </tr>
-        <tr>
-          <td>公司网址</td>
-          <td>{{projectOwnerContact.website}}</td>
-        </tr>
-        <tr>
-          <td>公司简介</td>
-          <td>{{projectOwnerContact.corpSummary.valueCn}}</td>
-        </tr>
-        <tr>
-          <td>项目案例</td>
-          <td>{{projectOwnerContact.msgForInvestor.valueCn}}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-if="this.projectOwnerContact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
-      <div class="contact-title">【联系人信息】</div>
-      <table width="100%" border="1" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-          <td>
-            <p class="contact-card">姓名</p>
-            <p class="contact-card">职位</p>
-            <p class="contact-card">电话</p>
-            <p class="contact-card">邮箱</p>
-          </td>
-          <td style="min-width:50px;">
-            <p class="contact-card">{{projectOwnerContact.contact[0].name.valueCn}}</p>
-            <p class="contact-card">{{projectOwnerContact.contact[0].jobInfo.valueCn}}</p>
-            <p class="contact-card">{{projectOwnerContact.contact[0].tel}}</p>
-            <p class="contact-card">{{projectOwnerContact.contact[0].email}}</p>
-          </td>
-          <td>
-            <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="contact-title">【企业资料】</div>
-      <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
-        <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
-          <div class="title">
-            <i class="icon-type icon-ppt"></i>
-            <span class="file-title">{{file.originalName}}</span>
+  <div>
+    <div class="project-developer" v-if="memberLevel">
+      <!--项目开发商-->
+      <h4>
+        <i class="left-line"></i><span>项目开发商</span>
+      </h4>
+      <div v-if="this.projectOwnerContact!=null" class="company-msg">
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tbody>
+          <tr>
+            <td>公司名称</td>
+            <td>{{projectOwnerContact.corpName.valueCn}}</td>
+          </tr>
+          <tr>
+            <td>公司类型</td>
+            <td>{{projectOwnerContact.corpTypeNote}}</td>
+          </tr>
+          <tr>
+            <td>公司地址</td>
+            <td>{{projectOwnerContact.corpAddress.valueCn}}</td>
+          </tr>
+          <tr>
+            <td>公司电话</td>
+            <td>{{projectOwnerContact.corpTel}}</td>
+          </tr>
+          <tr>
+            <td>公司传真</td>
+            <td>{{projectOwnerContact.corpTax}}</td>
+          </tr>
+          <tr>
+            <td>公司网址</td>
+            <td>{{projectOwnerContact.website}}</td>
+          </tr>
+          <tr>
+            <td>公司简介</td>
+            <td>{{projectOwnerContact.corpSummary.valueCn}}</td>
+          </tr>
+          <tr>
+            <td>项目案例</td>
+            <td>{{projectOwnerContact.msgForInvestor.valueCn}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-if="this.projectOwnerContact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
+        <div class="contact-title">【联系人信息】</div>
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tbody>
+          <tr>
+            <td>
+              <p class="contact-card">姓名</p>
+              <p class="contact-card">职位</p>
+              <p class="contact-card">电话</p>
+              <p class="contact-card">邮箱</p>
+            </td>
+            <td style="min-width:50px;">
+              <p class="contact-card">{{projectOwnerContact.contact[0].name.valueCn}}</p>
+              <p class="contact-card">{{projectOwnerContact.contact[0].jobInfo.valueCn}}</p>
+              <p class="contact-card">{{projectOwnerContact.contact[0].tel}}</p>
+              <p class="contact-card">{{projectOwnerContact.contact[0].email}}</p>
+            </td>
+            <td>
+              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="contact-title">【企业资料】</div>
+        <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
+          <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
+            <div class="title">
+              <i class="icon-type icon-ppt"></i>
+              <span class="file-title">{{file.originalName}}</span>
+            </div>
+            <dl class="intro">
+              <dt>文件说明：</dt>
+              <dd>{{file.summary.valueCn}}</dd>
+            </dl>
+            <!--<div class="applyFile btn bg-blue">申请查看</div>-->
+            <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
           </div>
-          <dl class="intro">
-            <dt>文件说明：</dt>
-            <dd>{{file.summary.valueCn}}</dd>
-          </dl>
-          <!--<div class="applyFile btn bg-blue">申请查看</div>-->
-          <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
         </div>
       </div>
-    </div>
-    <CrossLine></CrossLine>
-    <!--项目代理商-->
-    <h4>
-      <i class="left-line"></i><span>项目代理</span>
-    </h4>
-    <div class="company-msg">
-      <table width="100%" border="1" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-          <td>公司名称</td>
-          <td>Energy Sabz Abrisham Asia</td>
-        </tr>
-        <tr>
-          <td>公司类型</td>
-          <td>有限责任公司</td>
-        </tr>
-        <tr>
-          <td>公司地址</td>
-          <td>Tehran</td>
-        </tr>
-        <tr>
-          <td>公司电话</td>
-          <td>+9****-7</td>
-        </tr>
-        <tr>
-          <td>公司传真</td>
-          <td>+9****-6</td>
-        </tr>
-        <tr>
-          <td>公司网址</td>
-          <td>合资企业-中方控股</td>
-        </tr>
-        <tr>
-          <td>公司简介</td>
-          <td>Energy Sabz Abrisham Asia</td>
-        </tr>
-        <tr>
-          <td>项目案例</td>
-          <td></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0" class="contact-info">
-      <div class="contact-title">【联系人信息】</div>
-      <table width="100%" border="1" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-          <td>
-            <p class="contact-card">姓名</p>
-            <p class="contact-card">职位</p>
-            <p class="contact-card">电话</p>
-            <p class="contact-card">邮箱</p>
-          </td>
-          <td v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">
-            <p class="contact-card">{{projectAgentContact.contact[0].name.valueCn}}</p>
-            <p class="contact-card">{{projectAgentContact.contact[0].jobInfo.valueCn}}</p>
-            <p class="contact-card">{{projectAgentContact.contact[0].tel}}</p>
-            <p class="contact-card">{{projectAgentContact.contact[0].email}}</p>
-          </td>
-          <td>
-            <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="contact-title">【企业资料】</div>
-      <div v-if="this.projectAgentContact.campaignFile!=null" class="file-warp">
-        <div class="file" v-for="file in this.projectAgentContact.campaignFile" :key="file.name">
-          <div class="title">
-            <i class="icon-type icon-ppt"></i>
-            <span class="file-title">{{file.originalName}}</span>
+      <CrossLine></CrossLine>
+      <!--项目代理商-->
+      <h4>
+        <i class="left-line"></i><span>项目代理</span>
+      </h4>
+      <div class="company-msg">
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tbody>
+          <tr>
+            <td>公司名称</td>
+            <td>Energy Sabz Abrisham Asia</td>
+          </tr>
+          <tr>
+            <td>公司类型</td>
+            <td>有限责任公司</td>
+          </tr>
+          <tr>
+            <td>公司地址</td>
+            <td>Tehran</td>
+          </tr>
+          <tr>
+            <td>公司电话</td>
+            <td>+9****-7</td>
+          </tr>
+          <tr>
+            <td>公司传真</td>
+            <td>+9****-6</td>
+          </tr>
+          <tr>
+            <td>公司网址</td>
+            <td>合资企业-中方控股</td>
+          </tr>
+          <tr>
+            <td>公司简介</td>
+            <td>Energy Sabz Abrisham Asia</td>
+          </tr>
+          <tr>
+            <td>项目案例</td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0" class="contact-info">
+        <div class="contact-title">【联系人信息】</div>
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tbody>
+          <tr>
+            <td>
+              <p class="contact-card">姓名</p>
+              <p class="contact-card">职位</p>
+              <p class="contact-card">电话</p>
+              <p class="contact-card">邮箱</p>
+            </td>
+            <td v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">
+              <p class="contact-card">{{projectAgentContact.contact[0].name.valueCn}}</p>
+              <p class="contact-card">{{projectAgentContact.contact[0].jobInfo.valueCn}}</p>
+              <p class="contact-card">{{projectAgentContact.contact[0].tel}}</p>
+              <p class="contact-card">{{projectAgentContact.contact[0].email}}</p>
+            </td>
+            <td>
+              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="contact-title">【企业资料】</div>
+        <div v-if="this.projectAgentContact.campaignFile!=null" class="file-warp">
+          <div class="file" v-for="file in this.projectAgentContact.campaignFile" :key="file.name">
+            <div class="title">
+              <i class="icon-type icon-ppt"></i>
+              <span class="file-title">{{file.originalName}}</span>
+            </div>
+            <dl class="intro">
+              <dt>文件说明：</dt>
+              <dd>{{file.summary.valueCn}}</dd>
+            </dl>
+            <!--<div class="applyFile btn bg-blue">申请查看</div>-->
+            <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
           </div>
-          <dl class="intro">
-            <dt>文件说明：</dt>
-            <dd>{{file.summary.valueCn}}</dd>
-          </dl>
-          <!--<div class="applyFile btn bg-blue">申请查看</div>-->
-          <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
         </div>
       </div>
-    </div>
-    <CrossLine></CrossLine>
+      <CrossLine></CrossLine>
 
+    </div>
+    <div v-if="!memberLevel">
+      <!--权限弹框-->
+      <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthorityPage>
+    </div>
   </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
 
   export default {
     components: {
-      CrossLine
+      CrossLine,
+      AuthorityPage
     },
     data() {
       return {
         projId: null,
         projectOwnerContact: null,
-        projectAgentContact: null
+        projectAgentContact: null,
+        authorityShow:true,
+        memberLevel:false
       }
     },
     props: {},
     watch: {},
-    methods: {},
+    methods: {
+      upgrade () {
+        this.$router.push({ path: "/mine/member-center" });
+      },
+      //权限弹框
+      authorityHide () {
+        this.authorityShow = false;
+      },
+    },
     filters: {},
     computed: {},
     created() {
@@ -196,6 +214,14 @@
         if (res.code == 200) {
           this.projectOwnerContact = res.projectOwnerContact;
           this.projectAgentContact = res.projectAgentContact;
+          let level = sessionStorage.getItem("userLevel");
+          if(level<3){
+            this.memberLevel = false;
+            this.authorityShow = true;
+          }else{
+            this.memberLevel = true;
+            this.authorityShow = false;
+          }
         }
       })
     },
