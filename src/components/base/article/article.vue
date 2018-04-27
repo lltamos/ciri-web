@@ -19,8 +19,6 @@
       </div>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -65,16 +63,16 @@
         created() {
         },
         mounted() {
-          var heightCss = window.getComputedStyle(this.$refs.articleRef).height;
-
-          let num = (heightCss.replace("px",""));
-
-          let flag = parseInt((num));
-          if(flag<300){
-            this.moreShow = false;
-          }else {
-            this.moreShow = true;
-          }
+          // var heightCss = window.getComputedStyle(this.$refs.articleRef).height;
+          //
+          // let num = (heightCss.replace("px",""));
+          //
+          // let flag = parseInt((num));
+          // if(flag<300){
+          //   this.moreShow = false;
+          // }else {
+          //   this.moreShow = true;
+          // }
         },
         destroyed() {
         }
