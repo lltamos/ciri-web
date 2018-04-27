@@ -70,7 +70,6 @@
           let num = (heightCss.replace("px",""));
 
           let flag = parseInt((num));
-          console.log(flag);
           if(flag<300){
             this.moreShow = false;
           }else {

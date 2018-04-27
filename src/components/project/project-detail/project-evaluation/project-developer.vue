@@ -4,7 +4,7 @@
     <h4>
       <i class="left-line"></i><span>项目开发商</span>
     </h4>
-    <div class="company-msg">
+    <div v-if="this.projectOwnerContact!=null" class="company-msg">
       <table width="100%" border="1" cellspacing="0" cellpadding="0">
         <tbody>
         <tr>
@@ -42,7 +42,7 @@
         </tbody>
       </table>
     </div>
-    <div v-if="this.projectOwnerContact.contact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
+    <div v-if="this.projectOwnerContact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
       <div class="contact-title">【联系人信息】</div>
       <table width="100%" border="1" cellspacing="0" cellpadding="0">
         <tbody>

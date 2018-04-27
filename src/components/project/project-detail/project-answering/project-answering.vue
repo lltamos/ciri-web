@@ -308,7 +308,6 @@
         //alert(tag)
         this.$api.post('/ah/s0/chat/giveLikes', {userId: tool.getuser(), chatId: question.id, tag: tag}).then(r => {
           if (r.code == 200) {
-            console.log(r.data);
           }
         })
       },
@@ -406,7 +405,6 @@
           this.questionCount=r.total;
           //设置我的提问数
           this.myQuestionCount= r.myTotal;
-          console.log(r.data);
           if(r.data !== "" && r.data !== null && r.data.length >0){
             if (this.page === 1) {
               //如追加数据
@@ -443,7 +441,6 @@
           }
         //发送请求分页查询数据
         this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
-          console.log(r.data);
           if(r.level==0){
             tool.toast("会员等级太低，无法查看回复信息");
           }
@@ -484,7 +481,6 @@
           pageId++;
         }
         //获取更多信息pageId
-        console.log(pageId);
         this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
             if(r.level==0){
@@ -492,7 +488,6 @@
             }
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
-            console.log(quesiton.projectChatList);
             d.setAttribute("pageId",pageId);
           }
         })
@@ -604,11 +599,9 @@
               switch (tag) {
                 case 1:
                   this.askFileList.push(temp);
-                  console.log(this.askFileList);
                   break;
             case 2:
                   this.backFileList.push(temp);
-                  console.log(this.backFileList);
                   break;
               }
             }

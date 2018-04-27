@@ -111,7 +111,7 @@
         },
 
         gotoDetail () {
-          this.$router.replace({ path: this.url })
+          this.$router.push({ path: this.url })
         },
         giveLikes () {
           if (this.isLikes !== null) {

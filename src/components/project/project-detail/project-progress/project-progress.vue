@@ -141,7 +141,6 @@
                   let temp = res.data.data[0]
                   if (tag===1) {
                     this.askFileList.push(temp);
-                    console.log(this.askFileList);
                   }
                 }
               });
