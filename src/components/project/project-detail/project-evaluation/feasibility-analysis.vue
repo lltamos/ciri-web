@@ -47,6 +47,7 @@
     <CrossLine></CrossLine>
     <Article text="项目担保方式" :content="guaranteeType(this.fund.guaranteeId)" :content2="this.fund.guaranteeNote.valueCn" :secondShow="true"></Article>
     <CrossLine></CrossLine>
+    <Article text="融资规划" :content="this.fund.summary.valueCn"></Article>
   </div>
 </template>
 
