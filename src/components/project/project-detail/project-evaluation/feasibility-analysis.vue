@@ -9,7 +9,7 @@
     <CrossLine></CrossLine>
     <div class="finance-info">
       <h4>
-        <i class="left-line"></i><span>融资信息</span>
+        <i class="left-line"></i><span>项目融资分析</span>
       </h4>
       <table width="100%" border="1" cellspacing="0" cellpadding="0">
         <tbody>
@@ -39,11 +39,19 @@
         </tr>
         </tbody>
       </table>
+      <div class="article-warp">
+        <div class="pro-article clearfix">
+          <p class="title">【项目投资概算】</p>
+          <div v-if="this.marketAnalysis!=null" class="article">
+            {{this.marketAnalysis}}
+          </div>
+          <p class="title">【项目财务评估】</p>
+          <div v-if="this.competitionAdvantage" class="article">
+            {{this.competitionAdvantage}}
+          </div>
+        </div>
+      </div>
     </div>
-    <CrossLine></CrossLine>
-    <Article text="项目融资分析" :content="this.marketAnalysis"></Article>
-    <CrossLine></CrossLine>
-    <Article text="项目财务评估" :content="this.competitionAdvantage"></Article>
     <CrossLine></CrossLine>
     <Article text="项目担保方式" :content="guaranteeType(this.guaranteeId)" :content2="this.guaranteeNote"
              :secondShow="true"></Article>
@@ -175,8 +183,62 @@
   }
   .finance-info {
     padding: 10px 10px 17px;
+    .article-warp {
+      text-align: left;
+
+      h4 {
+        text-align: left;
+        overflow: hidden;
+        line-height: 1;
+        height: 16px;
+        padding: 12px 10px 12px 15px;
+        color: #333;
+        font-size: 16px;
+        font-weight: normal;
+        @include onepx('bottom');
+
+        .left-line {
+          position: absolute;
+          display: block;
+          width: 3px;
+          height: 15px;
+          background-color: #528de8;
+          left: 0;
+          top: 12px;
+        }
+
+      }
+      .pro-article {
+        padding-bottom: 17px;
+        .title{
+          font-size: 16px;
+          color:#666;
+          margin-top: 10px;
+        }
+
+        .article {
+          margin-top: 10px;
+          padding: 0 10px;
+          font-size: 13px;
+          line-height: 22px;
+          color: #666;
+          text-indent: 2em;
+
+          &.active {
+            /*height:330px;*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 15;
+            -webkit-box-orient: vertical;
+          }
+
+        }
+      }
+    }
 
   table {
+    margin-top: 10px;
     border: 1px solid #dedede;
 
   tr {
