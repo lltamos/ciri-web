@@ -49,6 +49,7 @@
              :secondShow="true"></Article>
     <CrossLine></CrossLine>
     <Article text="融资规划" :content="this.summary"></Article>
+    <BigImg v-if="this.estimatePhoto!=null" :content="this.InfraPhoto"></BigImg>
   </div>
 </template>
 
@@ -84,6 +85,7 @@
         guaranteeId: null,
         guaranteeNote: null,
         summary: null,
+        estimatePhoto: null,
       }
     },
     props: {},
@@ -135,6 +137,7 @@
         this.guaranteeId = this.projContent.fund.guaranteeId;
         this.guaranteeNote = this.projContent.fund.guaranteeNote.valueCn;
         this.summary = this.projContent.fund.summary.valueCn;
+        this.estimatePhoto = this.projContent.estimatePhoto;
       });
     },
     destroyed() {

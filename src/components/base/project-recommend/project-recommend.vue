@@ -7,77 +7,74 @@
   </div>
 
   <div class="project-recommend" v-else>
-    <!--<router-link v-for="(project) in this.projects" :key="project.projId"-->
-                 <!--:to="{path:'/project/project-land',query: {projId: project.projId}}">-->
-      <div class="pro-card" v-for="(project) in this.projects" :key="project.projId"  @click="routerLand(project.projId)">
-        <div class="co-investing">
-          {{project.status}}
-        </div>
-        <div class="img">
-          <img  class="item-pic" v-lazy="project.url" alt="" src="">
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
-            <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
-            <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
-            <div class="thumbs-up fr "  v-bind:class="{active:project.likesStatus}" v-tap.prevent="{ methods : thumbSwitch ,project:project}">
-              <i class="icon-dianzan"></i>
-              <span class="count-warp">看好</span>
-              <span class="count">({{project.likes}})</span>
-            </div>
+    <div class="pro-card" v-for="(project) in this.projects" :key="project.projId" @click="routerLand(project.projId)">
+      <div class="co-investing">
+        {{project.status}}
+      </div>
+      <div class="img">
+        <img class="item-pic" v-lazy="project.url" alt="" src="">
+      </div>
+      <div class="main-news">
+        <div class="title">
+          <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
+          <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
+          <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
+          <div class="thumbs-up fr " v-bind:class="{active:project.likesStatus}"
+               v-tap.prevent="{ methods : thumbSwitch ,project:project}">
+            <i class="icon-dianzan"></i>
+            <span class="count-warp">看好</span>
+            <span class="count">({{project.likes}})</span>
           </div>
-          <div class="tip">
-            <div v-for="tag in project.tags" :key="tag" class="f1">
-              <div class="fl red">{{tag}}</div>
-            </div>
-            <div class="video fl"></div>
+        </div>
+        <div class="tip">
+          <div v-for="tag in project.tags" :key="tag" class="f1">
+            <div class="fl red">{{tag}}</div>
           </div>
-          <ul class="proj-info">
-            <li>
-              <em><i class="large">{{project.fund}}</i>万美金</em>
-              <span>项目总投资</span>
-              <div class="fg-line"></div>
-            </li>
-            <li>
-              <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
-              <span>预期收益率</span>
-              <div class="fg-line"></div>
-            </li>
-            <div class="svg-circle fr">
-              <div class="row" style="top:-105px">
-                <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
-                     data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                  <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
-                  <div class="pie_progress2 svg_jdft">融资进度</div>
-                  <div class="pie_progress__svg">
-                    <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
-                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none"
-                               stroke-width="10"></ellipse>
-                      <path fill="none" stroke-width="10" stroke="#3699ea"
-                            d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
-                            style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
-                    </svg>
-                  </div>
+          <div class="video fl"></div>
+        </div>
+        <ul class="proj-info">
+          <li>
+            <em><i class="large">{{project.fund}}</i>万美金</em>
+            <span>项目总投资</span>
+            <div class="fg-line"></div>
+          </li>
+          <li>
+            <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
+            <span>预期收益率</span>
+            <div class="fg-line"></div>
+          </li>
+          <div class="svg-circle fr">
+            <div class="row" style="top:-105px">
+              <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
+                   data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+                <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
+                <div class="pie_progress2 svg_jdft">融资进度</div>
+                <div class="pie_progress__svg">
+                  <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
+                    <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none"
+                             stroke-width="10"></ellipse>
+                    <path fill="none" stroke-width="10" stroke="#3699ea"
+                          d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
+                          style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
+                  </svg>
                 </div>
               </div>
             </div>
-
-          </ul>
-          <div class="tip-news">
-            <i class="loc"></i>
-            <span class="country">{{project.countryName}}</span>
-            <i class="indu"></i>
-            <span class="industry">{{project.industryName}}</span>
-            <i class="mold"></i>
-            <span class="genre">{{project.constructionTypeName}}</span>
-            <i class="view"></i>
-            <span class="count">{{project.visit}}</span>
           </div>
-        </div>
 
+        </ul>
+        <div class="tip-news">
+          <i class="loc"></i>
+          <span class="country">{{project.countryName}}</span>
+          <i class="indu"></i>
+          <span class="industry">{{project.industryName}}</span>
+          <i class="mold"></i>
+          <span class="genre">{{project.constructionTypeName}}</span>
+          <i class="view"></i>
+          <span class="count">{{project.visit}}</span>
+        </div>
       </div>
-    <!--</router-link>-->
+    </div>
     <button @click="loadMore" :disabled="this.disabled" class="more">
       <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
@@ -127,7 +124,7 @@
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
-          userId:tool.getuser(),
+          userId: tool.getuser(),
           pageSize: 5,
           industry: [],
           country: [],
@@ -150,24 +147,23 @@
           }
         });
       },
-      routerLand (index) {
-        this.$router.replace({path:'/project/project-land',query: {projId: index}});
+      routerLand(index) {
+        this.$router.push({path: '/project/project-land', query: {projId: index}});
       },
-      thumbSwitch (project) {
-        // console.log(project.project.projId);
-        let projId=project.project.projId;
-        if(tool.getuser()== null){
+      thumbSwitch(project) {
+        let projId = project.project.projId;
+        if (tool.getuser() == null) {
           tool.toast("登录状态下才能点赞")
           return
         }
         //不能重复点赞
-        if(project.project.likesStatus==true){
-          return ;
+        if (project.project.likesStatus == true) {
+          return;
         }
-        project.project.likesStatus=true;
-        project.project.likes=project.project.likes+1;
-        this.$api.post('/pb/s0/l/addLike', { projId:projId,userId:tool.getuser(),tag:0 }).then(r => {
-          if(r.code==200){
+        project.project.likesStatus = true;
+        project.project.likes = project.project.likes + 1;
+        this.$api.post('/pb/s0/l/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
+          if (r.code == 200) {
           }
         });
       }
@@ -278,10 +274,10 @@
             padding: 0 5px;
             font-size: 10px;
             line-height: 1;
-            &.active{
+            &.active {
               background: #4285f4;
-              color:#fff;
-              .icon-dianzan{
+              color: #fff;
+              .icon-dianzan {
                 @include bg-image("../../index/img/thumb-uped");
               }
             }
