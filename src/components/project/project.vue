@@ -335,7 +335,7 @@
     },
     filters: {},
     computed: {},
-    created () {
+    mounted () {
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
@@ -356,7 +356,7 @@
 
 
     },
-    mounted () {
+      created () {
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
       this.loadMore(this.pageId);
