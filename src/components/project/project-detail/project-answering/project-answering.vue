@@ -296,19 +296,17 @@
       likesChat(question){
         // question.id,question.likes,question.likeStatus
         let tag = 0;
-        if(question.likeStatus){
+        if (!question.likeStatus) {
+          question.likes = question.likes + 1;
+        } else {
+          question.likes = question.likes - 1;
           tag= 1;
         }
+        question.likeStatus=!(question.likeStatus);
         //alert(tag)
         this.$api.post('/ah/s0/chat/giveLikes', {userId: tool.getuser(), chatId: question.id, tag: tag}).then(r => {
-          console.log(r.data);
           if (r.code == 200) {
-            if (!question.likeStatus) {
-              question.likes = question.likes + 1;
-            } else {
-              question.likes = question.likes - 1;
-            }
-            question.likeStatus=!(question.likeStatus);
+            console.log(r.data);
           }
         })
       },
