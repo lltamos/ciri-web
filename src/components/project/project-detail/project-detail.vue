@@ -9,7 +9,8 @@
                    :tags="tags"
                    :setProjVideo="setProjVideo"
                    :projPhoto="projPhoto"
-                   :projAddress="projAddress"></projectHeader>
+                   :projAddress="projAddress"
+                   :projMaturity="projMaturity"></projectHeader>
     <div class="project-intro">
       <h4>
         <i class="left-line"></i><span>项目简介</span>
@@ -153,7 +154,8 @@
         collected: false,
         projAddress: '',
         interest: false,
-        fetprojectsList: null
+        fetprojectsList: null,
+        projMaturity: null
       }
     },
     methods: {
@@ -226,6 +228,7 @@
             this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
             this.interest = res.data.interest
+            this.projMaturity = res.data.projMaturity
           }
         });
 
