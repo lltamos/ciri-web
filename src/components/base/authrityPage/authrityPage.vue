@@ -87,6 +87,7 @@
       }
       .upgrade{
         color: white;
+        background-color: #3f83e6;
       }
     }
   }
