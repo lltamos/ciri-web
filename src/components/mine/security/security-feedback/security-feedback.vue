@@ -16,8 +16,8 @@
       <div class="clear"></div>
     </div>
     <div class="heart_comment clearfix">
-      <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="content1"></textarea>
-      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="contact">
+      <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="homeContent1"></textarea>
+      <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="homeContact">
       <div id="feedbackAction" class="btn" @click="feedback">提交</div>
     </div>
   </div>
@@ -37,8 +37,8 @@
     },
     data() {
       return {
-        contact:'',
-        content1:''
+        homeContent1:'',
+        homeContact:''
       }
     },
     methods: {
@@ -46,47 +46,28 @@
         window.history.back()
       },
       feedback (){
-        if (!this.content1) {
+        if(!this.homeContent1){
           Toast({
             message: '请输入问题或建议',
-            position: 'top',
-            duration: 5000
-          });
-          return ;
-        }
-        //验证手机号
-        let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        if (!this.contact) {
-          Toast({
-            message: '手机号不能为空',
-            position: 'top',
-            duration: 5000
-          });
-          return;
-        } else if (!reg.test(this.contact)) {
-          Toast({
-            message: '手机号错误',
-            position: 'top',
             duration: 5000
           });
           return;
         }
         let param = tool.buildForm([
-          { key: "contact", v: this.contcat },
-          { key: "content", v: this.context1 }
+          { key: "content", v: this.homeContent1 },
+          { key: "contact", v: this.homeContact }
         ]);
-        this.axios.post(tool.domind()+'/gateway/app/feedback',param
-        ).then(res => {
+        this.axios.post(tool.domind()+'/gateway/app/feedback',param).then(res => {
           if (res.data.code === 200) {
             MessageBox({
               message: '提交成功，我们会尽快联系您！',
               showCancelButton: false
             });
-            window.history.back();
+            this.homeContent1 = "";
+            this.homeContact = "";
           }
         }).catch(err => {
           alert(err);
-          console.log(err)
         })
       }
     }
