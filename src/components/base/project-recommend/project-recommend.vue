@@ -21,7 +21,7 @@
             <div class="icon-quality fl" v-show="project.cornerTag == 1">优质项目</div>
             <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
             <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
-            <h2 class="fl">{{project.name}}</h2>
+            <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
             <div class="thumbs-up fr" v-tap.prevent="{ methods : thumbSwitch }">
               <i class="icon-dianzan"></i>
               <span class="count-warp">看好</span>
@@ -262,6 +262,13 @@
             padding: 0 5px;
             font-size: 10px;
             line-height: 1;
+            &.active{
+              background: #4285f4;
+              color:#fff;
+              .icon-dianzan{
+                @include bg-image("../../index/img/thumb-uped");
+              }
+            }
             .icon-dianzan {
               display: inline-block;
               width: 9px;
