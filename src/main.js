@@ -17,6 +17,8 @@ import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import VueLazyload from 'vue-lazyload'
 import api from './api/http'
+import vueTap from 'v-tap';
+
 
 Vue.config.productionTip = false
 Vue.use(VueAwesomeSwiper)
@@ -32,6 +34,8 @@ Vue.use(VueLazyload, {
 Vue.use(Mint)
 // 图片预览
 Vue.use(VuePreview)
+//点击穿透问题
+Vue.use(vueTap);
 
 let vm = new Vue({
   el: '#app',

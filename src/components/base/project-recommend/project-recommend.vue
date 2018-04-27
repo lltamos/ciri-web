@@ -7,9 +7,9 @@
   </div>
 
   <div class="project-recommend" v-else>
-    <router-link v-for="(project) in this.projects" :key="project.projId"
-                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
-      <div class="pro-card">
+    <!--<router-link v-for="(project) in this.projects" :key="project.projId"-->
+                 <!--:to="{path:'/project/project-land',query: {projId: project.projId}}">-->
+      <div class="pro-card" v-for="(project) in this.projects" :key="project.projId"  @click="routerLand(project.projId)">
         <div class="co-investing">
           {{project.status}}
         </div>
@@ -22,7 +22,7 @@
             <div class="icon-quality fl" v-show="project.cornerTag == 2">精品项目</div>
             <div class="icon-quality fl" v-show="project.cornerTag == 3">本周推荐</div>
             <h2 class="fl">{{project.name}}</h2>
-            <div class="thumbs-up fr">
+            <div class="thumbs-up fr" v-tap.prevent="{ methods : thumbSwitch }">
               <i class="icon-dianzan"></i>
               <span class="count-warp">看好</span>
               <span class="count">({{project.likes}})</span>
@@ -78,7 +78,7 @@
         </div>
 
       </div>
-    </router-link>
+    <!--</router-link>-->
     <button @click="loadMore" :disabled="this.disabled" class="more">
       <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
@@ -148,6 +148,12 @@
             this.isIcon = false;
           }
         });
+      },
+      routerLand (index) {
+        this.$router.replace({path:'/project/project-land',query: {projId: index}});
+      },
+      thumbSwitch () {
+        alert('111')
       }
     },
     filters: {},
