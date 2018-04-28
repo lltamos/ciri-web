@@ -1,63 +1,69 @@
 <template>
-  <div class="feasibility-analysis">
-    <Article text="项目现场勘查" :content="this.InfraInfo"></Article>
-    <BigImg v-if="this.InfraPhoto!=null" :content="this.InfraPhoto"></BigImg>
-    <CrossLine></CrossLine>
-    <Article text="项目技术与工程方案" :content="this.riskInfo"></Article>
-    <CrossLine></CrossLine>
-    <Article text="项目行业与市场分析" :content="this.rawMaterialSalesPlan"></Article>
-    <CrossLine></CrossLine>
-    <div class="finance-info">
-      <h4>
-        <i class="left-line"></i><span>项目融资分析</span>
-      </h4>
-      <table width="100%" border="1" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-          <td>目标融资金额</td>
-          <td>{{this.requiredFund}}</td>
-        </tr>
-        <tr>
-          <td>项目自有资金</td>
-          <td>{{this.internalFund}}万美元</td>
-        </tr>
-        <tr>
-          <td>项目总投资额</td>
-          <td>{{this.totalInvestFund}}</td>
-        </tr>
-        <tr>
-          <td>项目年收益率（IRR）</td>
-          <td>{{this.irr}}%</td>
-        </tr>
-        <tr>
-          <td>项目净产值（NPV）</td>
-          <td>{{this.npv}}万美元</td>
-        </tr>
-        <tr>
-          <td>净现值说明</td>
-          <td>{{this.npvSummary}}</td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="article-warp">
-        <div class="pro-article clearfix">
-          <p class="title">【项目投资概算】</p>
-          <div v-if="this.marketAnalysis!=null" class="article">
-            {{this.marketAnalysis}}
-          </div>
-          <p class="title">【项目财务评估】</p>
-          <div v-if="this.competitionAdvantage" class="article">
-            {{this.competitionAdvantage}}
+  <div>
+    <div class="feasibility-analysis" v-if="memberLevel">
+      <Article text="项目现场勘查" :content="this.InfraInfo"></Article>
+      <BigImg v-if="this.InfraPhoto!=null" :content="this.InfraPhoto"></BigImg>
+      <CrossLine></CrossLine>
+      <Article text="项目技术与工程方案" :content="this.riskInfo"></Article>
+      <CrossLine></CrossLine>
+      <Article text="项目行业与市场分析" :content="this.rawMaterialSalesPlan"></Article>
+      <CrossLine></CrossLine>
+      <div class="finance-info">
+        <h4>
+          <i class="left-line"></i><span>项目融资分析</span>
+        </h4>
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tbody>
+          <tr>
+            <td>目标融资金额</td>
+            <td>{{this.requiredFund}}</td>
+          </tr>
+          <tr>
+            <td>项目自有资金</td>
+            <td>{{this.internalFund}}万美元</td>
+          </tr>
+          <tr>
+            <td>项目总投资额</td>
+            <td>{{this.totalInvestFund}}</td>
+          </tr>
+          <tr>
+            <td>项目年收益率（IRR）</td>
+            <td>{{this.irr}}%</td>
+          </tr>
+          <tr>
+            <td>项目净产值（NPV）</td>
+            <td>{{this.npv}}万美元</td>
+          </tr>
+          <tr>
+            <td>净现值说明</td>
+            <td>{{this.npvSummary}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="article-warp">
+          <div class="pro-article clearfix">
+            <p class="title">【项目投资概算】</p>
+            <div v-if="this.marketAnalysis!=null" class="article">
+              {{this.marketAnalysis}}
+            </div>
+            <p class="title">【项目财务评估】</p>
+            <div v-if="this.competitionAdvantage" class="article">
+              {{this.competitionAdvantage}}
+            </div>
           </div>
         </div>
       </div>
+      <CrossLine></CrossLine>
+      <Article text="项目担保方式" :content="guaranteeType(this.guaranteeId)" :content2="this.guaranteeNote"
+               :secondShow="true"></Article>
+      <CrossLine></CrossLine>
+      <Article text="融资规划" :content="this.summary"></Article>
+      <BigImg v-if="this.estimatePhoto!=null" :content="this.InfraPhoto"></BigImg>
     </div>
-    <CrossLine></CrossLine>
-    <Article text="项目担保方式" :content="guaranteeType(this.guaranteeId)" :content2="this.guaranteeNote"
-             :secondShow="true"></Article>
-    <CrossLine></CrossLine>
-    <Article text="融资规划" :content="this.summary"></Article>
-    <BigImg v-if="this.estimatePhoto!=null" :content="this.InfraPhoto"></BigImg>
+    <div v-if="!memberLevel">
+      <!--权限弹框-->
+      <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthorityPage>
+    </div>
   </div>
 </template>
 
@@ -65,13 +71,15 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
   import BigImg from '@/components/base/big-img/big-img'
+  import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
   import tool from "../../../../api/tool";
 
   export default {
     components: {
       CrossLine,
       Article,
-      BigImg
+      BigImg,
+      AuthorityPage
     },
     data() {
       return {
@@ -94,6 +102,8 @@
         guaranteeNote: null,
         summary: null,
         estimatePhoto: null,
+        authorityShow:true,
+        memberLevel:false
       }
     },
     props: {},
@@ -118,7 +128,14 @@
             return '无'
 
         }
-      }
+      },
+      upgrade () {
+        this.$router.push({ path: "/mine/member-center" });
+      },
+      //权限弹框
+      authorityHide () {
+        this.authorityShow = false;
+      },
 
     },
     filters: {},
@@ -146,6 +163,14 @@
         this.guaranteeNote = this.projContent.fund.guaranteeNote.valueCn;
         this.summary = this.projContent.fund.summary.valueCn;
         this.estimatePhoto = this.projContent.estimatePhoto;
+        let level = sessionStorage.getItem("userLevel");
+        if(level<3){
+          this.memberLevel = false;
+          this.authorityShow = true;
+        }else{
+          this.memberLevel = true;
+          this.authorityShow = false;
+        }
       });
     },
     destroyed() {

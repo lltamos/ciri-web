@@ -53,270 +53,277 @@
 </template>
 
 <script>
-import HeaderBar from "@/components/base/header-bar/header-bar";
-import BottomImg from "@/components/base/bottomImg/bottomImg";
-import CrossLine from "@/components/base/cross-line/cross-line";
-import tool from "../../api/tool";
+  import HeaderBar from "@/components/base/header-bar/header-bar";
+  import BottomImg from "@/components/base/bottomImg/bottomImg";
+  import CrossLine from "@/components/base/cross-line/cross-line";
+  import tool from "../../api/tool";
 
-export default {
-  components: {
-    HeaderBar,
-    BottomImg,
-    CrossLine
-  },
-  data() {
-    return {
-      loginClass: "loginBtnActive",
-      showPhone: true,
-      showEmail: false,
-      pswTypeChange: "password",
-      pswIcon: "switch pswIcon pswIconClose",
-      error: "账号错误，请重新输入",
-      errorShow: false,
-      phone: this.phone,
-      email: this.email,
-      password: this.password,
-      loginData: [],
-      position: "",
-      aisle: 0
-    };
-  },
-  props: {},
-  watch: {},
-  methods: {
-    back() {
-      window.history.back()
+  export default {
+    components: {
+      HeaderBar,
+      BottomImg,
+      CrossLine
     },
-    //input获取焦点时执行
-    Focus() {
-      this.loginClass = "loginBtnActive";
-      this.position = "staticImg";
+    data() {
+      return {
+        loginClass: "loginBtnActive",
+        showPhone: true,
+        showEmail: false,
+        pswTypeChange: "password",
+        pswIcon: "switch pswIcon pswIconClose",
+        error: "账号错误，请重新输入",
+        errorShow: false,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        loginData: [],
+        position: "",
+        aisle: 0
+      };
     },
-    //切换邮箱手机号登录
-    Switch() {
-      this.phone = this.email = this.password = "";
-      this.errorShow = false;
-      this.showPhone = !this.showPhone;
-      this.showEmail = !this.showEmail;
-    },
-    pswShow() {
-      if (this.pswTypeChange == "password") {
-        this.pswTypeChange = "text";
-        this.pswIcon = "switch pswIcon pswIconShow";
-      } else {
-        this.pswTypeChange = "password";
-        this.pswIcon = "switch pswIcon pswIconClose";
-      }
-    },
-    //验证手机号码部分
-    verifyPhone() {
-      this.position = "fixImg";
-      let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-      if (this.phone == "") {
-        this.errorShow = true;
-        this.error = "账号错误，请重新输入";
-      } else if (!reg.test(this.phone)) {
-        this.errorShow = true;
-        this.error = "账号错误，请重新输入";
-      } else {
+    props: {},
+    watch: {},
+    methods: {
+      back() {
+        window.history.back()
+      },
+      //input获取焦点时执行
+      Focus() {
+        this.loginClass = "loginBtnActive";
+        this.position = "staticImg";
+      },
+      //切换邮箱手机号登录
+      Switch() {
+        this.phone = this.email = this.password = "";
         this.errorShow = false;
+        this.showPhone = !this.showPhone;
+        this.showEmail = !this.showEmail;
+      },
+      pswShow() {
+        if (this.pswTypeChange == "password") {
+          this.pswTypeChange = "text";
+          this.pswIcon = "switch pswIcon pswIconShow";
+        } else {
+          this.pswTypeChange = "password";
+          this.pswIcon = "switch pswIcon pswIconClose";
+        }
+      },
+      //验证手机号码部分
+      verifyPhone() {
+        this.position = "fixImg";
+        let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if (this.phone == "") {
+          this.errorShow = true;
+          this.error = "账号错误，请重新输入";
+        } else if (!reg.test(this.phone)) {
+          this.errorShow = true;
+          this.error = "账号错误，请重新输入";
+        } else {
+          this.errorShow = false;
+        }
+      },
+      verifyEmail() {
+        this.position = "fixImg";
+        let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
+        if (this.email == "") {
+          this.errorShow = true;
+          this.error = "账号错误，请重新输入";
+        } else if (!flag.test(this.email)) {
+          this.errorShow = true;
+          this.error = "账号错误，请重新输入";
+        } else {
+          this.errorShow = false;
+        }
+      },
+      //验证密码不为空
+      psw() {
+        this.position = "fixImg";
+        if (this.password == "") {
+          this.errorShow = true;
+          this.error = "密码错误，请重新输入";
+        } else {
+          this.errorShow = false;
+        }
+      },
+      fixImg() {
+        this.position = "fixImg";
+      },
+      //初始化数据
+      login() {
+        let tag = false;
+        if (this.showPhone) {
+          tag = tool.checkMobile(this.phone);
+        } else {
+          tag = tool.checkEmail(this.email);
+        }
+        if (tag && this.password !== "") {
+          let params = new URLSearchParams();
+          params.append("key", this.showEmail ? this.email : this.phone);
+          params.append("pwd", this.password);
+          params.append("aisle", this.aisle);
+          this.axios
+            .post(tool.domind() + "/gateway/app/sys/login", params)
+            .then(res => {
+              if (res.data.code === 200) {
+                sessionStorage.setItem("token", res.data.data.token);
+                sessionStorage.setItem("username", res.data.data.username);
+                sessionStorage.setItem("islogin", "true");
+                sessionStorage.setItem("userLevel", res.data.data.memberLevel);
+                this.axios.defaults.headers.token = res.data.data.token;
+                let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                this.$router.replace({
+                  path: redirect
+                });
+              } else {
+                this.error = "账号或密码错误，请重新输入";
+                this.errorShow = true;
+              }
+            })
+            .catch(err => {
+              alert(err);
+            });
+        } else {
+          this.error = "账号或密码错误，请重新输入";
+          this.errorShow = true;
+        }
       }
     },
-    verifyEmail() {
-      this.position = "fixImg";
-      let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
-      if (this.email == "") {
-        this.errorShow = true;
-        this.error = "账号错误，请重新输入";
-      } else if (!flag.test(this.email)) {
-        this.errorShow = true;
-        this.error = "账号错误，请重新输入";
-      } else {
-        this.errorShow = false;
+    filters: {},
+    computed: {},
+    created() {
+      if (this.phone) {
+        this.loginClass = "loginBtnActive";
       }
     },
-    //验证密码不为空
-    psw() {
-      this.position = "fixImg";
-      if (this.password == "") {
-        this.errorShow = true;
-        this.error = "密码错误，请重新输入";
-      } else {
-        this.errorShow = false;
-      }
-    },
-    fixImg() {
-      this.position = "fixImg";
-    },
-    //初始化数据
-    login() {
-      let tag = false;
-      if (this.showPhone) {
-        tag = tool.checkMobile(this.phone);
-      } else {
-        tag = tool.checkEmail(this.email);
-      }
-      if (tag && this.password !== "") {
-        let params = new URLSearchParams();
-        params.append("key", this.showEmail ? this.email : this.phone);
-        params.append("pwd", this.password);
-        params.append("aisle", this.aisle);
-        this.axios
-          .post(tool.domind() + "/gateway/app/sys/login", params)
-          .then(res => {
-            if (res.data.code === 200) {
-              sessionStorage.setItem("token", res.data.data.token);
-              sessionStorage.setItem("username", res.data.data.username);
-              sessionStorage.setItem("islogin", "true");
-              this.axios.defaults.headers.token = res.data.data.token;
-              let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-              this.$router.replace({
-                path: redirect
-              });
-            } else {
-              this.error = "账号或密码错误，请重新输入";
-              this.errorShow = true;
-            }
-          })
-          .catch(err => {
-            alert(err);
-          });
-      } else {
-        this.error = "账号或密码错误，请重新输入";
-        this.errorShow = true;
-      }
+    mounted() {
     }
-  },
-  filters: {},
-  computed: {},
-  created() {
-    if(this.phone){
-      this.loginClass = "loginBtnActive";
-    }
-  },
-  mounted() {}
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-/*@import '~@/assets/scss/const.scss';*/
-@import "~@/assets/scss/mixin.scss";
+  /*@import '~@/assets/scss/const.scss';*/
+  @import "~@/assets/scss/mixin.scss";
 
-.login {
-  color: #333;
-  margin-top: 40px;
-  background-color: #fff;
-  overflow: visible;
+  .login {
+    color: #333;
+    margin-top: 40px;
+    background-color: #fff;
+    overflow: visible;
 
   .login-wrapper {
     margin-top: 20px;
     overflow: hidden;
     padding: 0 10px;
 
-    .iconWrap {
-      position: relative;
+  .iconWrap {
+    position: relative;
 
-      .mint-cell {
-        border: 1px solid #dedede;
-        border-radius: 3px;
-        margin-bottom: 15px;
-        padding-left: 40px;
-        font-size: 12px;
-        height: 34px;
-        min-height: 34px;
+  .mint-cell {
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    padding-left: 40px;
+    font-size: 12px;
+    height: 34px;
+    min-height: 34px;
 
-        .mint-cell-wrapper {
-          padding: 0;
-        }
-      }
-      i {
-        display: block;
-        width: 20px;
-        height: 20px;
-        @include bg-image("./img/phone");
-        background-size: 20px auto;
-      }
+  .mint-cell-wrapper {
+    padding: 0;
+  }
 
-      .icon-phone {
-        @include bg-image("./img/phone");
-      }
+  }
+  i {
+    display: block;
+    width: 20px;
+    height: 20px;
+  @include bg-image("./img/phone");
+    background-size: 20px auto;
+  }
 
-      .icon-password {
-        @include bg-image("./img/password");
-      }
+  .icon-phone {
+  @include bg-image("./img/phone");
+  }
 
-      .icon-email {
-        @include bg-image("./img/email");
-      }
+  .icon-password {
+  @include bg-image("./img/password");
+  }
 
-      .iconImg {
-        position: absolute;
-        left: 10px;
-        top: 7px;
-      }
+  .icon-email {
+  @include bg-image("./img/email");
+  }
 
-      .switch {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        color: #333;
-        font-size: 10px;
-      }
+  .iconImg {
+    position: absolute;
+    left: 10px;
+    top: 7px;
+  }
 
-      .pswIcon {
-        width: 16px;
-        height: 16px;
-        background-size: 16px auto;
-        display: block;
-      }
+  .switch {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #333;
+    font-size: 10px;
+  }
 
-      .pswIconShow {
-        @include bg-image("./img/psw-show");
-      }
+  .pswIcon {
+    width: 16px;
+    height: 16px;
+    background-size: 16px auto;
+    display: block;
+  }
 
-      .pswIconClose {
-        @include bg-image("./img/psw-close");
-      }
-    }
-    .regiPwd {
-      overflow: hidden;
+  .pswIconShow {
+  @include bg-image("./img/psw-show");
+  }
 
-      .fs12 {
-        color: #333;
-        font-size: 12px;
-      }
-    }
-    .error {
-      text-align: center;
-      color: #f81717;
-      font-size: 10px;
-      padding: 35px 0 15px;
-      height: 10px;
-    }
+  .pswIconClose {
+  @include bg-image("./img/psw-close");
+  }
 
-    .mint-button {
-      margin: 0px auto 15px;
-      font-size: 15px;
-      height: 34px;
-    }
+  }
+  .regiPwd {
+    overflow: hidden;
 
-    .loginBtn {
-      background: #eeeeee;
-      color: #333333;
-    }
+  .fs12 {
+    color: #333;
+    font-size: 12px;
+  }
 
-    .loginBtnActive {
-      background: #3f83e6;
-      color: #ffffff;
-    }
+  }
+  .error {
+    text-align: center;
+    color: #f81717;
+    font-size: 10px;
+    padding: 35px 0 15px;
+    height: 10px;
+  }
 
-    .fs13 {
-      font-size: 13px;
-      color: #333;
-    }
+  .mint-button {
+    margin: 0px auto 15px;
+    font-size: 15px;
+    height: 34px;
+  }
+
+  .loginBtn {
+    background: #eeeeee;
+    color: #333333;
+  }
+
+  .loginBtnActive {
+    background: #3f83e6;
+    color: #ffffff;
+  }
+
+  .fs13 {
+    font-size: 13px;
+    color: #333;
+  }
+
   }
   .staticImg {
     position: static;
   }
-}
+
+  }
 </style>

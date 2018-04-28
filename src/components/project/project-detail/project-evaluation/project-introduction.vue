@@ -94,11 +94,13 @@
     </div>
   </div>
   <div v-if="!authrityStatus">
+    <div class="no-radio" @click="showAuthWindow"></div>
     <!--权限弹框-->
-    <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthorityPage>
+    <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
   </div>
   <CrossLine></CrossLine>
   <Article :content="productService" text="项目详情"></Article>
+  <BigImg v-if="this.photo!=null" :content="this.photo"></BigImg>
   <CrossLine></CrossLine>
   <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
@@ -111,13 +113,15 @@
   import Article from '@/components/base/article/article'
   import Authority from '@/components/base/authority/authority'
   import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
+  import BigImg from '@/components/base/big-img/big-img'
   import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
           Article,
           Authority,
-          AuthorityPage
+          AuthorityPage,
+          BigImg
         },
         data() {
             return {
@@ -159,7 +163,8 @@
               setProjVideo: true,
               videos: null,
               authorityShow:false,
-              authrityStatus: false
+              authrityStatus: false,
+              photo: null
 
             }
         },
@@ -178,6 +183,9 @@
           //权限弹框
           authorityHide () {
             this.authorityShow = false;
+          },
+          showAuthWindow(){
+            this.authorityShow = true;
           },
         },
         filters: {},
@@ -207,6 +215,7 @@
             this.operateMetric = res.data.operateMetric
             this.setProjVideo = res.data.setProjVideo
             this.videos = res.data.videos
+            this.photo = res.data.photo
             if (!this.setProjVideo)
               return
             let urlStr = ''
@@ -216,19 +225,18 @@
             urlStr = urlStr.substring(1, urlStr.length);
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
-              if (res.code === 403) {
-                // tool.toast("项目视频无权限 此处增加无权限页"); //todo  此处增加 无权限页
-                this.authorityShow=true;
-                this.authrityStatus = false;
-                return
-              }else {
                 let arr = null
                 arr = res.split(",")
                 for (var i = 0; i < arr.length; i++) {
                   this.videos[i].url = arr[i]
                 }
-                this.authrityStatus = true;
-              }
+                let level = sessionStorage.getItem("userLevel");
+                if(level<3){
+                  this.authrityStatus = false;
+                }else{
+                  this.authrityStatus = true;
+                  this.authorityShow = false;
+                }
             })
           })
         },
@@ -403,6 +411,14 @@
         }
 
       }
+    }
+    .no-radio{
+      width: 100%;
+      height: 310px;
+      background-repeat: no-repeat;
+      background-size: auto auto;
+      background-image: url(/static/img/no-radio@2x.7d2d580.png);
+      background-position: center;
     }
     .intro-detail,.investment-environment{
       .article{

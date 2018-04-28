@@ -1,12 +1,12 @@
 <template>
-    <div class="pop-up" v-show="authorityShow">
-      <p class="title">此页面仅限 项目库会员 及更高等级会员查看，您当前会员等级为<span>注册会员</span>！</p>
-      <div class="btn-warp clearfix">
-        <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
-        <!--<div class="upgrade fr" @click="upgrade">升级</div>-->
-        <mt-button size="small" type="primary" class="upgrade fr" @click="upgrade">升级</mt-button>
-      </div>
+  <div class="pop-up" v-show="authorityShow">
+    <p class="title">此页面仅限 项目库会员 及更高等级会员查看，您当前会员等级为<span>注册会员</span>！</p>
+    <div class="btn-warp clearfix">
+      <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
+      <!--<div class="upgrade fr" @click="upgrade">升级</div>-->
+      <mt-button size="small" type="primary" class="upgrade fr" @click="upgrade">升级</mt-button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -48,21 +48,16 @@
   @import '~@/assets/scss/mixin.scss';
   .pop-up{
     position: relative;
-    margin: auto;
-    top:0;
-    left: 0;
-    right:0;
-    bottom:0;
-    width:86%;
-    background: white;
-    height:132px;
+    background: #f5f5f5;
+    height:40px;
+    padding: 10px;
+    border-radius: 3px;
     .title{
       font-size: 13px;
       color:#333;
       line-height: 20px;
-      margin: 23px auto 24px;
       width: 230px;
-      text-align: center;
+      float: left;
       span{
         color:#fdb140;
       }
@@ -75,8 +70,7 @@
       height:45px;
       width: 60px;
       line-height: 45px;
-      left: 50%;
-      margin-left: -30px;
+      float: right;
       .cancel,.upgrade{
         flex: 1;
         font-size: 18px;
@@ -87,10 +81,8 @@
       }
       .upgrade{
         color: white;
-        background-color: #3f83e6;
+        font-size: 14px;
       }
     }
   }
-
-
 </style>

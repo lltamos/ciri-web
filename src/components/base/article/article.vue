@@ -5,8 +5,7 @@
         <i class="left-line"></i><span>{{text}}</span>
       </h4>
       <p class="title" v-show="secondShow">【担保方式】</p>
-      <div v-if="this.content!=null" :class="article" ref="articleRef">
-        {{this.content}}
+      <div v-if="this.content!=null" :class="article" ref="articleRef" v-html="replaceHtml()">
       </div>
       <p class="title" v-show="secondShow">【担保说明】</p>
       <div class="second" :class="article" v-show="secondShow">
@@ -22,61 +21,61 @@
 </template>
 
 <script>
-    export default {
-        components: {},
-        data() {
-            return {
-              moreText : '阅读全文',
-              iconMore :'icon-more',
-              article : 'article active',
-              moreShow : true
-            }
-        },
-      props: {
-        text: {
-          type: String,
-          default: '商家列表'
-        },
-        secondShow :{
-          type: Boolean,
-          default: false
-        },
-        content: String,
-        content2: String
+  import tool from '@/api/tool'
+
+  export default {
+    components: {},
+    data() {
+      return {
+        moreText: '阅读全文',
+        iconMore: 'icon-more',
+        article: 'article active',
+        moreShow: true
+      }
+    },
+    props: {
+      text: {
+        type: String,
+        default: '商家列表'
       },
-        watch: {},
-        methods: {
-          readMore () {
-            if(this.moreText == '阅读全文'){
-              this.moreText = '收起'
-              this.iconMore = 'pack-up'
-              this.article = 'article'
-            }else {
-              this.moreText = '阅读全文';
-              this.iconMore = 'icon-more'
-              this.article = 'article active'
-            }
-          },
-        },
-      filters: {},
-        computed: {},
-        created() {
-        },
-        mounted() {
-          // var heightCss = window.getComputedStyle(this.$refs.articleRef).height;
-          //
-          // let num = (heightCss.replace("px",""));
-          //
-          // let flag = parseInt((num));
-          // if(flag<300){
-          //   this.moreShow = false;
-          // }else {
-          //   this.moreShow = true;
-          // }
-        },
-        destroyed() {
+      secondShow: {
+        type: Boolean,
+        default: false
+      },
+      content: String,
+      content2: String
+    },
+    watch: {},
+    methods: {
+      readMore() {
+        if (this.moreText == '阅读全文') {
+          this.moreText = '收起'
+          this.iconMore = 'pack-up'
+          this.article = 'article'
+        } else {
+          this.moreText = '阅读全文';
+          this.iconMore = 'icon-more'
+          this.article = 'article active'
         }
+      },
+      replaceHtml() {
+        return tool.replaceAll(this.content, '\n', '<br/>');
+      }
+    },
+    filters: {}
+    ,
+    computed: {}
+    ,
+    created() {
     }
+    ,
+    mounted() {
+
+    }
+    ,
+    destroyed() {
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -110,11 +109,12 @@
   }
   .pro-article {
     padding-bottom: 17px;
-    .title{
-      font-size: 16px;
-      color:#666;
-      margin-top: 10px;
-    }
+
+  .title {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+  }
 
   .article {
     margin-top: 10px;
@@ -124,7 +124,8 @@
     color: #666;
     text-indent: 2em;
 
-  &.active {
+  &
+  .active {
     /*height:330px;*/
     overflow: hidden;
     text-overflow: ellipsis;

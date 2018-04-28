@@ -119,7 +119,8 @@
             return
           }
           if (tool.getuser() === null) {
-            this.$router.replace({ path: '/login' })
+            tool.toast('登录状态下才能点赞')
+            return
           }
           this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
