@@ -7,82 +7,67 @@
   </div>
 
   <div class="project-recommend" v-else>
-    <router-link v-for="(project) in this.projects" :key="project.projId"
-                 :to="{path:'/project/project-land',query: {projId: project.projId}}">
-      <div class="pro-card">
-        <div class="co-investing">
-          {{project.status}}
-        </div>
-        <div class="img">
-          <img :src="project.url" alt="">
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl">精品</div>
-            <h2 class="fl">{{project.name}}</h2>
-            <div class="thumbs-up fr">
-              <i class="icon-dianzan"></i>
-              <span class="count-warp">看好</span>
-              <span class="count">({{project.likes}})</span>
-            </div>
-          </div>
-          <div class="tip">
-            <div v-for="tag in project.tags" :key="tag" class="f1">
-              <div class="fl red">{{tag}}</div>
-            </div>
-            <div class="video fl"></div>
-          </div>
-          <ul class="proj-info">
-            <li>
-              <em><i class="large">{{project.fund}}</i>万美金</em>
-              <span>项目总投资</span>
-              <div class="fg-line"></div>
-            </li>
-            <li>
-              <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
-              <span>预期收益率</span>
-              <div class="fg-line"></div>
-            </li>
-            <div class="svg-circle fr">
-              <div class="row" style="top:-105px">
-                <div class="pie_progress pie_progress1" role="progressbar" data-goal="100" data-barsize="10"
-                     data-barcolor="#3699ea" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                  <div class="pie_progress1 svg_jdft">{{parseFloat(project.financingProgress)}}%</div>
-                  <div class="pie_progress2 svg_jdft">融资进度</div>
-                  <div class="pie_progress__svg">
-                    <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 160 160">
-                      <ellipse rx="75" ry="75" cx="80" cy="80" stroke="#f2f2f2" fill="none"
-                               stroke-width="10"></ellipse>
-                      <path fill="none" stroke-width="10" stroke="#3699ea"
-                            d="M80,5 A75,75 0 1 1 79.99952876110194,5.000000001480444"
-                            style="stroke-dasharray: 471.305px, 471.305px; stroke-dashoffset: 0px;"></path>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </ul>
-          <div class="tip-news">
-            <i class="loc"></i>
-            <span class="country">{{project.countryName}}</span>
-            <i class="indu"></i>
-            <span class="industry">{{project.industryName}}</span>
-            <i class="mold"></i>
-            <span class="genre">{{project.constructionTypeName}}</span>
-            <i class="view"></i>
-            <span class="count">{{project.visit}}</span>
-          </div>
-        </div>
-
+    <div class="pro-card" v-for="(project) in this.projects" :key="project.projId" @click="routerLand(project.projId)">
+      <div class="co-investing">
+        {{project.status}}
       </div>
-    </router-link>
+      <div class="img">
+        <img class="item-pic" v-lazy="project.url" alt="" src="">
+        <div class="title">
+          <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
+          <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
+          <h2 class="fl">{{project.name.length>15 ? project.name.substr(0,15)+'...' : project.name}}</h2>
+        </div>
+      </div>
+      <div class="thumbs-up fr " v-bind:class="{active:project.likesStatus}"
+           v-tap.prevent="{ methods : thumbSwitch ,project:project}">
+        <i class="icon-dianzan"></i>
+        <!--<span class="count-warp">看好</span>-->
+        <span class="count">{{project.likes}}</span>
+      </div>
+      <div class="main-news">
+        <div class="tip">
+          <div v-for="tag in project.tags" :key="tag" class="f1">
+            <div class="fl yellow">{{tag}}</div>
+          </div>
+          <div class="video fl"></div>
+        </div>
+        <ul class="proj-info">
+          <li>
+            <em><i class="large">{{project.fund}}</i>万美金</em>
+            <span>项目总投资</span>
+            <div class="fg-line"></div>
+          </li>
+          <li>
+            <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
+            <span>预期收益率</span>
+            <div class="fg-line"></div>
+          </li>
+          <li>
+            <em><i class="large">{{parseFloat(project.financingProgress)}}%</i></em>
+            <span>融资进度</span>
+          </li>
+        </ul>
+        <div class="tip-news">
+          <i class="loc"></i>
+          <span class="country">{{project.countryName}}</span>
+          <i class="indu"></i>
+          <span class="industry">{{project.industryName}}</span>
+          <i class="mold"></i>
+          <span class="genre">{{project.constructionTypeName}}</span>
+          <i class="view"></i>
+          <span class="count">{{project.visit}}</span>
+        </div>
+      </div>
+    </div>
     <button @click="loadMore" :disabled="this.disabled" class="more">
-      <span v-text="moreText">{{this.moreText}}</span><i></i>
+      <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
     </button>
   </div>
 </template>
 <script>
+  import tool from "../../../api/tool";
+
   export default {
     components: {},
     data() {
@@ -93,7 +78,8 @@
         status: [7],
         tag: [101001, 101002],
         disabled: false,
-        notloading: true
+        notloading: true,
+        isIcon: true
       }
     },
     props: {
@@ -102,8 +88,6 @@
     },
     watch: {
       industryCategory(val) {
-        this.status = val == 1 ? [7] : [16]
-        this.tag = val == 1 ? [101001, 101002] : []
         this.projects = null;
         this.pageId = 1;
         this.industryCategory = val;
@@ -125,13 +109,14 @@
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
+          userId: tool.getuser(),
           pageSize: 5,
           industry: [],
-          country:[],
-          invest:[],
+          country: [],
+          invest: [],
           status: this.status,
           tag: this.tag,
-          industryCategory: this.industryCategory
+          industryCategory: this.tabPanel==1?this.industryCategory:99
         }).then(r => {
           this.notloading = false;
           if (this.pageId == 1) {
@@ -140,9 +125,30 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
+          if (r.data.list.length == 0 || r.data.list.length < 5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
+            this.isIcon = false;
+          }
+        });
+      },
+      routerLand(index) {
+        this.$router.push({path: '/project/project-land', query: {projId: index}});
+      },
+      thumbSwitch(project) {
+        let projId = project.project.projId;
+        if (tool.getuser() == null) {
+          tool.toast("登录状态下才能点赞")
+          return
+        }
+        //不能重复点赞
+        if (project.project.likesStatus == true) {
+          return;
+        }
+        project.project.likesStatus = true;
+        project.project.likes = project.project.likes + 1;
+        this.$api.post('/pb/s0/l/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
+          if (r.code == 200) {
           }
         });
       }
@@ -192,7 +198,7 @@
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
-      height: 385px;
+      height: 365px;
       width: 100%;
       margin-top: 14px;
       border-radius: 3px;
@@ -204,6 +210,7 @@
         position: absolute;
         top: 0;
         left: 10px;
+        z-index: 99;
         width: 50px;
         height: 32px;
         line-height: 32px;
@@ -218,68 +225,87 @@
       .img {
         height: 233px;
         width: 100%;
+        position: relative;
         img {
           width: 100%;
           height: 100%;
         }
-
-      }
-      .main-news {
-        height: 152px;
-        box-sizing: border-box;
-        position: relative;
-        padding: 15px 10px;
         .title {
           overflow: hidden;
+          position: absolute;
+          bottom:0;
+          left: 0;
+          color:#fff;
+          background:rgba(51,51,51,.6) ;
+          height:40px;
+          line-height: 1;
+          right:0;
+          padding-left: 10px;
           .icon-quality {
             color: #fff;
             font-size: 10px;
+            line-height: 10px;
             background: #fdb140;
             padding: 1px 3px;
             text-align: center;
             margin-right: 5px;
             border-radius: 3px;
+            margin-top: 14px;
           }
           h2 {
             font-size: 14px;
-            color: #333;
-            height: 19px;
-            line-height: 19px;
+            height: 40px;
+            line-height: 40px;
           }
-          .thumbs-up {
-            border: 1px solid #dedede;
-            border-radius: 20px;
-            color: #999;
-            padding: 0 5px;
-            font-size: 10px;
-            line-height: 1;
-            .icon-dianzan {
-              display: inline-block;
-              width: 9px;
-              height: 9px;
-              background-repeat: no-repeat;
-              background-size: 9px auto;
-              background-position: center;
-              @include bg-image("../../index/img/thumb-up");
-              vertical-align: middle;
-            }
-            .count-warp {
-              display: inline-block;
-              height: 20px;
-              line-height: 20px;
-            }
-            .count {
-              font-size: 7px;
-            }
-          }
-
         }
+
+      }
+      .thumbs-up {
+        border: 1px solid #dedede;
+        border-radius: 20px;
+        color: #999;
+        padding: 0 5px;
+        font-size: 10px;
+        line-height: 1;
+        position: absolute;
+        right:10px;
+        bottom: 10px;
+        z-index: 99;
+        &.active {
+          background: #4285f4;
+          color: #fff;
+          .icon-dianzan {
+            @include bg-image("../../index/img/thumb-uped");
+          }
+        }
+        .icon-dianzan {
+          display: inline-block;
+          width: 9px;
+          height: 20px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../../index/img/thumb-up");
+          vertical-align: middle;
+        }
+        .count-warp {
+          display: inline-block;
+          height: 20px;
+          line-height: 20px;
+        }
+        .count {
+          font-size: 7px;
+        }
+      }
+      .main-news {
+        height: 129px;
+        box-sizing: border-box;
+        position: relative;
+        padding: 15px 10px;
         .tip {
           overflow: hidden;
           font-size: 9px;
           color: #333;
-          margin-top: 11px;
-
           .red {
             height: 14px;
             width: 50px;
@@ -349,16 +375,15 @@
         }
         .proj-info {
           text-align: center;
+          display: flex;
+          flex-direction: row;
+          @include onepx('bottom');
           li {
-            float: left;
+            flex: 1;
             font-size: 12px;
             color: #777;
-            padding: 0 8%;
             position: relative;
             margin: 13px 0;
-            @media screen and(min-width: 320px) and(max-width: 374px) {
-              padding: 0 6%;
-            }
             .fg-line {
               position: absolute;
               height: 25px;
@@ -381,12 +406,6 @@
               line-height: 1;
               margin-top: 3px;
             }
-          }
-          li:first-child {
-            padding-left: 0;
-          }
-          li:last-child {
-            padding-right: 0;
           }
           .svg-circle {
             margin-top: -8px;
@@ -420,6 +439,7 @@
     .more {
       font-size: 12px;
       color: #3f80e9;
+      background: #fff;
       margin-top: 20px;
       text-align: center;
 

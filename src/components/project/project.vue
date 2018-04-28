@@ -1,6 +1,5 @@
 <template>
   <div class="project-list">
-    <!--<header>INDUSTRYC2C</header>-->
     <div class="banner" id="bannerScroll">
       <div class="img">
         <img src="../news/img/p_1.jpg" alt=""/>
@@ -22,7 +21,7 @@
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
             </div>
             <div class="main-news">
               <h2>{{project.name}}</h2>
@@ -56,39 +55,40 @@
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
               <ul>
-                <li :id="all(index)" @click="allActive($event)" :class="{active:activeSwitch}">全部
+                <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event)" :id="t" :key="t">{{item}}
-                  <input type="checkbox" :value="t"/>
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[1]}}
+                  <input type="checkbox"/>
                 </li>
               </ul>
               <div class="btn-warp clearfix">
                 <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                <button class="small-btn confirm fr">确定</button>
+                <button class="small-btn confirm fr" @click="init1">确定</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div class="main">
+      <Loading v-if="notloading"></Loading>
+      <div class="main" v-else>
         <router-link v-for="(project) in this.projects" :key="project.projId"
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img :src="project.url" alt="">
+              <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div class="main-news">
               <div class="title">
-                <div class="icon-quality fl">精品</div>
+                <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
-                <div v-for="tag in project.tags" :key="tag" class="f1">
-                  <div class="fl red">{{tag}}</div>
+                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
+                  <div class="fl red">{{t}}</div>
                 </div>
-                <div class="video fl"></div>
+                <div v-show="project.projVideoStatus" class="video fl"></div>
               </div>
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
@@ -110,8 +110,8 @@
           </div>
         </router-link>
       </div>
-      <button @click="loadMore" :disabled="this.disabled" class="more">
-        <span v-text="moreText">{{this.moreText}}</span><i></i>
+      <button @click="loadMore()" :disabled="this.disabled" class="more">
+        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
     </div>
     <tab-bar></tab-bar>
@@ -122,12 +122,14 @@
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Nationality from '@/components/base/nationality/nationality'
+  import Loading from '@/components/base/loading/loading'
   import tool from "../../api/tool";
   export default {
     components: {
       TabBar,
       CrossLine,
-      Nationality
+      Nationality,
+      Loading
     },
     data () {
       return {
@@ -137,10 +139,11 @@
         tabs: ["国别", "行业","类型","进度"],
         tabContents:
           [
-            ["绿地投资", "项目出售", "项目扩建", "其他"],
-            ["规划阶段", "概念阶段", "审批阶段", "可研阶段", "决策阶段", "建设阶段", "运营阶段", "出售阶段"]
+            [[3,"绿地投资"], [4,"项目出售"], [5,"项目扩建"], [6,"其他"]],
+            [[0,"规划阶段"], [1,"概念阶段"], [2,"审批阶段"], [3,"可研阶段"], [4,"投融资阶段"], [5,"建设阶段"], [6,"运营阶段"], [7,"出售阶段"]]
           ],
         num: 5,
+        isIcon: true,
         activeSwitch :true,
         liSwitch : false,
         //加载数据
@@ -154,28 +157,41 @@
         notloading: true,
         countryList : [],
         indestryList : [],
+        CornerTag: 1,
+        i: [],
+        c: [],
+        m: [],
+        t: []
       }
     },
     props: {},
     methods: {
+      init1(){
+        this.pageId = 1
+        this.loadMore()
+        this.searchBarFixed = false
+        this.popShow = false
+      },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
           pageSize: 5,
-          industry: [],
-          status: null,
-          tag: null,
+          industry: this.i,
+          country: this.c,
+          mature: this.m,
+          constructionTypeId: this.t
         }).then(r => {
           this.notloading = false;
-          if (this.pageId == 1) {
+          if (this.pageId == 1 || this.projects == null) {
             this.projects = r.data.list;
           } else {
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (this.projects.length == 0 || this.projects.length >= r.data.total) {
+          if (r.data.list.length == 0 || r.data.list.length <5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
+            this.isIcon = false;
           }
         });
       },
@@ -187,9 +203,10 @@
             if (res.data.code === 200) {
               let country = res.data.data;
               country.forEach( v=> {
-                let countryName = v.name;
-                let j = countryName;
-                type.push(j);
+                let temp = new Array()
+                temp.push(v.id)
+                temp.push(v.name)
+                type.push(temp);
               });
             }
           });
@@ -197,7 +214,6 @@
       },
 
       submit(){
-        console.log()
       },
       //页面滚动时
       handleScroll () {
@@ -219,50 +235,118 @@
         this.popShow = true;
         searchWarp.style.background='rgba(82,141,232,1)';
       },
-      liActive(e){
+      liActive(e , v ,index){
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
+          this.removeList(index ,v)
         } else {
+          this.addList(index ,v)
           element.classList.add('active')
         }
-        console.log(element);
         this.activeSwitch =false
       },
+
       popSwitch(){
         this.popShow = false ;
         this.searchBarFixed = false
       },
-      allActive(e){
-        let element = e.currentTarget;
-        element.classList.add('active')
-        this.liSwitch =false;
+      allActive(e , index){
+        let element = e.currentTarget
+        if (element.classList.contains('active')) {
+          element.classList.remove('active')
+        }else {
+          element.classList.add('active')
+          this.resetActive(index)
+        }
+
+        //
       },
       resetActive(index){
+        this.clearList(index)
         let all =document.getElementById('all'+ index);
-        console.log(all);
         all.classList.add('active')
+        let lis = document.getElementsByName("li" + index);
+        for (var i=0;i<lis.length;i++) {
+          if (lis[i].classList.contains('active')) {
+            lis[i].classList.remove('active');
+          }
+        }
         this.liSwitch = false
       },
       all(index){
         return 'all'+index;
+      },
+      removeList(index ,v){
+        switch (index){
+          case 0:
+            this.delList(this.c ,v);
+            break;
+          case 1:
+            this.delList(this.i ,v);
+            break;
+          case 2:
+            this.delList(this.v ,v);
+            break;
+          case 3:
+            this.delList(this.m ,v);
+            break;
+        }
+      },
+      delList (array , v) {
+        for (var i = 0; i < array.length ;i++){
+          if (array[i] == v)
+            return array.splice(i ,1)
+        }
+      },
+      clearList(index){
+        switch (index){
+          case 0:
+            this.c = []
+            break;
+          case 1:
+            this.i = []
+            break;
+          case 2:
+            this.t = []
+            break;
+          case 3:
+            this.m = []
+            break;
+        }
+      },
+      addList(index,v){
+        switch (index){
+          case 0:
+            this.c.push(v)
+            break;
+          case 1:
+            this.i.push(v)
+            break;
+          case 2:
+            this.t.push(v)
+            break;
+          case 3:
+            this.m.push(v)
+            break;
+        }
       }
 
     },
     filters: {},
     computed: {},
-    created () {
+    mounted () {
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 5,
-        industry: [],
+        pageSize: 2,
         status: this.status,
+        CornerTag: this.CornerTag,
         tag: this.tag,
         industryCategory: this.industryCategory
       }).then(r => {
         this.notloading = false;
-        if (this.pageId == 1) {
+        if (this.pageId == 1 || this.projects == null) {
           this.weekProjects = r.data.list;
         } else {
           this.weekProjects = this.projects.concat(r.data.list);
@@ -272,22 +356,25 @@
 
 
     },
-    mounted () {
+      created () {
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
-      this.loadMore();
+      this.loadMore(this.pageId);
       this.country('getAllCountry',this.countryList);
       this.country('getAllIndustry',this.indestryList);
       this.tabContents.unshift(this.countryList,this.indestryList)
     },
     destroyed () {}
+
+
+
   }
 </script>
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
-@import '~@/assets/scss/const.scss';
-@import '~@/assets/scss/mixin.scss';
+  @import '~@/assets/scss/const.scss';
+  @import '~@/assets/scss/mixin.scss';
 
   .project-list{
     padding-bottom: 60px;

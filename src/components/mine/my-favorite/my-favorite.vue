@@ -4,48 +4,47 @@
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
 
-      <div v-if="pros!=null" class="project" v-for="pro in pros" :key="pro.projId">
-
-        <div class="img">
-          <div class="icon-state">{{pro.status}}</div>
-          <img v-bind:src="pro.url" alt="" width="100%" height="100%">
-          <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
-        </div>
-        <div class="main-news">
-          <div class="title">
-            <div class="icon-quality fl">{{pro.cornerTags}}</div>
-            <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
+      <div v-if="pros!=null" class="project" v-for="(pro, index) in pros" :key="index">
+        <router-link :to="{path:'/project/project-land',query: {projId: pro.projId}}">
+          <div class="img">
+            <div class="icon-state">{{pro.status}}</div>
+            <img v-lazy="pro.url" alt="" width="100%" height="100%">
+            <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
           </div>
-          <div class="tip">
-            <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">
-              <div class="fl red">{{tag}}</div>
+          <div class="main-news">
+            <div class="title">
+              <div class="icon-quality fl" v-if="pro.cornerTags != null && pro.cornerTags != ''">{{pro.cornerTags}}</div>
+              <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
+            </div>
+            <div class="tip">
+              <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">
+                <div class="fl red">{{tag}}</div>
+              </div>
+
+              <div class="video fl" v-show="pro.haveVideo"></div>
             </div>
 
-            <div class="video fl">
+            <div class="tip-news">
+              <ul class="proj-info" style="overflow:hidden;">
+                <li class="proj-span1">
+                  <div class="count"><span>{{pro.amount}}</span>{{pro.currency}}</div>
+                  <em>项目总投资</em>
+                  <div class="line"></div>
+                </li>
+                <li class="proj-span2">
+                  <div class="count"><span>{{pro.irr}}</span>%</div>
+                  <em>预期年收益率</em>
+                  <div class="line"></div>
+                </li>
+                <li class="proj-span3" style="background:0 0;">
+                  <div class="count"><span>{{pro.potentialInvestor}}</span>位</div>
+                  <em>意向投资方</em>
+                </li>
+              </ul>
+
             </div>
           </div>
-
-          <div class="tip-news">
-            <ul class="proj-info" style="overflow:hidden;">
-              <li class="proj-span1">
-                <div class="count"><span>{{pro.fund}}</span>万欧元</div>
-                <em>项目总投资</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span2">
-                <div class="count"><span>{{pro.irr}}</span>%</div>
-                <em>预期年收益率</em>
-                <div class="line"></div>
-              </li>
-              <li class="proj-span3" style="background:0 0;">
-                <div class="count"><span>{{pro.potentialInvestor}}</span>位</div>
-                <em>意向投资方</em>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-
+        </router-link>
       </div>
 
 

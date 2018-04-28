@@ -9,7 +9,8 @@
                    :tags="tags"
                    :setProjVideo="setProjVideo"
                    :projPhoto="projPhoto"
-                   :projAddress="projAddress"></projectHeader>
+                   :projAddress="projAddress"
+                   :projMaturity="projMaturity"></projectHeader>
     <div class="project-intro">
       <h4>
         <i class="left-line"></i><span>项目简介</span>
@@ -34,7 +35,7 @@
         <swiper :options="swiperOption" class="slider">
           <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
             <div class="img">
-              <img :src="p.url" alt=""/>
+              <img v-lazy="p.url" alt=""/>
             </div>
             <span>{{p.name}}</span>
           </swiper-slide>
@@ -53,10 +54,18 @@
     <!--项目tab-->
     <div class="tab-warp">
       <ul class="project-tab">
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}">项目评估</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}">项目进展</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}">项目交流</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}">投资意向</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}"
+                     replace>项目评估
+        </router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}"
+                     replace>项目进展
+        </router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}"
+                     replace>项目交流
+        </router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}"
+                     replace>投资意向
+        </router-link>
       </ul>
     </div>
     <keep-alive>
@@ -74,10 +83,11 @@
         </router-link>
       </h4>
       <ul class="recommdnd-warp clearfix">
-        <li class="recommdnd-card" @click="gotoProjLand(f.projId)" v-if="fetprojects != null" v-for="(f, index) in fetprojects.list" :key="index">
-         <div class="img">
-           <img :src="f.url" alt="">
-         </div>
+        <li class="recommdnd-card" @click="gotoProjLand(f.projId)"
+            v-if="fetprojectsList != null" v-for="(f, index) in fetprojectsList" :key="index">
+          <div class="img">
+            <img v-lazy="f.url" alt="">
+          </div>
           <div class="main-news">
             <h2>{{f.name}}</h2>
             <div class="tip-news">
@@ -107,6 +117,7 @@
   import svgIcon from '@/components/base/svg-icon/svg-icon'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from '@/api/tool'
+
   export default {
     components: {
       projectHeader,
@@ -152,17 +163,18 @@
         collected: false,
         projAddress: '',
         interest: false,
-        fetprojects: null
+        fetprojectsList: null,
+        projMaturity: null
       }
     },
     methods: {
-      giveLikes () {
+      giveLikes() {
         if (this.isLikes !== null) {
-          alert('不能重复点赞')
+          tool.toast('不能重复点赞')
           return
         }
         if (tool.getuser() === null) {
-          this.$router.replace({ path: '/login' })
+          this.$router.replace({path: '/login'})
         }
         this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
@@ -172,14 +184,14 @@
           }
         })
       },
-      interest1 () {
+      interest1() {
         if (this.interest) {
-          alert('不能重复关注')
+          tool.toast('不能重复关注')
           return
         }
         this.$api.post('/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
-          if (res.code === 2000){
+          if (res.code === 2000) {
             if (this.potentialInvestorSize > 999)
               this.potentialInvestorSize = '999+'
             else
@@ -189,7 +201,7 @@
           this.init()
         })
       },
-      init () {
+      init() {
         this.projId = this.$route.query.projId
         this.url = this.url + this.projId
 
@@ -202,8 +214,13 @@
             this.shares = res.data.shares
             this.irr = res.data.irr.replace(/.00/g, '')
             this.amount = res.data.amount
-            if (res.data.projDevelopers !== '')
-              this.projDevelopers = res.data.projDevelopers
+            let rdp = res.data.projDevelopers
+            if (rdp !== null && rdp.length > 0) {
+              if (rdp.length > 7)
+                this.projDevelopers = rdp.substring(0, 4) + '...' + rdp.substring(rdp.length - 2, rdp.length)
+              else
+                this.projDevelopers = rdp
+            }
             this.potentialInvestor = res.data.potentialInvestor
             this.potentialInvestorSize = res.data.potentialInvestorSize
             this.financingProgress = res.data.financingProgress
@@ -220,22 +237,23 @@
             this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress
             this.interest = res.data.interest
+            this.projMaturity = res.data.projMaturity
           }
         });
 
         this.$api.post('/pb/i/fetprojects',
-          {pageSize: 4, status: 7,tag:101001}).then(res => {
-        if (res.code == 200){
-          this.fetprojects = res.data
-        }
+          {pageSize: 4, status: 7, tag: 101001}).then(res => {
+          if (res.code == 200) {
+            this.fetprojectsList = res.data.list
+          }
         })
 
       },
-      gotoProjLand (id) {
-        this.$router.replace({ path: '/project/project-land?projId=' + id })
+      gotoProjLand(id) {
+        this.$router.replace({path: '/project/project-land?projId=' + id})
       }
     },
-    created () {
+    created() {
       this.init()
     }
   }
@@ -244,290 +262,342 @@
 <style lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
-  .project-detail{
-    h4{
-      text-align: left;
-      overflow: hidden;
-      line-height: 1;
-      height: 16px;
-      padding: 12px 10px 12px 15px;
-      color: #333;
-      font-size: 16px;
-      font-weight: normal;
-      @include onepx('bottom');
-      .left-line{
-        position: absolute;
-        display: block;
-        width: 3px;
-        height: 15px;
-        background-color: #528de8;
-        left: 0;
-        top:12px;
-      }
-      .detail-warp{
-        position: absolute;
-        right:0;
-        top:0;
-        height:40px;
-        line-height: 1;
-        .to-detail{
-          display: inline-block;
-          font-size: 13px;
-          color:#528de8;
 
-        }
-        .more {
-          display: inline-block;
-          width: 10px;
-          height: 40px;
-          background-repeat: no-repeat;
-          background-size: 10px auto;
-          background-position: center;
-          @include bg-image("../img/to-detail");
-          vertical-align: middle;
-        }
-      }
-    }
-    .project-intro{
-      text-align: left;
-      .document-txt{
-        padding: 10px;
-        font-size:13px;
-        color:#333;
-        line-height: 20px;
-      }
-      .thumbs-up{
-        display: table;
-        margin:-5px auto 25px;
-        background: #4285f4;
-        color:#fefeff;
-        font-size: 11px;
-        height:23px;
-        padding:5px 10px;
-        line-height: 1;
-        border-radius: 2px;
-        &:active{
-          background: #bbb;
-        }
-        .icon-dianzan{
-          display: inline-block;
-          width: 9px;
-          height: 23px;
-          margin-right: 5px;
-          background-repeat: no-repeat;
-          background-size: 9px auto;
-          background-position: center;
-          @include bg-image("../img/icon-dianzan");
-          vertical-align: bottom;
-        }
-        .count-warp{
-          display: inline-block;
-          height: 23px;
-          line-height: 23px;
-        }
-        .count{
-          font-size: 7px;
-          margin-left: 5px;
-        }
-      }
-      .thumbs-down{
-        display: table;
-        margin:-5px auto 25px;
-        background: #bbb;
-        color:#fefeff;
-        font-size: 11px;
-        height:23px;
-        padding:5px 10px;
-        line-height: 1;
-        border-radius: 2px;
-        .icon-dianzan{
-          display: inline-block;
-          width: 9px;
-          height: 23px;
-          margin-right: 5px;
-          background-repeat: no-repeat;
-          background-size: 9px auto;
-          background-position: center;
-          @include bg-image("../img/icon-dianzan");
-          vertical-align: bottom;
-        }
-        .count-warp{
-          display: inline-block;
-          height: 23px;
-          line-height: 23px;
-        }
-        .count{
-          font-size: 7px;
-          margin-left: 5px;
-        }
-      }
-      .pro-focus{
-        padding: 0 10px;
-        .slider{
-          border-bottom: 1px dashed #dedede;
-          padding: 15px 0 10px;
-          margin-bottom: 10px;
-          .img{
-            width: 45px;
-            height:45px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0px auto 7px;
-            img{
-              width: 100%;
-              height:100%;
-            }
-          }
-          span{
-            font-size: 12px;
-            color:#333;
-            display: block;
-            text-align: center;
-          }
-        }
-        .title-focus{
-          font-size: 12px;
-          color:#333;
-          text-align: center;
-          margin-bottom: 10px;
-          .intro{
-            line-height: 18px;
-            width: 74%;
-            @include right-bar(-20px,33px);
-            margin-right: 0;
-            &:after{
-              top:2px;
-              margin: 0 10px;
-            }
-          }
-          .state-focus{
-            width: 22%;
-            i{
-              display: block;
-              width: 15px;
-              height: 15px;
-              margin:0 auto 5px;
-              background-repeat: no-repeat;
-              background-size: 15px auto;
-              background-position: center;
-              @include bg-image("../img/focus");
-            }
-            span{
-              display: block;
-            }
-          }
-          .focused{
-            width: 22%;
-            i{
-              display: block;
-              width: 15px;
-              height: 15px;
-              margin:0 auto 5px;
-              background-repeat: no-repeat;
-              background-size: 15px auto;
-              background-position: center;
-              @include bg-image("../img/focused");
-            }
-            span{
-              display: block;
+  .project-detail {
 
-            }
-          }
-        }
-      }
+  h4 {
+    text-align: left;
+    overflow: hidden;
+    line-height: 1;
+    height: 16px;
+    padding: 12px 10px 12px 15px;
+    color: #333;
+    font-size: 16px;
+    font-weight: normal;
+  @include onepx('bottom');
 
-    }
-    .tab-warp{
-      @include onepx('bottom');
-      .project-tab{
-        height: 45px;
-        text-align: center;
-        margin: auto;
-        display: table;
-        li{
-          float: left;
-          line-height: 45px;
-          font-size: 15px;
-          color:#333;
-          margin-right: 18px;
-          &:last-child{
-            margin-right: 0;
-          }
-        }
-        li.router-link-active{
-          border-bottom: 2px solid #333;
-        }
-      }
-    }
-    .project-rec{
-      background: #f5f5f5;
-      h4{
-        background: #fff;
-        &:after{
-          border-top: none;
-        }
-      }
-      .recommdnd-warp{
-        text-align: left;
-        .recommdnd-card{
-          background: #fff;
-          width: 48.7%;
-          float: left;
-          position: relative;
-          margin-bottom: 10px;
-          &:nth-of-type(odd){
-            margin-right:2.6%;
-          }
-          .img{
-            height:118px;
-            width:100%;
-            img{
-              width:100%;
-              height:100%
-            }
-          }
-          .main-news{
-            padding: 10px;
-            h2 {
-              font-size: 13px;
-              color: #333;
-              height: 32px;
-              line-height: 16px;
-              overflow: hidden;
-              margin-bottom: 10px;
-              font-weight: normal;
-            }
-            .tip-news{
-              overflow: hidden;
-              i{
-                display: block;
-                margin-right: 6px;
-                width:10px;
-                height:10px;
-                background-size: 10px auto;
-              }
-              .indu{
-                @include bg-image("../../base/img/industry");
-              }
-              .view{
-                @include bg-image("../../base/img/view");
-              }
+  .left-line {
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 15px;
+    background-color: #528de8;
+    left: 0;
+    top: 12px;
+  }
 
-              span{
-                margin-right: 10px;
-                font-size: 10px;
-                line-height: 1;
-                color:#666;
-                margin-top: 1px;
-              }
-              span.count{
-                margin-right: 0;
-              }
-            }
-          }
-        }
-      }
-    }
+  .detail-warp {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 40px;
+    line-height: 1;
+
+  .to-detail {
+    display: inline-block;
+    font-size: 13px;
+    color: #528de8;
+
+  }
+
+  .more {
+    display: inline-block;
+    width: 10px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: 10px auto;
+    background-position: center;
+  @include bg-image("../img/to-detail");
+    vertical-align: middle;
+  }
+
+  }
+  }
+  .project-intro {
+    text-align: left;
+
+  .document-txt {
+    padding: 10px;
+    font-size: 13px;
+    color: #333;
+    line-height: 20px;
+  }
+
+  .thumbs-up {
+    display: table;
+    margin: -5px auto 25px;
+    background: #4285f4;
+    color: #fefeff;
+    font-size: 11px;
+    height: 23px;
+    padding: 5px 10px;
+    line-height: 1;
+    border-radius: 2px;
+
+  .icon-dianzan {
+    display: inline-block;
+    width: 9px;
+    height: 23px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-size: 9px auto;
+    background-position: center;
+  @include bg-image("../img/icon-dianzan");
+    vertical-align: bottom;
+  }
+
+  .count-warp {
+    display: inline-block;
+    height: 23px;
+    line-height: 23px;
+  }
+
+  .count {
+    font-size: 7px;
+    margin-left: 5px;
+  }
+
+  }
+  .thumbs-down {
+    display: table;
+    margin: -5px auto 25px;
+    background: #bbb;
+    color: #fefeff;
+    font-size: 11px;
+    height: 23px;
+    padding: 5px 10px;
+    line-height: 1;
+    border-radius: 2px;
+
+  .icon-dianzan {
+    display: inline-block;
+    width: 9px;
+    height: 23px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-size: 9px auto;
+    background-position: center;
+  @include bg-image("../img/icon-dianzan");
+    vertical-align: bottom;
+  }
+
+  .count-warp {
+    display: inline-block;
+    height: 23px;
+    line-height: 23px;
+  }
+
+  .count {
+    font-size: 7px;
+    margin-left: 5px;
+  }
+
+  }
+  .pro-focus {
+    padding: 0 10px;
+
+  .slider {
+    border-bottom: 1px dashed #dedede;
+    padding: 15px 0 10px;
+    margin-bottom: 10px;
+
+  .img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0px auto 7px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  }
+  span {
+    font-size: 12px;
+    color: #333;
+    display: block;
+    text-align: center;
+  }
+
+  }
+  .title-focus {
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+
+  .intro {
+    line-height: 18px;
+    width: 74%;
+  @include right-bar(- 20 px, 33 px);
+    margin-right: 0;
+
+  &
+  :after {
+    top: 2px;
+    margin: 0 10px;
+  }
+
+  }
+  .state-focus {
+    width: 22%;
+
+  i {
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 0 auto 5px;
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    background-position: center;
+  @include bg-image("../img/focus");
+  }
+
+  span {
+    display: block;
+  }
+
+  }
+  .focused {
+    width: 22%;
+
+  i {
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 0 auto 5px;
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    background-position: center;
+  @include bg-image("../img/focused");
+  }
+
+  span {
+    display: block;
+
+  }
+
+  }
+  }
+  }
+
+  }
+  .tab-warp {
+  @include onepx('bottom');
+
+  .project-tab {
+    height: 45px;
+    text-align: center;
+    margin: auto;
+    display: table;
+
+  li {
+    float: left;
+    line-height: 45px;
+    font-size: 15px;
+    color: #333;
+    margin-right: 18px;
+
+  &
+  :last-child {
+    margin-right: 0;
+  }
+
+  }
+  li.router-link-active {
+    border-bottom: 2px solid #333;
+  }
+
+  }
+  }
+  .project-rec {
+    background: #f5f5f5;
+
+  h4 {
+    background: #fff;
+
+  &
+  :after {
+    border-top: none;
+  }
+
+  }
+  .recommdnd-warp {
+    text-align: left;
+
+  .recommdnd-card {
+    background: #fff;
+    width: 48.7%;
+    float: left;
+    position: relative;
+    margin-bottom: 10px;
+
+  &
+  :nth-of-type(odd) {
+    margin-right: 2.6%;
+  }
+
+  .img {
+    height: 118px;
+    width: 100%;
+
+  img {
+    width: 100%;
+    height: 100%
+  }
+
+  }
+  .main-news {
+    padding: 10px;
+
+  h2 {
+    font-size: 13px;
+    color: #333;
+    height: 32px;
+    line-height: 16px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    font-weight: normal;
+  }
+
+  .tip-news {
+    overflow: hidden;
+
+  i {
+    display: block;
+    margin-right: 6px;
+    width: 10px;
+    height: 10px;
+    background-size: 10px auto;
+  }
+
+  .indu {
+  @include bg-image("../../base/img/industry");
+  }
+
+  .view {
+  @include bg-image("../../base/img/view");
+  }
+
+  span {
+    margin-right: 10px;
+    font-size: 10px;
+    line-height: 1;
+    color: #666;
+    margin-top: 1px;
+  }
+
+  span.count {
+    margin-right: 0;
+  }
+
+  }
+  }
+  }
+  }
+  }
   }
 
 </style>

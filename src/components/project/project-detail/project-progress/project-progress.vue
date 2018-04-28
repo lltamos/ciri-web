@@ -13,61 +13,48 @@
         </div>
         <div class="timer-shaft clearfix">
           <ul class="timer-warp">
-              <li v-for="(item,index) in progressList" :key="index">
+              <li v-for="(item,index) in progressList" :key="index" v-if="progressList != null && progressList.length !=0">
                 <div class="time">{{item.time}}</div>
                 <h2><span>-</span>{{item.title.valueCn}}</h2>
                 <!--点击查看详情-->
-                <router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
+                <!--<router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
                   <em>查看</em>
-                </router-link>
+                </router-link>-->
+                <em @click="seeDetail(projId,item.editInfo.createTime)">查看</em>
               </li>
-            <!--<li>
-              <div class="time">2018-04-13</div>
-              <h2><span>-</span>已完成建设许可申请</h2>
-              <em>查看</em>
-              <div class="img-warp clearfix">
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-                <div class="img">
-                  <img src="../../../news/img/p_1.jpg" alt="">
-                </div>
-              </div>
-
-            </li>-->
-
           </ul>
         </div>
-        <div class="ask-pop pop-bg" v-show="askPop">
-          <div class="pop-up">
-            <div class="ask-describe"></div>
-            <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
-            <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
-            <div class="file-warp">
-              <FileDelete v-for="(file,index) in askFileList"  :key="index"
-                          :file="file" :index="index" :tag="1"
-                          @delete="deleteAskFile"></FileDelete>
+        <div v-if="!this.power">
+          <div class="timer-none" v-if="progressList == null || progressList.length ==0">
+            <img src="../../img/timer-none.png" alt="">
+          </div>
+        </div>
+        <div class="ask-pop pop-bg" v-show="askPop" @click="switchShow"></div>
+        <div class="pop-up" v-show="askPop">
+          <div class="ask-describe"></div>
+          <textarea name="" id="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
+          <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
+          <div class="file-warp">
+            <FileDelete v-for="(file,index) in askFileList"  :key="index"
+                        :file="file" :index="index" :tag="1"
+                        @delete="deleteAskFile"></FileDelete>
+          </div>
+          <div class="pop-bottom clearfix">
+            <div class="fl">
+              <i class="icon-uploading"></i>
+              <span class="upload-file">上传文件</span>
+              <input type="file" class="fill-input"  @change="UploadFile($event,1)">
             </div>
-            <div class="pop-bottom clearfix">
-              <div class="fl">
-                <i class="icon-uploading"></i>
-                <span class="upload-file">上传文件</span>
-                <input type="file" class="fill-input"  @change="UploadFile($event,1)">
-              </div>
-              <div class="fr btn-warp">
-                <input type="checkbox" v-model="askChecked">匿名
-                <div class="small-btn" @click="askAQuestion">提交</div>
-              </div>
+            <div class="fr btn-warp">
+              <input type="checkbox" v-model="askChecked">匿名
+              <div class="small-btn" @click="askAQuestion">提交</div>
             </div>
           </div>
         </div>
       </div>
       <!--信息正在完善中背景图片-->
-      <div class="progress-bg" v-if="!progressShow">
-      </div>
+      <!--<div class="progress-bg" v-if="!progressShow">
+      </div>-->
       <CrossLine></CrossLine>
       <!--权限弹框-->
       <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
@@ -91,15 +78,21 @@
               askPop : false,
               progressShow :true,
               projId:"",    //
-              authorityShow : true,
+              authorityShow : false,
               message:"",        //提问的信息栏
               askChecked:false,  //提问匿名选项框
               askFileList:[],  //提问的文件数组
+              item: '',
+              power:false,
+              askPop:false
             }
         },
         props: {},
         watch: {},
         methods: {
+          switchShow(){
+            this.askPop = false;
+          },
           // 提问弹框
           askQuestion (){
             this.askPop = true;
@@ -151,7 +144,6 @@
                   let temp = res.data.data[0]
                   if (tag===1) {
                     this.askFileList.push(temp);
-                    console.log(this.askFileList);
                   }
                 }
               });
@@ -164,6 +156,18 @@
             if(tag===1){
               this.askFileList.splice(index,1)
             }
+          },
+          seeDetail(id,time){
+            let level = sessionStorage.getItem("userLevel");
+            if(!this.power && level>=3){
+              this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'createTime':time}});
+              this.authorityShow = false;
+            }else{
+              this.authorityShow = true;
+              if(this.memberLevel<3){
+                this.authorityShow = true;
+              }
+            }
           }
 
         },
@@ -172,14 +176,18 @@
         created() {
           this.projId = this.$route.query.projId;
           let param = {
-            //projId:window.location.href.split('?')[1].split('=')[1];
             projId:this.projId
           };
           this.$api
             .post("/ah/s0/getProjectProgress",param)
             .then(res => {
-              this.progressList = res.data;
-
+              if (res.code === 200) {
+                this.power = false;
+                this.progressList = res.data;
+                this.memberLevel = res.memberLevel;
+              }else if(res.code === 403){
+                this.power = true;
+              }
             });
         },
         mounted() {},
@@ -243,6 +251,14 @@
         .timer-warp{
           padding-left: 45px;
           border-left: 1px dashed #dedede;
+          .timer-none{
+            height:190px;
+            width:80%;
+            img{
+              position: relative;
+              left: -100px;
+            }
+          }
           li{
             position: relative;
             border-bottom: 1px dashed #dedede;
@@ -313,92 +329,94 @@
       }
       .ask-pop{
         padding: 0;
-        .pop-up{
-          width:100%;
-          background: #fcfcfc;
-          padding: 0 15px;
+        z-index: 998;
+      }
+      .pop-up{
+        width:100%;
+        background: #fcfcfc;
+        padding: 0 15px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 0;
+        z-index: 999;
+        .ask-describe{
+          height:40px;
+          width:215px;
+          @include bg-image('../../img/ask-describe');
+          background-size: 215px 40px;
+        }
+        textarea{
+          height:97px;
+          width: 100%;
+          border:1px solid #dedede;
+          border-radius: 3px;
+          outline: none;
+          padding: 10px;
+          font-size: 13px;
+          color:#666;
           box-sizing: border-box;
-          position: fixed;
-          bottom: 0;
-          .ask-describe{
-            height:40px;
-            width:215px;
-            @include bg-image('../../img/ask-describe');
-            background-size: 215px 40px;
-          }
-          textarea{
-            height:97px;
-            width: 100%;
-            border:1px solid #dedede;
-            border-radius: 3px;
-            outline: none;
-            padding: 10px;
-            font-size: 13px;
-            color:#666;
-            box-sizing: border-box;
+
+        }
+        p.hint{
+          margin-top:10px ;
+        }
+        .pop-bottom{
+          height:27px;
+          line-height: 27px;
+          margin-top: 21px;
+          position: relative;
+          .icon-uploading{
+            height:27px;
+            width:15px;
+            margin-right: 10px;
+            display: inline-block;
+            @include bg-image('../../img/upload-file');
+            background-size: 15px 17px;
+            background-repeat: no-repeat;
+            background-position: center;
 
           }
-          p.hint{
-            margin-top:10px ;
-          }
-          .pop-bottom{
+          .upload-file{
+            font-size: 12px;
+            color:#528de8;
+            display: inline-block;
             height:27px;
             line-height: 27px;
-            margin-top: 21px;
-            position: relative;
-            .icon-uploading{
+            position: absolute;
+            top:0;
+            left: 25px;
+
+          }
+          .fill-input{
+            position: absolute;
+            top:0;
+            left: 0px;
+            height:27px;
+            opacity: 0;
+            z-index: 111;
+            width: 100px;
+          }
+          .btn-warp{
+            font-size: 11px;
+            color:#333;
+            input{
+              margin-right: 6px;
+              vertical-align: middle;
+
+            }
+            .small-btn{
               height:27px;
-              width:15px;
-              margin-right: 10px;
+              line-height:27px;
+              width:52px;
               display: inline-block;
-              @include bg-image('../../img/upload-file');
-              background-size: 15px 17px;
-              background-repeat: no-repeat;
-              background-position: center;
+              margin-left: 15px;
+              font-size: 15px;
 
             }
-            .upload-file{
-              font-size: 12px;
-              color:#528de8;
-              display: inline-block;
-              height:27px;
-              line-height: 27px;
-              position: absolute;
-              top:0;
-              left: 25px;
-
-            }
-            .fill-input{
-              position: absolute;
-              top:0;
-              left: 0px;
-              height:27px;
-              opacity: 0;
-              z-index: 111;
-              width: 100px;
-            }
-            .btn-warp{
-              font-size: 11px;
-              color:#333;
-              input{
-                margin-right: 6px;
-                vertical-align: middle;
-
-              }
-              .small-btn{
-                height:27px;
-                line-height:27px;
-                width:52px;
-                display: inline-block;
-                margin-left: 15px;
-                font-size: 15px;
-
-              }
-            }
-
           }
 
         }
+
       }
     }
     .progress-bg{

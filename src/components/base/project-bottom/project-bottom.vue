@@ -9,11 +9,26 @@
         <i class="icon-share"></i>
         <span>{{shares}}人已分享</span>
       </li>
-      <li class="appoint">
+      <li class="appoint" @click="appoint">
         <i class="icon-appoint"></i>
         <span>约谈</span>
       </li>
     </ul>
+    <div class="appoint pop-bg" v-show="appointShow">
+      <div class="pop-up">
+        <p class="title">约谈</p>
+        <div class="input-warp">
+          <input type="text" placeholder="您的手机号码（必填）" v-model="phone">
+          <input type="text" placeholder="预约时间（如本周三）（必填）" v-model="talkDate">
+        </div>
+        <p class="msg">我们将会在第一时间和您取得联系，感谢支持！</p>
+        <div class="btn-warp clearfix">
+          <div class="cancel fl" @click="appointExit">取消</div>
+          <div class="upgrade fr" @click="talk">确定</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -23,6 +38,14 @@
   export default {
     components: {
       tool
+    },
+    data(){
+      return{
+        // projid:this.$route.query.projId,
+        appointShow : false,
+        phone:"",
+        talkDate:""
+      }
     },
     props: {
       collects: String,
@@ -52,6 +75,33 @@
           }
           this.collected = !this.collected
         })
+      },
+      appoint() {
+        this.appointShow = true;
+      },
+      appointExit(){
+        this.appointShow = false;
+      },
+      talk(){
+        let flag = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if(this.phone==null||!flag.test(this.phone)){
+          tool.toast("手机号格式不正确");
+          return;
+        }
+        if(this.talkDate == ""){
+          tool.toast("预约时间不能为空");
+          return;
+        }
+        this.$api.post('/pb/talk/add',
+          {phone: this.phone, projid: this.projId,talkTime:this.talkDate}).then(res => {
+          if (res.code === 200) {
+            tool.toast("预约成功");
+          }else {
+            tool.toast("预约失败请重试");
+          }
+          this.appointShow = false;
+        });
+
       }
     }
 
@@ -128,6 +178,68 @@
         span{
           color:#fff;
           display: inline-block;
+        }
+      }
+    }
+    .appoint{
+      .pop-up{
+        position: fixed;
+        margin: auto;
+        top:0;
+        left: 0;
+        right:0;
+        bottom:0;
+        width:86%;
+        background: #fff;
+        height:221px;
+        overflow: hidden;
+        .title{
+          font-size: 18px;
+          color:#333;
+          margin: 20px 0 15px;
+          line-height: 18px;
+          text-align: center;
+          span{
+            color:#fdb140;
+          }
+        }
+        .input-warp{
+          margin: 0 15px;
+          input{
+            width:100%;
+            height:35px;
+            line-height: 1;
+            padding: 0 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border:1px solid #dedede;
+          }
+        }
+        .msg{
+          font-size: 13px;
+          color:#333;
+          line-height: 1;
+          margin: 5px auto 15px;
+        }
+        .btn-warp{
+          border-top: 1px solid #dedede;
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          text-align: center;
+          height:45px;
+          line-height: 45px;
+          .cancel,.upgrade{
+            flex: 1;
+            font-size: 18px;
+            color:#333;
+          }
+          .cancel{
+            border-right: 1px solid #dedede;
+          }
+          .upgrade{
+            color: #3f83e6;
+          }
         }
       }
     }

@@ -117,7 +117,6 @@
               this.errorShow = true;
             }
           }).catch(err => {
-            console.log(err)
           })
         } else {
           this.error = '请输入帐号';

@@ -55,7 +55,7 @@ export default {
       baseURL: tool.domind() + tool.path(),
       url,
       data: qs.stringify(data),
-      timeout: 10000,
+      timeout: 20000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -76,7 +76,7 @@ export default {
       baseURL: tool.domind() + tool.path(),
       url,
       params, // get 参数
-      timeout: 10000,
+      timeout: 20000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       }

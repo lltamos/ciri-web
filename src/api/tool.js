@@ -1,11 +1,10 @@
 import 'mint-ui/lib/style.css'
-import {Toast} from 'mint-ui';
-import {MessageBox} from 'mint-ui';
+import {Toast, MessageBox} from 'mint-ui';
 
 export default {
   domind: function () {
-    // return 'http://60.205.7.211:8816'
-    return 'http://127.0.0.1:8080'
+    return 'http://60.205.7.211:8816'
+    // return 'http://192.168.2.9:8080'
   },
   path: function () {
     return '/gateway'
@@ -16,7 +15,7 @@ export default {
   },
 
   generatorUrl: function (url) {
-    if (url.indexOf('/img') !== -1) {
+    if (url.indexOf('/img') !== -1 || url.indexOf('/com') === -1) {
       return url
     } else {
       return this.oos() + url
@@ -81,6 +80,11 @@ export default {
       message: msg,
       showCancelButton: true
     });
+  },
+  replaceAll: function (target, s1, s2) {
+    return target.replace(new RegExp(s1, "gm"), s2);
+
+
   }
 
 

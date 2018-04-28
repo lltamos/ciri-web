@@ -8,7 +8,7 @@
       <mt-swipe :auto="3000" v-if="topsbanner!=null">
         <mt-swipe-item  v-for="banner in topsbanner" :key="banner.id">
           <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
-            <img @click="toArticle(banner.id)" :src="host+banner.thumbnail" alt=""/>
+            <img @click="toArticle(banner.id)" v-lazy="host+banner.thumbnail" alt=""/>
           </router-link>
         </mt-swipe-item>
       </mt-swipe>
@@ -19,55 +19,99 @@
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
-            <li v-for='item in lastnotify'>{{item.title.length>15 ? item.title.substr(0,15)+'...' :item.title }}</li>
+            <li v-for='item in items'>{{item.length>20 ? item.substr(0,20)+'...' :item }}</li>
           </ul>
         </div>
       </div>
     </div>
     <CrossLine></CrossLine>
-    <div id="index-industry">
-      <!-- swiper -->
-      <swiper :options="swiperOption">
-        <swiper-slide style="margin-right: 0">
-          <i class="icon-renewable"></i>
-          <span @click="changeIndustry(1)">可再生能源</span>
-        </swiper-slide>
-        <swiper-slide style="margin-right: 0">
-          <i class="icon-Infra"></i>
-          <span @click="changeIndustry(2)">基础设施</span>
-        </swiper-slide>
-        <swiper-slide>
-          <i class="icon-forestry"></i>
-          <span @click="changeIndustry(3)">农林牧渔</span>
-        </swiper-slide>
-        <swiper-slide>
-          <i class="icon-fuelgas"></i>
-          <span @click="changeIndustry(4)">供水燃气</span>
-        </swiper-slide>
-        <swiper-slide>
-          <i class="icon-building"></i>
-          <span @click="changeIndustry(5)">建筑建材</span>
-        </swiper-slide>
-        <swiper-slide>
-          <i class="icon-Petroleum"></i>
-          <span @click="changeIndustry(6)">石油化工</span>
-        </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </div>
+    <!-- swiper -->
+    <swiper :options="swiperOption2" id="slider3">
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">03月24日-04月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">04月24日-05月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">05月24日-06月02日</div>
+        </div>
+      </swiper-slide>
+    </swiper>
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
         <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
         <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
       </div>
-      <div class="pro-recommend">
-        <ProjectRecommend :tabPanel="this.tabActive"
-                          :industryCategory="this.industryCategory"
+    </div>
+    <div id="index-industry" :class="{active:tabActive==1}">
+      <!-- swiper -->
+      <swiper :options="swiperOption">
+        <swiper-slide style="margin-right: 0">
+          <div class="slide-warp" @click="changeIndustry(1)">
+            <i class="icon-renewable"></i>
+            <span>可再生能源</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide style="margin-right: 0">
+          <div class="slide-warp" @click="changeIndustry(2)">
+            <i class="icon-Infra"></i>
+            <span @click="changeIndustry(2)">基础设施</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(3)">
+            <i class="icon-forestry"></i>
+            <span @click="changeIndustry(3)">农林牧渔</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(4)">
+            <i class="icon-fuelgas"></i>
+            <span @click="changeIndustry(4)">供水燃气</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(5)">
+            <i class="icon-building"></i>
+            <span @click="changeIndustry(5)">建筑建材</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(6)">
+            <i class="icon-Petroleum"></i>
+            <span @click="changeIndustry(6)">石油化工</span>
+          </div>
+        </swiper-slide>
+      </swiper>
+    </div>
+    <div class="pro-recommend">
+      <ProjectRecommend :tabPanel="this.tabActive"
+                        :industryCategory="this.industryCategory"
 
-        ></ProjectRecommend>
-      </div>
+      ></ProjectRecommend>
     </div>
     <CrossLine></CrossLine>
     <div class="feedback">
@@ -80,7 +124,7 @@
           <div class="left crowdimg">
           </div>
           <div id="crowdtext">
-            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;">
+            <p style="height:18px;line-height: 18px;font-size: 13px;color:#333;text-align: left;">
               您好，您对海外项目有任何问题或者有什么建议都可以留言给我们。我们会及时与您联系！</p>
             <div style="text-align: right;margin-top:20px; ">
               <span
@@ -91,9 +135,9 @@
           <div class="clear"></div>
         </div>
         <div class="heart_comment clearfix">
-          <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议"></textarea>
-          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone">
-          <div id="feedbackAction" class="btn">提交</div>
+          <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="homeContent1"></textarea>
+          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="homeContact">
+          <div id="feedbackAction" class="btn" @click="indexFeedBack">提交</div>
         </div>
       </div>
     </div>
@@ -120,6 +164,8 @@
   import TabBar from '@/components/base/tab-bar/tab-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import ProjectRecommend from '@/components/base/project-recommend/project-recommend'
+  import {Toast} from 'mint-ui'
+  import {MessageBox} from 'mint-ui'
   import tool from "../../api/tool";
 
   export default {
@@ -135,15 +181,19 @@
         animate: false,
         lastnotify: [],
         topsbanner: [],
+        items : [],
         swiperOption: {
-          slidesPerView: 3,
+          slidesPerView: 4,
           spaceBetween: 0,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
+        },
+        swiperOption2: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          freeMode: true
         },
         tabActive: 1,
+        homeContent1:'',
+        homeContact: ''
       }
     },
     computed: {
@@ -156,6 +206,9 @@
       setInterval(this.scroll, 2000);
       this.$api.post('/pb/i/fethomescene', {lang: 0, rouCount: 5}).then(r => {
         this.lastnotify = r.data.lastnotify;
+        for(var i in r.data.lastnotify){
+          this.items.push(r.data.lastnotify[i].title);
+        }
         this.topsbanner = r.data.topsbanner;
       });
     },
@@ -163,7 +216,9 @@
       //今日公告
       scroll() {
         this.animate = true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
-        setTimeout(() => {      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+        setTimeout(() => {
+          this.items.push(this.items[0]);  // 将数组的第一个元素添加到数组的
+          this.items.shift();//  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
           this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
         }, 1000)
       },
@@ -172,7 +227,32 @@
       },
       changePanel(tab) {
         this.tabActive = tab;
-      }
+      },
+      indexFeedBack(){
+        if(!this.homeContent1){
+          Toast({
+            message: '请输入问题或建议',
+            duration: 5000
+          });
+          return;
+        }
+        let param = tool.buildForm([
+          { key: "content", v: this.homeContent1 },
+          { key: "contact", v: this.homeContact }
+        ]);
+        this.axios.post(tool.domind()+'/gateway/app/feedback',param).then(res => {
+          if (res.data.code === 200) {
+            MessageBox({
+              message: '提交成功，我们会尽快联系您！',
+              showCancelButton: false
+            });
+            this.homeContent1 = "";
+            this.homeContact = "";
+          }
+        }).catch(err => {
+          alert(err);
+        })
+      },
     }
   }
 </script>
@@ -182,6 +262,7 @@
   @import '~@/assets/scss/index.scss';
 
   .index {
+
 
     header {
       height: 44px;
@@ -271,9 +352,46 @@
         }
       }
     }
+    #slider3 {
+      margin-top: 17px;
+      margin-bottom: 13px;
+      .swiper-slide{width:110px; margin: 0 10px !important;}
+      .invest-finance {
+        width: 110px;
+        height: 55px;
+        padding-top: 20px;
+        @include bg-image("../news/img/slider-bg");
+        background-size: 110px auto;
+        text-align: center;
+        h3 {
+          font-size: 14px;
+          color: #666;
+          height: 35px;
+          line-height: 35px;
+        }
+        .time {
+          font-size: 11px;
+          color: #3f83e6;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
     #index-industry {
-      height: 59px;
       padding: 9px 10px;
+      display: none;
+      overflow: hidden;
+      &.active{
+        display: block;
+      }
+      .swiper-container{
+        overflow: visible;
+      }
+      .swiper-slide{
+        padding: 10px 0;
+        margin-right:20px;
+        box-shadow: 0px 7px 15px #eee;
+      }
 
       i {
         display: block;

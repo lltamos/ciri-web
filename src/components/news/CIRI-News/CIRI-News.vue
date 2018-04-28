@@ -6,7 +6,7 @@
       <router-link v-if="topArticle!=null" :to="{path:'/news/news-detail/',query: {id: topArticle.id}}">
         <div class="project1">
           <div class="img">
-            <img v-bind:src="host+topArticle.thumbnail"/>
+            <img v-lazy="host+topArticle.thumbnail"/>
           </div>
           <div class="title-warp">
             <h2>{{topArticle.title.length>20 ? topArticle.title.substr(0,20)+'...' : topArticle.title}}</h2>

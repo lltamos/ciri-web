@@ -12,7 +12,7 @@
             <template v-if="!userId">
               <router-link to="/login">
                 <div class="user_face">
-                  <img :src="portraitUrl"/>
+                  <img v-lazy="portraitUrl"/>
                 </div>
               </router-link>
             </template>
@@ -20,7 +20,7 @@
             <template v-if="userId">
               <router-link to="/mine/my-profile">
                 <div class="user_face">
-                  <img :src="portraitUrl"/>
+                  <img v-lazy="portraitUrl"/>
                 </div>
               </router-link>
             </template>
@@ -172,14 +172,16 @@ export default {
             }
             //
             var level=res.data.data.memberLevelId;
-            if(level>=2){
-              this.vip=true;
-              if(level>=3){
+            switch(level){
+              case 2:
+                this.vip=true;
+                break;
+              case 3:
                 this.xmk=true;
-                if(level>=5){
-                  this.yhw=true;
-                }
-              }
+                break;
+              case 5:
+                this.yhw=true;
+                break;
             }
           }
         });

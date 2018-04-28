@@ -3,7 +3,7 @@
     <div class="answering-warp">
       <div class="ask-warp ask-bt">
           <div class="ask-describe"></div>
-          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟" v-model="message"></textarea>
+          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟~" v-model="askMessage"></textarea>
           <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
           <div class="file-warp">
             <FileDelete v-for="(file,index) in askFileList"  :key="index"
@@ -29,20 +29,23 @@
           <li :class="{active:tabActive==1}" @click="allShow">全部 <em>{{questionCount}}</em></li>
           <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>{{myQuestionCount}}</em></li>
         </ul>
-        <div class="all-warp" v-show="questionShow"   >
+        <div class="all-warp" v-show="questionShow" >
           <div class="question-warp"  >
-            <div class="question-list" v-for="(question,index) in questions" :key="index" >
+            <div class="question-list" v-if="questions != null && questions.length != 0 " v-for="(question,index) in questions" :key="index" >
               <div class="head-portrait">
                 <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                <img  :src="question.headUrl"  alt="">
+
+                <img v-if="question.headUrl != null && question.headUrl !='' "  v-lazy="question.headUrl"  alt="">
+                <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
               </div>
               <div class="main-news">
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-                <div class="user-name">{{(question.userid == null ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null ? "匿名": question.userid)}}</div>
+                <!--<div class="user-name">{{(question.userid == null || question.userid == ""  ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null || question.userid == "" ? "匿名": question.userid)}}</div>-->
+                <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
                 <div class="delete" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
                 <div class="ques-title">{{question.message}}</div>
                 <div class="file-warp">
-                  <div class="file" v-for="(fileMeta,index) in question.fileMetas" :key="index">
+                  <div class="file" v-if="question.fileMetas != null && question.fileMetas.length !=0 " v-for="(fileMeta,index) in question.fileMetas" :key="index">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(fileMeta.url)">查看</div>
@@ -52,24 +55,21 @@
                   <div class="time fl">{{question.updateTime|time}}</div>
                   <div class="fr dz-hf" >
                     <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
-                    <template v-if="question.likeStatus==true">
-                      <i class="icon-dz active" ></i>
-                    </template>
-                    <template v-if="question.likeStatus==false">
-                      <i class="icon-dz" ></i>
-                    </template>
+                      <i class="icon-dz active" v-if="question.likeStatus==true"></i>
+                      <i v-else class="icon-dz" ></i>
                     <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
                   </div>
                 </div>
                 <!--回答信息-->
-                <div class="questioner-visible" v-for="(ask,index) in question.projectChatList" :key="index">
+                <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList != '' && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
                   <div class="marked-warp">
                     <div class="marked-words">
                       <div class="user-warp clearfix">
                         <div class="head-portrait">
                           <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                          <img :src="ask.headUrl" alt="">
+                          <img v-if="ask.headUrl != null && ask.headUrl !='' "  v-lazy="ask.headUrl"  alt="">
+                          <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                         </div>
                         <div class="fl">
                           <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
@@ -92,39 +92,53 @@
                   </div>
                   <!--设置回答文件信息-->
                   <div class="file-warp">
-                    <div class="file" v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
+                    <div class="file"  v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
                       <i class="icon-type icon-pdf"></i>
                       <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                       <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                     </div>
                   </div>
                 </div>
-                <!--判断当回复的总数大于显示的数量时显示查看更多-->
-                <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                  <span>查看更多</span>
-                  <i class="icon-more"></i>
+                <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
+                <div v-if="question.projectChatList !=null && question.projectChatList.length >0">
+                  <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                    <span>查看更多</span>
+                    <i class="icon-more"></i>
+                  </div>
+                  <div class="read-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
+                    <span >收起</span>
+                    <i class="pack-up"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="read-more" @click="allQuestion" v-show="moreShow">
-            <span v-text="moreQuestion">查看更多</span>
-            <i :class="iconMore"></i>
+          <div class="read-more" @click="allQuestion()"
+               v-if="questions!=null && questions.length > 0 && page < questionCount/pageSize">
+            <span>查看更多</span>
+            <i class="icon-more"></i>
+          </div>
+          <div class="read-more" @click="backUp(1)"
+               v-if="questions!=null && questions.length > 0 && page > 1 && page >= (questionCount/pageSize)">
+            <span>收起</span>
+            <i class="pack-up"></i>
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
-          <div class="question-list" v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
+          <div class="question-list" v-if="myQuestions != null && myQuestions.length >0 " v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
             <div class="head-portrait">
               <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-              <img :src="myQuestion.headUrl" alt="">
+              <img v-if="myQuestion.headUrl != null && myQuestion.headUrl !='' "  v-lazy="myQuestion.headUrl"  alt="">
+              <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
             </div>
             <div class="main-news">
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-              <div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>
+              <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
+              <div class="user-name">{{myQuestion.userid.length >15 ? myQuestion.userid.substr(0,15)+'...' : myQuestion.userid}}</div>
               <div class="delete" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
               <div class="ques-title">{{myQuestion.message}}</div>
               <div class="file-warp">
-                <div class="file" v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
+                <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
                   <i class="icon-type icon-pdf"></i>
                   <span class="file-title">{{fileMeta.fileName.length >15 ? fileMeta.fileName.substr(0,15)+'...'+fileMeta.fileName.replace(/.+\./, "") :fileMeta.fileName}}</span>
                   <div class="view" @click="lookFile(fileMeta.url)">查看</div>
@@ -134,24 +148,21 @@
                 <div class="time fl">{{myQuestion.updateTime|time}}</div>
                 <div class="fr dz-hf" >
                   <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
-                  <template v-if="myQuestion.likeStatus==true">
-                    <i class="icon-dz active" ></i>
-                  </template>
-                  <template v-if="myQuestion.likeStatus==false">
-                    <i class="icon-dz" ></i>
-                  </template>
+                  <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
+                  <i v-else class="icon-dz" ></i>
                   <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
                 </div>
               </div>
               <!--回答信息-->
-              <div class="questioner-visible" v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
+              <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 " v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
                 <!--回复的信息-->
                 <div class="marked-warp">
                   <div class="marked-words">
                     <div class="user-warp clearfix">
                       <div class="head-portrait">
                         <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                        <img :src="ask.headUrl" alt="">
+                        <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
+                        <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
@@ -165,49 +176,59 @@
                 </div>
                 <!--设置回答文件信息-->
                 <div class="file-warp">
-                  <div class="file" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
+                  <div class="file" v-if="ask.fileMetas != null && ask.fileMetas.length > 0" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                   </div>
                 </div>
               </div>
-              <!--判断当回复的总数大于显示的数量时显示查看更多-->
-              <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
-                <span>查看更多</span>
-                <i class="icon-more"></i>
+              <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
+              <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0">
+                <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                  <span>查看更多</span>
+                  <i class="icon-more"></i>
+                </div>
+                <div class="read-more" @click="backUpAsk(question)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
+                  <span >收起</span>
+                  <i class="pack-up"></i>
+                </div>
               </div>
             </div>
           </div>
           <!--点击加载更多我的问题-->
-          <div class="read-more" @click="myQuestion" v-show="moreShow">
-            <span v-text="moreMyQuestion">查看更多</span>
-            <i :class="iconMyMore"></i>
+          <div class="read-more" @click="myQuestion" v-if="myQuestions != null && myQuestions.length>0 && myPage < myQuestionCount/pageSize">
+            <span >查看更多</span>
+            <i class="icon-more"></i>
+          </div>
+          <div class="read-more" @click="backUp(2)" v-if="myQuestions != null && myQuestions.length > 0 && myPage > 1 && myPage >= (myQuestionCount/pageSize)">
+            <span >收起</span>
+            <i class="pack-up"></i>
           </div>
         </div>
       </div>
-      <div class="ask-pop pop-bg" v-show="askPop">
-        <div class="pop-up ask-warp">
-          <div class="checkbox-warp">
-            <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
+      <div class="ask-pop pop-bg" v-show="askPop" @click="switchShow"></div>
+      <div class="pop-up ask-warp" v-show="askPop">
+        <div class="checkbox-warp">
+          <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
+        </div>
+        <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
+        <div class="file-warp">
+          <FileDelete v-for="(file,index) in backFileList"  :key="index"
+                      :file="file" :index="index" :tag="2"
+                      @delete="deleteAskFile"></FileDelete>
+        </div>
+        <div class="pop-bottom clearfix">
+          <div class="fl">
+
+            <i class="icon-uploading"></i>
+            <span class="upload-file">上传文件</span>
+            <input type="file" class="fill-input" @change="UploadFile($event,2)">
           </div>
-          <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
-          <div class="file-warp">
-            <FileDelete v-for="(file,index) in backFileList"  :key="index"
-                        :file="file" :index="index" :tag="2"
-                        @delete="deleteAskFile"></FileDelete>
-          </div>
-          <div class="pop-bottom clearfix">
-            <div class="fl">
-              <i class="icon-uploading"></i>
-              <span class="upload-file">上传文件</span>
-              <input type="file" class="fill-input" @change="UploadFile($event,2)">
-            </div>
-            <div class="fr btn-warp">
-              <input type="checkbox"  v-model="backChecked" >匿名
-              <!--<label for="checkbox">{{ askChecked }}</label>-->
-              <div class="small-btn" @click="submitQuestion">提交</div>
-            </div>
+          <div class="fr btn-warp">
+            <input type="checkbox"  v-model="backChecked" >匿名
+            <!--<label for="checkbox">{{ askChecked }}</label>-->
+            <div class="small-btn" @click="submitQuestion">提交</div>
           </div>
         </div>
       </div>
@@ -223,7 +244,7 @@
   import Authority from '@/components/base/authority/authority'
   import moment from 'moment'
   import tool from "../../../../api/tool"
-  import MessageBox from 'mint-ui';
+  import { MessageBox } from 'mint-ui';
   export default {
     components: {
       CrossLine,
@@ -236,11 +257,12 @@
       return {
         proId:364000018,//项目id
         askPop : false,
+        pageSize:5,
         // 权限弹框
         authorityShow : false,
         questionShow : true,
         tabActive : 1,
-        page:1,      //全部问题默认页码数
+        page:0,      //全部问题默认页码数
         myPage:0,    //我的提问默认页码数
         moreQuestion : '查看更多', //所有问题下拉按钮
         moreMyQuestion:'查看更多',//我的提问下拉按钮
@@ -250,9 +272,9 @@
         questionCount:0,
         myQuestionCount:0,
         askPage:1,
-        questions:null,  //项目提问信息
-        myQuestions:null, //我的问题
-        message:"",        //提问的信息栏
+        questions:[],  //项目提问信息
+        myQuestions:[], //我的问题
+        askMessage:"",        //提问的信息栏
         askChecked:false,  //提问匿名选项框
         askFileList:[],  //提问的文件数组
         backFileList:[],  //回复的文件数组
@@ -265,6 +287,9 @@
     props: {},
     watch: {},
     methods: {
+      switchShow(){
+        this.askPop = false;
+      },
       // 提问弹框
       askQuestion (id){
         this.parentId = id;
@@ -280,15 +305,15 @@
       allShow () {
         this.questionShow = true;
         this.tabActive = 1;
+        this.page=0;
+        this.allQuestion();
       },
       mineShow () {
         this.questionShow = false;
         this.tabActive = 2;
         //初始化我的问题
-        if(this.myPage==0){
-          this.myPage=this.myPage+1;
-          this.myQuestion();
-        }
+        this.myPage=0;
+        this.myQuestion();
       },
       readMore () {
 
@@ -296,19 +321,16 @@
       likesChat(question){
         // question.id,question.likes,question.likeStatus
         let tag = 0;
-        if(question.likeStatus){
+        if (!question.likeStatus) {
+          question.likes = question.likes + 1;
+        } else {
+          question.likes = question.likes - 1;
           tag= 1;
         }
+        question.likeStatus=!(question.likeStatus);
         //alert(tag)
         this.$api.post('/ah/s0/chat/giveLikes', {userId: tool.getuser(), chatId: question.id, tag: tag}).then(r => {
-          console.log(r.data);
           if (r.code == 200) {
-            if (!question.likeStatus) {
-              question.likes = question.likes + 1;
-            } else {
-              question.likes = question.likes - 1;
-            }
-            question.likeStatus=!(question.likeStatus);
           }
         })
       },
@@ -319,202 +341,210 @@
       },
       //删除交流信息
       deleteAsk(chatId){
-        // let temp=false;
-        // tool.MessageBox("确实删除",temp);
-        // alert(temp);
-        if(!confirm("确定删除吗")){
-          return;
-        }
-        this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
-          if(r.code==200){
-            tool.toast('删除成功');
-            //所有项目删除列表中信息
-            for (var i = 0; i < this.questions.length; i++) {
-              let que = this.questions[i];
-              if (que.id == chatId) {
-                //注意对比这行代码：删除元素后调整i的值
-                this.questions.splice(i--, 1);
-                alert(chatId);
-                break;
-              }
-              //删除回复中信息
-              if (que.projectChatList.length > 0) {
-                for (var j = 0; j < que.projectChatList.length; j++) {
-                  let ask = que.projectChatList[j];
-                  if (ask.id == chatId) {
+        MessageBox.confirm('确定删除吗?').then(action => {
+          this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
+            if(r.code==200){
+              tool.toast('删除成功');
+              //所有项目删除列表中信息
+              if(this.tabActive == 1){
+                for (var i = 0; i < this.questions.length; i++) {
+                  let que = this.questions[i];
+                  if (que.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
-                    que.projectChatList.splice(j--, 1);
-                    alert(chatId);
+                    this.questions.splice(i--, 1);
+                    // alert(chatId);
+                    //提问总数减一
+                    this.questionCount=this.questionCount-1;
+                    this.myQuestionCount=this.myQuestionCount-1;
+                    return;
+                  }
+                  //删除回复中信息
+                  if (que.projectChatList!=null && que.projectChatList.length > 0) {
+                    for (var j = 0; j < que.projectChatList.length; j++) {
+                      let ask = que.projectChatList[j];
+                      if (ask.id == chatId) {
+                        //注意对比这行代码：删除元素后调整i的值
+                        que.projectChatList.splice(j--, 1);
+                        // alert(chatId);
+                        //问题回答信息总数-1
+                        que.total = que.total - 1;
+                        return;
+                      }
+                    }
                   }
                 }
               }
-            }
-            //删除我的问题中的信息
-            for (var i = 0; i < this.myQuestions.length; i++) {
-              let que = this.myQuestions[i];
-              if (que.id == chatId) {
-                //注意对比这行代码：删除元素后调整i的值
-                this.myQuestions.splice(i--, 1);
-                alert(chatId);
-                break;
-              }
-              //删除回复中信息
-              if (que.projectChatList.length > 0) {
-                for (var j = 0; j < que.projectChatList.length; j++) {
-                  let ask = que.projectChatList[j];
-                  if (ask.id == chatId) {
+              if(this.tabActive == 2){
+                //删除我的问题中的信息
+                for (var i = 0; i < this.myQuestions.length; i++) {
+                  let que = this.myQuestions[i];
+                  if (que.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
-                    que.projectChatList.splice(j--, 1);
-                    alert(chatId);
+                    this.myQuestions.splice(i--, 1);
+                    return;
+                  }
+                  //删除回复中信息
+                  if (que.projectChatList!=null && que.projectChatList.length > 0) {
+                    for (var j = 0; j < que.projectChatList.length; j++) {
+                      let ask = que.projectChatList[j];
+                      if (ask.id == chatId) {
+                        //注意对比这行代码：删除元素后调整i的值
+                        que.projectChatList.splice(j--, 1);
+                        // alert(chatId);
+                        //问题回答信息总数-1
+                        que.total = que.total - 1;
+                        return;
+                      }
+                    }
                   }
                 }
               }
-            }
 
-          }else {
-            tool.toast('删除失败请重试');
-          }
+            }else {
+              tool.toast('删除失败请重试');
+            }
+          });
         });
       },
       //获取所有的问答信息15201197830
       allQuestion(){
-        //数据长度不为空
-        if(this.questions != null){
-          if(this.moreQuestion == '收起'){
-            if(this.questions.length >=5){
-              this.questions= this.questions.slice(0,5);
-            }else {
-              this.questions= this.questions.slice(0,this.questions.length-1);
+        // console.log(Math.ceil(this.questionCount/this.pageSize));
+        // alert(this.page-1 < Math.ceil(this.questionCount/this.pageSize))
+        //增加页码
+        if(this.page - 1 < Math.ceil(this.questionCount/this.pageSize)){
+          this.page = this.page+1;
+          //发送请求分页查询数据
+          this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize:this.pageSize,userId:tool.getuser(),proId:this.proId}).then(r => {
+            if(r.level==0){
+              tool.toast("会员等级太低，无法查看回复信息");
             }
-            this.moreQuestion = '查看更多';
-            this.iconMore = 'icon-more'
-            this.page=1;
-            return;
-          }else {
-            //已经显示的提问数等于总的提问数时
-            if(this.questions.length >= this.questionCount){
-              this.moreQuestion='收起'
-              this.iconMore = 'pack-up'
-              return;
+            //设置总问题数
+            this.questionCount=r.total;
+            //设置我的提问数
+            this.myQuestionCount= r.myTotal;
+            if(r.data !== "" && r.data !== null && r.data.length >0){
+              if (this.page === 1) {
+                //如追加数据
+                this.questions= r.data;
+              } else {
+                this.questions = this.questions.concat(r.data);
+              }
             }
+          });
+        }
+      },
+      backUp(tag){
+        //所有问题收起
+        if (tag == 1) {
+          if (this.questions != null && this.questions.length > 0) {
+            this.questions = this.questions.slice(0, this.pageSize);
+            this.page = 1;
           }
         }
-        //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
-          //设置总问题数
-          this.questionCount=r.total;
-          //设置我的提问数
-          this.myQuestionCount= r.myTotal;
-          console.log(r.data);
-          if(r.data !== null && r.data.length >0){
-            //如追加数据
-            if (this.page === 1) {
-              this.questions= r.data;
-            } else {
-              this.questions = this.questions.concat(r.data);
-            }
-            //设置下拉提示
-            if(this.questions.length < r.total){
-              this.moreQuestion = '查看更多';
-              this.iconMore = 'icon-more'
-            }else{
-              this.moreQuestion='收起'
-              this.iconMore = 'pack-up'
-            }
-            //增加页码
-            this.page =this.page+1;
+        //我的问题收起
+        if (tag == 2) {
+          if(this.myQuestions !=null && this.myQuestions.length>0){
+            this.myQuestions = this.myQuestions.slice(0,  this.pageSize);
+            this.myPage = 1;
           }
-        });
+        }
       },
       //获取我的提问信息
       myQuestion(){
-        if(this.myQuestions != null){
-          //判读收起
-          if(this.moreMyQuestion == '收起'){
-            if(this.myQuestions.length >=5){
-              this.myQuestions= this.myQuestions.slice(0,5);
-            }else {
-              this.myQuestions= this.myQuestions.slice(0,this.myQuestions.length);
+        //判读收起
+        if (this.myPage - 1 < Math.ceil(this.myQuestionCount / this.pageSize)) {
+          this.myPage = this.myPage + 1;
+          //发送请求分页查询数据
+          this.$api.post('/ah/s0/chat/getMyQuestions', {
+            pageId: this.myPage,
+            pageSize: this.pageSize,
+            userId: tool.getuser(),
+            proId: this.proId
+          }).then(r => {
+            if (r.level == 0) {
+              tool.toast("会员等级太低，无法查看回复信息");
             }
-            this.moreMyQuestion = '查看更多';
-            this.iconMyMore = 'icon-more';
-            this.myPage=1;
-            return;
-          }else {
-              //已经显示的提问数时等于我的提问数时
-             if(this.myQuestions.length >= this.myQuestionCount){
-               this.moreMyQuestion='收起'
-               this.iconMyMore = 'pack-up'
-               return;
-             }
-          }
+            if (r.data !== "" && r.data !== null && r.data.length > 0) {
+              //设置我的回答总数
+              this.myQuestionCount = r.total;
+              if (this.myPage === 1) {
+                //如追加数据
+                this.myQuestions = r.data;
+              } else {
+                this.myQuestions = this.myQuestions.concat(r.data);
+              }
+            }
+          });
         }
-        //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
-          console.log(r.data);
-          if(r.data != 'null' && r.data.length>0) {
-            if (this.myPage === 1) {
-              //如追加数据
-              this.myQuestions = r.data;
-            } else {
-              this.myQuestions = this.myQuestions.concat(r.data);
-            }
-            if(this.moreQuestion == '查看更多'){
-              this.moreMyQuestion = '收起'
-              this.iconMyMore = 'pack-up'
-            }else {
-              this.moreMyQuestion = '查看更多';
-              this.iconMyMore = 'icon-more'
-            }
-            //设置下拉提示
-            if(this.myQuestions.length < r.total){
-              this.moreMyQuestion = '查看更多';
-              this.iconMyMore = 'icon-more'
-            }else{
-              this.moreMyQuestion='收起'
-              this.iconMyMore = 'pack-up'
-            }
-            //增加页码
-            this.myPage =this.myPage+1;
-          }
-        });
-      },
+        },
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        let pageId= parseInt(d.getAttribute(""))+1;
+        console.log(quesiton);
+        let pageId = 1;
+        // if(quesiton.projectChatList == null || question.projectChatList.length<=5){
+        //   pageId = 2;
+        // }else{
+          pageId = parseInt(d.getAttribute("pageId")) + 1;
+        // }
+        // console.log(quesiton);
         //获取更多信息pageId
-        console.log(pageId  );
-        this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
+        this.$api.post('/ah/s0/chat/getProjectAsk',{pageSize:this.pageSize,pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
+            if(r.level==0){
+              tool.toast("会员等级太低，无法查看回复信息");
+            }
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
-            console.log(quesiton.projectChatList);
+
+            console.log(quesiton);
+            console.log(quesiton.projectChatList.length)
+
+            console.log(quesiton.total > quesiton.projectChatList.length);
             d.setAttribute("pageId",pageId);
+            // console.log(parseInt(d.getAttribute("pageId")));
           }
         })
       },
+      //收起回复
+      backUpAsk(question){
+        if(question != null && question.projectChatList !=null){
+          question.projectChatList = question.projectChatList.slice(0, 5);
+        }
+      },
       //提问
       askAQuestion(){
-        if(this.message==""){
+        if(this.askMessage==""){
           tool.toast("提问信息不能为空")
           return
         }
         let fileStr=[];
         for (var file of this.askFileList) {
-          fileStr.push(file.fileName+","+file.fileId)
+          fileStr.push(file.fileName+","+file.fileId);
         }
         var files=fileStr.join(";");
         this.$api.post('/ah/s0/chat/addProjectChat',
           { userid: tool.getuser(),
             projid: this.proId, files: files,
-            message: this.message,
+            message: this.askMessage,
             status : this.askChecked ? 1 : 0,
           }).then(r => {
           if(r.code===200){
+            this.askMessage="";
+            this.askFileList=Array();
             tool.toast("提问成功");
-            //刷新页面
-            location.reload();
+            if(this.tabActive === 1){
+              //刷新全部问题页面
+              this.page=0;
+              this.allQuestion();
+            }else if(this.tabActive === 2){
+              this.questionCount=this.questionCount+1;
+              this.myQuestionCount=this.myQuestionCount+1;
+              //刷新我的页面
+              this.myPage=0;
+              this.myQuestion();
+            }
+
           }
         });
       },
@@ -535,7 +565,7 @@
             projid: this.proId, files: files,
             message: this.backMessage,
             parent: this.parentId,
-            status: this.askChecked ? 1 : 0,
+            status: this.backChecked ? 1 : 0,
             isVisible: this.backVisibleStatus ? 1 : 0
           }).then(r => {
           if (r.code === 200) {
@@ -543,10 +573,42 @@
             this.askPop = false;
             //提示信息
             tool.toast("回复成功");
+
+            if(this.tabActive == 1){
+              // questions:null,  //项目提问信息
+                // myQuestions:null
+              for (var question of this.questions) {
+                if(question.id == this.parentId){
+                  if(question.projectChatList == null ||question.projectChatList.length==0){
+                    question.projectChatList=new Array(r.data);
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
+                  question.total=question.total+1;
+                  break;
+                }
+              }
+              // allShow ();
+            }else if(this.tabActive==2){
+              // mineShow();
+              for (var question of this.myQuestions) {
+                if(question.id == this.parentId){
+                  if(question.projectChatList == null ||question.projectChatList.length==0){
+                    question.projectChatList=new Array(r.data);
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
+                  question.total=question.total+1;
+                  break;
+                }
+              }
+            }
             //内容重置
             this.backMessage="";
             //回答问题的id重置
             this.parentId="";
+            //将回复的文件信息删除
+            this.backFileList=new Array();
           }
         });
       },
@@ -562,16 +624,17 @@
         //上传文件
         this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
           .then(res => {
+            // e.after(e.clone().val(""));
+            // e.remove();
+            e.target.value='';
             if (res.data.code === 200) {
               let temp = res.data.data[0]
               switch (tag) {
                 case 1:
                   this.askFileList.push(temp);
-                  console.log(this.askFileList);
                   break;
             case 2:
                   this.backFileList.push(temp);
-                  console.log(this.backFileList);
                   break;
               }
             }
@@ -597,14 +660,13 @@
     },
     computed: {},
     created() {
+      this.proId = this.$route.query.projId;
+      this.allQuestion();
     },
     mounted() {
       //tool.getuser();
-      this.allQuestion()
     },
     destroyed() {
-
-
     }
   }
 </script>
@@ -645,7 +707,7 @@
           font-size: 13px;
           color:#666;
           box-sizing: border-box;
-
+          font-family: "Microsoft Yahei";
         }
         p.hint{
           margin-top:10px ;
@@ -713,11 +775,13 @@
       }
       .ask-pop{
         padding: 0;
-        .pop-up{
-          position: fixed;
-          bottom: 0;
-          background: #fcfcfc;
-        }
+        z-index: 998;
+      }
+      .pop-up{
+        position: fixed;
+        bottom: 0;
+        background: #fcfcfc;
+        z-index: 999;
       }
       .question{
         padding: 0 10px;
@@ -728,7 +792,7 @@
             margin-right: 15px;
             color:#528de8;
             font-size: 10px;
-            width:60px;
+            width:75px;
             height:20px;
             line-height: 20px;
             border-radius: 20px;
@@ -923,6 +987,7 @@
           margin-top: 10px;
           padding-right: 10px;
           margin-bottom: 16px;
+          padding-bottom: 10px;
           i {
             display: inline-block;
             width: 10px;

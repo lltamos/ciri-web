@@ -1,10 +1,10 @@
 <template>
     <div class="pro-evaluat">
       <ul class="eval-tab">
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-introduction', query: {'projId': projId}}">项目介绍</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-file', query: {'projId': projId}}">项目文件</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/feasibility-analysis', query: {'projId': projId}}">可行性分析</router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-developer', query: {'projId': projId}}">项目开发商</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-introduction', query: {'projId': projId}}" replace>项目介绍</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-file', query: {'projId': projId}}" replace>项目文件</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/feasibility-analysis', query: {'projId': projId}}" replace>项目解读</router-link>
+        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation/project-developer', query: {'projId': projId}}" replace>项目开发商</router-link>
       </ul>
       <keep-alive>
         <router-view></router-view>

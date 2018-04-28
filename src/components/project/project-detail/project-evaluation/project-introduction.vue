@@ -40,14 +40,16 @@
         </tr>
         <tr>
           <td align="center">项目开发商</td>
-          <td v-if="projDevelopers.length != null">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</td>
+          <td>
+            <div v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</div>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
   <CrossLine></CrossLine>
   <h4>
-    <i class="left-line"></i><span>项目进度</span>
+    <i class="left-line"></i><span>项目里程碑</span>
   </h4>
   <div class="intro-progress">
     <table width="100%" cellspacing="0" cellpadding="0">
@@ -66,62 +68,75 @@
         </tr>
         <tr>
           <td>4.项目各项许可 <i v-bind:class="[environmentApprovalDone ? 'progress-finished' : 'progress-unfinished']"></i> </td>
-          <td>8.完成项目建设<i v-bind:class="[infrastructureDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
+          <td>8.完成项目建设&#12288;&#12288;<i v-bind:class="[infrastructureDone ? 'progress-finished' : 'progress-unfinished']"></i></td>
         </tr>
       </tbody>
     </table>
   </div>
   <CrossLine></CrossLine>
-  <div class="intro-video">
+  <div class="intro-video" v-show="setProjVideo" v-if="authrityStatus">
     <h4>
-      <i class="left-line"></i><span>项目视频</span>
+      <i class="left-line" ></i><span>项目视频</span>
     </h4>
     <div class="video-warp">
       <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index" v-bind:style="{backgroundImage: 'url(' +v.cover.name+ ')'}">
-          <video @click="video($event)" controls :src="v.url"></video>
+          <video  @click="video($event)" controls :src="v.url"></video>
         </swiper-slide>
       </swiper>
       <!-- swiper2 Thumbs -->
       <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
         <swiper-slide v-if="videos != null" v-for="(v ,index) in videos" :key="index">
-          <img :src="v.cover.name" alt="">
-          <div class="title" v-if="v.summary.valueCn != null">{{v.summary.valueCn}}</div>
+          <img v-lazy="v.cover.name" alt="">
+          <div class="title" v-if="v.summary != null && v.summary.valueCn != null">{{v.summary.valueCn}}</div>
         </swiper-slide>
       </swiper>
     </div>
   </div>
+  <div v-if="!authrityStatus">
+    <div class="no-radio" @click="showAuthWindow"></div>
+    <!--权限弹框-->
+    <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
+  </div>
   <CrossLine></CrossLine>
   <Article :content="productService" text="项目详情"></Article>
+  <BigImg v-if="this.photo!=null" :content="this.photo"></BigImg>
   <CrossLine></CrossLine>
   <Article :content="operateMetric" text="投资环境"></Article>
   <CrossLine></CrossLine>
+
 </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Article from '@/components/base/article/article'
+  import Authority from '@/components/base/authority/authority'
+  import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
+  import BigImg from '@/components/base/big-img/big-img'
   import tool from '@/api/tool'
     export default {
         components: {
           CrossLine,
-          Article
+          Article,
+          Authority,
+          AuthorityPage,
+          BigImg
         },
         data() {
             return {
               //项目视频
               swiperOptionTop: {
                 spaceBetween: 10,
-                loop: true,
+                // loop: true,
                 loopedSlides: 5, //looped slides should be the same
               },
               swiperOptionThumbs: {
                 spaceBetween: 5,
-                // centeredSlides: true,
+                centeredSlides: true,
                 slidesPerView: 3,
                 touchRatio: 0.2,
-                loop: true,
+                // loop: true,
                 loopedSlides: 5, //looped slides should be the same
                 slideToClickedSlide: true,
               },
@@ -145,8 +160,11 @@
               infrastructureDone: false ,//完成项目建设
               productService: null,
               operateMetric: null,
-              setProjVideo: false,
-              videos: null
+              setProjVideo: true,
+              videos: null,
+              authorityShow:false,
+              authrityStatus: false,
+              photo: null
 
             }
         },
@@ -158,6 +176,16 @@
             let element = e.currentTarget;
             // element.classList.add('active');
             element.play();
+          },
+          upgrade () {
+            this.$router.push({ path: "/mine/member-center" });
+          },
+          //权限弹框
+          authorityHide () {
+            this.authorityShow = false;
+          },
+          showAuthWindow(){
+            this.authorityShow = true;
           },
         },
         filters: {},
@@ -187,6 +215,7 @@
             this.operateMetric = res.data.operateMetric
             this.setProjVideo = res.data.setProjVideo
             this.videos = res.data.videos
+            this.photo = res.data.photo
             if (!this.setProjVideo)
               return
             let urlStr = ''
@@ -196,16 +225,18 @@
             urlStr = urlStr.substring(1, urlStr.length);
             this.$api.post('/ah/s3/p/getProjVideoUrl',
               {urlStr: urlStr}).then(res => {
-              if (res.code === 403) {
-                //
-                // alert('项目视频无权限')//todo  此处增加 无权限页
-                return
-              }
-              let arr = null
-              arr = res.split(",")
-              for (var i = 0; i < arr.length; i++) {
-                this.videos[i].url = arr[i]
-              }
+                let arr = null
+                arr = res.split(",")
+                for (var i = 0; i < arr.length; i++) {
+                  this.videos[i].url = arr[i]
+                }
+                let level = sessionStorage.getItem("userLevel");
+                if(level === 1){
+                  this.authrityStatus = false;
+                }else{
+                  this.authrityStatus = true;
+                  this.authorityShow = false;
+                }
             })
           })
         },
@@ -353,13 +384,14 @@
           height: 90px!important;
           box-sizing: border-box;
           margin-top: 12px;
+          background: #000;
           img{
             width: 100%;
             height:60px;
           }
           .title{
             font-size: 13px;
-            color:#333;
+            color:#fff;
             line-height: 1;
             margin-top: 5px;
 
@@ -370,16 +402,29 @@
           width: 59.7%;
           height: 100%;
           background-image: none;
+          background: #eee;
+          opacity: .4;
         }
         .gallery-thumbs .swiper-slide img{
           border: 3px solid transparent;
           box-sizing: border-box;
         }
-        .gallery-thumbs .swiper-slide-active img{
-          border: 3px solid #528de8;
+        .gallery-thumbs .swiper-slide-active{
+          opacity:1;
+          .title{
+            color: #000;
+          }
         }
 
       }
+    }
+    .no-radio{
+      width: 100%;
+      height: 310px;
+      background-repeat: no-repeat;
+      background-size: auto auto;
+      @include bg-image("../../img/no-radio");
+      background-position: center;
     }
     .intro-detail,.investment-environment{
       .article{
