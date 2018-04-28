@@ -18,7 +18,7 @@
       </h4>
       <ul class="recommdnd-warp clearfix">
         <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
-                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}" >
           <li class="">
             <div class="img">
               <img v-lazy="project.url" alt="">
@@ -73,7 +73,7 @@
       <Loading v-if="notloading"></Loading>
       <div class="main" v-else>
         <router-link v-for="(project) in this.projects" :key="project.projId"
-                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}" >
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->

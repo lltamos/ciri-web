@@ -112,7 +112,7 @@
         },
 
         gotoDetail () {
-          this.$router.push({ path: this.url })
+          this.$router.replace({ path: this.url })
         },
         giveLikes () {
           if (this.isLikes !== null) {
@@ -134,6 +134,7 @@
 
       },
       created () {
+        window.scrollTo(0,0);
         this.projId = this.$route.query.projId
         this.url = this.url + this.projId
 

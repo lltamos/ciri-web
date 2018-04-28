@@ -648,7 +648,7 @@
           if(tag===1){
             this.askFileList.splice(index,1)
           }
-          if(index===2){
+          if(tag===2){
             this.backFileList.splice(index,1)
           }
       }
