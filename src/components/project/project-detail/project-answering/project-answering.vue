@@ -99,17 +99,29 @@
                     </div>
                   </div>
                 </div>
-                <!--判断当回复的总数大于显示的数量时显示查看更多-->
-                <div class="read-more" v-if="question.projectChatList!=null && question.projectChatList.length >0 && question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                  <span>查看更多</span>
-                  <i class="icon-more"></i>
+                <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
+                <div v-if="question.projectChatList !=null && question.projectChatList.length >0">
+                  <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                    <span>查看更多</span>
+                    <i class="icon-more"></i>
+                  </div>
+                  <div class="read-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
+                    <span >收起</span>
+                    <i class="pack-up"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="read-more" @click="allQuestion" v-show="moreShow" v-if="questions!=null && questions.length>0">
-            <span v-text="moreQuestion">查看更多</span>
-            <i :class="iconMore"></i>
+          <div class="read-more" @click="allQuestion()"
+               v-if="questions!=null && questions.length > 0 && page < questionCount/pageSize">
+            <span>查看更多</span>
+            <i class="icon-more"></i>
+          </div>
+          <div class="read-more" @click="backUp(1)"
+               v-if="questions!=null && questions.length > 0 && page > 1 && page >= (questionCount/pageSize)">
+            <span>收起</span>
+            <i class="pack-up"></i>
           </div>
         </div>
         <div class="mine-warp" v-show="!questionShow">
@@ -171,17 +183,27 @@
                   </div>
                 </div>
               </div>
-              <!--判断当回复的总数大于显示的数量时显示查看更多-->
-              <div class="read-more" v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 && myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
-                <span>查看更多</span>
-                <i class="icon-more"></i>
+              <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
+              <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0">
+                <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                  <span>查看更多</span>
+                  <i class="icon-more"></i>
+                </div>
+                <div class="read-more" @click="backUpAsk(question)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
+                  <span >收起</span>
+                  <i class="pack-up"></i>
+                </div>
               </div>
             </div>
           </div>
           <!--点击加载更多我的问题-->
-          <div class="read-more" @click="myQuestion" v-show="moreShow" v-if="myQuestions != null && myQuestions.length>0">
-            <span v-text="moreMyQuestion">查看更多</span>
-            <i :class="iconMyMore"></i>
+          <div class="read-more" @click="myQuestion" v-if="myQuestions != null && myQuestions.length>0 && myPage < myQuestionCount/pageSize">
+            <span >查看更多</span>
+            <i class="icon-more"></i>
+          </div>
+          <div class="read-more" @click="backUp(2)" v-if="myQuestions != null && myQuestions.length > 0 && myPage > 1 && myPage >= (myQuestionCount/pageSize)">
+            <span >收起</span>
+            <i class="pack-up"></i>
           </div>
         </div>
       </div>
@@ -235,11 +257,12 @@
       return {
         proId:364000018,//项目id
         askPop : false,
+        pageSize:5,
         // 权限弹框
         authorityShow : false,
         questionShow : true,
         tabActive : 1,
-        page:1,      //全部问题默认页码数
+        page:0,      //全部问题默认页码数
         myPage:0,    //我的提问默认页码数
         moreQuestion : '查看更多', //所有问题下拉按钮
         moreMyQuestion:'查看更多',//我的提问下拉按钮
@@ -282,14 +305,14 @@
       allShow () {
         this.questionShow = true;
         this.tabActive = 1;
-        this.page=1;
+        this.page=0;
         this.allQuestion();
       },
       mineShow () {
         this.questionShow = false;
         this.tabActive = 2;
         //初始化我的问题
-        this.myPage=1;
+        this.myPage=0;
         this.myQuestion();
       },
       readMore () {
@@ -349,6 +372,7 @@
                     // alert(chatId);
                     //问题回答信息总数-1
                     que.total = que.total - 1;
+                    break;
                   }
                 }
               }
@@ -371,6 +395,7 @@
                     // alert(chatId);
                     //问题回答信息总数-1
                     que.total = que.total - 1;
+                    break;
                   }
                 }
               }
@@ -383,114 +408,109 @@
       },
       //获取所有的问答信息15201197830
       allQuestion(){
-
-        //数据长度不为空
-        if (this.moreQuestion == '收起') {
-          if (this.questions.length >= 5) {
-            this.questions = this.questions.slice(0, 5);
-          } else {
-            this.questions = this.questions.slice(0, this.questions.length - 1);
-          }
-          this.moreQuestion = '查看更多';
-          this.iconMore = 'icon-more'
-          this.page=1;
-          return;
+        // console.log(Math.ceil(this.questionCount/this.pageSize));
+        // alert(this.page-1 < Math.ceil(this.questionCount/this.pageSize))
+        //增加页码
+        if(this.page - 1 < Math.ceil(this.questionCount/this.pageSize)){
+          this.page = this.page+1;
+          //发送请求分页查询数据
+          this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize:this.pageSize,userId:tool.getuser(),proId:this.proId}).then(r => {
+            if(r.level==0){
+              tool.toast("会员等级太低，无法查看回复信息");
+            }
+            //设置总问题数
+            this.questionCount=r.total;
+            //设置我的提问数
+            this.myQuestionCount= r.myTotal;
+            if(r.data !== "" && r.data !== null && r.data.length >0){
+              if (this.page === 1) {
+                //如追加数据
+                this.questions= r.data;
+              } else {
+                this.questions = this.questions.concat(r.data);
+              }
+            }
+          });
         }
-        //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getProjectQuestions',{pageId: this.page, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
-          if(r.level==0){
-           tool.toast("会员等级太低，无法查看回复信息");
+      },
+      backUp(tag){
+        //所有问题收起
+        if (tag == 1) {
+          if (this.questions != null && this.questions.length > 0) {
+            this.questions = this.questions.slice(0, this.pageSize);
+            this.page = 1;
           }
-          //设置总问题数
-          this.questionCount=r.total;
-          //设置我的提问数
-          this.myQuestionCount= r.myTotal;
-          if(r.data !== "" && r.data !== null && r.data.length >0){
-            if (this.page === 1) {
-              //如追加数据
-              this.questions= r.data;
-            } else {
-              this.questions = this.questions.concat(r.data);
-            }
-            //设置下拉提示
-            if(this.questions.length < r.total){
-              this.moreQuestion = '查看更多';
-              this.iconMore = 'icon-more'
-            }else{
-              this.moreQuestion='收起'
-              this.iconMore = 'pack-up'
-            }
-            //增加页码
-            this.page = this.page+1;
+        }
+        //我的问题收起
+        if (tag == 2) {
+          if(this.myQuestions !=null && this.myQuestions.length>0){
+            this.myQuestions = this.myQuestions.slice(0,  this.pageSize);
+            this.myPage = 1;
           }
-        });
+        }
       },
       //获取我的提问信息
       myQuestion(){
-          //判读收起
-          if(this.moreMyQuestion == '收起'){
-            if(this.myQuestions.length >=5){
-              this.myQuestions= this.myQuestions.slice(0,5);
-            }else {
-              this.myQuestions= this.myQuestions.slice(0,this.myQuestions.length);
+        //判读收起
+        if (this.myPage - 1 < Math.ceil(this.myQuestionCount / this.pageSize)) {
+          this.myPage = this.myPage + 1;
+          //发送请求分页查询数据
+          this.$api.post('/ah/s0/chat/getMyQuestions', {
+            pageId: this.myPage,
+            pageSize: this.pageSize,
+            userId: tool.getuser(),
+            proId: this.proId
+          }).then(r => {
+            if (r.level == 0) {
+              tool.toast("会员等级太低，无法查看回复信息");
             }
-            this.moreMyQuestion = '查看更多';
-            this.iconMyMore = 'icon-more';
-            this.myPage=1;
-            return;
-          }
-        //发送请求分页查询数据
-        this.$api.post('/ah/s0/chat/getMyQuestions',{pageId: this.myPage, pageSize: 5,userId:tool.getuser(),proId:this.proId}).then(r => {
-          if(r.level==0){
-            tool.toast("会员等级太低，无法查看回复信息");
-          }
-          if(r.data !== "" && r.data !== null && r.data.length>0) {
-            //设置我的回答总数
-            this.myQuestionCount=r.total;
-            if (this.myPage === 1) {
-              //如追加数据
-              this.myQuestions = r.data;
-            } else {
-              this.myQuestions = this.myQuestions.concat(r.data);
+            if (r.data !== "" && r.data !== null && r.data.length > 0) {
+              //设置我的回答总数
+              this.myQuestionCount = r.total;
+              if (this.myPage === 1) {
+                //如追加数据
+                this.myQuestions = r.data;
+              } else {
+                this.myQuestions = this.myQuestions.concat(r.data);
+              }
             }
-            if(this.moreQuestion == '查看更多'){
-              this.moreMyQuestion = '收起'
-              this.iconMyMore = 'pack-up'
-            }else {
-              this.moreMyQuestion = '查看更多';
-              this.iconMyMore = 'icon-more'
-            }
-            //设置下拉提示
-            if(this.myQuestions.length < r.total){
-              this.moreMyQuestion = '查看更多';
-              this.iconMyMore = 'icon-more'
-            }else{
-              this.moreMyQuestion='收起'
-              this.iconMyMore = 'pack-up'
-            }
-            //增加页码
-            this.myPage = this.myPage + 1;
-          }
-        });
-      },
+          });
+        }
+        },
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        let pageId=1;
-        if(!isNaN(parseInt(d.getAttribute("")))){
-          pageId++;
-        }
+        console.log(quesiton);
+        let pageId = 1;
+        // if(quesiton.projectChatList == null || question.projectChatList.length<=5){
+        //   pageId = 2;
+        // }else{
+          pageId = parseInt(d.getAttribute("pageId")) + 1;
+        // }
+        // console.log(quesiton);
         //获取更多信息pageId
-        this.$api.post('/ah/s0/chat/getProjectAsk',{pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
+        this.$api.post('/ah/s0/chat/getProjectAsk',{pageSize:this.pageSize,pageId: pageId,userId:tool.getuser(),proId:this.proId,parentId:quesiton.id}).then(r => {
           if(r.code==200){
             if(r.level==0){
               tool.toast("会员等级太低，无法查看回复信息");
             }
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
+
+            console.log(quesiton);
+            console.log(quesiton.projectChatList.length)
+
+            console.log(quesiton.total > quesiton.projectChatList.length);
             d.setAttribute("pageId",pageId);
+            // console.log(parseInt(d.getAttribute("pageId")));
           }
         })
+      },
+      //收起回复
+      backUpAsk(question){
+        if(question != null && question.projectChatList !=null){
+          question.projectChatList = question.projectChatList.slice(0, 5);
+        }
       },
       //提问
       askAQuestion(){
@@ -500,7 +520,7 @@
         }
         let fileStr=[];
         for (var file of this.askFileList) {
-          fileStr.push(file.fileName+","+file.fileId)
+          fileStr.push(file.fileName+","+file.fileId);
         }
         var files=fileStr.join(";");
         this.$api.post('/ah/s0/chat/addProjectChat',
@@ -515,13 +535,13 @@
             tool.toast("提问成功");
             if(this.tabActive === 1){
               //刷新全部问题页面
-              this.page=1;
+              this.page=0;
               this.allQuestion();
             }else if(this.tabActive === 2){
               this.questionCount=this.questionCount+1;
               this.myQuestionCount=this.myQuestionCount+1;
               //刷新我的页面
-              this.myPage=1;
+              this.myPage=0;
               this.myQuestion();
             }
 
@@ -545,7 +565,7 @@
             projid: this.proId, files: files,
             message: this.backMessage,
             parent: this.parentId,
-            status: this.askChecked ? 1 : 0,
+            status: this.backChecked ? 1 : 0,
             isVisible: this.backVisibleStatus ? 1 : 0
           }).then(r => {
           if (r.code === 200) {
@@ -579,6 +599,8 @@
             this.backMessage="";
             //回答问题的id重置
             this.parentId="";
+            //将回复的文件信息删除
+            this.backFileList=new Array();
           }
         });
       },
@@ -594,6 +616,9 @@
         //上传文件
         this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
           .then(res => {
+            // e.after(e.clone().val(""));
+            // e.remove();
+            e.target.value='';
             if (res.data.code === 200) {
               let temp = res.data.data[0]
               switch (tag) {
