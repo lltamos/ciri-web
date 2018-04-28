@@ -25,60 +25,93 @@
       </div>
     </div>
     <CrossLine></CrossLine>
+    <!-- swiper -->
+    <swiper :options="swiperOption2" id="slider3">
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">03月24日-04月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">04月24日-05月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">05月24日-06月02日</div>
+        </div>
+      </swiper-slide>
+    </swiper>
+    <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
         <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
         <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
       </div>
-      <div id="index-industry" :class="{active:tabActive==1}">
-        <!-- swiper -->
-        <swiper :options="swiperOption">
-          <swiper-slide style="margin-right: 0">
-            <div class="slide-warp" @click="changeIndustry(1)">
-              <i class="icon-renewable"></i>
-              <span>可再生能源</span>
-            </div>
-          </swiper-slide>
-          <swiper-slide style="margin-right: 0">
-            <div class="slide-warp" @click="changeIndustry(2)">
-              <i class="icon-Infra"></i>
-              <span @click="changeIndustry(2)">基础设施</span>
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="slide-warp" @click="changeIndustry(3)">
-              <i class="icon-forestry"></i>
-              <span @click="changeIndustry(3)">农林牧渔</span>
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="slide-warp" @click="changeIndustry(4)">
-              <i class="icon-fuelgas"></i>
-              <span @click="changeIndustry(4)">供水燃气</span>
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="slide-warp" @click="changeIndustry(5)">
-              <i class="icon-building"></i>
-              <span @click="changeIndustry(5)">建筑建材</span>
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="slide-warp" @click="changeIndustry(6)">
-              <i class="icon-Petroleum"></i>
-              <span @click="changeIndustry(6)">石油化工</span>
-            </div>
-          </swiper-slide>
-          <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div>
-        </swiper>
-      </div>
-      <div class="pro-recommend">
-        <ProjectRecommend :tabPanel="this.tabActive"
-                          :industryCategory="this.industryCategory"
+    </div>
+    <div id="index-industry" :class="{active:tabActive==1}">
+      <!-- swiper -->
+      <swiper :options="swiperOption">
+        <swiper-slide style="margin-right: 0">
+          <div class="slide-warp" @click="changeIndustry(1)">
+            <i class="icon-renewable"></i>
+            <span>可再生能源</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide style="margin-right: 0">
+          <div class="slide-warp" @click="changeIndustry(2)">
+            <i class="icon-Infra"></i>
+            <span @click="changeIndustry(2)">基础设施</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(3)">
+            <i class="icon-forestry"></i>
+            <span @click="changeIndustry(3)">农林牧渔</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(4)">
+            <i class="icon-fuelgas"></i>
+            <span @click="changeIndustry(4)">供水燃气</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(5)">
+            <i class="icon-building"></i>
+            <span @click="changeIndustry(5)">建筑建材</span>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="slide-warp" @click="changeIndustry(6)">
+            <i class="icon-Petroleum"></i>
+            <span @click="changeIndustry(6)">石油化工</span>
+          </div>
+        </swiper-slide>
+      </swiper>
+    </div>
+    <div class="pro-recommend">
+      <ProjectRecommend :tabPanel="this.tabActive"
+                        :industryCategory="this.industryCategory"
 
-        ></ProjectRecommend>
-      </div>
+      ></ProjectRecommend>
     </div>
     <CrossLine></CrossLine>
     <div class="feedback">
@@ -150,12 +183,13 @@
         topsbanner: [],
         items : [],
         swiperOption: {
-          slidesPerView: 3,
+          slidesPerView: 4,
           spaceBetween: 0,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
+        },
+        swiperOption2: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          freeMode: true
         },
         tabActive: 1,
         homeContent1:'',
@@ -317,12 +351,44 @@
         }
       }
     }
+    #slider3 {
+      margin-top: 17px;
+      margin-bottom: 13px;
+      .swiper-slide{width:110px; margin: 0 10px !important;}
+      .invest-finance {
+        width: 110px;
+        height: 55px;
+        padding-top: 20px;
+        @include bg-image("../news/img/slider-bg");
+        background-size: 110px auto;
+        text-align: center;
+        h3 {
+          font-size: 14px;
+          color: #666;
+          height: 35px;
+          line-height: 35px;
+        }
+        .time {
+          font-size: 11px;
+          color: #3f83e6;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
     #index-industry {
-      height: 59px;
       padding: 9px 10px;
       display: none;
       &.active{
         display: block;
+      }
+      .swiper-container{
+        overflow: visible;
+      }
+      .swiper-slide{
+        padding: 10px 0;
+        margin-right:20px;
+        box-shadow: 0px 7px 15px #eee;
       }
 
       i {

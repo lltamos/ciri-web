@@ -13,11 +13,12 @@
                  :projMaturity="projMaturity"></projectHeader>
   <div class="project-intro">
     <h4>
-      <i class="left-line"></i><span>项目简介</span>
-      <div @click="gotoDetail" class="detail-warp">
+      <div class="border"></div>
+      <div class="title-intro">项目简介</div>
+      <!--<div @click="gotoDetail" class="detail-warp">
         <span class="to-detail">项目详情</span>
         <i class="more" ></i>
-      </div>
+      </div>-->
 
     </h4>
     <p class="document-txt">{{projAbstract}}</p>
@@ -185,11 +186,25 @@
         overflow: hidden;
         line-height: 1;
         height: 16px;
-        padding: 12px 10px 12px 15px;
+        padding: 15px 10px 12px 15px;
         color: #333;
         font-size: 16px;
         font-weight: normal;
-        @include onepx('bottom');
+        position: relative;
+        .border{
+          margin-top: 7px;
+        }
+        .title-intro{
+          font-size: 15px;
+          line-height: 1;
+          position: absolute;
+          left: 50%;
+          top: 12px;
+          margin-left: -40px;
+          width: 60px;
+          padding: 0 10px;
+          background-color: #fff;
+        }
         .left-line{
           position: absolute;
           display: block;
