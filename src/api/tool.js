@@ -15,7 +15,7 @@ export default {
   },
 
   generatorUrl: function (url) {
-    if (url.indexOf('/img') !== -1 || url.indexOf('/com') === -1) {
+    if (url.indexOf('/img') !== -1 || url.indexOf('com') !== -1) {
       return url
     } else {
       return this.oos() + url
@@ -82,6 +82,10 @@ export default {
     });
   },
   replaceAll: function (target, s1, s2) {
+    if (this.isBank(target)) {
+      return null;
+    }
+
     return target.replace(new RegExp(s1, "gm"), s2);
 
 

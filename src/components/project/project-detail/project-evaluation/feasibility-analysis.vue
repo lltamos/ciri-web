@@ -140,6 +140,14 @@
     filters: {},
     computed: {},
     created() {
+      let level = sessionStorage.getItem("userLevel");
+      if(level <2){
+        this.memberLevel = false;
+        this.authorityShow = true;
+      }else{
+        this.memberLevel = true;
+        this.authorityShow = false;
+      }
       this.projId = this.$route.query.projId
     },
     mounted() {
@@ -161,14 +169,7 @@
         this.guaranteeId = this.projContent.fund.guaranteeId;
         this.guaranteeNote = this.projContent.fund.guaranteeNote.valueCn;
         this.summary = this.projContent.fund.summary.valueCn;
-        let level = sessionStorage.getItem("userLevel");
-        if(level === 1){
-          this.memberLevel = false;
-          this.authorityShow = true;
-        }else{
-          this.memberLevel = true;
-          this.authorityShow = false;
-        }
+
       });
     },
     destroyed() {

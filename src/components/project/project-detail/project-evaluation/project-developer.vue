@@ -125,7 +125,8 @@
           </tbody>
         </table>
       </div>
-      <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0" class="contact-info">
+      <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0"
+           class="contact-info">
         <div class="contact-title">【联系人信息】</div>
         <table width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
@@ -188,15 +189,15 @@
         projId: null,
         projectOwnerContact: null,
         projectAgentContact: null,
-        authorityShow:true,
-        memberLevel:false
+        authorityShow: true,
+        memberLevel: false
       }
     },
     props: {},
     watch: {},
     methods: {
       upgrade () {
-        this.$router.push({ path: "/mine/member-center" });
+        this.$router.push({path: "/mine/member-center"});
       },
       //权限弹框
       authorityHide () {
@@ -206,6 +207,14 @@
     filters: {},
     computed: {},
     created() {
+      let level = sessionStorage.getItem("userLevel");
+      if (level < 2) {
+        this.memberLevel = false;
+        this.authorityShow = true;
+      } else {
+        this.memberLevel = true;
+        this.authorityShow = false;
+      }
       this.projId = this.$route.query.projId
     },
     mounted() {
@@ -214,14 +223,6 @@
         if (res.code == 200) {
           this.projectOwnerContact = res.projectOwnerContact;
           this.projectAgentContact = res.projectAgentContact;
-          let level = sessionStorage.getItem("userLevel");
-          if(level<3){
-            this.memberLevel = false;
-            this.authorityShow = true;
-          }else{
-            this.memberLevel = true;
-            this.authorityShow = false;
-          }
         }
       })
     },
@@ -230,7 +231,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style  lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
 
@@ -247,6 +248,7 @@
     font-size: 16px;
     font-weight: normal;
   @include onepx('bottom');
+
 
   .left-line {
     position: absolute;

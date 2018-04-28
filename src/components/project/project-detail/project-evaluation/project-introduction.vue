@@ -195,6 +195,7 @@
           this.$api.post('/ah/s0/getProjectAbstractInfo',
             {projId: this.projId, username: tool.getuser()}).then(res => {
             this.projName = res.data.projName
+            this.photo = res.data.photo
             this.amount = res.data.amount
             this.irr = res.data.irr.replace(/.00/g, '')
             this.projDevelopers = res.data.projDevelopers
@@ -215,7 +216,7 @@
             this.operateMetric = res.data.operateMetric
             this.setProjVideo = res.data.setProjVideo
             this.videos = res.data.videos
-            this.photo = res.data.photo
+
             if (!this.setProjVideo)
               return
             let urlStr = ''
