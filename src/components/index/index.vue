@@ -263,6 +263,7 @@
 
   .index {
 
+
     header {
       height: 44px;
       line-height: 44px;
@@ -379,6 +380,7 @@
     #index-industry {
       padding: 9px 10px;
       display: none;
+      overflow: hidden;
       &.active{
         display: block;
       }

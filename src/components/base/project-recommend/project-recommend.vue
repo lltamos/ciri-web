@@ -270,6 +270,7 @@
         position: absolute;
         right:10px;
         bottom: 10px;
+        z-index: 99;
         &.active {
           background: #4285f4;
           color: #fff;
