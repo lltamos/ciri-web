@@ -101,7 +101,6 @@
         guaranteeId: null,
         guaranteeNote: null,
         summary: null,
-        estimatePhoto: null,
         authorityShow:true,
         memberLevel:false
       }
@@ -162,7 +161,6 @@
         this.guaranteeId = this.projContent.fund.guaranteeId;
         this.guaranteeNote = this.projContent.fund.guaranteeNote.valueCn;
         this.summary = this.projContent.fund.summary.valueCn;
-        this.estimatePhoto = this.projContent.estimatePhoto;
         let level = sessionStorage.getItem("userLevel");
         if(level === 1){
           this.memberLevel = false;

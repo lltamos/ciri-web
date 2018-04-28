@@ -172,14 +172,16 @@ export default {
             }
             //
             var level=res.data.data.memberLevelId;
-            if(level>=2){
-              this.vip=true;
-              if(level>=3){
+            switch(level){
+              case 2:
+                this.vip=true;
+                break;
+              case 3:
                 this.xmk=true;
-                if(level>=5){
-                  this.yhw=true;
-                }
-              }
+                break;
+              case 5:
+                this.yhw=true;
+                break;
             }
           }
         });
