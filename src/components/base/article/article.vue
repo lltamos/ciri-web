@@ -5,10 +5,10 @@
         <i class="left-line"></i><span>{{text}}</span>
       </h4>
       <p class="title" v-show="secondShow">【担保方式】</p>
-      <div v-if="this.content!=null" :class="article" ref="articleRef" v-html="replaceHtml()">
+      <div v-if="this.content!=null" :class="article" ref="articleRef"  v-html="replaceHtml()">
       </div>
       <p class="title" v-show="secondShow">【担保说明】</p>
-      <div class="second" :class="article" v-show="secondShow">
+      <div class="second" :class="article" v-show="secondShow" v-html="replaceHtml()">
         {{this.content2}}
       </div>
 
@@ -29,7 +29,7 @@
       return {
         moreText: '阅读全文',
         iconMore: 'icon-more',
-        article: 'article active',
+        article: 'article',
         moreShow: true
       }
     },
@@ -51,11 +51,11 @@
         if (this.moreText == '阅读全文') {
           this.moreText = '收起'
           this.iconMore = 'pack-up'
-          this.article = 'article'
+          this.article = 'article active'
         } else {
           this.moreText = '阅读全文';
           this.iconMore = 'icon-more'
-          this.article = 'article active'
+          this.article = 'article'
         }
       },
       replaceHtml() {
@@ -70,7 +70,6 @@
     }
     ,
     mounted() {
-
     }
     ,
     destroyed() {
@@ -123,15 +122,15 @@
     line-height: 22px;
     color: #666;
     text-indent: 2em;
-
-  &
-  .active {
-    /*height:330px;*/
+    max-height:330px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 15;
-    -webkit-box-orient: vertical;
+    /*text-overflow: ellipsis;*/
+    /*display: -webkit-box;*/
+    /*-webkit-line-clamp: 15;*/
+    /*-webkit-box-orient: vertical;*/
+
+  &.active {
+    max-height:10000px;
   }
 
   }

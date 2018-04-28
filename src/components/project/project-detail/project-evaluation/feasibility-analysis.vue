@@ -58,7 +58,6 @@
                :secondShow="true"></Article>
       <CrossLine></CrossLine>
       <Article text="融资规划" :content="this.summary"></Article>
-      <BigImg v-if="this.estimatePhoto!=null" :content="this.InfraPhoto"></BigImg>
     </div>
     <div v-if="!memberLevel">
       <!--权限弹框-->
