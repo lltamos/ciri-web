@@ -423,7 +423,7 @@
       height: 310px;
       background-repeat: no-repeat;
       background-size: auto auto;
-      background-image: url(/static/img/no-radio@2x.7d2d580.png);
+      @include bg-image("../../img/no-radio");
       background-position: center;
     }
     .intro-detail,.investment-environment{
