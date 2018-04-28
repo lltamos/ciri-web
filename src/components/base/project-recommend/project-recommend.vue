@@ -116,7 +116,7 @@
           invest: [],
           status: this.status,
           tag: this.tag,
-          industryCategory: this.industryCategory
+          industryCategory: this.tabPanel==1?this.industryCategory:99
         }).then(r => {
           this.notloading = false;
           if (this.pageId == 1) {

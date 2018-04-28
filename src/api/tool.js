@@ -3,8 +3,8 @@ import {Toast, MessageBox} from 'mint-ui';
 
 export default {
   domind: function () {
-    //return 'http://60.205.7.211:8816'
-    return 'http://192.168.2.9:8080'
+    return 'http://60.205.7.211:8816'
+    // return 'http://192.168.2.9:8080'
   },
   path: function () {
     return '/gateway'
