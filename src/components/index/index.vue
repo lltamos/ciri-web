@@ -25,54 +25,53 @@
       </div>
     </div>
     <CrossLine></CrossLine>
-    <div id="index-industry">
-      <!-- swiper -->
-      <swiper :options="swiperOption">
-        <swiper-slide style="margin-right: 0">
-          <div class="slide-warp" @click="changeIndustry(1)">
-            <i class="icon-renewable"></i>
-            <span>可再生能源</span>
-          </div>
-        </swiper-slide>
-        <swiper-slide style="margin-right: 0">
-          <div class="slide-warp" @click="changeIndustry(2)">
-            <i class="icon-Infra"></i>
-            <span @click="changeIndustry(2)">基础设施</span>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="slide-warp" @click="changeIndustry(3)">
-            <i class="icon-forestry"></i>
-            <span @click="changeIndustry(3)">农林牧渔</span>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="slide-warp" @click="changeIndustry(4)">
-            <i class="icon-fuelgas"></i>
-            <span @click="changeIndustry(4)">供水燃气</span>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="slide-warp" @click="changeIndustry(5)">
-            <i class="icon-building"></i>
-            <span @click="changeIndustry(5)">建筑建材</span>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="slide-warp" @click="changeIndustry(6)">
-            <i class="icon-Petroleum"></i>
-            <span @click="changeIndustry(6)">石油化工</span>
-          </div>
-        </swiper-slide>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </div>
-    <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
         <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
         <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
+      </div>
+      <div id="index-industry" :class="{active:tabActive==1}">
+        <!-- swiper -->
+        <swiper :options="swiperOption">
+          <swiper-slide style="margin-right: 0">
+            <div class="slide-warp" @click="changeIndustry(1)">
+              <i class="icon-renewable"></i>
+              <span>可再生能源</span>
+            </div>
+          </swiper-slide>
+          <swiper-slide style="margin-right: 0">
+            <div class="slide-warp" @click="changeIndustry(2)">
+              <i class="icon-Infra"></i>
+              <span @click="changeIndustry(2)">基础设施</span>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="slide-warp" @click="changeIndustry(3)">
+              <i class="icon-forestry"></i>
+              <span @click="changeIndustry(3)">农林牧渔</span>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="slide-warp" @click="changeIndustry(4)">
+              <i class="icon-fuelgas"></i>
+              <span @click="changeIndustry(4)">供水燃气</span>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="slide-warp" @click="changeIndustry(5)">
+              <i class="icon-building"></i>
+              <span @click="changeIndustry(5)">建筑建材</span>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="slide-warp" @click="changeIndustry(6)">
+              <i class="icon-Petroleum"></i>
+              <span @click="changeIndustry(6)">石油化工</span>
+            </div>
+          </swiper-slide>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div>
+        </swiper>
       </div>
       <div class="pro-recommend">
         <ProjectRecommend :tabPanel="this.tabActive"
@@ -176,8 +175,6 @@
         for(var i in r.data.lastnotify){
           this.items.push(r.data.lastnotify[i].title);
         }
-        console.log(this.items)
-
         this.topsbanner = r.data.topsbanner;
       });
     },
@@ -221,7 +218,7 @@
         }).catch(err => {
           alert(err);
         })
-      }
+      },
     }
   }
 </script>
@@ -323,6 +320,10 @@
     #index-industry {
       height: 59px;
       padding: 9px 10px;
+      display: none;
+      &.active{
+        display: block;
+      }
 
       i {
         display: block;
