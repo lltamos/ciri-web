@@ -73,7 +73,7 @@
           if(res.code === 200){
             this.projectFileList = res.fileViews;
             let level = sessionStorage.getItem("userLevel");
-            if(level<3){
+            if(level === 1){
               this.memberLevel = false;
             }else{
               this.memberLevel = true;

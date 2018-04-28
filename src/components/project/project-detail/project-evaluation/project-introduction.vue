@@ -231,7 +231,7 @@
                   this.videos[i].url = arr[i]
                 }
                 let level = sessionStorage.getItem("userLevel");
-                if(level<3){
+                if(level === 1){
                   this.authrityStatus = false;
                 }else{
                   this.authrityStatus = true;
