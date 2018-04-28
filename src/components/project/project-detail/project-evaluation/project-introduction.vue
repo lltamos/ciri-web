@@ -384,13 +384,14 @@
           height: 90px!important;
           box-sizing: border-box;
           margin-top: 12px;
+          background: #000;
           img{
             width: 100%;
             height:60px;
           }
           .title{
             font-size: 13px;
-            color:#333;
+            color:#fff;
             line-height: 1;
             margin-top: 5px;
 
@@ -401,13 +402,18 @@
           width: 59.7%;
           height: 100%;
           background-image: none;
+          background: #eee;
+          opacity: .4;
         }
         .gallery-thumbs .swiper-slide img{
           border: 3px solid transparent;
           box-sizing: border-box;
         }
-        .gallery-thumbs .swiper-slide-active img{
-          border: 3px solid #528de8;
+        .gallery-thumbs .swiper-slide-active{
+          opacity:1;
+          .title{
+            color: #000;
+          }
         }
 
       }
