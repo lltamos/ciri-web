@@ -579,7 +579,11 @@
                 // myQuestions:null
               for (var question of this.questions) {
                 if(question.id == this.parentId){
-                  question.projectChatList.unshift(r.data);
+                  if(question.projectChatList == null ||question.projectChatList.length==0){
+                    question.projectChatList=r.data;
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
                   question.total=question.total+1;
                   break;
                 }
@@ -589,7 +593,11 @@
               // mineShow();
               for (var question of this.myQuestions) {
                 if(question.id == this.parentId){
-                  question.projectChatList.unshift(r.data);
+                  if(question.projectChatList == null ||question.projectChatList.length==0){
+                    question.projectChatList=r.data;
+                  }else {
+                    question.projectChatList.unshift(r.data);
+                  }
                   question.total=question.total+1;
                   break;
                 }
