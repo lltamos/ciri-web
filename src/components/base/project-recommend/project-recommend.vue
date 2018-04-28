@@ -116,7 +116,7 @@
           invest: [],
           status: this.status,
           tag: this.tag,
-          industryCategory: this.tabPanel == 1 ? this.industryCategory : 99
+          industryCategory: this.industryCategory
         }).then(r => {
           this.notloading = false;
           if (this.pageId == 1) {
@@ -233,13 +233,13 @@
         .title {
           overflow: hidden;
           position: absolute;
-          bottom: 0;
+          bottom:0;
           left: 0;
-          color: #fff;
-          background: rgba(51, 51, 51, .6);
-          height: 40px;
+          color:#fff;
+          background:rgba(51,51,51,.6) ;
+          height:40px;
           line-height: 1;
-          right: 0;
+          right:0;
           padding-left: 10px;
           .icon-quality {
             color: #fff;
@@ -268,7 +268,7 @@
         font-size: 10px;
         line-height: 1;
         position: absolute;
-        right: 10px;
+        right:10px;
         bottom: 10px;
         z-index: 99;
         &.active {
