@@ -244,7 +244,7 @@
   import Authority from '@/components/base/authority/authority'
   import moment from 'moment'
   import tool from "../../../../api/tool"
-  import MessageBox from 'mint-ui';
+  import { MessageBox } from 'mint-ui';
   export default {
     components: {
       CrossLine,
@@ -341,69 +341,69 @@
       },
       //删除交流信息
       deleteAsk(chatId){
-        // let temp=false;
-        // tool.MessageBox("确实删除",temp);
-        // alert(temp);
-        if(!confirm("确定删除吗")){
-          return;
-        }
-        this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
-          if(r.code==200){
-            tool.toast('删除成功');
-            //所有项目删除列表中信息
-            for (var i = 0; i < this.questions.length; i++) {
-              let que = this.questions[i];
-              if (que.id == chatId) {
-                //注意对比这行代码：删除元素后调整i的值
-                this.questions.splice(i--, 1);
-                // alert(chatId);
-                //提问总数减一
-                this.questionCount=this.questionCount-1;
-                this.myQuestionCount=this.myQuestionCount-1;
-                break;
-              }
-              //删除回复中信息
-              if (que.projectChatList.length > 0) {
-                for (var j = 0; j < que.projectChatList.length; j++) {
-                  let ask = que.projectChatList[j];
-                  if (ask.id == chatId) {
+        MessageBox.confirm('确定删除吗?').then(action => {
+          this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
+            if(r.code==200){
+              tool.toast('删除成功');
+              //所有项目删除列表中信息
+              if(this.tabActive == 1){
+                for (var i = 0; i < this.questions.length; i++) {
+                  let que = this.questions[i];
+                  if (que.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
-                    que.projectChatList.splice(j--, 1);
+                    this.questions.splice(i--, 1);
                     // alert(chatId);
-                    //问题回答信息总数-1
-                    que.total = que.total - 1;
-                    break;
+                    //提问总数减一
+                    this.questionCount=this.questionCount-1;
+                    this.myQuestionCount=this.myQuestionCount-1;
+                    return;
+                  }
+                  //删除回复中信息
+                  if (que.projectChatList!=null && que.projectChatList.length > 0) {
+                    for (var j = 0; j < que.projectChatList.length; j++) {
+                      let ask = que.projectChatList[j];
+                      if (ask.id == chatId) {
+                        //注意对比这行代码：删除元素后调整i的值
+                        que.projectChatList.splice(j--, 1);
+                        // alert(chatId);
+                        //问题回答信息总数-1
+                        que.total = que.total - 1;
+                        return;
+                      }
+                    }
                   }
                 }
               }
-            }
-            //删除我的问题中的信息
-            for (var i = 0; i < this.myQuestions.length; i++) {
-              let que = this.myQuestions[i];
-              if (que.id == chatId) {
-                //注意对比这行代码：删除元素后调整i的值
-                this.myQuestions.splice(i--, 1);
-                break;
-              }
-              //删除回复中信息
-              if (que.projectChatList.length > 0) {
-                for (var j = 0; j < que.projectChatList.length; j++) {
-                  let ask = que.projectChatList[j];
-                  if (ask.id == chatId) {
+              if(this.tabActive == 2){
+                //删除我的问题中的信息
+                for (var i = 0; i < this.myQuestions.length; i++) {
+                  let que = this.myQuestions[i];
+                  if (que.id == chatId) {
                     //注意对比这行代码：删除元素后调整i的值
-                    que.projectChatList.splice(j--, 1);
-                    // alert(chatId);
-                    //问题回答信息总数-1
-                    que.total = que.total - 1;
-                    break;
+                    this.myQuestions.splice(i--, 1);
+                    return;
+                  }
+                  //删除回复中信息
+                  if (que.projectChatList!=null && que.projectChatList.length > 0) {
+                    for (var j = 0; j < que.projectChatList.length; j++) {
+                      let ask = que.projectChatList[j];
+                      if (ask.id == chatId) {
+                        //注意对比这行代码：删除元素后调整i的值
+                        que.projectChatList.splice(j--, 1);
+                        // alert(chatId);
+                        //问题回答信息总数-1
+                        que.total = que.total - 1;
+                        return;
+                      }
+                    }
                   }
                 }
               }
-            }
 
-          }else {
-            tool.toast('删除失败请重试');
-          }
+            }else {
+              tool.toast('删除失败请重试');
+            }
+          });
         });
       },
       //获取所有的问答信息15201197830
