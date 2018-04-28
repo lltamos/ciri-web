@@ -198,7 +198,7 @@
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
-      height: 365px;
+      height: 360px;
       width: 100%;
       margin-top: 14px;
       border-radius: 3px;
@@ -244,13 +244,12 @@
           .icon-quality {
             color: #fff;
             font-size: 10px;
-            line-height: 10px;
             background: #fdb140;
-            padding: 1px 3px;
+            padding: 5px 3px 1px;
             text-align: center;
             margin-right: 5px;
             border-radius: 3px;
-            margin-top: 14px;
+            margin-top: 10px;
           }
           h2 {
             font-size: 14px;
@@ -264,12 +263,13 @@
         border: 1px solid #dedede;
         border-radius: 20px;
         color: #999;
-        padding: 0 5px;
+        padding: 0 8px;
         font-size: 10px;
         line-height: 1;
         position: absolute;
         right:10px;
-        bottom: 10px;
+        bottom: 7px;
+        z-index: 99;
         &.active {
           background: #4285f4;
           color: #fff;
@@ -297,7 +297,7 @@
         }
       }
       .main-news {
-        height: 129px;
+        height: 130px;
         box-sizing: border-box;
         position: relative;
         padding: 15px 10px;
