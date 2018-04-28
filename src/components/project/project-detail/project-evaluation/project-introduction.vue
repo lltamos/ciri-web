@@ -191,6 +191,13 @@
         filters: {},
         computed: {},
         created() {
+          let level = sessionStorage.getItem("userLevel");
+          if(level === 1){
+            this.authrityStatus = false;
+          }else{
+            this.authrityStatus = true;
+            this.authorityShow = false;
+          }
           this.projId = this.$route.query.projId
           this.$api.post('/ah/s0/getProjectAbstractInfo',
             {projId: this.projId, username: tool.getuser()}).then(res => {
@@ -231,13 +238,7 @@
                 for (var i = 0; i < arr.length; i++) {
                   this.videos[i].url = arr[i]
                 }
-                let level = sessionStorage.getItem("userLevel");
-                if(level === 1){
-                  this.authrityStatus = false;
-                }else{
-                  this.authrityStatus = true;
-                  this.authorityShow = false;
-                }
+
             })
           })
         },
