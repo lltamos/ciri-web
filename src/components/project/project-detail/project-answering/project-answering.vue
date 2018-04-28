@@ -580,7 +580,7 @@
               for (var question of this.questions) {
                 if(question.id == this.parentId){
                   if(question.projectChatList == null ||question.projectChatList.length==0){
-                    question.projectChatList=r.data;
+                    question.projectChatList=new Array(r.data);
                   }else {
                     question.projectChatList.unshift(r.data);
                   }
@@ -594,7 +594,7 @@
               for (var question of this.myQuestions) {
                 if(question.id == this.parentId){
                   if(question.projectChatList == null ||question.projectChatList.length==0){
-                    question.projectChatList=r.data;
+                    question.projectChatList=new Array(r.data);
                   }else {
                     question.projectChatList.unshift(r.data);
                   }
