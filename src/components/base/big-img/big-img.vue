@@ -62,7 +62,6 @@
             };
             this.slide1.push(j);
           });
-          console.log(JSON.stringify(this.slide1))
           return this.slide1;
         },
         set:function () {}
