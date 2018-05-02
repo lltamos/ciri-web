@@ -4,7 +4,7 @@
     <i class="left-line"></i><span>项目简介</span>
   </h4>
   <div class="company-msg">
-    <table width="100%" border="1" cellspacing="0" cellpadding="0">
+    <table width="100%" cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
           <td>项目名称</td>
@@ -284,7 +284,7 @@
       padding: 10px;
       margin-bottom: 7px;
       table{
-        border:1px solid #dedede;
+        border-collapse: collapse;
         tr{
           height:28px;
           line-height: 28px;
@@ -293,10 +293,33 @@
           td:first-child{
             text-align: center;
             padding: 0 6px 0 5px;
+            /*border-right:1px solid #dedede;*/
+            /*border-top:1px solid #dedede;*/
+            @include one-border();
+            &:after{
+              border-bottom: none;
+              border-left: none;
+            }
           }
           td:last-child{
             text-align: left;
             padding-left: 20px;
+            /*border-top:1px solid #dedede;*/
+            @include one-border();
+            &:after{
+              border-bottom: none;
+              border-left: none;
+              border-right: none;
+            }
+          }
+          &:last-child{
+            td{
+              /*border-bottom: 1px solid #dedede;*/
+              @include one-border();
+              &:after{
+                border-left: none;
+              }
+            }
           }
         }
       }

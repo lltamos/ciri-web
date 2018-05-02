@@ -140,7 +140,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    border-top: 1px solid rgba(7, 17, 27, 0.1);
+    border-top: 1px solid #dedede;
     transform: scaleY(0.5);
   }
 
@@ -162,6 +162,7 @@
     }
   }
 }
+
 //虚线
 @mixin onepx-dashed($mode: 'top', $lastHide: false) {
   // 低级用法：
@@ -198,6 +199,28 @@
         border-top: 0;
       }
     }
+  }
+}
+
+//1px 边框 上下左右
+@mixin one-border(){
+  position: relative;
+  margin-bottom: 20px;
+  border:none;
+  &:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #dedede;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
   }
 }
 
