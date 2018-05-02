@@ -52,7 +52,7 @@
     </div>
 
     <!--项目tab-->
-    <div class="tab-warp">
+    <div :class="tabWarp">
       <ul class="project-tab">
         <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}"
                      replace>项目评估
@@ -138,6 +138,7 @@
             clickable: true
           }
         },
+        tabWarp:'tab-warp',
         projId: 0,
         projAbstract: null,
         likes: 0,
@@ -168,6 +169,15 @@
       }
     },
     methods: {
+      //页面滚动时
+      handleScroll () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (scrollTop > 580) {
+          this.tabWarp = 'tab-warp active'
+        } else {
+          this.tabWarp = 'tab-warp'
+        }
+      },
       giveLikes() {
         if (this.isLikes !== null) {
           tool.toast('不能重复点赞')
@@ -255,7 +265,12 @@
     },
     created() {
       window.scrollTo(0,0);
-      this.init()
+      this.init();
+      //页面滚动时
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed () {
+      window.removeEventListener("scroll",this.handleScroll);
     }
   }
 </script>
@@ -487,13 +502,20 @@
   }
   .tab-warp {
   @include onepx('bottom');
-
+    &.active{
+      position: fixed;
+      top:0;
+      left: 0;
+      right: 0;
+      display: block;
+      background: #fff;
+      z-index: 999;
+    }
   .project-tab {
     height: 45px;
     text-align: center;
     margin: auto;
     display: table;
-
   li {
     float: left;
     line-height: 45px;
