@@ -266,11 +266,12 @@
         color: #999;
         padding: 0 5px;
         font-size: 10px;
-        line-height: 1;
         position: absolute;
         right:10px;
         bottom: 10px;
         z-index: 99;
+        height:20px;
+        line-height: 20px;
         &.active {
           background: #4285f4;
           color: #fff;
@@ -281,7 +282,7 @@
         .icon-dianzan {
           display: inline-block;
           width: 9px;
-          height: 20px;
+          height:9px;
           background-repeat: no-repeat;
           background-size: 9px auto;
           background-position: center;
@@ -298,7 +299,7 @@
         }
       }
       .main-news {
-        height: 129px;
+        height: 132px;
         box-sizing: border-box;
         position: relative;
         padding: 15px 10px;
