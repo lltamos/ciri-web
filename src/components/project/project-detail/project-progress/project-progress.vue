@@ -164,10 +164,8 @@
               this.authorityShow = false;
             }else{
               this.authorityShow = true;
-              if(this.memberLevel<3){
-                this.authorityShow = true;
-              }
             }
+
           }
 
         },
