@@ -293,8 +293,6 @@
           td:first-child{
             text-align: center;
             padding: 0 6px 0 5px;
-            /*border-right:1px solid #dedede;*/
-            /*border-top:1px solid #dedede;*/
             @include one-border();
             &:after{
               border-bottom: none;
@@ -304,7 +302,6 @@
           td:last-child{
             text-align: left;
             padding-left: 20px;
-            /*border-top:1px solid #dedede;*/
             @include one-border();
             &:after{
               border-bottom: none;
@@ -314,10 +311,14 @@
           }
           &:last-child{
             td{
-              /*border-bottom: 1px solid #dedede;*/
               @include one-border();
               &:after{
                 border-left: none;
+              }
+              &:last-child{
+                &:after{
+                  border-right: none;
+                }
               }
             }
           }
