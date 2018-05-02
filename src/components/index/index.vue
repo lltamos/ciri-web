@@ -24,7 +24,41 @@
         </div>
       </div>
     </div>
+    <CrossLine></CrossLine>
     <!-- swiper -->
+    <swiper :options="swiperOption2" id="slider3">
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">02月24日-03月02日</div>
+
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">03月24日-04月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">04月24日-05月02日</div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="invest-finance">
+          <h3>投融资周报</h3>
+          <div class="time">05月24日-06月02日</div>
+        </div>
+      </swiper-slide>
+    </swiper>
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
@@ -149,8 +183,9 @@
         topsbanner: [],
         items : [],
         swiperOption: {
-          slidesPerView: 4,
-          spaceBetween: 0,
+          slidesPerView: 3.5,
+          spaceBetween: 20,
+          freeMode: true
         },
         swiperOption2: {
           slidesPerView: 3,
@@ -356,7 +391,7 @@
       .swiper-slide{
         padding: 10px 0;
         margin-right:20px;
-        box-shadow: 0px 7px 15px #eee;
+        box-shadow: 0px 3px 7px #eee;
       }
 
       i {
