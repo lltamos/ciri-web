@@ -192,7 +192,7 @@
         computed: {},
         created() {
           let level = sessionStorage.getItem("userLevel");
-          if(level === 1){
+          if(level === '1'){
             this.authrityStatus = false;
           }else{
             this.authrityStatus = true;
