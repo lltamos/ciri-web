@@ -353,8 +353,6 @@
         }
         this.pageId = this.pageId + 1;
       });
-
-
     },
       created () {
       //页面滚动时
@@ -364,7 +362,10 @@
       this.country('getAllIndustry',this.indestryList);
       this.tabContents.unshift(this.countryList,this.indestryList)
     },
-    destroyed () {}
+    destroyed () {
+      window.removeEventListener("scroll",this.handleScroll);
+
+    }
 
 
 
