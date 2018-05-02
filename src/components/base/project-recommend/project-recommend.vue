@@ -246,7 +246,7 @@
             font-size: 10px;
             line-height: 10px;
             background: #fdb140;
-            padding: 1px 3px;
+            padding: 3px 3px 0;
             text-align: center;
             margin-right: 5px;
             border-radius: 3px;
@@ -264,14 +264,14 @@
         border: 1px solid #dedede;
         border-radius: 20px;
         color: #999;
-        padding: 0 5px;
+        padding: 0 17px;
         font-size: 10px;
         position: absolute;
         right:10px;
         bottom: 10px;
         z-index: 99;
         height:20px;
-        line-height: 20px;
+        line-height: 22px;
         &.active {
           background: #4285f4;
           color: #fff;
@@ -305,37 +305,35 @@
         padding: 15px 10px;
         .tip {
           overflow: hidden;
-          font-size: 9px;
-          color: #333;
+          font-size: 11px;
+          color: #666;
           .red {
             height: 14px;
             width: 50px;
             line-height: 14px;
-            font-size: 9px;
             margin-right: 5px;
             text-align: center;
             border: 1px solid #ff0000;
           }
 
           .yellow {
-            height: 14px;
-            width: 50px;
-            line-height: 14px;
-            margin-right: 5px;
+            width: 140px;
+            font-size: 22px;
+            margin-right: 10px;
             text-align: center;
             border: 1px solid #fdb140;
-
+            zoom:0.5;
+            -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
           }
 
           .video {
             width: 20px;
-            height: 20px;
+            height: 15px;
             background-repeat: no-repeat;
             @include bg-image("../img/video");
-            background-size: 20px auto;
+            background-size: 20px 15px;
             background-position: center;
-            margin-top: -3px;
-
           }
 
         }
