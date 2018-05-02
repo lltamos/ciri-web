@@ -70,7 +70,7 @@
         projectId: '496000001'
       };
       let level = sessionStorage.getItem("userLevel");
-      if (level <2) {
+      if (level === '1') {
         this.memberLevel = false;
       } else {
         this.memberLevel = true;
