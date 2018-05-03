@@ -2,8 +2,7 @@
 
 <template>
   <div class="msg">
-    <header class="gradient">源合资讯
-      <i class="icon_search"></i>
+    <header class="gradient">我的消息
     </header>
     <div class="main">
       <ul class="tab">
