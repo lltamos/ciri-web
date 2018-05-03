@@ -26,6 +26,8 @@ import ProgressDetail from '@/components/project/project-detail/project-progress
 import ProjectAnswering from '@/components/project/project-detail/project-answering/project-answering'
 import InvestmentIntent from '@/components/project/project-detail/investment-intent/investment-intent'
 import Msg from '@/components/msg/msg'
+import Station from '@/components/msg/station/station'
+import SystemNotification from '@/components/msg/system-notification/system-notification'
 import Mine from '@/components/mine/mine'
 import MyProfile from '@/components/mine/my-profile/my-profile'
 import ChangeKey from '@/components/mine/my-profile/change-key'
@@ -223,7 +225,18 @@ export default new Router({
     // 消息
     {
       path: '/msg',
-      component: Msg
+      redirect: '/msg/station',
+      component: Msg,
+      children:[
+        {
+          path: 'station',
+          component: Station
+        },
+        {
+          path: 'system-notification',
+          component: SystemNotification
+        }
+      ]
     },
     // 我的
     {
