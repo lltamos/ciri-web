@@ -1,10 +1,11 @@
 import 'mint-ui/lib/style.css'
 import {Toast, MessageBox} from 'mint-ui';
+import moment from 'moment'
 
 export default {
   domind: function () {
-    return 'http://60.205.7.211:8816'
-    // return 'http://192.168.2.9:8080'
+    // return 'http://60.205.7.211:8816'
+    return 'http://127.0.0.1:8080'
   },
   path: function () {
     return '/gateway'
@@ -58,6 +59,9 @@ export default {
   isBank: function (str) {
     return typeof str === 'undefined' || str === '' || str === null;
   },
+  isBankArr: function (arr) {
+    return arr === null || arr.length != 0;
+  },
   islogin: function () {
     return sessionStorage.getItem('islogin')
   },
@@ -85,10 +89,10 @@ export default {
     if (this.isBank(target)) {
       return null;
     }
-
     return target.replace(new RegExp(s1, "gm"), s2);
-
-
+  },
+  time(time) {
+    return moment(time).format("YYYY-MM-DD");
   }
 
 

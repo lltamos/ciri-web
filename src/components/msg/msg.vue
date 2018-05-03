@@ -121,7 +121,8 @@
         border-top: 1px solid #528deb;
         border-right: 1px solid #528deb;
         border-bottom: 1px solid #528deb;
-        &.router-link-active {
+
+  &.router-link-active {
           color: #fff;
           background-color: #528de8;
         }
