@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/index/index'
-// import ProjectRecommend from '@/components/index/project-recommend/project-recommend'
-// import SuccessfulCases from '@/components/index/successful-cases/successful-cases'
 import News from '@/components/news/news'
 import NewsDetail from '@/components/news/news-detail/news-detail'
 import CIRINews from '@/components/news/CIRI-News/CIRI-News'
@@ -54,6 +52,7 @@ import Register from '@/components/login/register'
 import Resetpwd from '@/components/login/resetpwd'
 import Authcode from '@/components/login/authcode'
 import Deal from '@/components/login/deal'
+import Search from '@/components/search/search'
 
 Vue.use(Router)
 export default new Router({
@@ -68,6 +67,11 @@ export default new Router({
     {
       path: '/index',
       component: Index,
+    },
+    // 搜索
+    {
+      path: '/search',
+      component: Search,
     },
     // 登录
     {
