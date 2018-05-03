@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <header class="gradient">INDUSTRYC2C
-      <i class="icon_search"></i>
+      <i class="icon_search" @click="search"></i>
     </header>
     <!-- 轮播图 -->
     <div  class="slider" id="sliderIndex1">
@@ -254,6 +254,9 @@
           alert(err);
         })
       },
+      search () {
+        this.$router.replace({ path: "/search" });
+      }
     }
   }
 </script>
@@ -263,8 +266,6 @@
   @import '~@/assets/scss/index.scss';
 
   .index {
-
-
     header {
       height: 44px;
       line-height: 44px;
