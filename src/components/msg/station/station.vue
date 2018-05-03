@@ -5,7 +5,10 @@
       <li :class="{active:tabActive==2}" @click="showOutbox">发件箱 <em></em></li>
     </ul>
     <div class="inbox" v-show="seeInbox">
-      <Inbox :typeIcon="this.icon" :btnColor="this.color"></Inbox>
+      <Inbox typeIcon="icon-agree" btnColor="color-agree" btnTitle="已同意"></Inbox>
+      <Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>
+      <Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理"></Inbox>
+      <Inbox typeIcon="icon-no-see-no-deal" btnColor="color-deal" btnTitle="待处理"></Inbox>
     </div>
 
     <div class="outbox" v-show="!seeInbox">
@@ -29,9 +32,7 @@
       return {
         tabActive : 1,
         seeInbox: true,
-        isShow:false,
-        icon: "icon-no-see-no-deal",
-        color:"color-agree"
+        isShow:false
       }
     },
     props: {},

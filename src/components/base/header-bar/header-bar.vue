@@ -16,7 +16,7 @@
     props: {
       text: {
         type: String,
-        default: '商家列表'
+        default: ''
       }
     },
     watch: {},

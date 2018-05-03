@@ -1,12 +1,12 @@
 <template>
     <div class="inbox-page clearfix">
-      <i class="icon-type fl icon-no-see-no-deal" :class="typeIcon"></i>
+      <i class="icon-type fl" :class="typeIcon"></i>
       <div class="message mar">
         <div class="top-message" @click="showDetail">
           <p>
             <span class="title">[<router-link to="">LiZhuQing</router-link>]申请查看项目: </span>[<router-link to="">巴西矿物质水工厂项目</router-link>]<span class="time">【 2018-03-16 09:41:43】</span>
           </p>
-          <div class="msg-btn" :class="btnColor">已同意</div>
+          <div class="msg-btn" :class="btnColor" v-text="btnTitle">已同意</div>
         </div>
 
         <div class="bottom-message" v-show="isShow">
@@ -38,6 +38,9 @@
         type: String
       },
       btnColor: {
+        type: String
+      },
+      btnTitle:{
         type: String
       }
     },

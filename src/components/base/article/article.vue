@@ -30,7 +30,7 @@
         moreText: '阅读全文',
         iconMore: 'icon-more',
         article: 'article',
-        moreShow: true
+        moreShow: false
       }
     },
     props: {
@@ -59,6 +59,13 @@
         }
       },
       replaceHtml() {
+        if (this.content!== null){
+          if (this.content.length>405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+        }
         return tool.replaceAll(this.content, '\n', '<br/>');
       }
     },
