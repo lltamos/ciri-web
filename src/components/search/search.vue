@@ -9,12 +9,29 @@
   <div class="search-warp" id="search-warp">
     <div class="search-box">
       <i class="icon-search" @click="searchKey"></i>
-      <input type="text" placeholder="项目 投资人">
+      <input type="text" placeholder="项目 投资人" v-model="searchValue" @keyup.enter="searchKey">
+      <i class="search-cancel" @click="searchCancel"></i>
     </div>
   </div>
   <div class="main">
     <div class="hot-search" v-show="keyword">
-      <div>热门搜索</div>
+      <div class="title">热门搜索</div>
+      <ul class="clearfix">
+        <li>新能源
+          <div class="line"></div>
+        </li>
+        <li>水电
+          <div class="line"></div>
+        </li>
+        <li>农业</li>
+        <li>伊朗
+          <div class="line"></div>
+        </li>
+        <li>巴西
+          <div class="line"></div>
+        </li>
+        <li>哈萨克斯坦</li>
+      </ul>
     </div>
     <SearchList v-show="!keyword"></SearchList>
   </div>
@@ -33,6 +50,7 @@
     data() {
         return {
           keyword : true,
+          searchValue : ''
         }
     },
     props: {},
@@ -42,7 +60,12 @@
         window.history.back()
       },
       searchKey () {
-        this.keyword = false;
+        if(this.searchValue){
+          this.keyword = false;
+        }
+      },
+      searchCancel(){
+        this.searchValue = '';
       }
     },
     filters: {},
@@ -61,8 +84,14 @@
     @import '~@/assets/scss/mixin.scss';
     @import '~@/assets/scss/const.scss';
   #search{
+    padding-top: 44px;
     .header-warp{
       height:44px;
+      position: fixed;
+      top: 0;
+      left:0;
+      width: 100%;
+      z-index: 998;
       .header-bar {
         height: 44px;
         line-height: 44px;
@@ -70,6 +99,7 @@
         font-size: 14px;
         text-align: center;
         position: relative;
+        padding: 0 10px;
         h1 {
           color: #fff;
           font-size: 20px;
@@ -82,6 +112,7 @@
           margin: 11px auto;
           @include bg-image("../news/img/back");
           background-size: 22px auto;
+          margin-right: 10px;
         }
       }
     }
@@ -92,40 +123,80 @@
       left: 0;
       right:0;
       padding: 6px 0;
-      margin: 0 30px;
-    }
-    .search-box{
-      width:90%;
-      height:30px;
-      border-radius: 30px;
-      border:1px solid #dedede;
-      margin: auto;
-      left:0;
-      right:0;
-      background: #fff;
-      text-align: left;
-      .icon-search{
-        display: inline-block;
-        width:15px;
-        height:15px;
-        background-size: 15px auto;
-        background-repeat: no-repeat;
-        margin: 0 10px 0 12px;
-        @include bg-image('../project/img/icon-search');
-        position: relative;
-        top:2px;
-
-      }
-      input{
+      margin: 0 10px 0 42px;
+      .search-box{
+        width:100%;
         height:30px;
-        width:80%;
-        border: none;
-        outline: none;
+        border-radius: 30px;
+        border:1px solid #dedede;
+        margin: auto;
+        left:0;
+        right:0;
+        background: #fff;
+        text-align: left;
+        .icon-search{
+          display: inline-block;
+          width:15px;
+          height:15px;
+          background-size: 15px auto;
+          background-repeat: no-repeat;
+          margin: 0 10px 0 12px;
+          @include bg-image('../project/img/icon-search');
+          position: relative;
+          top:2px;
 
+        }
+        .search-cancel{
+          display: inline-block;
+          width:15px;
+          height:15px;
+          background-size: 15px auto;
+          background-repeat: no-repeat;
+          margin: 8px 15px 0 0;
+          @include bg-image('../index/img/search-cancel');
+          position: relative;
+          float:right;
+        }
+        input{
+          height:30px;
+          width:70%;
+          border: none;
+          outline: none;
+
+        }
       }
     }
     .main{
-      text-align: left;
+      .hot-search{
+        padding: 50px 10px 0;
+        .title{
+          font-size: 14px;
+          color:#666;
+          line-height: 1;
+        }
+        ul{
+          margin-top: 18px;
+          li{
+            float:left;
+            width: 33.33%;
+            font-size: 16px;
+            color:#528de8;
+            line-height: 1;
+            position: relative;
+            margin: 12px 0;
+            .line{
+              position: absolute;
+              right:0;
+              top:0;
+              width:1px;
+              height:15px;
+              background: #b6d3ff;
+
+            }
+
+          }
+        }
+      }
     }
   }
 

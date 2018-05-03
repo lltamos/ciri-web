@@ -62,7 +62,7 @@ export default {
     position: fixed;
     bottom: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 199;
     padding: 7px 0 6px;
     li {
       flex: 1;
@@ -140,7 +140,7 @@ export default {
     @include onepx();
     position: fixed;
     background-color: #fcfcfc;
-    z-index: 98;
+    z-index: 198;
   }
 }
 </style>

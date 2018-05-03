@@ -255,7 +255,7 @@
         })
       },
       search () {
-        this.$router.replace({ path: "/search" });
+        this.$router.push({ path: "/search" });
       }
     }
   }
