@@ -95,5 +95,10 @@ export default {
   time(time) {
     return moment(time).format("YYYY-MM-DD");
   },
+  pxKey:function(str){
+  let num = str.replace("px","");
+      num = parseInt(num);
+  return num;
+}
 
 }
