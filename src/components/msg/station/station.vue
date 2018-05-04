@@ -97,8 +97,6 @@
           rowCount: 10
         }).then(res => {
           if (res.code == 200) {
-            // this.msgs = res.data.msgs
-            // this.pageId++
             this.notloading = false;
             if (this.pageId == 1 || this.msgs == null) {
               this.msgs = res.data.msgs

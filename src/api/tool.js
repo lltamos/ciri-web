@@ -24,7 +24,7 @@ export default {
   },
 
   checkEmail: function (email) {
-    let re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/
+    let re = /^.*\@.*\.com/
     return re.test(email)
   },
   checkMobile: function (mobile) {

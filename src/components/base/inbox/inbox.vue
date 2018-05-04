@@ -8,14 +8,14 @@
           <span class="title" v-html="this.content.title"></span><span
           class="time">【{{time(this.content.createTime)}}】</span>
         </p>
-        <div class="msg-btn" :class="btnColor" >{{this.btnTitle}}</div>
+        <div class="msg-btn" :class="btnColor">{{this.btnTitle}}</div>
       </div>
       <div class="bottom-message" v-show="isShow">
         <p v-html="this.content.content" @click.prevent="toProject">
         </p>
         <div class="deal-btn-wrap" v-if="btnShow">
-          <div class="deal-btn deal-btn-refuse">拒绝</div>
-          <div class="deal-btn deal-btn-agree">同意</div>
+          <div class="deal-btn deal-btn-refuse" @click="apply(0)">拒绝</div>
+          <div class="deal-btn deal-btn-agree" @click="apply(1)">同意</div>
         </div>
       </div>
     </div>
@@ -31,8 +31,8 @@
     data() {
       return {
         isShow: false,
-        id:'',
-        sort:'',
+        id: '',
+        sort: '',
         reg: true,
       }
     },
@@ -51,7 +51,7 @@
       },
       btnShow: {
         type: Boolean,
-        default : true
+        default: true
       }
 
     },
@@ -59,48 +59,67 @@
     methods: {
       showDetail() {
         this.isShow = !this.isShow;
+        if (this.content != null && this.content.readTime == null)
+          this.$api.get('/ah/s0/i/read', {
+            msgId: this.content.id
+          }).then(res => {
+            if (res.code == 200) {
+              this.content.readTime=new Date();
+              console.log('已阅读消息')
+            }
+          });
+      },
+      apply(t) {
+        this.$api.get('/ah/s0/i/agree', {
+          msgId: this.content.id,
+          flag: t
+        }).then(res => {
+          if (res.code == 200) {
+            console.log('已阅读消息')
+          }
+        });
       },
       time(time) {
         return tool.time(time);
       },
-      toProject () {
-        if(this.reg){
-          this.$router.push({path: '/project/project-land?projId='+this.id});
+      toProject() {
+        if (this.reg) {
+          this.$router.push({path: '/project/project-land?projId=' + this.id});
         }
       },
-      projectId(){
-        let re=/<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g;
+      projectId() {
+        let re = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g;
 
-        let str=this.content.content;
+        let str = this.content.content;
 
-        let arr=[];
+        let arr = [];
 
-        while(re.exec(str)!=null)
-        {
-          arr.push(RegExp.$1+"\n");//如果是RegExp.$1那么匹配的就是href里的属性了!
+        while (re.exec(str) != null) {
+          arr.push(RegExp.$1 + "\n");//如果是RegExp.$1那么匹配的就是href里的属性了!
         }
         this.sort = arr[0];
-        this.reg=this.sort.indexOf("coinvest")!=-1;
-        let index=arr[0].lastIndexOf("\/");
-        this.id = arr[0] = arr[0].substring(index + 1, arr[0] .length);
-        this.sort=str.substr(0,2);
+        this.reg = this.sort.indexOf("coinvest") != -1;
+        let index = arr[0].lastIndexOf("\/");
+        this.id = arr[0] = arr[0].substring(index + 1, arr[0].length);
+        this.sort = str.substr(0, 2);
       }
     },
     filters: {},
     computed: {},
     created() {
+
     },
     mounted() {
       this.projectId();
       console.log(this.btnColor)
-      if(this.btnColor=='msg-btn color-deal'){
-        this.btnTitle='待处理'
+      if (this.btnColor == 'msg-btn color-deal') {
+        this.btnTitle = '待处理'
 
-      }else if(this.btnColor=='msg-btn color-refuse'){
-        this.btnTitle='已拒绝'
+      } else if (this.btnColor == 'msg-btn color-refuse') {
+        this.btnTitle = '已拒绝'
 
-      } else if(this.btnColor=='msg-btn color-agree'){
-        this.btnTitle='已同意'
+      } else if (this.btnColor == 'msg-btn color-agree') {
+        this.btnTitle = '已同意'
 
       }
 
@@ -120,150 +139,147 @@
     font-size: 13px;
     position: relative;
 
-  .icon-type {
-    display: inline-block;
-    width: 11px;
-    height: 18px;
-    vertical-align: middle;
-    background-size: 11px 11px;
-    background-repeat: no-repeat;
-    background-position: 0px 4px;
-  }
+    .icon-type {
+      display: inline-block;
+      width: 11px;
+      height: 18px;
+      vertical-align: middle;
+      background-size: 11px 11px;
+      background-repeat: no-repeat;
+      background-position: 0px 4px;
+    }
 
-  .icon-no-see {
-  @include bg-image("../../msg/img/noSee");
-  }
+    .icon-no-see {
+      @include bg-image("../../msg/img/noSee");
+    }
 
-  .icon-no-see-no-deal {
-  @include bg-image("../../msg/img/noSeeNoDeal");
-  }
+    .icon-no-see-no-deal {
+      @include bg-image("../../msg/img/noSeeNoDeal");
+    }
 
-  .icon-already-see-no-deal {
-  @include bg-image("../../msg/img/alSeeNoDeal");
-  }
+    .icon-already-see-no-deal {
+      @include bg-image("../../msg/img/alSeeNoDeal");
+    }
 
-  .icon-already-see {
-  @include bg-image("../../msg/img/alreadySee");
-  }
+    .icon-already-see {
+      @include bg-image("../../msg/img/alreadySee");
+    }
 
-  .icon-refuse {
-  @include bg-image("../../msg/img/refuse");
-  }
+    .icon-refuse {
+      @include bg-image("../../msg/img/refuse");
+    }
 
-  .icon-agree {
-  @include bg-image("../../msg/img/agree");
-  }
+    .icon-agree {
+      @include bg-image("../../msg/img/agree");
+    }
 
-  .mar {
-    margin-left: 20px;
-  }
+    .mar {
+      margin-left: 20px;
+    }
 
-  .message {
+    .message {
 
-  a {
-    color: #528de8;
-    text-decoration: underline;
-    margin: 0 3px;
+      a {
+        color: #528de8;
+        text-decoration: underline;
+        margin: 0 3px;
 
-  &
-  :hover,
+        &
+        :hover,
+        &
+        :visited,
+        &
+        :link,
+        &
+        :active {
+          color: #528de8;
+        }
 
-  &
-  :visited,
+      }
+      .top-message {
+        font-size: 14px;
+        cursor: pointer;
+        color: black;
+        position: relative;
 
-  &
-  :link,
+        p {
+          position: relative;
+          height: 40px;
 
-  &
-  :active {
-    color: #528de8;
-  }
+          .title {
+            line-height: 20px;
+          }
 
-  }
-  .top-message {
-    font-size: 14px;
-    cursor: pointer;
-    color: black;
-    position: relative;
+          .time {
+            line-height: 20px;
+            color: #666;
+          }
 
-  p {
-    position: relative;
-    height:40px;
+        }
+        .msg-btn {
+          width: 60px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          border-radius: 3px;
+          background-color: #edf3fd;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 22px;
+        }
 
-  .title {
-    line-height: 20px;
-  }
+        .color-agree {
+          color: #ff0000;
+        }
 
-  .time {
-    line-height: 20px;
-    color: #666;
-  }
+        .color-refuse {
+          color: #999;
+        }
 
-  }
-  .msg-btn {
-    width: 60px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 3px;
-    background-color: #edf3fd;
-    display: inline-block;
-    position: absolute;
-    right: 10px;
-    top: 22px;
-  }
+        .color-deal {
+          color: #528de8;
+        }
 
-  .color-agree {
-    color: #ff0000;
-  }
+      }
+      .bottom-message {
+        margin-top: 5px;
+        color: #666;
+        font-size: 12px;
 
-  .color-refuse {
-    color: #999;
-  }
+        p {
+          line-height: 20px;
+        }
 
-  .color-deal {
-    color: #528de8;
-  }
+        .deal-btn-wrap {
+          display: flex;
+          justify-content: center;
+          margin: 15px 0px 0px -20px;
 
-  }
-  .bottom-message {
-    margin-top: 5px;
-    color: #666;
-    font-size: 12px;
+          .deal-btn {
+            height: 25px;
+            line-height: 25px;
+            width: 75px;
+            color: #fff;
+            font-size: 13px;
+            border-radius: 3px;
+            text-align: center;
+          }
 
-  p {
-    line-height: 20px;
-  }
+          .deal-btn-refuse {
+            background-color: #eee;
+            color: #333;
 
-  .deal-btn-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0px 0px -20px;
+          }
 
-  .deal-btn {
-    height: 25px;
-    line-height: 25px;
-    width: 75px;
-    color: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    text-align: center;
-  }
+          .deal-btn-agree {
+            background-color: #528de8;
+            margin-left: 25px;
+          }
 
-  .deal-btn-refuse {
-    background-color: #eee;
-    color: #333;
-
-  }
-
-  .deal-btn-agree {
-    background-color: #528de8;
-    margin-left: 25px;
-  }
-
-  }
-  }
-  }
+        }
+      }
+    }
   }
 
 </style>
