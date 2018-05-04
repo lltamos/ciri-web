@@ -8,7 +8,7 @@
           <span class="title" v-html="this.content.title"></span><span
           class="time">【{{time(this.content.createTime)}}】</span>
         </p>
-        <div class="msg-btn" :class="btnColor" v-text="btnTitle"></div>
+        <div class="msg-btn" :class="btnColor" >{{this.btnTitle}}</div>
       </div>
       <div class="bottom-message" v-show="isShow">
         <p v-html="this.content.content" @click.prevent="toProject">
@@ -34,7 +34,6 @@
         id:'',
         sort:'',
         reg: true,
-        btnTitle:'已同意'
       }
     },
     props: {
@@ -44,9 +43,9 @@
       btnColor: {
         type: Object
       },
-      // btnTitle: {
-      //   type: Object
-      // },
+      btnTitle: {
+        type: String,
+      },
       content: {
         type: Object
       },
