@@ -6,15 +6,27 @@
     </ul>
     <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
 
-      <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
-             btnTitle="已同意"></Inbox>
+      <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
+             :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+             :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+             :btnTitle="{'已同意':msg.accessmode==3,'已拒绝':msg.accessmode==4,
+             '待处理':msg.accessmode==2,'待处理':msg.accessmode==1}" :btnShow='msg.isApprove == 0 ? true : false'></Inbox>
 
       <!--<Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>-->
       <!--<Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理" res=""></Inbox>-->
       <!--<Inbox typeIcon="icon-no-see-no-deal" btnColor="color-deal" btnTitle="待处理"></Inbox>-->
+      <button @click="loadMore()" :disabled="this.disabled" class="more">
+        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
+      </button>
     </div>
     <div class="outbox" v-show="!seeInbox">
-      <outbox></outbox>
+      <outbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
+             btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></outbox>
+      <button @click="loadMore()" :disabled="this.disabled" class="more">
+        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
+      </button>
     </div>
 
   </div>
@@ -38,8 +50,10 @@
         isShow: false,
         msgs: null,
         url: '/ah/s0/i/insidemsg',
-        pageId: 1
-
+        pageId: 1,
+        moreText: '查看更多',
+        disabled: false,
+        isIcon: true,
       }
     },
     props: {},
@@ -69,12 +83,31 @@
       },
       loadMore() {
         this.$api.get(this.url, {
-          pageId: 1,
+          pageId: this.pageId,
           rowCount: 10
         }).then(res => {
           if (res.code == 200) {
-            this.msgs = res.data.msgs
-            this.pageId++
+            // this.msgs = res.data.msgs
+            // this.pageId++
+            this.notloading = false;
+            if (this.pageId == 1 || this.msgs == null) {
+              this.msgs = res.data.msgs
+            } else {
+              this.msgs = this.msgs.concat(res.data.msgs);
+            }
+            this.pageId = this.pageId + 1;
+            if (res.data.msgs.length == 0 || res.data.msgs.length <10) {
+              this.moreText = '没有更多了';
+              this.disabled = 'disabled';
+              this.isIcon = false;
+            }
+            // if(this.msg.accessmode==3){
+            //   this.msg.accessmode='icon-agree'
+            // }else if(this.msg.accessmode==4){
+            //   this.msg.accessmode='icon-refuse'
+            // }else if(this.msg.accessmode==2){
+            //   this.msg.accessmode='icon-no-see-no-deal'
+            // }
           }
         });
       },
@@ -99,7 +132,7 @@
   @import '~@/assets/scss/mixin.scss';
 
   .station {
-    padding: 0 10px;
+    padding: 0 10px 80px;
 
     .tab {
       margin: 15px 0 0px;
@@ -116,7 +149,7 @@
         border: 1px solid #528de8;
         text-align: center;
 
-        .active {
+        &.active {
           background: #528de8;
           color: #fff;
         }
@@ -129,6 +162,23 @@
 
     .outbox {
       text-align: left;
+    }
+    .more {
+      font-size: 12px;
+      color: #3f80e9;
+      text-align: center;
+      background: #fff;
+      display: table;
+      margin:20px auto 0;
+
+      i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        @include bg-image("../../news/img/more");
+        background-size: 12px auto;
+        margin-left: 6px;
+      }
     }
 
   }

@@ -1,22 +1,22 @@
 <template>
   <div class="inbox-page clearfix">
-    <i class="icon-type fl" :class="typeIcon"></i>
+    <i class="icon-type fl" :class="typeIcon" v-if="btnShow"></i>
+    <!--<i class="icon-type fl" :class="typeIcon" v-if="!btnShow"></i>-->
     <div class="message mar">
       <div class="top-message" @click="showDetail">
         <p>
           <span class="title" v-html="this.content.title"></span><span
-          class="time">{{time(this.content.createTime)}}</span>
+          class="time">【{{time(this.content.createTime)}}】</span>
         </p>
-        <div class="msg-btn" :class="btnColor" v-text="btnTitle">已同意</div>
+        <div class="msg-btn" :class="btnColor" v-text="btnTitle"></div>
       </div>
       <div class="bottom-message" v-show="isShow">
-        <p v-html="this.content.content">
+        <p v-html="this.content.content" @click.prevent="toProject">
         </p>
-        <div class="deal-btn-wrap">
+        <div class="deal-btn-wrap" v-if="btnShow">
           <div class="deal-btn deal-btn-refuse">拒绝</div>
           <div class="deal-btn deal-btn-agree">同意</div>
         </div>
-
       </div>
     </div>
   </div>
@@ -31,21 +31,28 @@
     data() {
       return {
         isShow: false,
-
+        id:'',
+        sort:'',
+        reg: true,
+        btnTitle:'已同意'
       }
     },
     props: {
       typeIcon: {
-        type: String
+        type: Object
       },
       btnColor: {
-        type: String
+        type: Object
       },
-      btnTitle: {
-        type: String
-      },
+      // btnTitle: {
+      //   type: Object
+      // },
       content: {
         type: Object
+      },
+      btnShow: {
+        type: Boolean,
+        default : true
       }
 
     },
@@ -56,6 +63,28 @@
       },
       time(time) {
         return tool.time(time);
+      },
+      toProject () {
+        if(this.reg){
+          this.$router.push({path: '/project/project-land?projId='+this.id});
+        }
+      },
+      projectId(){
+        let re=/<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g;
+
+        let str=this.content.content;
+
+        let arr=[];
+
+        while(re.exec(str)!=null)
+        {
+          arr.push(RegExp.$1+"\n");//如果是RegExp.$1那么匹配的就是href里的属性了!
+        }
+        this.sort = arr[0];
+        this.reg=this.sort.indexOf("coinvest")!=-1;
+        let index=arr[0].lastIndexOf("\/");
+        this.id = arr[0] = arr[0].substring(index + 1, arr[0] .length);
+        this.sort=str.substr(0,2);
       }
     },
     filters: {},
@@ -63,6 +92,18 @@
     created() {
     },
     mounted() {
+      this.projectId();
+      console.log(this.btnColor)
+      if(this.btnColor=='msg-btn color-deal'){
+        this.btnTitle='待处理'
+
+      }else if(this.btnColor=='msg-btn color-refuse'){
+        this.btnTitle='已拒绝'
+
+      } else if(this.btnColor=='msg-btn color-agree'){
+        this.btnTitle='已同意'
+
+      }
 
     },
     destroyed() {
@@ -148,6 +189,7 @@
 
   p {
     position: relative;
+    height:40px;
 
   .title {
     line-height: 20px;
