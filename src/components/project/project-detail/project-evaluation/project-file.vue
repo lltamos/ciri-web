@@ -90,10 +90,10 @@
     filters: {},
     computed: {},
     created() {
-      this.projectId = '496000001';
+      // this.projectId = '496000001';
       let param = {
-        // projectId: window.location.href.split('?')[1].split('=')[1]
-        projectId: this.projectId
+        projectId: window.location.href.split('?')[1].split('=')[1]
+        // projectId: this.projectId
       };
       let level = sessionStorage.getItem("userLevel");
       if (level === '1') {

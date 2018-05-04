@@ -1,138 +1,129 @@
 <template>
+  <div>
+    <div class="intent">
+      <div class="remind">
+        提交投资意向后，项目发起人将与您直接沟通项目详情，并邀请您参加项目投资策划会！
+      </div>
+      <div class="process">
+        <p class="process-title">
+          <i class="left-line"></i><span>合投前流程</span>
+        </p>
+        <div class="point-warp">
+          <div class="border-line"></div>
+          <div class="point-group">
+            <!--<i class="icon-type " :class="icon-not-select"></i>-->
+            <!--<i class="icon-type" ></i>-->
+            <!--<i class="icon-type" ></i>-->
+            <i class="icon-type" :class="isUserAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
+            <i class="icon-type" :class="isCorpAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
+            <i class="icon-type" :class="isRiskAgreementSigned==true ? 'icon-selected' : 'icon-not-select'"></i>
+            <!--isUserAuthed:false, //2.判断用户是否是实名认证用户-->
+            <!--isCorpAuthed:false, //3.用户是否通过了企业认证-->
+            <!--isRiskAgreementSigned:false, //4.风险提示协议是否签署-->
+          </div>
+          <div class="point-name color-selected">
+            <div>实名认证</div>
+            <div>企业认证</div>
+            <div>签署协议</div>
+          </div>
+          <div class="process-remind">
+            <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
+            <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
+            <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
+          </div>
+          <div class="participate participate-selected" @click="showParticipate">
+            <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
+            参与合投
+          </div>
+        </div>
+      </div>
+      <CrossLine></CrossLine>
+      <div class="progress">
+        <h4>
+          <i class="left-line"></i><span>投资进展</span>
+        </h4>
+        <div class="schedule">
+          <div class="count">
+            <div>意向投资方<span>{{projectProgress.InvestorCount == null ? 0:projectProgress.InvestorCount}}</span>位</div>
+            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+          </div>
+          <div class="line">
+            <div class="bg"></div>
+            <div class="now"></div>
+          </div>
+          <div class="time">
+            <div>合投结束时间：<span>{{projectProgress.endTime}}</span></div>
+            <div>当前进度<span>{{parseInt(projectProgress.financingProgress== null ? 0:projectProgress.financingProgress)}}%</span></div>
+          </div>
+        </div>
+        <div class="lead">
+          <div>领投方<span>{{projectProgress.leadInvestorCount == null ? 0:projectProgress.leadInvestorCount}}</span>位</div>
+          <div class="invest-wrap clearfix" v-if="projectProgress.leadInvestors != null && projectProgress.leadInvestors.length > 0"
+               v-for="(companyProgress,index) in projectProgress.leadInvestors" :key="index">
+            <div class="picture fl">
+              <img src="../../img/file-delete.png">
+            </div>
+            <div class="content fl">
+              <div class="company-name">{{companyProgress.companyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+            </div>
+            <div class="detail fr">
+              <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
+                <span class="to-detail">详情</span>
+                <i class="more"></i>
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="follow">
+          <div>跟投方<span>{{projectProgress.followInvestorCount== null ? 0:projectProgress.followInvestorCount }}</span>位</div>
+          <div class="invest-wrap clearfix" v-if="projectProgress.followInvestors != null && projectProgress.followInvestors.length > 0"
+               v-for="(companyProgress,index) in projectProgress.followInvestors" :key="index">
+            <div class="picture fl">
+              <img src="../../img/file-delete.png">
+            </div>
+            <div class="content fl">
+              <div class="company-name">{{companyProgress.companyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+            </div>
+            <div class="detail fr">
+              <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
+                <span class="to-detail" >详情</span>
+                <i class="more"></i>
+              </router-link>
+            </div>
+          </div>
 
-  <div class="intent">
-    <div class="remind">
-      提交投资意向后，项目发起人将与您直接沟通项目详情，并邀请您参加项目投资策划会！
+
+        </div>
+      </div>
+
     </div>
-    <div class="process">
-      <p class="process-title">
-        <i class="left-line"></i><span>合投前流程</span>
-      </p>
-      <div class="point-warp">
-        <div class="border-line"></div>
-        <div class="point-group">
-          <i class="icon-type icon-selected"></i>
-          <i class="icon-type icon-selected"></i>
-          <i class="icon-type icon-selected"></i>
-        </div>
-        <div class="point-name color-selected">
-          <div>实名认证</div>
-          <div>企业认证</div>
-          <div>签署协议</div>
-        </div>
-        <div class="process-remind">
-          <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
-          <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
-          <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
-        </div>
-        <div class="participate participate-selected" @click="showParticipate">
-          <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
-          参与合投
-        </div>
-      </div>
-    </div>
-    <CrossLine></CrossLine>
-    <div class="progress">
-      <h4>
-        <i class="left-line"></i><span>投资进展</span>
-      </h4>
-      <div class="schedule">
-        <div class="count">
-          <div>意向投资方<span>7</span>位</div>
-          <div>意向投资额<span>7920</span>万美元</div>
-        </div>
-        <div class="line">
-          <div class="bg"></div>
-          <div class="now"></div>
-        </div>
-        <div class="time">
-          <div>合投结束时间：<span>2018-10-25</span></div>
-          <div>当前进度<span>110%</span></div>
-        </div>
-      </div>
-      <div class="lead">
-        <div>领投方<span>1</span>位</div>
-        <div class="invest-wrap clearfix">
-          <div class="picture fl">
-            <img src="../../img/file-delete.png">
-          </div>
-          <div class="content fl">
-            <div class="company-name">河北*******公司</div>
-            <div class="count">意向投资额：<span>3000</span>万美元</div>
-          </div>
-          <div class="detail fr">
-            <router-link to="" class="detail-warp">
-              <span class="to-detail">详情</span>
-              <i class="more"></i>
-            </router-link>
-          </div>
-        </div>
-
-        <div class="invest-wrap clearfix">
-          <div class="picture fl">
-            <img src="../../img/file-delete.png">
-          </div>
-          <div class="content fl">
-            <div class="company-name">河北*******公司</div>
-            <div class="count">意向投资额：<span>3000</span>万美元</div>
-          </div>
-          <div class="detail fr">
-            <router-link to="" class="detail-warp">
-              <span class="to-detail">详情</span>
-              <i class="more"></i>
-            </router-link>
-          </div>
-        </div>
-
-      </div>
-      <div class="follow">
-        <div>跟投方<span>2</span>位</div>
-        <div class="invest-wrap clearfix">
-          <div class="picture fl">
-            <img src="../../img/file-delete.png">
-          </div>
-          <div class="content fl">
-            <div class="company-name">河北*******公司</div>
-            <div class="count">意向投资额：<span>3000</span>万美元</div>
-          </div>
-          <div class="detail fr">
-            <router-link to="" class="detail-warp">
-              <span class="to-detail">详情</span>
-              <i class="more"></i>
-            </router-link>
-          </div>
-        </div>
-
-        <div class="invest-wrap clearfix">
-          <div class="picture fl">
-            <img src="../../img/file-delete.png">
-          </div>
-          <div class="content fl">
-            <div class="company-name">河北*******公司</div>
-            <div class="count">意向投资额：<span>3000</span>万美元</div>
-          </div>
-          <div class="detail fr">
-            <router-link to="" class="detail-warp">
-              <span class="to-detail">详情</span>
-              <i class="more"></i>
-            </router-link>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
-
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from '@/api/tool'
     export default {
         components: {
-          CrossLine
+          CrossLine,
+          tool
         },
         data() {
-            return {}
+            return {
+              projId:"", //项目id
+              projectProgress:"", //项目投资进度
+              userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
+              isUserAuthed:false, //2.判断用户是否是实名认证用户
+              isCorpAuthed:false, //3.用户是否通过了企业认证
+              isRiskAgreementSigned:false, //4.风险提示协议是否签署
+              isCoinvesting:false, //5.项目是否处于合同的状态
+              isUserInCoInvest:false,  //6.判断用户是否参与过合投
+            }
         },
         props: {},
         watch: {},
@@ -144,6 +135,40 @@
         filters: {},
         computed: {},
         created() {
+          // http://127.0.0.1:8080/gateway/ah/s0/projectProgress
+          this.projId = this.$route.query.projId;
+          //项目投资进展
+          this.$api.post('/ah/s0/projectProgress',{projId:this.projId}).then(r => {
+            // console.log(r)
+            if(r.code==200 && r.data.state==true){
+              this.projectProgress = r.data;
+              // alert(this.projectProgress.leadInvestors != null && this.projectProgress.leadInvestors.length > 0)
+            }
+
+          });
+          //项目合投前流程
+          // this.$api.post('/ah/s5/getUserProjectConInvest',{projId:this.proId,userId:tool.getuser()}).then(r => {
+          this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
+            // console.log(r)
+            if(r.code==200){
+              this.userRole=r.data.userRole;
+              this.isUserAuthed=r.data.isUserAuthed;
+              this.isCorpAuthed=r.data.isCorpAuthed;
+              this.isRiskAgreementSigned=r.data.isRiskAgreementSigned;
+              this.isCoinvesting=r.data.isCoinvesting;
+              this.isUserInCoInvest=r.data.isUserInCoInvest;
+              if(!this.userRole){
+                tool.toast("当前用户不为投资方，非投资方不能发送合投申请")
+              }
+              // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
+              //   isUserAuthed:false, //2.判断用户是否是实名认证用户
+              //   isCorpAuthed:false, //3.用户是否通过了企业认证
+              //   isRiskAgreementSigned:false, //4.风险提示协议是否签署
+              //   isCoinvesting:false, //5.项目是否处于合投的状态
+              //   isUserInCoInvest:false //6.判断用户是否参与过合投
+            }
+          });
+
         },
         mounted() {
         },

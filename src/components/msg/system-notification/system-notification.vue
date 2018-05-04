@@ -2,7 +2,7 @@
   <div class="system">
     <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
       <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
-             btnTitle="已同意"></Inbox>
+             btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></Inbox>
 
       <!--<Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>-->
       <!--<Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理" res=""></Inbox>-->

@@ -124,7 +124,7 @@
       },
       verifyEmail() {
         this.position = "fixImg";
-        let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
+        let flag =/^.*\@.*\.com/;
         if (this.email == "") {
           this.errorShow = true;
           this.error = "账号错误，请重新输入";
@@ -156,6 +156,7 @@
         } else {
           tag = tool.checkEmail(this.email);
         }
+
         if (tag && this.password !== "") {
           let params = new URLSearchParams();
           params.append("key", this.showEmail ? this.email : this.phone);

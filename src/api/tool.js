@@ -24,7 +24,7 @@ export default {
   },
 
   checkEmail: function (email) {
-    let re = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/
+    let re = /^.*\@.*\.com/
     return re.test(email)
   },
   checkMobile: function (mobile) {
@@ -95,5 +95,10 @@ export default {
   time(time) {
     return moment(time).format("YYYY-MM-DD");
   },
+  pxKey:function(str){
+  let num = str.replace("px","");
+      num = parseInt(num);
+  return num;
+}
 
 }

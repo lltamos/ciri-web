@@ -64,7 +64,7 @@
       <i class="left-line"></i><span>以下是为您推荐内容</span>
     </h4>
     <div class="pro-warp">
-      <router-link v-for="(project) in this.projects" :key="project.projId"
+      <router-link v-for="(project) in this.projects1" :key="project.projId"
                    :to="{path:'/project/project-land',query: {projId: project.projId}}" >
         <div class="pro-list">
           <div class="img">
@@ -125,7 +125,8 @@
           projects: null,
           moreText: '查看更多',
           disabled: false,
-          isIcon: true
+          isIcon: true,
+          projects1: null
         }
     },
     props: {
@@ -187,12 +188,22 @@
         this.moreText = '查看更多';
         this.disabled = false;
         this.isIcon = true;
+      },
+      fetprojects(){
+        this.$api.post('/pb/i/fetprojects', {
+          pageId: 1,
+          pageSize: 4,
+          status: 7,
+          tag: 101001
+        }).then(r => {
+            this.projects1 = r.data.list;
+        });
       }
     },
     filters: {},
     computed: {},
     created() {
-
+      this.fetprojects();
     },
     mounted() {
     },
