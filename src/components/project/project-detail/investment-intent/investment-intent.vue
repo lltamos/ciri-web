@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="intent">
       <div class="remind">
         提交投资意向后，项目发起人将与您直接沟通项目详情，并邀请您参加项目投资策划会！
@@ -24,7 +25,10 @@
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
-          <div class="participate participate-selected">参与合投</div>
+          <div class="participate participate-selected" @click="showParticipate">
+            <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
+            参与合投
+          </div>
         </div>
       </div>
       <CrossLine></CrossLine>
@@ -48,6 +52,22 @@
         </div>
         <div class="lead">
           <div>领投方<span>1</span>位</div>
+          <div class="invest-wrap clearfix">
+            <div class="picture fl">
+              <img src="../../img/file-delete.png">
+            </div>
+            <div class="content fl">
+              <div class="company-name">河北*******公司</div>
+              <div class="count">意向投资额：<span>3000</span>万美元</div>
+            </div>
+            <div class="detail fr">
+              <router-link to="" class="detail-warp">
+                <span class="to-detail">详情</span>
+                <i class="more"></i>
+              </router-link>
+            </div>
+          </div>
+
           <div class="invest-wrap clearfix">
             <div class="picture fl">
               <img src="../../img/file-delete.png">
@@ -98,11 +118,15 @@
               </router-link>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
 
     </div>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+  </div>
 </template>
 
 <script>
@@ -116,7 +140,11 @@
         },
         props: {},
         watch: {},
-        methods: {},
+        methods: {
+          showParticipate(){
+            this.$router.push({path:'/project/project-detail/investment-intent/participate-investment'});
+          }
+        },
         filters: {},
         computed: {},
         created() {
@@ -305,6 +333,9 @@
         margin: 15px 0px 15px 15px;
         font-size: 13px;
         color: #333;
+        .invest-wrap:nth-child(n+3){
+          border-top: 1px solid #dedede;
+        }
       }
       .invest-wrap{
         padding: 12px 0px;
@@ -368,6 +399,9 @@
         margin: 15px 0px 15px 15px;
         font-size: 13px;
         color: #333;
+        .invest-wrap:nth-child(n+3){
+          border-top: 1px solid #dedede;
+        }
       }
     }
   }
