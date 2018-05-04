@@ -1,6 +1,6 @@
 <template>
   <div  id="big-img" class="clearfix">
-    <div class="img-warp" :class="article">
+    <div class="img-warp" id="img-warp" :class="article">
       <vue-preview v-if="this.imgList!=null" :slides="this.imgList" @close="handleClose" class="structure-warp clearfix"></vue-preview>
     </div>
     <div class="read-more" @click="readMore" v-show="moreShow">
@@ -15,12 +15,11 @@
   export default {
     data() {
       return {
-
         slide1: [],
         moreText: '展开',
         iconMore: 'icon-more',
         article: 'article',
-        moreShow: true
+        moreShow: false
       }
     },
     methods: {
@@ -36,6 +35,19 @@
         }
       },
       handleClose() {
+      },
+      // 获取图片高度
+      imgHeight(){
+        let imgWarp=document.getElementById("img-warp")
+        function getStyle(element,cssPropertyName){
+          if(window.getComputedStyle){//如果支持getComputedStyle属性（IE9及以上，ie9以下不兼容）
+            return window.getComputedStyle(element)[cssPropertyName];
+          }else{//如果支持currentStyle（IE9以下使用），返回
+            return element.currentStyle[cssPropertyName];
+          }
+        }
+        console.log(getStyle(imgWarp,'height'))
+        return getStyle(imgWarp,'height')
       }
     },
     props: {
@@ -67,7 +79,17 @@
         set:function () {}
       }
     },
-
+    mounted (){
+      // 图片加载更多
+      let imgHeight=this.imgHeight();
+      imgHeight=tool.pxKey(imgHeight)
+      console.log(imgHeight);
+      if(imgHeight>316){
+        this.moreShow = true;
+      }else {
+        this.moreShow = false;
+      }
+    },
     created() {
     },
   }
