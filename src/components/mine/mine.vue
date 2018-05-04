@@ -224,7 +224,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
 @import "~@/assets/scss/mixin.scss";
 body {
   background-color: #f5f5f5;

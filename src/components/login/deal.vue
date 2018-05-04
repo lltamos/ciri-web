@@ -82,7 +82,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   .deal-box {
     padding: 10px;
     background-color: #E6F4FA;
