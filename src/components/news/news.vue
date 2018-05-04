@@ -56,7 +56,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
 

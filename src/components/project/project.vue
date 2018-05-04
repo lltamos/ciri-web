@@ -18,7 +18,7 @@
       </h4>
       <ul class="recommdnd-warp clearfix">
         <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
-                     :to="{path:'/project/project-land',query: {projId: project.projId}}" >
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
               <img v-lazy="project.url" alt="">
@@ -50,7 +50,7 @@
         </ul>
 
         <div class="pop-bg" v-show="popShow" @click="popSwitch"></div>
-        <div class="tabCon" v-show="popShow" >
+        <div class="tabCon" v-show="popShow">
           <div class="content" v-for='(itemCon,index) in tabContents'
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
@@ -58,7 +58,8 @@
                 <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
                   <input type="checkbox" value="全部"/>
                 </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index" :key="t">{{item[1]}}
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
+                    :key="t">{{item[1]}}
                   <input type="checkbox"/>
                 </li>
               </ul>
@@ -73,7 +74,7 @@
       <Loading v-if="notloading"></Loading>
       <div class="main" v-else>
         <router-link v-for="(project) in this.projects" :key="project.projId"
-                     :to="{path:'/project/project-land',query: {projId: project.projId}}" >
+                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
@@ -82,7 +83,9 @@
             </div>
             <div class="main-news">
               <div class="title">
-                <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
+                <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">
+                  {{project.cornerTagName}}
+                </div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
@@ -123,7 +126,8 @@
   import CrossLine from '@/components/base/cross-line/cross-line'
   import Nationality from '@/components/base/nationality/nationality'
   import Loading from '@/components/base/loading/loading'
-  import tool from "../../api/tool";
+  import tool from "@/api/tool";
+
   export default {
     components: {
       TabBar,
@@ -131,32 +135,32 @@
       Nationality,
       Loading
     },
-    data () {
+    data() {
       return {
         scrollSearch: 'fixed',
-        searchBarFixed : false,
-        popShow : false,
-        tabs: ["国别", "行业","类型","进度"],
+        searchBarFixed: false,
+        popShow: false,
+        tabs: ["国别", "行业", "类型", "进度"],
         tabContents:
           [
-            [[3,"绿地投资"], [4,"项目出售"], [5,"项目扩建"], [6,"其他"]],
-            [[0,"规划阶段"], [1,"概念阶段"], [2,"审批阶段"], [3,"可研阶段"], [4,"投融资阶段"], [5,"建设阶段"], [6,"运营阶段"], [7,"出售阶段"]]
+            [[3, "绿地投资"], [4, "项目出售"], [5, "项目扩建"], [6, "其他"]],
+            [[0, "规划阶段"], [1, "概念阶段"], [2, "审批阶段"], [3, "可研阶段"], [4, "投融资阶段"], [5, "建设阶段"], [6, "运营阶段"], [7, "出售阶段"]]
           ],
         num: 5,
         isIcon: true,
-        activeSwitch :true,
-        liSwitch : false,
+        activeSwitch: true,
+        liSwitch: false,
         //加载数据
         moreText: '查看更多',
         projects: null,
-        weekProjects : null,
+        weekProjects: null,
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
         disabled: false,
         notloading: true,
-        countryList : [],
-        indestryList : [],
+        countryList: [],
+        indestryList: [],
         CornerTag: 1,
         i: [],
         c: [],
@@ -166,7 +170,7 @@
     },
     props: {},
     methods: {
-      init1(){
+      init1() {
         this.pageId = 1
         this.loadMore()
         this.searchBarFixed = false
@@ -188,7 +192,7 @@
             this.projects = this.projects.concat(r.data.list);
           }
           this.pageId = this.pageId + 1;
-          if (r.data.list.length == 0 || r.data.list.length <5) {
+          if (r.data.list.length == 0 || r.data.list.length < 5) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
             this.isIcon = false;
@@ -196,13 +200,13 @@
         });
       },
       // 国家列表
-      country (path,type) {
+      country(path, type) {
         this.axios
           .get(tool.domind() + "/gateway/app/" + path)
           .then(res => {
             if (res.data.code === 200) {
               let country = res.data.data;
-              country.forEach( v=> {
+              country.forEach(v => {
                 let temp = new Array()
                 temp.push(v.id)
                 temp.push(v.name)
@@ -213,94 +217,90 @@
         return this.type;
       },
 
-      submit(){
+      submit() {
       },
       //页面滚动时
-      handleScroll () {
+      handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        let searchWarp =document.getElementById('search-warp');
-        if (scrollTop > 350) {
-          this.searchBarFixed = true
-        } else {
-          this.searchBarFixed = false
-        }
+        let searchWarp = document.getElementById('search-warp');
+        this.searchBarFixed = scrollTop > 350;
 
-        var opcaity=(scrollTop/350>1)?1:scrollTop/350;
-        searchWarp.style.background='rgba(82,141,232,'+opcaity+')';
+        let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
+        searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
+
       },
       tab(index) {
         this.num = index;
-        let searchWarp =document.getElementById('search-warp');
+        let searchWarp = document.getElementById('search-warp');
         this.searchBarFixed = true
         this.popShow = true;
-        searchWarp.style.background='rgba(82,141,232,1)';
+        searchWarp.style.background = 'rgba(82,141,232,1)';
+
       },
-      liActive(e , v ,index){
+      liActive(e, v, index) {
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
-          this.removeList(index ,v)
+          this.removeList(index, v)
         } else {
-          this.addList(index ,v)
+          this.addList(index, v)
           element.classList.add('active')
         }
-        this.activeSwitch =false
+        this.activeSwitch = false
       },
 
-      popSwitch(){
-        this.popShow = false ;
+      popSwitch() {
+        this.popShow = false;
         this.searchBarFixed = false
       },
-      allActive(e , index){
+      allActive(e, index) {
         let element = e.currentTarget
         if (element.classList.contains('active')) {
           element.classList.remove('active')
-        }else {
+        } else {
           element.classList.add('active')
           this.resetActive(index)
         }
-
-        //
       },
-      resetActive(index){
+      resetActive(index) {
         this.clearList(index)
-        let all =document.getElementById('all'+ index);
+        let all = document.getElementById('all' + index);
         all.classList.add('active')
         let lis = document.getElementsByName("li" + index);
-        for (var i=0;i<lis.length;i++) {
+        for (let i = 0; i < lis.length; i++) {
           if (lis[i].classList.contains('active')) {
             lis[i].classList.remove('active');
           }
         }
         this.liSwitch = false
       },
-      all(index){
-        return 'all'+index;
+      all(index) {
+        return 'all' + index;
       },
-      removeList(index ,v){
-        switch (index){
+      removeList(index, v) {
+        switch (index) {
           case 0:
-            this.delList(this.c ,v);
+            this.delList(this.c, v);
             break;
           case 1:
-            this.delList(this.i ,v);
+            this.delList(this.i, v);
             break;
           case 2:
-            this.delList(this.v ,v);
+            this.delList(this.v, v);
             break;
           case 3:
-            this.delList(this.m ,v);
+            this.delList(this.m, v);
             break;
         }
       },
-      delList (array , v) {
-        for (var i = 0; i < array.length ;i++){
+      delList(array, v) {
+        for (var i = 0; i < array.length; i++) {
           if (array[i] == v)
-            return array.splice(i ,1)
+            return array.splice(i, 1)
         }
       },
-      clearList(index){
-        switch (index){
+      clearList(index) {
+        switch (index) {
           case 0:
             this.c = []
             break;
@@ -315,8 +315,8 @@
             break;
         }
       },
-      addList(index,v){
-        switch (index){
+      addList(index, v) {
+        switch (index) {
           case 0:
             this.c.push(v)
             break;
@@ -335,7 +335,7 @@
     },
     filters: {},
     computed: {},
-    mounted () {
+    mounted() {
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
@@ -354,30 +354,29 @@
         this.pageId = this.pageId + 1;
       });
     },
-      created () {
+    created() {
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
       this.loadMore(this.pageId);
-      this.country('getAllCountry',this.countryList);
-      this.country('getAllIndustry',this.indestryList);
-      this.tabContents.unshift(this.countryList,this.indestryList)
+      this.country('getAllCountry', this.countryList);
+      this.country('getAllIndustry', this.indestryList);
+      this.tabContents.unshift(this.countryList, this.indestryList)
     },
-    destroyed () {
-      window.removeEventListener("scroll",this.handleScroll);
+    destroyed() {
+      window.removeEventListener("scroll", this.handleScroll);
 
     }
-
 
 
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
 
-  .project-list{
+  .project-list {
     padding-bottom: 60px;
     header {
       height: 44px;
@@ -386,12 +385,12 @@
       font-size: 20px;
       text-align: center;
       background: #528de8;
-      position:fixed;
-      top:0;
-      z-index:999;
+      position: fixed;
+      top: 0;
+      z-index: 999;
       width: 100%;
     }
-    h4{
+    h4 {
       text-align: left;
       overflow: hidden;
       line-height: 1;
@@ -401,86 +400,86 @@
       font-size: 16px;
       font-weight: normal;
       @include onepx('bottom');
-      .left-line{
+      .left-line {
         position: absolute;
         display: block;
         width: 3px;
         height: 15px;
         background-color: #528de8;
         left: 0;
-        top:12px;
+        top: 12px;
       }
     }
-    .isFixed{
-      position:fixed;
-      top:0;
-      z-index:999;
+    .isFixed {
+      position: fixed;
+      top: 0;
+      z-index: 999;
       width: 100%;
       box-sizing: border-box;
     }
-    .banner{
-      width:100%;
-      height:150px;
+    .banner {
+      width: 100%;
+      height: 150px;
       position: relative;
-      .img{
+      .img {
         width: 100%;
-        height:100%;
-        img{
+        height: 100%;
+        img {
           width: 100%;
-          height:100%;
+          height: 100%;
         }
       }
-      .search-warp{
-        position:fixed;
-        top:0;
-        z-index:999;
+      .search-warp {
+        position: fixed;
+        top: 0;
+        z-index: 999;
         left: 0;
-        right:0;
+        right: 0;
         padding: 10px 0;
       }
-      .search{
-        width:94.7%;
-        height:30px;
+      .search {
+        width: 94.7%;
+        height: 30px;
         border-radius: 30px;
         margin: auto;
-        left:0;
-        right:0;
+        left: 0;
+        right: 0;
         background: #fff;
         text-align: left;
-        .icon-search{
+        .icon-search {
           display: inline-block;
-          width:15px;
-          height:15px;
+          width: 15px;
+          height: 15px;
           background-size: 15px auto;
           background-repeat: no-repeat;
           margin: 0 10px 0 12px;
           @include bg-image('./img/icon-search');
           position: relative;
-          top:2px;
+          top: 2px;
 
         }
-        input{
-          height:30px;
-          width:80%;
+        input {
+          height: 30px;
+          width: 80%;
           border: none;
           outline: none;
 
         }
       }
     }
-    .project-rec{
-      h4{
+    .project-rec {
+      h4 {
         background: #fff;
-        &:after{
+        &:after {
           border-top: none;
         }
       }
-      .recommdnd-warp{
+      .recommdnd-warp {
         text-align: left;
         padding: 0 10px;
-        height:205px;
+        height: 205px;
         overflow: hidden;
-        .recommdnd-card{
+        .recommdnd-card {
           border: 1px solid #dedede;
           box-sizing: border-box;
           background: #fff;
@@ -488,18 +487,18 @@
           float: left;
           position: relative;
           margin-bottom: 10px;
-          &:nth-of-type(odd){
-            margin-right:2.6%;
+          &:nth-of-type(odd) {
+            margin-right: 2.6%;
           }
-          .img{
-            height:118px;
-            width:100%;
-            img{
-              width:100%;
-              height:100%
+          .img {
+            height: 118px;
+            width: 100%;
+            img {
+              width: 100%;
+              height: 100%
             }
           }
-          .main-news{
+          .main-news {
             padding: 10px;
             h2 {
               font-size: 13px;
@@ -510,30 +509,30 @@
               margin-bottom: 10px;
               font-weight: normal;
             }
-            .tip-news{
+            .tip-news {
               overflow: hidden;
-              i{
+              i {
                 display: block;
                 margin-right: 6px;
-                width:10px;
-                height:10px;
+                width: 10px;
+                height: 10px;
                 background-size: 10px auto;
               }
-              .indu{
+              .indu {
                 @include bg-image("../base/img/industry");
               }
-              .view{
+              .view {
                 @include bg-image("../base/img/view");
               }
 
-              span{
+              span {
                 margin-right: 10px;
                 font-size: 10px;
                 line-height: 1;
-                color:#666;
+                color: #666;
                 margin-top: 1px;
               }
-              span.count{
+              span.count {
                 margin-right: 0;
               }
             }
@@ -541,37 +540,37 @@
         }
       }
     }
-    .project{
-      .tab-warp{
-        height:35px;
-        .tab{
+    .project {
+      .tab-warp {
+        height: 35px;
+        .tab {
           display: flex;
           flex-direction: row;
-          height:35px;
+          height: 35px;
           line-height: 35px;
           padding: 0 4.5%;
           background: #fff;
-          li{
+          li {
             flex: 1;
-            width:16%;
+            width: 16%;
             margin-right: 9%;
-            height:25px;
+            height: 25px;
             line-height: 25px;
             margin-top: 5px;
             border-radius: 25px;
             box-shadow: 2px 2px 2px #ccc;
-            &:last-child{
+            &:last-child {
               margin-right: 0;
             }
-            span{
+            span {
               font-size: 13px;
-              color:#333;
+              color: #333;
 
             }
-            i{
+            i {
               display: inline-block;
-              width:6px;
-              height:6px;
+              width: 6px;
+              height: 6px;
               background-size: 6px auto;
               background-position: center;
               background-repeat: no-repeat;
@@ -580,98 +579,98 @@
               @include bg-image('./img/country-packup');
 
             }
-            &.active{
-              i{
+            &.active {
+              i {
                 @include bg-image('./img/country-more');
               }
             }
           }
         }
-        .tab.isFixed{
-          position:fixed;
-          background-color:#Fff;
-          top:50px;
-          z-index:999;
+        .tab.isFixed {
+          position: fixed;
+          background-color: #Fff;
+          top: 50px;
+          z-index: 999;
           width: 100%;
           box-sizing: border-box;
         }
-        .pop-bg{
+        .pop-bg {
           z-index: 998;
           padding: 0;
           touch-action: none;
         }
-        .tabCon{
+        .tabCon {
           z-index: 999;
           position: fixed;
-          top:85px;
+          top: 85px;
           width: 100%;
           min-height: 150px;
-          .content{
+          .content {
             background: #fff;
             text-align: left;
             padding: 10px 10px 16px;
-            ul{
+            ul {
               overflow: scroll;
               max-height: 350px;
-              li{
+              li {
                 padding: 4px 13px;
-                border:1px solid #999;
+                border: 1px solid #999;
                 font-size: 14px;
-                color:#999;
+                color: #999;
                 border-radius: 2px;
                 margin-right: 10px;
                 margin-bottom: 16px;
                 display: inline-block;
                 position: relative;
-                &.active{
+                &.active {
                   background: #528de8;
-                  color:#fff;
+                  color: #fff;
                   border: 1px solid #333;
                 }
-                input{
+                input {
                   position: absolute;
-                  top:0;
-                  left:0;
+                  top: 0;
+                  left: 0;
                   width: 100%;
-                  height:100%;
+                  height: 100%;
                   opacity: 0;
                 }
 
               }
             }
-            .btn-warp{
-              color:#fff;
+            .btn-warp {
+              color: #fff;
               font-size: 15px;
               box-sizing: border-box;
               margin: 8px 0 0;
-              .reset{
+              .reset {
                 background: #5c5c5c;
                 width: 35.8%;
-                height:37px;
+                height: 37px;
                 line-height: 37px;
                 margin: 0;
                 margin-right: 2.8%;
-                display:inline-block;
+                display: inline-block;
               }
-              .confirm{
+              .confirm {
                 width: 61.4%;
-                height:37px;
+                height: 37px;
                 line-height: 37px;
                 margin: 0;
-                display:inline-block;
+                display: inline-block;
               }
             }
 
           }
         }
       }
-      .main{
+      .main {
         min-height: 300px;
         padding: 0 10px;
         .pro-list {
           padding: 15px 0 15px 96px;
           position: relative;
-          height:76px;
+          height: 76px;
           @include onepx('bottom');
           .img {
             width: 87px;
@@ -679,9 +678,9 @@
             position: absolute;
             top: 15px;
             left: 0;
-            img{
-              width:100%;
-              height:100%;
+            img {
+              width: 100%;
+              height: 100%;
             }
             .icon-state {
               position: absolute;
@@ -697,7 +696,7 @@
           }
           .main-news {
             position: relative;
-            height:76px;
+            height: 76px;
             .title {
               overflow: hidden;
 
@@ -757,68 +756,68 @@
               }
 
             }
-            .maturity{
+            .maturity {
               text-align: left;
               margin: 5px 0 10px;
-              height:14px;
+              height: 14px;
               line-height: 1;
-              p{
+              p {
                 float: left;
                 font-size: 11px;
-                color:#666;
-                &:first-child{
-                  @include right-bar(-10px,14px);
+                color: #666;
+                &:first-child {
+                  @include right-bar(-10px, 14px);
                   margin-right: 20px;
-                  &:after{
-                    top:-2px;
+                  &:after {
+                    top: -2px;
                   }
                 }
-                em{
+                em {
                   font-size: 12px;
-                  color:#528de8;
+                  color: #528de8;
                 }
               }
             }
-            .tip-news{
-              height:10px;
+            .tip-news {
+              height: 10px;
               position: absolute;
               bottom: 0;
               left: 0;
-              i{
+              i {
                 display: block;
-                float:left;
+                float: left;
                 margin-right: 6px;
-                width:10px;
-                height:10px;
+                width: 10px;
+                height: 10px;
                 background-size: 10px auto;
               }
-              .loc{
+              .loc {
                 @include bg-image("../base/img/location");
               }
-              .indu{
+              .indu {
                 @include bg-image("../base/img/industry");
               }
-              .mold{
+              .mold {
                 @include bg-image("../base/img/mold");
               }
-              .view{
+              .view {
                 @include bg-image("../base/img/view");
               }
-              .icon-thumbup{
+              .icon-thumbup {
                 @include bg-image("./img/thumbs-up");
                 margin-right: 0;
                 margin-top: -2px;
-                &.active{
+                &.active {
                   @include bg-image("./img/thumbs-uped");
                 }
               }
 
-              span{
+              span {
                 float: left;
                 margin-right: 10px;
                 font-size: 10px;
                 line-height: 1;
-                color:#666;
+                color: #666;
                 margin-top: 1px;
               }
             }

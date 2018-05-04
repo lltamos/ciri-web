@@ -68,6 +68,7 @@ export default new Router({
     {
       path: '/index',
       component: Index,
+
     },
     // 搜索
     {
@@ -139,7 +140,8 @@ export default new Router({
     // 项目
     {
       path: '/project',
-      component: Project
+      component: Project,
+      meta:{keepAlive: true}
     },
     // 项目着陆页
     {

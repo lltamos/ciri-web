@@ -148,7 +148,7 @@
         this.memberLevel = true;
         this.authorityShow = false;
       }
-      this.projId = this.$route.query.projId
+      this.projId = parseInt(this.$route.query.projId)
     },
     mounted() {
       this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: this.projId}).then(r => {
@@ -177,7 +177,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
 

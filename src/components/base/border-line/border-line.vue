@@ -10,7 +10,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
 .border-line{
   border-top: 1px solid #dedede;
 }

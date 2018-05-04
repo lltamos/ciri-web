@@ -172,7 +172,7 @@
         filters: {},
         computed: {},
         created() {
-          this.projId = this.$route.query.projId;
+          this.projId = parseInt(this.$route.query.projId);
           let param = {
             projId:this.projId
           };
@@ -194,7 +194,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
     @import '~@/assets/scss/const.scss';

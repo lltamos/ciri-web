@@ -23,9 +23,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import TabBar from '@/components/base/tab-bar/tab-bar'
-
+  import tool from '@/api/tool'
   export default {
     components: {
       TabBar,
@@ -42,13 +41,15 @@
     filters: {},
     computed: {},
     created () {
+
+
     },
     mounted () {},
     destroyed () {}
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
   header {

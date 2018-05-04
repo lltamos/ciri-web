@@ -11,7 +11,7 @@
         <img v-lazy="projPhoto" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
       <div class="main-news">
         <div class="title">
-          <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != ''">{{cornerTag}}</div>
+          <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{cornerTag}}</div>
           <h2 class="fl">{{projName}}</h2></div>
         <div class="tip">
           <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
@@ -91,7 +91,7 @@
   };
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
 

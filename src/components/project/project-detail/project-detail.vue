@@ -212,7 +212,7 @@
         })
       },
       init() {
-        this.projId = this.$route.query.projId
+        this.projId = parseInt(this.$route.query.projId)
         this.url = this.url + this.projId
 
         this.$api.post('/pb/p/getProjectHeadInfo',
@@ -275,7 +275,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
 

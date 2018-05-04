@@ -1,13 +1,13 @@
 <template>
 <div class="search-list">
   <ul>
-    <li :class="{active:tabActive==1}" @click="changePanel(1)">全部（ <span>2</span> ）
+    <li :class="{active:tabActive==1}" @click="changePanel(1)">全部（ <span>{{this.count1}}</span> ）
       <div class="line"></div>
     </li>
-    <li :class="{active:tabActive==2}" @click="changePanel(2)">绿地投资（<span>1</span>）
+    <li :class="{active:tabActive==2}" @click="changePanel(2)">绿地投资（<span>{{this.count2}}</span>）
       <div class="line"></div>
     </li>
-    <li :class="{active:tabActive==3}" @click="changePanel(3)">项目出售（<span>3</span>）</li>
+    <li :class="{active:tabActive==3}" @click="changePanel(3)">项目出售（<span>{{this.count3}}</span>）</li>
   </ul>
   <div class="content">
     <div class="img" v-show="!searchContent">
@@ -26,7 +26,7 @@
             <div class="main-news">
               <div class="title">
                 <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
-                <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
+                <h2 class="fl" v-if="project.name != null">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
                   <div class="fl red">{{t}}</div>
@@ -75,7 +75,7 @@
           <div class="main-news">
             <div class="title">
               <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
-              <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
+              <h2 class="fl" v-if="project.name != null">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
             <div class="tip">
               <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
                 <div class="fl red">{{t}}</div>
@@ -116,52 +116,83 @@
     data() {
         return {
           searchContent : true,
-          moreText: '查看更多',
-          projects: null,
-          disabled: false,
-          isIcon: true,
+          tabActive: 1,
           pageId: 1,
-          i: [],
-          c: [],
-          m: [],
-          t: [],
-          tabActive: 1
+          type: 1,
+          count1: 0,
+          count2: 0,
+          count3: 0,
+          projects: null,
+          moreText: '查看更多',
+          disabled: false,
+          isIcon: true
         }
     },
-    props: {},
-    watch: {},
+    props: {
+      ent : Boolean,
+      searchValue : String,
+      isRightAwaySearch: Boolean
+    },
+    watch: {
+      ent (val) {
+        this.ent = val
+        this.init();
+        this.loadMore();
+      },
+      searchValue (val) {
+        this.searchValue = val
+      },
+      isRightAwaySearch (val){
+        this.init();
+        this.loadMore();
+        this.isRightAwaySearch = val;
+      }
+    },
     methods: {
       loadMore() {
-        this.$api.post('/pb/i/fetprojects', {
+        this.$api.post('/pb/p/getProjectByLike', {
+          text: this.searchValue,
           pageId: this.pageId,
-          pageSize: 5,
-          industry: this.i,
-          country: this.c,
-          mature: this.m,
-          constructionTypeId: this.t
+          type: this.type
         }).then(r => {
-          this.notloading = false;
+          this.count1 = r.count1;
+          this.count2 = r.count2;
+          this.count3 = r.count3;
           if (this.pageId == 1 || this.projects == null) {
-            this.projects = r.data.list;
+            this.projects = r.data;
           } else {
-            this.projects = this.projects.concat(r.data.list);
+            this.projects = this.projects.concat(r.data);
           }
-          this.pageId = this.pageId + 1;
-          if (r.data.list.length == 0 || r.data.list.length <5) {
+          this.pageId = r.pageId + 1;
+          if (r.data == null || r.data.length == 0 || !r.isNext) {
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
             this.isIcon = false;
+          }else {
+            this.moreText = '查看更多';
+            this.disabled = false;
+            this.isIcon = true;
           }
         });
       },
       changePanel(tab) {
         this.tabActive = tab;
+        this.type = tab;
+        this.init();
+        this.loadMore();
       },
+      init(){
+        this.projects = null;
+        this.pageId = 1;
+        this.moreText = '查看更多';
+        this.disabled = false;
+        this.isIcon = true;
+      }
     },
     filters: {},
     computed: {},
     created() {
-      this.loadMore(this.pageId);
+
     },
     mounted() {
     },
@@ -170,7 +201,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
   .search-list{

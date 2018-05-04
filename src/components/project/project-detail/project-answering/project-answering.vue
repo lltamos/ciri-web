@@ -660,7 +660,7 @@
     },
     computed: {},
     created() {
-      this.proId = this.$route.query.projId;
+      this.proId = parseInt(this.$route.query.projId);
       this.allQuestion();
     },
     mounted() {
@@ -670,7 +670,7 @@
     }
   }
 </script>
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
