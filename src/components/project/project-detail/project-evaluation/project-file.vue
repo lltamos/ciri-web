@@ -9,19 +9,21 @@
       <div class="file" v-for="(item,index) in projectFileList" :key="index"
            v-if="projectFileList != null && projectFileList.length !=0">
         <div class="title">
-          <i class="icon-type" :class='"icon-"+item.originalName.replace(/.+\./, "")'></i>
-          <span class="file-title">{{item.originalName}}</span>
+          <i class="icon-type"></i>
+          <a :href="item.url" :download="item.originName">
+            <span class="file-title">{{item.originName}}</span>
+          </a>
         </div>
         <dl class="intro">
           <dt>文件说明：</dt>
-          <dd v-if="item.summary">{{item.summary.valueCn}}</dd>
+          <dd v-if="item.summary">{{item.summary}}</dd>
           <dd v-else>暂无</dd>
         </dl>
-        <div v-if="memberLevel" class="applyFile btn bg-blue" @click="showFileDetail">申请查看</div>
+        <div v-if="memberLevel" class="applyFile btn bg-blue" @click="showFileDetail(item)">
+          {{fileMode(item.mode)}}
+        </div>
         <div v-if="!memberLevel" class="upAfter">升级后可查看</div>
-        <!--<div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
-             <div class="applyFile btn bg-gray">已申请</div>
-        -->
+
       </div>
       <div v-if="projectFileList == null || projectFileList.length ==0">
         <img src="../../img/timer-none.png" alt="">
@@ -35,6 +37,7 @@
   import Authority from '@/components/base/authority/authority'
   import authrityPageSmall from '@/components/base/authrityPageSmall/authrityPageSmall'
   import tool from "../../../../api/tool";
+
   export default {
     components: {
       CrossLine,
@@ -46,28 +49,51 @@
       return {
         projectFileList: [],
         authorityShow: true,
-        memberLevel: false
+        memberLevel: false,
+        projectId: null
       }
     },
     props: {},
     watch: {},
     methods: {
-      showFileDetail(){
-        tool.MessageBox('是否申请查看？')
+      showFileDetail(item) {
+        if (item.mode != 1) {
+          return false;
+        }
+        tool.MessageBox('是否申请查看？').then(action => {
+          this.$api.get('/s3/p/file', {
+            projId: this.projectId,
+            fileId: item.fileId
+          }).then(res => {
+            console.log(res);
+          })
+        })
       },
-      upgrade () {
+      upgrade() {
         this.$router.push({path: "/mine/member-center"});
       },
-      authorityHide () {
+      authorityHide() {
         this.authorityShow = false;
       },
+      fileMode(i) {
+        if (i == 1) {
+          return '申请查看';
+        } else if (i == 2) {
+          return '已申请';
+        } else if (i == 3) {
+          return '已同意';
+        } else if (i == 4) {
+          return '重新申请&nbsp;(已拒绝)';
+        }
+      }
     },
     filters: {},
     computed: {},
     created() {
+      this.projectId = '496000001';
       let param = {
-//        projectId:window.location.href.split('?')[1].split('=')[1]
-        projectId: '496000001'
+        // projectId: window.location.href.split('?')[1].split('=')[1]
+        projectId: this.projectId
       };
       let level = sessionStorage.getItem("userLevel");
       if (level === '1') {
@@ -76,10 +102,10 @@
         this.memberLevel = true;
       }
       this.$api.get("/ah/s0/p/projfiles", param).then(res => {
-        if(res.code === 200){
-        this.projectFileList = res.fileViews;
-      }
-    });
+        if (res.code === 200) {
+          this.projectFileList = res.fileViews;
+        }
+      });
 
     },
     mounted() {

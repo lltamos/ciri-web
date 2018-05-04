@@ -660,7 +660,7 @@
     },
     computed: {},
     created() {
-      this.proId = this.$route.query.projId;
+      this.proId = parseInt(this.$route.query.projId);
       this.allQuestion();
     },
     mounted() {

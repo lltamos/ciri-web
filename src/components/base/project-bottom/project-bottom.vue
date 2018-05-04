@@ -51,7 +51,7 @@
       collects: String,
       shares: String,
       collected: Boolean,
-      projId: String
+      projId: Number
     },
     methods: {
       collect () {

@@ -148,7 +148,7 @@
         this.memberLevel = true;
         this.authorityShow = false;
       }
-      this.projId = this.$route.query.projId
+      this.projId = parseInt(this.$route.query.projId)
     },
     mounted() {
       this.$api.get('/ah/s3/p/projViabilityAnalysis', {projectId: this.projId}).then(r => {

@@ -26,7 +26,7 @@
         filters: {},
         computed: {},
         created() {
-          this.projId = this.$route.query.projId
+          this.projId = parseInt(this.$route.query.projId)
         },
         mounted() {
         },

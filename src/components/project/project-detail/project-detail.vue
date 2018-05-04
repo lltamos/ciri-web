@@ -212,7 +212,7 @@
         })
       },
       init() {
-        this.projId = this.$route.query.projId
+        this.projId = parseInt(this.$route.query.projId)
         this.url = this.url + this.projId
 
         this.$api.post('/pb/p/getProjectHeadInfo',

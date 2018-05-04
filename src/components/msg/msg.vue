@@ -23,9 +23,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import TabBar from '@/components/base/tab-bar/tab-bar'
-
+  import tool from '@/api/tool'
   export default {
     components: {
       TabBar,
@@ -42,6 +41,8 @@
     filters: {},
     computed: {},
     created () {
+
+
     },
     mounted () {},
     destroyed () {}
