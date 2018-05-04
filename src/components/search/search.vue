@@ -33,7 +33,8 @@
         <li>哈萨克斯坦</li>
       </ul>
     </div>
-    <SearchList v-show="!keyword"></SearchList>
+    <SearchList v-show="!keyword" :ent="this.ent"
+                :searchValue="this.searchValue"></SearchList>
   </div>
 </div>
 </template>
@@ -49,8 +50,9 @@
     },
     data() {
         return {
-          keyword : true,
-          searchValue : ''
+          searchValue : '',
+          ent: true,
+          keyword: true
         }
     },
     props: {},
@@ -63,6 +65,7 @@
         if(this.searchValue){
           this.keyword = false;
         }
+        this.ent = !this.ent;
       },
       searchCancel(){
         this.searchValue = '';
@@ -71,6 +74,7 @@
     filters: {},
     computed: {},
     created() {
+      this.count1 = 123
     },
     mounted() {
     },
