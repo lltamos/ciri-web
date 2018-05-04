@@ -129,8 +129,9 @@
         }
     },
     props: {
-      ent : true,
-      searchValue : ''
+      ent : Boolean,
+      searchValue : String,
+      isRightAwaySearch: Boolean
     },
     watch: {
       ent (val) {
@@ -140,6 +141,11 @@
       },
       searchValue (val) {
         this.searchValue = val
+      },
+      isRightAwaySearch (val){
+        this.init();
+        this.loadMore();
+        this.isRightAwaySearch = val;
       }
     },
     methods: {
