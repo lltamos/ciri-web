@@ -218,13 +218,15 @@ export default new Router({
           meta: {
             requireAuth: true,
           },
-          component: InvestmentIntent,
-          children:[
-            {
-              path: 'participate-investment',
-              component: ParticipateInvestment
-            }
-          ]
+          component: InvestmentIntent
+        },
+        //参与合投
+        {
+          path: 'investment-intent/participate-investment',
+          meta: {
+            requireAuth: true,
+          },
+          component: ParticipateInvestment,
         }
       ]
     },
