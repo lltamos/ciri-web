@@ -198,7 +198,7 @@
             this.authrityStatus = true;
             this.authorityShow = false;
           }
-          this.projId = this.$route.query.projId
+          this.projId = parseInt(this.$route.query.projId)
           this.$api.post('/ah/s0/getProjectAbstractInfo',
             {projId: this.projId, username: tool.getuser()}).then(res => {
             this.projName = res.data.projName
