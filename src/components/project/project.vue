@@ -223,21 +223,23 @@
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         let searchWarp = document.getElementById('search-warp');
-        if (scrollTop > 350) {
-          this.searchBarFixed = true
-        } else {
-          this.searchBarFixed = false
+        this.searchBarFixed = scrollTop > 350;
+
+        let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
+        if (searchWarp!=null){
+          searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
         }
 
-        var opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
-        searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
       },
       tab(index) {
         this.num = index;
         let searchWarp = document.getElementById('search-warp');
         this.searchBarFixed = true
         this.popShow = true;
-        searchWarp.style.background = 'rgba(82,141,232,1)';
+        if (searchWarp!=null){
+          searchWarp.style.background = 'rgba(82,141,232,1)';
+        }
+
       },
       liActive(e, v, index) {
         let element = e.currentTarget;
