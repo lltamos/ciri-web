@@ -1,132 +1,128 @@
 <template>
-  <div>
-    <div class="intent">
-      <div class="remind">
-        提交投资意向后，项目发起人将与您直接沟通项目详情，并邀请您参加项目投资策划会！
-      </div>
-      <div class="process">
-        <p class="process-title">
-          <i class="left-line"></i><span>合投前流程</span>
-        </p>
-        <div class="point-warp">
-          <div class="border-line"></div>
-          <div class="point-group">
-            <i class="icon-type icon-selected"></i>
-            <i class="icon-type icon-selected"></i>
-            <i class="icon-type icon-selected"></i>
-          </div>
-          <div class="point-name color-selected">
-            <div>实名认证</div>
-            <div>企业认证</div>
-            <div>签署协议</div>
-          </div>
-          <div class="process-remind">
-            <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
-            <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
-            <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
-          </div>
-          <div class="participate participate-selected" @click="showParticipate">
-            <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
-            参与合投
-          </div>
-        </div>
-      </div>
-      <CrossLine></CrossLine>
-      <div class="progress">
-        <h4>
-          <i class="left-line"></i><span>投资进展</span>
-        </h4>
-        <div class="schedule">
-          <div class="count">
-            <div>意向投资方<span>7</span>位</div>
-            <div>意向投资额<span>7920</span>万美元</div>
-          </div>
-          <div class="line">
-            <div class="bg"></div>
-            <div class="now"></div>
-          </div>
-          <div class="time">
-            <div>合投结束时间：<span>2018-10-25</span></div>
-            <div>当前进度<span>110%</span></div>
-          </div>
-        </div>
-        <div class="lead">
-          <div>领投方<span>1</span>位</div>
-          <div class="invest-wrap clearfix">
-            <div class="picture fl">
-              <img src="../../img/file-delete.png">
-            </div>
-            <div class="content fl">
-              <div class="company-name">河北*******公司</div>
-              <div class="count">意向投资额：<span>3000</span>万美元</div>
-            </div>
-            <div class="detail fr">
-              <router-link to="" class="detail-warp">
-                <span class="to-detail">详情</span>
-                <i class="more"></i>
-              </router-link>
-            </div>
-          </div>
 
-          <div class="invest-wrap clearfix">
-            <div class="picture fl">
-              <img src="../../img/file-delete.png">
-            </div>
-            <div class="content fl">
-              <div class="company-name">河北*******公司</div>
-              <div class="count">意向投资额：<span>3000</span>万美元</div>
-            </div>
-            <div class="detail fr">
-              <router-link to="" class="detail-warp">
-                <span class="to-detail">详情</span>
-                <i class="more"></i>
-              </router-link>
-            </div>
-          </div>
-
-        </div>
-        <div class="follow">
-          <div>跟投方<span>2</span>位</div>
-          <div class="invest-wrap clearfix">
-            <div class="picture fl">
-              <img src="../../img/file-delete.png">
-            </div>
-            <div class="content fl">
-              <div class="company-name">河北*******公司</div>
-              <div class="count">意向投资额：<span>3000</span>万美元</div>
-            </div>
-            <div class="detail fr">
-              <router-link to="" class="detail-warp">
-                <span class="to-detail">详情</span>
-                <i class="more"></i>
-              </router-link>
-            </div>
-          </div>
-
-          <div class="invest-wrap clearfix">
-            <div class="picture fl">
-              <img src="../../img/file-delete.png">
-            </div>
-            <div class="content fl">
-              <div class="company-name">河北*******公司</div>
-              <div class="count">意向投资额：<span>3000</span>万美元</div>
-            </div>
-            <div class="detail fr">
-              <router-link to="" class="detail-warp">
-                <span class="to-detail">详情</span>
-                <i class="more"></i>
-              </router-link>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+  <div class="intent">
+    <div class="remind">
+      提交投资意向后，项目发起人将与您直接沟通项目详情，并邀请您参加项目投资策划会！
     </div>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <div class="process">
+      <p class="process-title">
+        <i class="left-line"></i><span>合投前流程</span>
+      </p>
+      <div class="point-warp">
+        <div class="border-line"></div>
+        <div class="point-group">
+          <i class="icon-type icon-selected"></i>
+          <i class="icon-type icon-selected"></i>
+          <i class="icon-type icon-selected"></i>
+        </div>
+        <div class="point-name color-selected">
+          <div>实名认证</div>
+          <div>企业认证</div>
+          <div>签署协议</div>
+        </div>
+        <div class="process-remind">
+          <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
+          <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
+          <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
+        </div>
+        <div class="participate participate-selected" @click="showParticipate">
+          <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
+          参与合投
+        </div>
+      </div>
+    </div>
+    <CrossLine></CrossLine>
+    <div class="progress">
+      <h4>
+        <i class="left-line"></i><span>投资进展</span>
+      </h4>
+      <div class="schedule">
+        <div class="count">
+          <div>意向投资方<span>7</span>位</div>
+          <div>意向投资额<span>7920</span>万美元</div>
+        </div>
+        <div class="line">
+          <div class="bg"></div>
+          <div class="now"></div>
+        </div>
+        <div class="time">
+          <div>合投结束时间：<span>2018-10-25</span></div>
+          <div>当前进度<span>110%</span></div>
+        </div>
+      </div>
+      <div class="lead">
+        <div>领投方<span>1</span>位</div>
+        <div class="invest-wrap clearfix">
+          <div class="picture fl">
+            <img src="../../img/file-delete.png">
+          </div>
+          <div class="content fl">
+            <div class="company-name">河北*******公司</div>
+            <div class="count">意向投资额：<span>3000</span>万美元</div>
+          </div>
+          <div class="detail fr">
+            <router-link to="" class="detail-warp">
+              <span class="to-detail">详情</span>
+              <i class="more"></i>
+            </router-link>
+          </div>
+        </div>
+
+        <div class="invest-wrap clearfix">
+          <div class="picture fl">
+            <img src="../../img/file-delete.png">
+          </div>
+          <div class="content fl">
+            <div class="company-name">河北*******公司</div>
+            <div class="count">意向投资额：<span>3000</span>万美元</div>
+          </div>
+          <div class="detail fr">
+            <router-link to="" class="detail-warp">
+              <span class="to-detail">详情</span>
+              <i class="more"></i>
+            </router-link>
+          </div>
+        </div>
+
+      </div>
+      <div class="follow">
+        <div>跟投方<span>2</span>位</div>
+        <div class="invest-wrap clearfix">
+          <div class="picture fl">
+            <img src="../../img/file-delete.png">
+          </div>
+          <div class="content fl">
+            <div class="company-name">河北*******公司</div>
+            <div class="count">意向投资额：<span>3000</span>万美元</div>
+          </div>
+          <div class="detail fr">
+            <router-link to="" class="detail-warp">
+              <span class="to-detail">详情</span>
+              <i class="more"></i>
+            </router-link>
+          </div>
+        </div>
+
+        <div class="invest-wrap clearfix">
+          <div class="picture fl">
+            <img src="../../img/file-delete.png">
+          </div>
+          <div class="content fl">
+            <div class="company-name">河北*******公司</div>
+            <div class="count">意向投资额：<span>3000</span>万美元</div>
+          </div>
+          <div class="detail fr">
+            <router-link to="" class="detail-warp">
+              <span class="to-detail">详情</span>
+              <i class="more"></i>
+            </router-link>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
