@@ -23,6 +23,7 @@ import ProjectProgress from '@/components/project/project-detail/project-progres
 import ProgressDetail from '@/components/project/project-detail/project-progress/progress-detail'
 import ProjectAnswering from '@/components/project/project-detail/project-answering/project-answering'
 import InvestmentIntent from '@/components/project/project-detail/investment-intent/investment-intent'
+import ParticipateInvestment from '@/components/project/project-detail/investment-intent/participate-investment/participate-investment'
 import Msg from '@/components/msg/msg'
 import Station from '@/components/msg/station/station'
 import SystemNotification from '@/components/msg/system-notification/system-notification'
@@ -215,9 +216,14 @@ export default new Router({
           meta: {
             requireAuth: true,
           },
-          component: InvestmentIntent
+          component: InvestmentIntent,
+          children:[
+            {
+              path: 'participate-investment',
+              component: ParticipateInvestment
+            }
+          ]
         }
-
       ]
     },
 
