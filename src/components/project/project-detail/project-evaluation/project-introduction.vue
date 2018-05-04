@@ -198,7 +198,7 @@
             this.authrityStatus = true;
             this.authorityShow = false;
           }
-          this.projId = this.$route.query.projId
+          this.projId = parseInt(this.$route.query.projId)
           this.$api.post('/ah/s0/getProjectAbstractInfo',
             {projId: this.projId, username: tool.getuser()}).then(res => {
             this.projName = res.data.projName
@@ -256,7 +256,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
   .introduction{

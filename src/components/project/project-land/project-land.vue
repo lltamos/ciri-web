@@ -77,7 +77,7 @@
       },
       data () {
         return {
-          projId: '',
+          projId: null,
           projAbstract: null,
           likes: 0,
           collects: null,
@@ -135,7 +135,7 @@
       },
       created () {
         window.scrollTo(0,0);
-        this.projId = this.$route.query.projId
+        this.projId = parseInt(this.$route.query.projId)
         this.url = this.url + this.projId
 
         this.addVisit()
@@ -177,7 +177,7 @@
       }
     }
 </script>
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
   .project-land{

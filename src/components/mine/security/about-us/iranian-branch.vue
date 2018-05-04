@@ -31,7 +31,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style type="text/scss" lang="scss" scoped>
   .main{
     text-align: left;
     padding: 24px 10px 0;
