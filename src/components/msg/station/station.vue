@@ -11,8 +11,8 @@
              'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
              :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
              'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
-             :btnTitle="{'已同意':msg.accessmode==3,'已拒绝':msg.accessmode==4,
-             '待处理':msg.accessmode==2,'待处理':msg.accessmode==1}" :btnShow='msg.isApprove == 0 ? true : false'></Inbox>
+             :btnTitle='parseAccessMode(msg.accessmode)'
+             :btnShow='msg.isApprove == 0 ? true : false'></Inbox>
 
       <!--<Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>-->
       <!--<Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理" res=""></Inbox>-->
@@ -23,7 +23,7 @@
     </div>
     <div class="outbox" v-show="!seeInbox">
       <outbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
-             btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></outbox>
+              btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></outbox>
       <button @click="loadMore()" :disabled="this.disabled" class="more">
         <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
@@ -59,8 +59,18 @@
     props: {},
     watch: {},
     methods: {
+      parseAccessMode(tag) {
+        if (tag == 1 || tag == 2) {
+          return '待处理';
+        } else if (tag == 3) {
+          return '已同意';
+        } else if (tag == 4) {
+          return '已拒绝';
+        }
+      },
+
       showInbox() {
-        this.msgs=null;
+        this.msgs = null;
         this.tabActive = 1;
         this.seeInbox = true;
         this.url = '/ah/s0/i/insidemsg';
@@ -68,7 +78,7 @@
         this.loadMore();
       },
       showOutbox() {
-        this.msgs=null;
+        this.msgs = null;
         this.url = '/ah/s0/i/sendmsg';
         this.tabActive = 2;
         this.seeInbox = false;
@@ -96,18 +106,11 @@
               this.msgs = this.msgs.concat(res.data.msgs);
             }
             this.pageId = this.pageId + 1;
-            if (res.data.msgs.length == 0 || res.data.msgs.length <10) {
+            if (res.data.msgs.length == 0 || res.data.msgs.length < 10) {
               this.moreText = '没有更多了';
               this.disabled = 'disabled';
               this.isIcon = false;
             }
-            // if(this.msg.accessmode==3){
-            //   this.msg.accessmode='icon-agree'
-            // }else if(this.msg.accessmode==4){
-            //   this.msg.accessmode='icon-refuse'
-            // }else if(this.msg.accessmode==2){
-            //   this.msg.accessmode='icon-no-see-no-deal'
-            // }
           }
         });
       },
@@ -169,7 +172,7 @@
       text-align: center;
       background: #fff;
       display: table;
-      margin:20px auto 0;
+      margin: 20px auto 0;
 
       i {
         display: inline-block;
