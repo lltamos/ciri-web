@@ -60,6 +60,7 @@ export default {
     return typeof str === 'undefined' || str === '' || str === null;
   },
   isBankArr: function (arr) {
+    alert(1);
     return arr === null || arr.length != 0;
   },
   islogin: function () {
@@ -79,7 +80,7 @@ export default {
     });
   },
   MessageBox: function (msg) {
-    MessageBox({
+    return MessageBox({
       title: '提示',
       message: msg,
       showCancelButton: true

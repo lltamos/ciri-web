@@ -66,7 +66,7 @@
           </tr>
           </tbody>
         </table>
-        <div class="contact-title">【企业资料】</div>
+        <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title">【企业资料】</div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
             <div class="title">
@@ -87,40 +87,40 @@
       <h4>
         <i class="left-line"></i><span>项目代理</span>
       </h4>
-      <div class="company-msg">
+      <div v-if="this.projectAgentContact!=null" class="company-msg">
         <table width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
             <td>公司名称</td>
-            <td>Energy Sabz Abrisham Asia</td>
+            <td>{{projectAgentContact.corpName.valueCn}}</td>
           </tr>
           <tr>
             <td>公司类型</td>
-            <td>有限责任公司</td>
+            <td>{{projectAgentContact.corpTypeNote}}</td>
           </tr>
           <tr>
             <td>公司地址</td>
-            <td>Tehran</td>
+            <td>{{projectAgentContact.corpAddress.valueCn}}</td>
           </tr>
           <tr>
             <td>公司电话</td>
-            <td>+9****-7</td>
+            <td>{{projectAgentContact.corpTel}}</td>
           </tr>
           <tr>
             <td>公司传真</td>
-            <td>+9****-6</td>
+            <td>{{projectAgentContact.corpTax}}</td>
           </tr>
           <tr>
             <td>公司网址</td>
-            <td>合资企业-中方控股</td>
+            <td>{{projectAgentContact.website}}</td>
           </tr>
           <tr>
             <td>公司简介</td>
-            <td>Energy Sabz Abrisham Asia</td>
+            <td>{{projectAgentContact.corpSummary.valueCn}}</td>
           </tr>
           <tr>
             <td>项目案例</td>
-            <td></td>
+            <td>{{projectAgentContact.msgForInvestor.valueCn}}</td>
           </tr>
           </tbody>
         </table>
@@ -178,11 +178,13 @@
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import AuthorityPage from '@/components/base/authrityPage/authrityPage.vue'
+  import tool from '@/api/tool'
 
   export default {
     components: {
       CrossLine,
-      AuthorityPage
+      AuthorityPage,
+      tool
     },
     data() {
       return {
@@ -196,11 +198,11 @@
     props: {},
     watch: {},
     methods: {
-      upgrade () {
+      upgrade() {
         this.$router.push({path: "/mine/member-center"});
       },
       //权限弹框
-      authorityHide () {
+      authorityHide() {
         this.authorityShow = false;
       },
     },
@@ -231,7 +233,7 @@
   }
 </script>
 
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
 
@@ -248,7 +250,6 @@
     font-size: 16px;
     font-weight: normal;
   @include onepx('bottom');
-
 
   .left-line {
     position: absolute;
