@@ -11,9 +11,6 @@
         <div class="point-warp">
           <div class="border-line"></div>
           <div class="point-group">
-            <!--<i class="icon-type " :class="icon-not-select"></i>-->
-            <!--<i class="icon-type" ></i>-->
-            <!--<i class="icon-type" ></i>-->
             <i class="icon-type" :class="isUserAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isCorpAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isRiskAgreementSigned==true ? 'icon-selected' : 'icon-not-select'"></i>
@@ -44,7 +41,7 @@
         <div class="schedule">
           <div class="count">
             <div>意向投资方<span>{{projectProgress.InvestorCount == null ? 0:projectProgress.InvestorCount}}</span>位</div>
-            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>{{projectProgress.currencyName}}</div>
           </div>
           <div class="line">
             <div class="bg"></div>
@@ -64,7 +61,7 @@
             </div>
             <div class="content fl">
               <div class="company-name">{{companyProgress.companyName}}</div>
-              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
               <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
@@ -83,7 +80,7 @@
             </div>
             <div class="content fl">
               <div class="company-name">{{companyProgress.companyName}}</div>
-              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
               <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
