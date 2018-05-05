@@ -54,7 +54,10 @@
     </div>
     <cross-line></cross-line>
     <div class="intent-letter">
-      <div class="partipate-title">【投资意向函】<span class="item-remark">(选填)</span></div>
+      <div class="partipate-title clearfix">【投资意向函】
+        <span class="item-remark">(选填)</span>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
+      </div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -100,16 +103,19 @@
         </div>
         <div class="item-remark">(请上传投资意向函扫描件，支持图片和PDF文件)</div>
         <div class="file-warp">
-          <FileDelete v-for="(file,index) in askFileList"  :key="index"
-                      :file="file" :index="index" :tag="1"
-                      @delete="deleteAskFile"></FileDelete>
+          <FileIntroduction v-for="(file,index) in askFileList"  :key="index"
+                            :file="file" :index="index" :tag="1"
+                            @delete="deleteAskFile"></FileIntroduction>
         </div>
       </div>
     </div>
 
     <cross-line></cross-line>
     <div class="advantage">
-      <div class="partipate-title">【企业优势】<span class="item-remark">(选填)</span></div>
+      <div class="partipate-title clearfix">【企业优势】
+        <span class="item-remark">(选填)</span>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势'}}" class="title-edit fr">编辑</router-link>
+      </div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -155,24 +161,27 @@
         </div>
         <div class="item-remark">(请上传投资企业资信相关资料)</div>
         <div class="file-warp">
-          <FileDelete v-for="(file,index) in askFileList1"  :key="index"
-                      :file="file" :index="index" :tag="1"
-                      @delete="deleteAskFile1"></FileDelete>
+          <FileIntroduction v-for="(file,index) in askFileList1"  :key="index"
+                            :file="file" :index="index" :tag="1"
+                            @delete="deleteAskFile1"></FileIntroduction>
         </div>
       </div>
     </div>
-    <button @click="apply">apply</button>
+
+    <div class="submit-wrap">
+      <div class="submit" @click="apply">提交</div>
+    </div>
   </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import FileDelete from '@/components/base/file-delete/file-delete'
+  import FileIntroduction from '@/components/base/file-introduction/file-introduction'
   import tool from "../../../../../api/tool"
   export default {
     components: {
       CrossLine,
-      FileDelete
+      FileIntroduction
     },
     data() {
       return {
@@ -381,6 +390,10 @@
       font-size: 15px;
       color: #333;
       margin-left: -5px;
+      .title-edit{
+        color: #528de8;
+        font-size: 13px;
+      }
     }
     .item {
       height: 40px;
@@ -594,7 +607,6 @@
     .advantage{
       color: #333;
       padding: 15px 0px;
-      border-bottom: 1px solid #dedede;
       margin: 0px 10px;
       .language-wrap{
         font-size: 13px;
@@ -621,6 +633,23 @@
         }
       }
     }
-
+    .submit-wrap{
+      width: 100%;
+      height: 70px;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .submit{
+        width: 150px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+        border-radius: 6px;
+        background-color: #528de8;
+        color: #fff;
+        text-align: center;
+      }
+    }
   }
 </style>
