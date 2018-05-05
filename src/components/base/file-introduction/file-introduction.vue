@@ -8,7 +8,7 @@
       <div v-show="!deleteShow" class="btn-warp"><span class="cancel" @click="Cancel">取消</span><span class="confirm" @click="deleteFile">确定</span></div>
     </div>
     <div class="introduction">
-      文件说明： <input type="text" v-model="val" @change="textChange"/>
+      文件说明： <input type="text" v-model="file.val" @change="textChange"/>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@
     data() {
       return {
         deleteShow : true,
-        val: '',
+        // val: '',
       }
     },
     props: ["file","index","tag"],
@@ -37,7 +37,7 @@
         this.$emit('delete',{index:this.index,tag:this.tag});
       },
       textChange(){
-        this.$emit('update',{index:this.index,tag:this.tag,val:this.val});
+        this.$emit('update',{index:this.index,tag:this.tag,val:this.file.val});
       }
     },
     filters: {},
