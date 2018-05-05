@@ -369,12 +369,28 @@
             tool.toast(r.msg);
         })
       },
-      fillLangulage(){
-        let cont = sessionStorage.getItem("advCh");
+      fillAdvCh(){
+        let cont= sessionStorage.getItem("advCh");
         if(cont === "" || cont === "undefined"){
           this.chineseAdv = "没有内容";
         }else{
           this.chineseAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
+        }
+
+      },
+      fillIntCh(){
+        let cont= sessionStorage.getItem("intCh");
+        if(cont === "" || cont === "undefined"){
+          this.chineseInt = "没有内容";
+        }else{
+          this.chineseInt = cont;
           if (cont.length > 405){
             this.moreShow = true;
           }else{
@@ -430,7 +446,8 @@
       }
     },
     mounted() {
-      this.fillLangulage();
+      this.fillAdvCh();
+      this.fillIntCh();
     },
     destroyed() {
     }
