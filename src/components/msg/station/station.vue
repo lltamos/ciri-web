@@ -12,18 +12,19 @@
              :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
              'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
              :btnTitle='parseAccessMode(msg.accessmode)'
-             :btnShow='msg.isApprove == 0 ? true : false'></Inbox>
-
-      <!--<Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>-->
-      <!--<Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理" res=""></Inbox>-->
-      <!--<Inbox typeIcon="icon-no-see-no-deal" btnColor="color-deal" btnTitle="待处理"></Inbox>-->
+             :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
       <button @click="loadMore()" :disabled="this.disabled" class="more">
         <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
     </div>
     <div class="outbox" v-show="!seeInbox">
-      <outbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
-              btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></outbox>
+      <outbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
+             :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+             :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+             :btnTitle='parseAccessMode(msg.accessmode)'
+             :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></outbox>
       <button @click="loadMore()" :disabled="this.disabled" class="more">
         <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
@@ -67,6 +68,9 @@
         } else if (tag == 4) {
           return '已拒绝';
         }
+      },
+      showDetail(){
+        // window.location.reload();
       },
 
       showInbox() {

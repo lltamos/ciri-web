@@ -1,12 +1,14 @@
 <template>
   <div class="system">
     <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
-      <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index' typeIcon="icon-agree" btnColor="color-agree"
-             btnTitle="已同意" :btnShow='msg.isApprove == 1 ? true : false'></Inbox>
+      <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
+             :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+             :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+             :btnTitle='parseAccessMode(msg.accessmode)'
+             :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
 
-      <!--<Inbox typeIcon="icon-refuse" btnColor="color-refuse" btnTitle="已拒绝"></Inbox>-->
-      <!--<Inbox typeIcon="icon-already-see-no-deal" btnColor="color-deal" btnTitle="待处理" res=""></Inbox>-->
-      <!--<Inbox typeIcon="icon-no-see-no-deal" btnColor="color-deal" btnTitle="待处理"></Inbox>-->
     </div>
   </div>
 </template>
@@ -33,6 +35,15 @@
     props: {},
     watch: {},
     methods: {
+      parseAccessMode(tag) {
+        if (tag == 1 || tag == 2) {
+          return '待处理';
+        } else if (tag == 3) {
+          return '已同意';
+        } else if (tag == 4) {
+          return '已拒绝';
+        }
+      },
       showDetail() {
         this.isShow = !this.isShow
       },

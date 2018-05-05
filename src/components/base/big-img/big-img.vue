@@ -46,7 +46,6 @@
             return element.currentStyle[cssPropertyName];
           }
         }
-        console.log(getStyle(imgWarp,'height'))
         return getStyle(imgWarp,'height')
       }
     },
@@ -83,7 +82,6 @@
       // 图片加载更多
       let imgHeight=this.imgHeight();
       imgHeight=tool.pxKey(imgHeight)
-      console.log(imgHeight);
       if(imgHeight>316){
         this.moreShow = true;
       }else {
