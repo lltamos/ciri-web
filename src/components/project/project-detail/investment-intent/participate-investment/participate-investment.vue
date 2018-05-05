@@ -5,13 +5,13 @@
     </div>
     <cross-line></cross-line>
     <div class="invest-radio">
-      <div class="item" :class="{active:radioActive==1}" @click="lead">
+      <div class="item" v-show="this.isLeadQualified" :class="{active:isLead}" @click="leadRadio(true)">
         <i class="icon-radio">
           <input type="radio" name="" />
         </i>
         <span>我要领投</span>
       </div>
-      <div class="item" :class="{active:radioActive==2}" @click="follow">
+      <div class="item" :class="{active:!isLead}" @click="leadRadio(false)">
         <i class="icon-radio">
           <input type="radio" name="" />
         </i>
@@ -22,56 +22,12 @@
     <div class="way">
       <div class="partipate-title">【参与合投方式】</div>
       <div class="select-wrap">
-        <div class="item" @click.prevent="check($event)">
+        <div class="item" v-for="(cif, index) in cifs" @click.prevent="check($event,cif.k)">
           <i class="icon-check">
-            <input type="checkbox" name="" />
+            <input type="checkbox" name="cif" />
           </i>
-          <span>资金入股</span>
+          <span>{{cif.v}}</span>
         </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>部分投资+EPC</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>EPC+部分垫资</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>设备入（参）股</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>设备垫资</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>融资租赁</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>基金LP入资</span>
-        </div>
-        <div class="item" @click.prevent="check($event)">
-          <i class="icon-check">
-            <input type="checkbox" name="" />
-          </i>
-          <span>其它</span>
-        </div>
-
-
       </div>
 
     </div>
@@ -80,29 +36,25 @@
       <div class="item-remark">(若您选择非现金方式参与和投，请估算其在该项目中的现金价值)</div>
       <div class="range">
         <span>-</span>
-        <input type="text" class="range-input"/>
+        <input type="text" v-model="investAmount" class="range-input"/>
         <span>+</span>
       </div>
     </div>
     <div class="company">
       <div class="partipate-title">【参与合投企业】<span class="item-remark">(请选择投资意向函中的主体企业)</span></div>
-      <div class="select-wrap">
-        <!--TODO:这边回来数据遍历一下动态天津active样式，当前选中的添加，其它的去掉active-->
-        <div class="item" :class="{active:radioActive==1}" @click="lead">
+      <div class="select-wrap" v-if="this.corps != null">
+        <div class="item" v-for="(corp ,index) in corps" :key="corp.corpId" :class="{active:cId == corp.corpId}" @click="corpRadio(corp.corpId)">
           <i class="icon-radio">
             <input type="radio" name="" />
           </i>
-          <span>北京天土国际经济技术合作有限公司</span>
+          <span>{{corp.name.valueCn}}</span>
         </div>
 
       </div>
     </div>
     <cross-line></cross-line>
     <div class="intent-letter">
-      <div class="partipate-title clearfix">【投资意向函】
-        <span class="item-remark">(选填)</span>>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
-      </div>
+      <div class="partipate-title">【投资意向函】<span class="item-remark">(选填)</span></div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -157,10 +109,7 @@
 
     <cross-line></cross-line>
     <div class="advantage">
-      <div class="partipate-title clearfix">【企业优势】
-        <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势'}}" class="title-edit fr">编辑</router-link>
-      </div>
+      <div class="partipate-title">【企业优势】<span class="item-remark">(选填)</span></div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -201,21 +150,18 @@
           <div class="up-word fl">附件上传：</div>
           <div class="upload fr">
             <span class="upload-file">上传</span>
-            <input type="file" class="fill-input" @change="UploadFile($event,1)">
+            <input type="file" class="fill-input" @change="UploadFile($event,2)">
           </div>
         </div>
         <div class="item-remark">(请上传投资企业资信相关资料)</div>
         <div class="file-warp">
-          <FileDelete v-for="(file,index) in askFileList"  :key="index"
+          <FileDelete v-for="(file,index) in askFileList1"  :key="index"
                       :file="file" :index="index" :tag="1"
-                      @delete="deleteAskFile"></FileDelete>
+                      @delete="deleteAskFile1"></FileDelete>
         </div>
       </div>
     </div>
-
-    <div class="submit-wrap">
-      <div class="submit">提交</div>
-    </div>
+    <button @click="apply">apply</button>
   </div>
 </template>
 
@@ -230,7 +176,8 @@
     },
     data() {
       return {
-        radioActive:1,
+        isLead: false,
+        cId: 0,
         advActive:1,
         intentActive: 1,
         seeLanguage: true,
@@ -238,18 +185,29 @@
         moreShow:true,
         iconMore: 'icon-more',
         moreText:'展开',
-        askFileList:[],
+        askFileList: [],
+        askFileList1: [],
+        isLeadQualified: false,
+        corps: null,
+        investAmount: 0,
+        cifs: [],
+        projId: '364000087',
+        photoMeta :[],
+        fileMeta :[],
+        capitalInjectionFormId: [],
+
       }
     },
     props: {},
     watch: {},
     methods: {
-      lead(){
-        this.radioActive = 1;
+      leadRadio(index){
+        this.isLead = index;
       },
-      follow(){
-        this.radioActive = 2;
+      corpRadio(index){
+        this.cId = index;
       },
+
       intentChinese(){
         this.intentActive = 1;
         this.seeIntent = true;
@@ -266,12 +224,21 @@
         this.advActive = 2;
         this.seeLanguage = false;
       },
-      check(e){
+      check(e ,v){
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
+          if (this.capitalInjectionFormId != null && this.capitalInjectionFormId.length > 0) {
+            for (let i = 0; i < this.capitalInjectionFormId.length; i++) {
+              if (this.capitalInjectionFormId[i] == v) {
+                this.capitalInjectionFormId.splice(i);
+                return;
+              }
+            }
+          }
         } else {
           element.classList.add('active');
+          this.capitalInjectionFormId.push(v);
         }
       },
       readMore(){
@@ -296,24 +263,89 @@
         //上传文件
         this.axios.post(tool.domind() + '/gateway/file/upload', imgFormData, config)
           .then(res => {
-            console.log(res);
             e.target.value='';
             if (res.data.code === 200) {
               let temp = res.data.data[0]
-              this.askFileList.push(temp);
+              if (tag == 1)
+                this.askFileList.push(temp);
+              else
+                this.askFileList1.push(temp);
             }
           });
       },
       deleteAskFile(msg){
         let tag=msg.tag;
         let index=msg.index;
-        //删除文件
         this.askFileList.splice(index,1)
+      },
+      deleteAskFile1(msg){
+        let tag=msg.tag;
+        let index=msg.index;
+        this.askFileList1.splice(index,1)
+      },
+      listToMeta(array){
+        let split = '__'
+        let res = [];
+        if (array != null && array.length > 0){
+          for (let i = 0; i < array.length; i++) {
+            let id = array[i].fileId;
+            let size = array[i].fileSize;
+            let name = array[i].fileName;
+            res.push(id + split + size + split + name);
+          }
+          return res;
+        }
+        return null;
+      },
+      parameterCheck(){
+        if (this.cId == null || this.cId == '')
+          return 'corpId不能为空';
+        if (this.projId == null || this.projId == '')
+          return 'projId不能为空';
+        if (this.capitalInjectionFormId == null || this.capitalInjectionFormId.length < 1)
+          return '请选择参与合投的方式';
+        if (this.investAmount == null || this.investAmount == 0)
+          return '无效的投资金额';
+        this.photoMeta = this.listToMeta(this.askFileList);
+        this.fileMeta = this.listToMeta(this.askFileList1);
+        return null;
+      },
+      apply(){
+        let errorMsg = this.parameterCheck();
+        if ( errorMsg != null){
+          tool.toast(errorMsg);
+          return;
+        }
+        this.$api.post('/ah/s0/apply', {
+          projId: this.projId,
+          isLead: this.isLead,
+          name: tool.getuser(),
+          corpId: this.cId,
+          photoMeta: this.photoMeta,
+          fileMeta: this.fileMeta,
+          investAmount: this.investAmount,
+          capitalInjectionFormId: this.capitalInjectionFormId
+        }).then(r => {
+          if (r.code == 200){
+            tool.toast('提交成功')
+          } else
+            tool.toast(r.msg);
+        })
       }
     },
     filters: {},
     computed: {},
     created() {
+      this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
+        if (r.code == 200){
+          this.isLeadQualified = r.isLeadQualified;
+          this.corps = r.data;
+          this.cifs = r.cifs;
+          if (r.data != null)
+            this.cId = r.data[0].corpId;
+        }else
+          tool.toast('r.msg');
+      });
     },
     mounted() {
     },
@@ -349,10 +381,6 @@
       font-size: 15px;
       color: #333;
       margin-left: -5px;
-      .title-edit{
-        color: #528de8;
-        font-size: 13px;
-      }
     }
     .item {
       height: 40px;
@@ -566,6 +594,7 @@
     .advantage{
       color: #333;
       padding: 15px 0px;
+      border-bottom: 1px solid #dedede;
       margin: 0px 10px;
       .language-wrap{
         font-size: 13px;
@@ -592,23 +621,6 @@
         }
       }
     }
-    .submit-wrap{
-      width: 100%;
-      height: 70px;
-      background-color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .submit{
-        width: 150px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 13px;
-        border-radius: 6px;
-        background-color: #528de8;
-        color: #fff;
-        text-align: center;
-      }
-    }
+
   }
 </style>
