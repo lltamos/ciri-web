@@ -8,7 +8,7 @@
       （请依据模板完善内容）
     </div>
     <div class="content">
-      <textarea></textarea>
+      <textarea ref="editContent" @blur.native="fill()"></textarea>
     </div>
 
 
@@ -36,6 +36,11 @@
     methods: {
       back() {
         window.history.back()
+      },
+      fill(){
+        let content = this.$refs.editContent.innerText;
+        sessionStorage.setItem("editContent", content);
+        console.log(content);
       }
     },
     props: {
@@ -45,6 +50,7 @@
 
     },
     mounted() {
+
     }
   };
 </script>
@@ -92,6 +98,13 @@
     }
     .content{
       margin: 0 10px;
+      textarea{
+        width: 91%;
+        height: 500px;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        padding: 15px;
+      }
     }
 
   }

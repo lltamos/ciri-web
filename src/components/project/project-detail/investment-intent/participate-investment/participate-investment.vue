@@ -100,7 +100,7 @@
     <cross-line></cross-line>
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
-        <span class="item-remark">(选填)</span>>
+        <span class="item-remark">(选填)</span>
         <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
@@ -148,9 +148,9 @@
         </div>
         <div class="item-remark">(请上传投资意向函扫描件，支持图片和PDF文件)</div>
         <div class="file-warp">
-          <FileDelete v-for="(file,index) in askFileList"  :key="index"
+          <FileIntroduction v-for="(file,index) in askFileList"  :key="index"
                       :file="file" :index="index" :tag="1"
-                      @delete="deleteAskFile"></FileDelete>
+                      @delete="deleteAskFile"></FileIntroduction>
         </div>
       </div>
     </div>
@@ -177,6 +177,8 @@
               <span>英文</span>
             </div>
           </div>
+
+
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeLanguage">
@@ -206,9 +208,9 @@
         </div>
         <div class="item-remark">(请上传投资企业资信相关资料)</div>
         <div class="file-warp">
-          <FileDelete v-for="(file,index) in askFileList"  :key="index"
+          <FileIntroduction v-for="(file,index) in askFileList"  :key="index"
                       :file="file" :index="index" :tag="1"
-                      @delete="deleteAskFile"></FileDelete>
+                      @delete="deleteAskFile"></FileIntroduction>
         </div>
       </div>
     </div>
@@ -221,12 +223,12 @@
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import FileDelete from '@/components/base/file-delete/file-delete'
+  import FileIntroduction from '@/components/base/file-introduction/file-introduction'
   import tool from "../../../../../api/tool"
   export default {
     components: {
       CrossLine,
-      FileDelete
+      FileIntroduction
     },
     data() {
       return {
