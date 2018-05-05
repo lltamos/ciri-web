@@ -8,7 +8,7 @@
       （请依据模板完善内容）
     </div>
     <div class="content">
-      <textarea ref="editContent" v-model="word" @mouseleave="fill()"></textarea>
+      <textarea v-model="word" @mouseleave="fill()"></textarea>
     </div>
 
 
@@ -30,7 +30,7 @@
     },
     data() {
       return {
-        word: this.word,
+        word: ''
       };
     },
     methods: {
@@ -39,14 +39,13 @@
       },
       fill(){
         sessionStorage.setItem("editContent", this.word);
-        console.log(this.word);
       }
     },
     props: {
 
     },
     created() {
-
+      this.word = sessionStorage.getItem('editContent');
     },
     mounted() {
 
