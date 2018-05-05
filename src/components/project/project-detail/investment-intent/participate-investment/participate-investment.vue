@@ -99,7 +99,10 @@
     </div>
     <cross-line></cross-line>
     <div class="intent-letter">
-      <div class="partipate-title">【投资意向函】<span class="item-remark">(选填)</span></div>
+      <div class="partipate-title clearfix">【投资意向函】
+        <span class="item-remark">(选填)</span>>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
+      </div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -154,7 +157,10 @@
 
     <cross-line></cross-line>
     <div class="advantage">
-      <div class="partipate-title">【企业优势】<span class="item-remark">(选填)</span></div>
+      <div class="partipate-title clearfix">【企业优势】
+        <span class="item-remark">(选填)</span>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势'}}" class="title-edit fr">编辑</router-link>
+      </div>
       <div class="language-wrap">
         <div class="language-div">
           <div class="lag-radio">
@@ -207,6 +213,9 @@
       </div>
     </div>
 
+    <div class="submit-wrap">
+      <div class="submit">提交</div>
+    </div>
   </div>
 </template>
 
@@ -340,6 +349,10 @@
       font-size: 15px;
       color: #333;
       margin-left: -5px;
+      .title-edit{
+        color: #528de8;
+        font-size: 13px;
+      }
     }
     .item {
       height: 40px;
@@ -553,7 +566,6 @@
     .advantage{
       color: #333;
       padding: 15px 0px;
-      border-bottom: 1px solid #dedede;
       margin: 0px 10px;
       .language-wrap{
         font-size: 13px;
@@ -580,6 +592,23 @@
         }
       }
     }
-
+    .submit-wrap{
+      width: 100%;
+      height: 70px;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .submit{
+        width: 150px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+        border-radius: 6px;
+        background-color: #528de8;
+        color: #fff;
+        text-align: center;
+      }
+    }
   }
 </style>
