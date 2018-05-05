@@ -200,7 +200,7 @@
         corps: null,
         investAmount: 0,
         cifs: [],
-        projId: '364000087',
+        projId: '',
         photoMeta :[],
         fileMeta :[],
         capitalInjectionFormId: [],
@@ -345,6 +345,7 @@
     filters: {},
     computed: {},
     created() {
+      this.projId = this.$route.query.projId;
       this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
         if (r.code == 200){
           this.isLeadQualified = r.isLeadQualified;
