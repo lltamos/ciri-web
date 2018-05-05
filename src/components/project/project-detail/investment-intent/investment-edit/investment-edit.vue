@@ -2,13 +2,13 @@
   <div class="investment-edit">
     <header class="clearfix">{{this.$route.query.title}}
       <i class="icon-back" @click="back"></i>
-      <span class="submit">提交</span>
+      <span class="submit" @click="back">提交</span>
     </header>
     <div class="remind">
       （请依据模板完善内容）
     </div>
     <div class="content">
-      <textarea ref="editContent" @blur.native="fill()"></textarea>
+      <textarea ref="editContent" v-model="word" @mouseleave="fill()"></textarea>
     </div>
 
 
@@ -30,7 +30,7 @@
     },
     data() {
       return {
-
+        word: this.word,
       };
     },
     methods: {
@@ -38,9 +38,8 @@
         window.history.back()
       },
       fill(){
-        let content = this.$refs.editContent.innerText;
-        sessionStorage.setItem("editContent", content);
-        console.log(content);
+        sessionStorage.setItem("editContent", this.word);
+        console.log(this.word);
       }
     },
     props: {

@@ -77,8 +77,8 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeIntent">
-          <div class="word">
-            中文中文中文中文中文中文中文中文
+          <div :class="article">
+            {{this.chineseAdv}}
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
             <span v-text="moreText">展开</span>
@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="adv-content english" v-show="!seeIntent">
-          <div class="word">
+          <div class="article">
             aaaaaaaaaaaaaaaaaaaaaaaaaaaa
           </div>
 
@@ -135,7 +135,7 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeLanguage">
-          <div class="word">
+          <div class="article">
             中文中文中文中文中文中文中文中文
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
@@ -144,7 +144,7 @@
           </div>
         </div>
         <div class="adv-content english" v-show="!seeLanguage">
-          <div class="word">
+          <div class="article">
             aaaaaaaaaaaaaaaaaaaaaaaaa
           </div>
 
@@ -191,9 +191,10 @@
         intentActive: 1,
         seeLanguage: true,
         seeIntent:true,
-        moreShow:true,
+        moreShow:false,
         iconMore: 'icon-more',
         moreText:'展开',
+        article: 'article',
         askFileList: [],
         askFileList1: [],
         isLeadQualified: false,
@@ -204,7 +205,7 @@
         photoMeta :[],
         fileMeta :[],
         capitalInjectionFormId: [],
-
+        chineseAdv: this.chineseAdv,
       }
     },
     props: {},
@@ -254,7 +255,7 @@
         if (this.moreText == '展开') {
           this.moreText = '收起'
           this.iconMore = 'pack-up'
-          this.article = 'article active'
+          this.article = 'article activeWord'
         } else {
           this.moreText = '展开';
           this.iconMore = 'icon-more'
@@ -340,6 +341,20 @@
           } else
             tool.toast(r.msg);
         })
+      },
+      fillAdvChinese(){
+        let cont = sessionStorage.getItem("editContent");
+        if(cont === "" || cont === "undefined"){
+          this.chineseAdv = "没有内容";
+        }else{
+          this.chineseAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+          return tool.replaceAll(cont, '\n', '<br/>');
+        }
       }
     },
     filters: {},
@@ -357,6 +372,7 @@
       });
     },
     mounted() {
+      this.fillAdvChinese();
     },
     destroyed() {
     }
@@ -567,7 +583,7 @@
         border: 1px solid #dedede;
         border-radius: 3px;
         padding:10px;
-        .word{
+        .article{
           margin-top: 10px;
           font-size: 13px;
           line-height: 22px;
@@ -575,6 +591,9 @@
           text-indent: 2em;
           max-height: 200px;
           overflow: hidden;
+          &.activeWord {
+            max-height:10000px;
+          }
         }
         .read-more {
           font-size: 13px;
