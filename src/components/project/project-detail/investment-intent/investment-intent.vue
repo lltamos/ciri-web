@@ -154,8 +154,8 @@
 
           });
           //项目合投前流程
-          // this.$api.post('/ah/s5/getUserProjectConInvest',{projId:this.proId,userId:tool.getuser()}).then(r => {
-          this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
+          this.$api.post('/ah/s5/projectInvestment',{projId:this.projId,userId:tool.getuser()}).then(r => {
+          // this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
             // console.log(r)
             if(r.code==200){
               this.userRole=r.data.userRole;
@@ -177,6 +177,7 @@
                   // console.log(this.cast);
                 }
               }else {
+                this.closeShot=false;
                 tool.toast("非投资方不能发送合投申请");
               }
               // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
