@@ -32,7 +32,6 @@
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
           <div class="participate participate-selected" @click="showParticipate">
-            <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
             参与合投
           </div>
         </div>
