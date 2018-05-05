@@ -218,8 +218,8 @@
         this.cId = index;
       },
       // 默认选中参与合投的方式
-      checked(k) {
-        if(this.capitalInjectionFormId != null && this.capitalInjectionFormId.length>0){
+      checked(k){
+        if(this.capitalInjectionFormId != null && this.capitalInjectionFormId.length > 0){
           for (var value of this.capitalInjectionFormId) {
             if(k==value){
               return "active";
@@ -386,7 +386,7 @@
         this.$api.post('/ah/s5/getUserProjectConInvest', {projId:this.projId,userId:tool.getuser()}).then(r => {
           // console.log(r);
           if (r.code == 200) {
-            if(r.data.order !=null && r.data.order.length==1){
+            if(r.data.order != null && r.data.order.length==1){
               let order=r.data.order[0];
               console.log(order);
               //用户的合投信息
@@ -394,11 +394,15 @@
               //参与合投方式
               this.capitalInjectionFormId=this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
               //预期投资金额
-              this.investAmount=order.investAmount.amount;
+              this.investAmount=order.investAmount.amount / 10000;
               //参与合投企业
               this.cId=order.corpId;
               //TODO 投资意向函 企业优势 附件
               console.log(this.capitalInjectionFormId)
+              this.chineseAdv=order.capitalInjectionFormNote.valueCn;
+              // this.chineseAdv=order.advantageNote.valueCn;  //项目优势中文测试在该项目中
+              // this.chineseAdv=order.advantageNote.valueEn;
+              // setValueCn
               //
             }
           console.log(r.data);
