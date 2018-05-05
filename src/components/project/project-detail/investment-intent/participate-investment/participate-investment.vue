@@ -240,7 +240,7 @@
           if (this.capitalInjectionFormId != null && this.capitalInjectionFormId.length > 0) {
             for (let i = 0; i < this.capitalInjectionFormId.length; i++) {
               if (this.capitalInjectionFormId[i] == v) {
-                this.capitalInjectionFormId.splice(i);
+                this.capitalInjectionFormId.splice(i,i);
                 return;
               }
             }
