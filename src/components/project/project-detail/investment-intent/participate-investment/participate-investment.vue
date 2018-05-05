@@ -56,7 +56,7 @@
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -78,7 +78,7 @@
         </div>
         <div class="adv-content chinese clearfix" v-show="seeIntent">
           <div :class="article">
-            {{this.chineseAdv}}
+            {{this.chineseInt}}
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
             <span v-text="moreText">展开</span>
@@ -114,7 +114,7 @@
     <div class="advantage">
       <div class="partipate-title clearfix">【企业优势】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势'}}" class="title-edit fr">编辑</router-link>
+        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -135,8 +135,8 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeLanguage">
-          <div class="article">
-            中文中文中文中文中文中文中文中文
+          <div :class="article">
+            {{this.chineseAdv}}
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
             <span v-text="moreText">展开</span>
@@ -205,7 +205,8 @@
         photoMeta :[],
         fileMeta :[],
         capitalInjectionFormId: [],
-        chineseAdv: this.chineseAdv,
+        chineseInt: '',
+        chineseAdv: '',
       }
     },
     props: {},
@@ -342,8 +343,8 @@
             tool.toast(r.msg);
         })
       },
-      fillAdvChinese(){
-        let cont = sessionStorage.getItem("editContent");
+      fillLangulage(){
+        let cont = sessionStorage.getItem("advCh");
         if(cont === "" || cont === "undefined"){
           this.chineseAdv = "没有内容";
         }else{
@@ -353,6 +354,7 @@
           }else{
             this.moreShow = false;
           }
+
           return tool.replaceAll(cont, '\n', '<br/>');
         }
       }
@@ -373,7 +375,7 @@
       });
     },
     mounted() {
-      this.fillAdvChinese();
+      this.fillLangulage();
     },
     destroyed() {
     }

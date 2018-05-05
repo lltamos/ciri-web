@@ -30,7 +30,8 @@
     },
     data() {
       return {
-        word: ''
+        word: '',
+        key: ''
       };
     },
     methods: {
@@ -38,14 +39,15 @@
         window.history.back()
       },
       fill(){
-        sessionStorage.setItem("editContent", this.word);
+        sessionStorage.setItem(this.key, this.word);
       }
     },
     props: {
 
     },
     created() {
-      this.word = sessionStorage.getItem('editContent');
+      this.key = this.$route.query.key;
+      this.word = sessionStorage.getItem(this.key);
     },
     mounted() {
 
