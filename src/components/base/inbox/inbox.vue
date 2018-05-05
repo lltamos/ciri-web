@@ -1,19 +1,19 @@
 <template>
   <div class="inbox-page clearfix">
     <i class="icon-type fl" :class="typeIcon" v-if="btnShow"></i>
-    <!--<i class="icon-type fl" :class="typeIcon" v-if="!btnShow"></i>-->
+    <i class="icon-type fl" :class="iconSwitch" v-if="!btnShow"></i>
     <div class="message mar">
-      <div class="top-message" @click="showDetail">
+      <div class="top-message" @click.prevent="showDetail">
         <p>
-          <span class="title" v-html="this.content.title"></span><span
-          class="time">【{{time(this.content.createTime)}}】</span>
+          <span class="title" v-html="this.msgContent.title"></span><span
+          class="time">【{{time(this.msgContent.createTime)}}】</span>
         </p>
-        <div class="msg-btn" :class="btnColor">{{this.btnTitle}}</div>
+        <div class="msg-btn" :class="btnColor" v-if="btnShow">{{this.btnTitle}}</div>
       </div>
       <div class="bottom-message" v-show="isShow">
-        <p v-html="this.content.content" @click.prevent="toProject">
+        <p v-html="this.msgContent.content" @click.prevent="toProject">
         </p>
-        <div class="deal-btn-wrap" v-if="btnShow">
+        <div class="deal-btn-wrap" v-if="btnShow" v-show="agreeBtn">
           <div class="deal-btn deal-btn-refuse" @click="apply(0)">拒绝</div>
           <div class="deal-btn deal-btn-agree" @click="apply(1)">同意</div>
         </div>
@@ -34,6 +34,8 @@
         id: '',
         sort: '',
         reg: true,
+        iconSwitch :'icon-no-see',
+        msgContent : null
       }
     },
     props: {
@@ -52,12 +54,20 @@
       btnShow: {
         type: Boolean,
         default: true
-      }
+      },
+      agreeBtn: {
+        type: Boolean,
+        default: true
+      },
 
     },
     watch: {},
     methods: {
       showDetail() {
+        if(this.msgContent.accessmode==1){
+          this.msgContent.accessmode==2;
+        }
+        this.iconSwitch='icon-already-see';
         this.isShow = !this.isShow;
         if (this.content != null && this.content.readTime == null)
           this.$api.get('/ah/s0/i/read', {
@@ -68,6 +78,7 @@
               console.log('已阅读消息')
             }
           });
+
       },
       apply(t) {
         this.$api.get('/ah/s0/i/agree', {
@@ -76,6 +87,14 @@
         }).then(res => {
           if (res.code == 200) {
             console.log('已阅读消息')
+            // this.$emit('showDetail');
+            if(t==1){
+              this.msgContent.accessmode=3;
+            }
+
+          }
+          if(t==0){
+            this.msgContent.accessmode=4;
           }
         });
       },
@@ -107,22 +126,11 @@
     filters: {},
     computed: {},
     created() {
+      this.msgContent = this.content;
 
     },
     mounted() {
       this.projectId();
-      console.log(this.btnColor)
-      if (this.btnColor == 'msg-btn color-deal') {
-        this.btnTitle = '待处理'
-
-      } else if (this.btnColor == 'msg-btn color-refuse') {
-        this.btnTitle = '已拒绝'
-
-      } else if (this.btnColor == 'msg-btn color-agree') {
-        this.btnTitle = '已同意'
-
-      }
-
     },
     destroyed() {
     }
