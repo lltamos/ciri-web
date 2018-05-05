@@ -34,7 +34,7 @@
         </div>
         <ul class="proj-info">
           <li>
-            <em><i class="large">{{project.fund}}</i>万{{project.currencyName}}</em>
+            <em><i class="large">{{project.fund}}</i>{{project.currencyName}}</em>
             <span>项目总投资</span>
             <div class="fg-line"></div>
           </li>

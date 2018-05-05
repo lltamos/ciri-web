@@ -11,9 +11,6 @@
         <div class="point-warp">
           <div class="border-line"></div>
           <div class="point-group">
-            <!--<i class="icon-type " :class="icon-not-select"></i>-->
-            <!--<i class="icon-type" ></i>-->
-            <!--<i class="icon-type" ></i>-->
             <i class="icon-type" :class="isUserAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isCorpAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isRiskAgreementSigned==true ? 'icon-selected' : 'icon-not-select'"></i>
@@ -31,9 +28,9 @@
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
-          <div class="participate participate-selected" @click="showParticipate">
+          <div class="participate " :class="closeShot?'participate-selected':'participate-no-select'" @click="showParticipate" v-text="cast">
             <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
-            参与合投
+            <!--参与合投-->
           </div>
         </div>
       </div>
@@ -45,7 +42,7 @@
         <div class="schedule">
           <div class="count">
             <div>意向投资方<span>{{projectProgress.InvestorCount == null ? 0:projectProgress.InvestorCount}}</span>位</div>
-            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>{{projectProgress.currencyName}}</div>
           </div>
           <div class="line">
             <div class="bg"></div>
@@ -65,7 +62,7 @@
             </div>
             <div class="content fl">
               <div class="company-name">{{companyProgress.companyName}}</div>
-              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
               <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
@@ -84,7 +81,7 @@
             </div>
             <div class="content fl">
               <div class="company-name">{{companyProgress.companyName}}</div>
-              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>万{{projectProgress.currencyName}}</div>
+              <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
               <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
@@ -123,13 +120,23 @@
               isRiskAgreementSigned:false, //4.风险提示协议是否签署
               isCoinvesting:false, //5.项目是否处于合同的状态
               isUserInCoInvest:false,  //6.判断用户是否参与过合投
+              cast:"参与合投",
+              closeShot:false  //合投按钮是否点亮
             }
         },
         props: {},
         watch: {},
         methods: {
           showParticipate(){
-            this.$router.push({path:'/project/project-detail/investment-intent/participate-investment'});
+            if(!this.closeShot){
+              return;
+            }
+            let tag = 0; //参与合投
+            if( this.cast=="编辑合投意向"){
+              //编辑合投意向
+              tag=1;
+            }
+            this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,tag:tag}});
           }
         },
         filters: {},
@@ -147,8 +154,8 @@
 
           });
           //项目合投前流程
-          // this.$api.post('/ah/s5/getUserProjectConInvest',{projId:this.proId,userId:tool.getuser()}).then(r => {
-          this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
+          this.$api.post('/ah/s5/projectInvestment',{projId:this.projId,userId:tool.getuser()}).then(r => {
+          // this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
             // console.log(r)
             if(r.code==200){
               this.userRole=r.data.userRole;
@@ -157,8 +164,21 @@
               this.isRiskAgreementSigned=r.data.isRiskAgreementSigned;
               this.isCoinvesting=r.data.isCoinvesting;
               this.isUserInCoInvest=r.data.isUserInCoInvest;
-              if(!this.userRole){
-                tool.toast("当前用户不为投资方，非投资方不能发送合投申请")
+              //判断用户角色
+              if(this.userRole){
+                if(this.isUserAuthed && this.isCorpAuthed && this.isRiskAgreementSigned && this.isCoinvesting){
+                  this.closeShot=true;
+                  // console.log(this.closeShot);
+                  if(this.isUserInCoInvest){
+                    this.cast="编辑合投意向";
+                  }else {
+                    this.cast="参与合投";
+                  }
+                  // console.log(this.cast);
+                }
+              }else {
+                this.closeShot=false;
+                tool.toast("非投资方不能发送合投申请");
               }
               // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
               //   isUserAuthed:false, //2.判断用户是否是实名认证用户
