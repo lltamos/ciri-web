@@ -25,7 +25,7 @@
             </div>
             <div class="main-news">
               <div class="title">
-                <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
+                <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无' && project.cornerTagName != ''">{{project.cornerTagName}}</div>
                 <h2 class="fl" v-if="project.name != null">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
               <div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
