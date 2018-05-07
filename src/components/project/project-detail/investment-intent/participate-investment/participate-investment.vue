@@ -498,7 +498,7 @@
               this.chineseInt = order.capitalInjectionFormNote.valueCn;
               this.englishInt = order.capitalInjectionFormNote.valueEn;
               sessionStorage.setItem("intCh", this.chineseInt);
-              sessionStorage.setItem("intEh", this.englishInt);
+              sessionStorage.setItem("intEn", this.englishInt);
               if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
                 this.intentActive = 2;
                 this.seeIntent = false;
@@ -507,7 +507,7 @@
               this.chineseAdv = order.advantageNote.valueCn;
               this.englishAdv = order.advantageNote.valueEn;
               sessionStorage.setItem("advCh", this.chineseAdv);
-              sessionStorage.setItem("advEh", this.englishAdv);
+              sessionStorage.setItem("advEn", this.englishAdv);
               if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
                 this.advActive = 2;
                 this.seeLanguage = false;
@@ -546,7 +546,7 @@
         });
       }
       sessionStorage.setItem("editstatus", 2);
-      alert(sessionStorage.getItem("editstatus"))
+      // alert(sessionStorage.getItem("editstatus"))
 
     },
     mounted() {
