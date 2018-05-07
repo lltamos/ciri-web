@@ -186,6 +186,8 @@
               //   isRiskAgreementSigned:false, //4.风险提示协议是否签署
               //   isCoinvesting:false, //5.项目是否处于合投的状态
               //   isUserInCoInvest:false //6.判断用户是否参与过合投
+            }else if(r.code==403){
+              tool.toast("权限不足，请升级用户等级");
             }
           });
 
