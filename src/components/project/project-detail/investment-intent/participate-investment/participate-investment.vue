@@ -362,7 +362,7 @@
         param.append('photoSummary', this.askSummaryList);
 
 
-        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(res => {}).then(r => {
+        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(r => {
           if (r.code == 200){
             tool.toast('提交成功')
           } else
