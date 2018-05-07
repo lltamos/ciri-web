@@ -382,13 +382,6 @@
           this.chineseAdv = "没有内容";
         }else{
           this.chineseAdv = cont;
-          if (cont.length > 405){
-            this.moreShow = true;
-          }else{
-            this.moreShow = false;
-          }
-
-          return tool.replaceAll(cont, '\n', '<br/>');
         }
 
       },
@@ -398,13 +391,6 @@
           this.englishAdv = "没有内容";
         }else{
           this.englishAdv = cont;
-          if (cont.length > 405){
-            this.moreShow = true;
-          }else{
-            this.moreShow = false;
-          }
-
-          return tool.replaceAll(cont, '\n', '<br/>');
         }
       },
       fillInt(){
@@ -413,13 +399,6 @@
           this.chineseInt = "没有内容";
         }else{
           this.chineseInt = cont;
-          if (cont.length > 405){
-            this.moreShow = true;
-          }else{
-            this.moreShow = false;
-          }
-
-          return tool.replaceAll(cont, '\n', '<br/>');
         }
 
       },
@@ -429,12 +408,6 @@
           this.englishInt = "没有内容";
         }else{
           this.englishInt = contEn;
-          if (contEn.length > 405){
-            this.moreShow = true;
-          }else{
-            this.moreShow = false;
-          }
-          return tool.replaceAll(contEn, '\n', '<br/>');
         }
 
       }
