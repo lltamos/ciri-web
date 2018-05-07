@@ -124,7 +124,7 @@
       },
       verifyEmail() {
         this.position = "fixImg";
-        let flag =/^.*\@.*\.com/;
+        let flag = /^.*\@.*\.com/;
         if (this.email == "") {
           this.errorShow = true;
           this.error = "账号错误，请重新输入";
@@ -172,8 +172,7 @@
                 sessionStorage.setItem("userLevel", res.data.data.memberLevel);
                 this.axios.defaults.headers.token = res.data.data.token;
                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-                // this.$router.replace({
-                this.$router.push({
+                this.$router.replace({
                   path: redirect
                 });
               } else {
@@ -212,120 +211,120 @@
     background-color: #fff;
     overflow: visible;
 
-  .login-wrapper {
-    margin-top: 20px;
-    overflow: hidden;
-    padding: 0 10px;
+    .login-wrapper {
+      margin-top: 20px;
+      overflow: hidden;
+      padding: 0 10px;
 
-  .iconWrap {
-    position: relative;
+      .iconWrap {
+        position: relative;
 
-  .mint-cell {
-    border: 1px solid #dedede;
-    border-radius: 3px;
-    margin-bottom: 15px;
-    padding-left: 40px;
-    font-size: 12px;
-    height: 34px;
-    min-height: 34px;
+        .mint-cell {
+          border: 1px solid #dedede;
+          border-radius: 3px;
+          margin-bottom: 15px;
+          padding-left: 40px;
+          font-size: 12px;
+          height: 34px;
+          min-height: 34px;
 
-  .mint-cell-wrapper {
-    padding: 0;
-  }
+          .mint-cell-wrapper {
+            padding: 0;
+          }
 
-  }
-  i {
-    display: block;
-    width: 20px;
-    height: 20px;
-  @include bg-image("./img/phone");
-    background-size: 20px auto;
-  }
+        }
+        i {
+          display: block;
+          width: 20px;
+          height: 20px;
+          @include bg-image("./img/phone");
+          background-size: 20px auto;
+        }
 
-  .icon-phone {
-  @include bg-image("./img/phone");
-  }
+        .icon-phone {
+          @include bg-image("./img/phone");
+        }
 
-  .icon-password {
-  @include bg-image("./img/password");
-  }
+        .icon-password {
+          @include bg-image("./img/password");
+        }
 
-  .icon-email {
-  @include bg-image("./img/email");
-  }
+        .icon-email {
+          @include bg-image("./img/email");
+        }
 
-  .iconImg {
-    position: absolute;
-    left: 10px;
-    top: 7px;
-  }
+        .iconImg {
+          position: absolute;
+          left: 10px;
+          top: 7px;
+        }
 
-  .switch {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    color: #333;
-    font-size: 10px;
-  }
+        .switch {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          color: #333;
+          font-size: 10px;
+        }
 
-  .pswIcon {
-    width: 16px;
-    height: 16px;
-    background-size: 16px auto;
-    display: block;
-  }
+        .pswIcon {
+          width: 16px;
+          height: 16px;
+          background-size: 16px auto;
+          display: block;
+        }
 
-  .pswIconShow {
-  @include bg-image("./img/psw-show");
-  }
+        .pswIconShow {
+          @include bg-image("./img/psw-show");
+        }
 
-  .pswIconClose {
-  @include bg-image("./img/psw-close");
-  }
+        .pswIconClose {
+          @include bg-image("./img/psw-close");
+        }
 
-  }
-  .regiPwd {
-    overflow: hidden;
+      }
+      .regiPwd {
+        overflow: hidden;
 
-  .fs12 {
-    color: #333;
-    font-size: 12px;
-  }
+        .fs12 {
+          color: #333;
+          font-size: 12px;
+        }
 
-  }
-  .error {
-    text-align: center;
-    color: #f81717;
-    font-size: 10px;
-    padding: 35px 0 15px;
-    height: 10px;
-  }
+      }
+      .error {
+        text-align: center;
+        color: #f81717;
+        font-size: 10px;
+        padding: 35px 0 15px;
+        height: 10px;
+      }
 
-  .mint-button {
-    margin: 0px auto 15px;
-    font-size: 15px;
-    height: 34px;
-  }
+      .mint-button {
+        margin: 0px auto 15px;
+        font-size: 15px;
+        height: 34px;
+      }
 
-  .loginBtn {
-    background: #eeeeee;
-    color: #333333;
-  }
+      .loginBtn {
+        background: #eeeeee;
+        color: #333333;
+      }
 
-  .loginBtnActive {
-    background: #3f83e6;
-    color: #ffffff;
-  }
+      .loginBtnActive {
+        background: #3f83e6;
+        color: #ffffff;
+      }
 
-  .fs13 {
-    font-size: 13px;
-    color: #333;
-  }
+      .fs13 {
+        font-size: 13px;
+        color: #333;
+      }
 
-  }
-  .staticImg {
-    position: static;
-  }
+    }
+    .staticImg {
+      position: static;
+    }
 
   }
 </style>
