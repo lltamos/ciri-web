@@ -11,16 +11,15 @@
     </div>
     <div class="station" v-if="loginAuth">
       <ul class="tab clearfix">
-        <li :class="{active:tabActive==1}" @click="showInbox">收件箱 <em>14</em></li>
+        <li :class="{active:tabActive==1}" @click="showInbox">收件箱 <em>{{this.count}}</em></li>
         <li :class="{active:tabActive==2}" @click="showOutbox">发件箱 <em></em></li>
       </ul>
       <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
-
         <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
                :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
-             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+           'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+           'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
                :btnTitle='parseAccessMode(msg.accessmode)'
                :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
         <button @click="loadMore()" :disabled="this.disabled" class="more">
@@ -29,17 +28,16 @@
       </div>
       <div class="outbox" v-show="!seeInbox">
         <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
-                :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
-             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
-                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
-                :btnTitle='parseAccessMode(msg.accessmode)'
-                :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
+               :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+           'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+               :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+           'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+               :btnTitle='parseAccessMode(msg.accessmode)'
+               :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
         <button @click="loadMore()" :disabled="this.disabled" class="more">
           <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
         </button>
       </div>
-
     </div>
   </div>
 </template>
@@ -49,12 +47,14 @@
   import tool from "@/api/tool";
   import Inbox from '@/components/base/inbox/inbox'
   import Outbox from '@/components/base/outbox/outbox'
+  import Loading from '@/components/base/loading/loading'
 
   export default {
     components: {
       tool,
       Inbox,
-      Outbox
+      Outbox,
+      Loading
     },
     data() {
       return {
@@ -62,12 +62,15 @@
         seeInbox: true,
         isShow: false,
         msgs: null,
+        count:null,
         url: '/ah/s0/i/insidemsg',
         pageId: 1,
         moreText: '查看更多',
         disabled: false,
         isIcon: true,
-        loginAuth : true
+        notloading: true,
+        loginAuth : false,
+        loginActive : ''
       }
     },
     props: {},
@@ -82,8 +85,9 @@
         }
       },
       login(){
-        this.$router.replace({
-          path: '/login'
+        this.$router.push({
+          path: '/login',
+          query: {redirect: '/msg/station'}
         });
       },
       parseAccessMode(tag) {
@@ -102,6 +106,7 @@
         this.url = '/ah/s0/i/insidemsg';
         this.pageId = 1;
         this.loadMore();
+        this.count = null;
       },
       showOutbox() {
         this.msgs = null;
@@ -125,7 +130,13 @@
           if (res.code == 200) {
             this.notloading = false;
             if (this.pageId == 1 || this.msgs == null) {
-              this.msgs = res.data.msgs
+              if(this.url == '/ah/s0/i/insidemsg'){
+                this.count=res.data.count;
+                // if(this.count>99){
+                //   this.count='99+';
+                // }
+              }
+              this.msgs = res.data.msgs;
             } else {
               this.msgs = this.msgs.concat(res.data.msgs);
             }
@@ -144,7 +155,10 @@
     filters: {},
     computed: {},
     created() {
-      this.loadMore();
+      let login=tool.islogin();
+      if(login){
+        this.loadMore();
+      }
       this.isLogin();
     },
     mounted() {
@@ -240,6 +254,9 @@
           background-size: 12px auto;
           margin-left: 6px;
         }
+      }
+      .loading-warp{
+        min-height:300px;
       }
 
     }
