@@ -378,7 +378,7 @@
       },
       fillAdv(){
         let cont= sessionStorage.getItem("advCh");
-        if(cont === "" || cont === "undefined" || cont === "null"){
+        if(cont == "" || cont == "undefined" || cont == null){
           this.chineseAdv = "没有内容";
         }else{
           this.chineseAdv = cont;
@@ -394,7 +394,7 @@
       },
       fillAdvEn(){
         let cont= sessionStorage.getItem("advEn");
-        if(cont === "" || cont === "undefined" || cont === "null"){
+        if(cont === "" || cont === "undefined" || cont === null){
           this.englishAdv = "没有内容";
         }else{
           this.englishAdv = cont;
@@ -409,7 +409,7 @@
       },
       fillInt(){
         let cont= sessionStorage.getItem("intCh");
-        if(cont === "" || cont === "undefined" || cont === "null"){
+        if(cont === "" || cont === "undefined" || cont === null){
           this.chineseInt = "没有内容";
         }else{
           this.chineseInt = cont;
@@ -425,7 +425,7 @@
       },
       fillIntEn(){
         let contEn= sessionStorage.getItem("intEn");
-        if(contEn === "" || contEn === "undefined" || contEn === "null"){
+        if(contEn === "" || contEn === "undefined" || contEn === null){
           this.englishInt = "没有内容";
         }else{
           this.englishInt = contEn;
@@ -455,6 +455,8 @@
       });
       //当tag=1 时调用方法回显示数据
       let tag=this.$route.query.tag;
+      //let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+      //console.log(redirect);
       if(tag==1){
         this.$api.post('/ah/s5/getUserProjectConInvest', {projId:this.projId,userId:tool.getuser()}).then(r => {
           // console.log(r);
@@ -487,14 +489,32 @@
                   this.seeLanguage = false;
               }
               //投资意向函附件
-              for(var photo of order.capitalInjectionPhoto){
-                let a ={fileId:photo.name,fileName:photo.originalName,fileSize:photo.size,url:tool.oos()+photo.name,val:photo.summary.valueCn}
-                this.askFileList.push(a);
+              if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
+                for (var photo of order.capitalInjectionPhoto) {
+                  let a = {
+                    fileId: photo.name,
+                    fileName: photo.originalName,
+                    fileSize: photo.size,
+                    url: tool.oos() + photo.name,
+                    val: photo.summary.valueCn
+                  }
+                  this.askFileList.push(a);
+                  this.askSummaryList.push(photo.summary.valueCn)
+                }
               }
               //企业优势附件
-              for(var file of order.capitalInjectionFile){
-                let a ={fileId:file.name,fileName:file.originalName,fileSize:file.size,url:tool.oos()+file.name,val:file.summary.valueCn}
-                this.askFileList1.push(a);
+              if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
+                for (var file of order.capitalInjectionFile) {
+                  let a = {
+                    fileId: file.name,
+                    fileName: file.originalName,
+                    fileSize: file.size,
+                    url: tool.oos() + file.name,
+                    val: file.summary.valueCn
+                  }
+                  this.askFileList1.push(a);
+                  this.askSummaryList1.push(photo.summary.valueCn)
+                }
               }
             }
           console.log(r.data);
