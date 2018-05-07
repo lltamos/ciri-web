@@ -87,7 +87,7 @@
         </div>
         <div class="adv-content english" v-show="!seeIntent">
           <div class="article">
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            {{this.englishInt}}
           </div>
 
         </div>
@@ -145,7 +145,7 @@
         </div>
         <div class="adv-content english" v-show="!seeLanguage">
           <div class="article">
-            aaaaaaaaaaaaaaaaaaaaaaaaa
+            {{this.englishAdv}}
           </div>
 
         </div>
@@ -435,12 +435,31 @@
               //参与合投企业
               this.cId=order.corpId;
               //TODO 投资意向函 企业优势 附件
-              console.log(this.capitalInjectionFormId)
-              this.chineseAdv=order.capitalInjectionFormNote.valueCn;
-              // this.chineseAdv=order.advantageNote.valueCn;  //项目优势中文测试在该项目中
-              // this.chineseAdv=order.advantageNote.valueEn;
-              // setValueCn
-              //
+              console.log(this.capitalInjectionFormId);
+              //项目投资意向函信息中英文
+              this.chineseInt=order.capitalInjectionFormNote.valueCn;
+              this.englishInt=order.capitalInjectionFormNote.valueEn;
+              if(!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn){
+                this.intentActive = 2;
+                this.seeIntent = false;
+              }
+              //项目企业优势信息中英文
+              this.chineseAdv=order.advantageNote.valueCn;
+              this.englishAdv=order.advantageNote.valueEn;
+              if(!order.advantageNote.setValueCn && order.advantageNote.setValueEn){
+                  this.advActive = 2;
+                  this.seeLanguage = false;
+              }
+              //投资意向函附件
+              for(var photo of order.capitalInjectionPhoto){
+                let a ={fileId:photo.name,fileName:photo.originalName,fileSize:photo.size,url:tool.oos()+photo.name,val:photo.summary.valueCn}
+                this.askFileList.push(a);
+              }
+              //企业优势附件
+              for(var file of order.capitalInjectionFile){
+                let a ={fileId:file.name,fileName:file.originalName,fileSize:file.size,url:tool.oos()+file.name,val:file.summary.valueCn}
+                this.askFileList1.push(a);
+              }
             }
           console.log(r.data);
           }
