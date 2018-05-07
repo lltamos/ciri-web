@@ -7,6 +7,7 @@
       <p class="title" v-show="secondShow">【担保方式】</p>
       <div v-if="this.content!=null" :class="article" ref="articleRef"  v-html="replaceHtml()">
       </div>
+
       <p class="title" v-show="secondShow">【担保说明】</p>
       <div class="second" :class="article" v-show="secondShow" v-html="replaceHtml()">
         {{this.content2}}

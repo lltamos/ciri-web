@@ -19,7 +19,8 @@
   import HeaderBar from "@/components/base/header-bar/header-bar";
   import BottomImg from "@/components/base/bottomImg/bottomImg";
   import CrossLine from "@/components/base/cross-line/cross-line";
-  import tool from "../../../../../api/tool"
+  import tool from "@/api/tool"
+  import gbus from '@/api/gbus'
 
   export default {
     name: "investment-edit",
@@ -36,17 +37,16 @@
     },
     methods: {
       back() {
-        sessionStorage.setItem("editstatus",1);
+        sessionStorage.setItem("editstatus", 1);
         window.history.back();
+        gbus.$emit('emitRefreshDate', null);
         // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
-      fill(){
+      fill() {
         sessionStorage.setItem(this.key, this.word);
       }
     },
-    props: {
-
-    },
+    props: {},
     created() {
       this.key = this.$route.query.key;
       this.word = sessionStorage.getItem(this.key);
@@ -60,7 +60,8 @@
 <style type="text/scss" lang="scss" scoped>
   @import "~@/assets/scss/mixin.scss";
   @import "~@/assets/scss/reset.scss";
-  .investment-edit{
+
+  .investment-edit {
     text-align: left;
     header {
       height: 44px;
@@ -79,7 +80,7 @@
         @include bg-image("../../../img/icon-back");
         background-size: 22px auto;
       }
-      .submit{
+      .submit {
         font-size: 16px;
         color: #528de8;
         float: right;
@@ -87,9 +88,9 @@
       }
 
     }
-    .remind{
+    .remind {
       padding: 0px 5px;
-      height:30px;
+      height: 30px;
       overflow: hidden;
       line-height: 30px;
       background: #f5f5f5;
@@ -98,9 +99,9 @@
       font-size: 10px;
       border-radius: 2px;
     }
-    .content{
+    .content {
       margin: 0 10px;
-      textarea{
+      textarea {
         width: 91%;
         height: 500px;
         border: 1px solid #dedede;
