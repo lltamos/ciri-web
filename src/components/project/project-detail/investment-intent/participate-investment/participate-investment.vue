@@ -22,7 +22,7 @@
     <div class="way">
       <div class="partipate-title">【参与合投方式】</div>
       <div class="select-wrap">
-        <div class="item" v-for="(cif, index) in cifs" @click.prevent="check($event,cif.k)">
+        <div class="item" :class="checked(cif.k)" v-for="(cif, index) in cifs" @click.prevent="check($event,cif.k)">
           <i class="icon-check">
             <input type="checkbox" name="cif" />
           </i>
@@ -56,7 +56,8 @@
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="this.seeIntent" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="!this.seeIntent" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -77,8 +78,8 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeIntent">
-          <div class="word">
-            中文中文中文中文中文中文中文中文
+          <div :class="article">
+            {{this.chineseInt}}
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
             <span v-text="moreText">展开</span>
@@ -86,8 +87,8 @@
           </div>
         </div>
         <div class="adv-content english" v-show="!seeIntent">
-          <div class="word">
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          <div class="article">
+            {{this.englishInt}}
           </div>
 
         </div>
@@ -105,7 +106,7 @@
         <div class="file-warp">
           <FileIntroduction v-for="(file,index) in askFileList"  :key="index"
                             :file="file" :index="index" :tag="1"
-                            @delete="deleteAskFile"></FileIntroduction>
+                            @delete="deleteAskFile" @update="updateSummaryList"></FileIntroduction>
         </div>
       </div>
     </div>
@@ -114,7 +115,8 @@
     <div class="advantage">
       <div class="partipate-title clearfix">【企业优势】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="this.seeLanguage" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="!this.seeLanguage" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -135,8 +137,8 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeLanguage">
-          <div class="word">
-            中文中文中文中文中文中文中文中文
+          <div :class="article">
+            {{this.chineseAdv}}
           </div>
           <div class="read-more" @click="readMore" v-show="moreShow">
             <span v-text="moreText">展开</span>
@@ -144,8 +146,8 @@
           </div>
         </div>
         <div class="adv-content english" v-show="!seeLanguage">
-          <div class="word">
-            aaaaaaaaaaaaaaaaaaaaaaaaa
+          <div class="article">
+            {{this.englishAdv}}
           </div>
 
         </div>
@@ -162,8 +164,8 @@
         <div class="item-remark">(请上传投资企业资信相关资料)</div>
         <div class="file-warp">
           <FileIntroduction v-for="(file,index) in askFileList1"  :key="index"
-                            :file="file" :index="index" :tag="1"
-                            @delete="deleteAskFile1"></FileIntroduction>
+                            :file="file" :index="index" :tag="2"
+                            @delete="deleteAskFile" @update="updateSummaryList"></FileIntroduction>
         </div>
       </div>
     </div>
@@ -191,11 +193,14 @@
         intentActive: 1,
         seeLanguage: true,
         seeIntent:true,
-        moreShow:true,
+        moreShow:false,
         iconMore: 'icon-more',
         moreText:'展开',
+        article: 'article',
         askFileList: [],
         askFileList1: [],
+        askSummaryList:[],
+        askSummaryList1:[],
         isLeadQualified: false,
         corps: null,
         investAmount: 0,
@@ -204,7 +209,10 @@
         photoMeta :[],
         fileMeta :[],
         capitalInjectionFormId: [],
-
+        chineseInt: '',
+        chineseAdv: '',
+        englishInt: '',
+        englishAdv: '',
       }
     },
     props: {},
@@ -216,7 +224,16 @@
       corpRadio(index){
         this.cId = index;
       },
-
+      // 默认选中参与合投的方式
+      checked(k){
+        if(this.capitalInjectionFormId != null && this.capitalInjectionFormId.length > 0){
+          for (var value of this.capitalInjectionFormId) {
+            if(k==value){
+              return "active";
+            }
+          }
+        }
+      },
       intentChinese(){
         this.intentActive = 1;
         this.seeIntent = true;
@@ -240,7 +257,7 @@
           if (this.capitalInjectionFormId != null && this.capitalInjectionFormId.length > 0) {
             for (let i = 0; i < this.capitalInjectionFormId.length; i++) {
               if (this.capitalInjectionFormId[i] == v) {
-                this.capitalInjectionFormId.splice(i);
+                this.capitalInjectionFormId.splice(i,1);
                 return;
               }
             }
@@ -254,7 +271,7 @@
         if (this.moreText == '展开') {
           this.moreText = '收起'
           this.iconMore = 'pack-up'
-          this.article = 'article active'
+          this.article = 'article activeWord'
         } else {
           this.moreText = '展开';
           this.iconMore = 'icon-more'
@@ -263,10 +280,10 @@
       },
       UploadFile(e,tag){
         tool.toast("正在上传文件....");
-        var files = e.target.files || e.dataTransfer.files;
+        let files = e.target.files || e.dataTransfer.files;
         if (!files.length)
           return;
-        var imgFormData = new FormData();
+        let imgFormData = new FormData();
         imgFormData.append('upload', files[0]);
         let config = {headers: {'Content-Type': 'multipart/form-data'}};
         //上传文件
@@ -275,22 +292,33 @@
             e.target.value='';
             if (res.data.code === 200) {
               let temp = res.data.data[0]
-              if (tag == 1)
+              if (tag == 1) {
                 this.askFileList.push(temp);
-              else
+                this.askSummaryList.push('');
+              }else {
                 this.askFileList1.push(temp);
+                this.askSummaryList1.push('');
+              }
             }
           });
       },
       deleteAskFile(msg){
         let tag=msg.tag;
         let index=msg.index;
-        this.askFileList.splice(index,1)
+        if (tag == 1) {
+          this.askFileList.splice(index, 1)
+          this.askSummaryList.splice(index,1)
+        }else {
+          this.askFileList1.splice(index, 1)
+          this.askSummaryList1.splice(index,1)
+        }
       },
-      deleteAskFile1(msg){
-        let tag=msg.tag;
-        let index=msg.index;
-        this.askFileList1.splice(index,1)
+      updateSummaryList(msg){
+        if (msg.tag == 1){
+          this.askSummaryList[msg.index] = msg.val;
+        }else {
+          this.askSummaryList1[msg.index] = msg.val;
+        }
       },
       listToMeta(array){
         let split = '__'
@@ -325,21 +353,90 @@
           tool.toast(errorMsg);
           return;
         }
-        this.$api.post('/ah/s0/apply', {
-          projId: this.projId,
-          isLead: this.isLead,
-          name: tool.getuser(),
-          corpId: this.cId,
-          photoMeta: this.photoMeta,
-          fileMeta: this.fileMeta,
-          investAmount: this.investAmount,
-          capitalInjectionFormId: this.capitalInjectionFormId
-        }).then(r => {
-          if (r.code == 200){
+        let param = new URLSearchParams();
+        param.append('projId', this.projId);
+        param.append('isLead', this.isLead);
+        param.append('name', tool.getuser());
+        param.append('corpId', this.cId);
+        param.append('photoMeta', this.photoMeta);
+        param.append('fileMeta', this.fileMeta);
+        param.append('investAmount', this.investAmount);
+        param.append('capitalInjectionFormId', this.capitalInjectionFormId);
+        param.append('fileSummary', this.askSummaryList1);
+        param.append('photoSummary', this.askSummaryList);
+        param.append('advantageNoteZh', this.chineseAdv);
+        param.append('advantageNoteCn', this.englishAdv);
+        param.append('capitalInjectionFormNoteZh', this.chineseInt);
+        param.append('capitalInjectionFormNoteCn', this.englishInt);
+
+        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(r => {
+          if (r.data.code == 200){
             tool.toast('提交成功')
           } else
-            tool.toast(r.msg);
+            tool.toast(r.data.msg);
         })
+      },
+      fillAdv(){
+        let cont= sessionStorage.getItem("advCh");
+        if(cont === "" || cont === "undefined" || cont === "null"){
+          this.chineseAdv = "没有内容";
+        }else{
+          this.chineseAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
+        }
+
+      },
+      fillAdvEn(){
+        let cont= sessionStorage.getItem("advEn");
+        if(cont === "" || cont === "undefined" || cont === "null"){
+          this.englishAdv = "没有内容";
+        }else{
+          this.englishAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
+        }
+      },
+      fillInt(){
+        let cont= sessionStorage.getItem("intCh");
+        if(cont === "" || cont === "undefined" || cont === "null"){
+          this.chineseInt = "没有内容";
+        }else{
+          this.chineseInt = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
+        }
+
+      },
+      fillIntEn(){
+        let contEn= sessionStorage.getItem("intEn");
+        if(contEn === "" || contEn === "undefined" || contEn === "null"){
+          this.englishInt = "没有内容";
+        }else{
+          this.englishInt = contEn;
+          if (contEn.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+          return tool.replaceAll(contEn, '\n', '<br/>');
+        }
+
       }
     },
     filters: {},
@@ -354,10 +451,62 @@
           if (r.data != null)
             this.cId = r.data[0].corpId;
         }else
-          tool.toast('r.msg');
+          tool.toast(r.msg);
       });
+      //当tag=1 时调用方法回显示数据
+      let tag=this.$route.query.tag;
+      if(tag==1){
+        this.$api.post('/ah/s5/getUserProjectConInvest', {projId:this.projId,userId:tool.getuser()}).then(r => {
+          // console.log(r);
+          if (r.code == 200) {
+            if(r.data.order != null && r.data.order.length==1){
+              let order=r.data.order[0];
+              console.log(order);
+              //用户的合投信息
+              this.isLead=order.isLead;
+              //参与合投方式
+              this.capitalInjectionFormId=this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
+              //预期投资金额
+              this.investAmount=order.investAmount.amount / 10000;
+              //参与合投企业
+              this.cId=order.corpId;
+              //TODO 投资意向函 企业优势 附件
+              console.log(this.capitalInjectionFormId);
+              //项目投资意向函信息中英文
+              this.chineseInt=order.capitalInjectionFormNote.valueCn;
+              this.englishInt=order.capitalInjectionFormNote.valueEn;
+              if(!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn){
+                this.intentActive = 2;
+                this.seeIntent = false;
+              }
+              //项目企业优势信息中英文
+              this.chineseAdv=order.advantageNote.valueCn;
+              this.englishAdv=order.advantageNote.valueEn;
+              if(!order.advantageNote.setValueCn && order.advantageNote.setValueEn){
+                  this.advActive = 2;
+                  this.seeLanguage = false;
+              }
+              //投资意向函附件
+              for(var photo of order.capitalInjectionPhoto){
+                let a ={fileId:photo.name,fileName:photo.originalName,fileSize:photo.size,url:tool.oos()+photo.name,val:photo.summary.valueCn}
+                this.askFileList.push(a);
+              }
+              //企业优势附件
+              for(var file of order.capitalInjectionFile){
+                let a ={fileId:file.name,fileName:file.originalName,fileSize:file.size,url:tool.oos()+file.name,val:file.summary.valueCn}
+                this.askFileList1.push(a);
+              }
+            }
+          console.log(r.data);
+          }
+        });
+      }
     },
     mounted() {
+      this.fillAdv();
+      this.fillAdvEn();
+      this.fillInt();
+      this.fillIntEn();
     },
     destroyed() {
     }
@@ -568,7 +717,7 @@
         border: 1px solid #dedede;
         border-radius: 3px;
         padding:10px;
-        .word{
+        .article{
           margin-top: 10px;
           font-size: 13px;
           line-height: 22px;
@@ -576,6 +725,9 @@
           text-indent: 2em;
           max-height: 200px;
           overflow: hidden;
+          &.activeWord {
+            max-height:10000px;
+          }
         }
         .read-more {
           font-size: 13px;

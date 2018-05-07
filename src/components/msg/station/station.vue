@@ -1,39 +1,51 @@
 <template>
-  <div class="station">
-    <ul class="tab clearfix">
-      <li :class="{active:tabActive==1}" @click="showInbox">收件箱 <em>14</em></li>
-      <li :class="{active:tabActive==2}" @click="showOutbox">发件箱 <em></em></li>
-    </ul>
-    <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
+  <div class="auth">
+    <div class="login" v-if="!loginAuth">
+      <header class="gradient">我的消息
+      </header>
+      <div class="main">
+        <div class="img"></div>
 
-      <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
-             :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
-             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
-             :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
-             :btnTitle='parseAccessMode(msg.accessmode)'
-             :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
-      <button @click="loadMore()" :disabled="this.disabled" class="more">
-        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
-      </button>
+        <div class="login-btn small-btn" @click="login">立即登录</div>
+      </div>
     </div>
-    <div class="outbox" v-show="!seeInbox">
-      <outbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
-             :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
-             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
-             :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
-             :btnTitle='parseAccessMode(msg.accessmode)'
-             :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></outbox>
-      <button @click="loadMore()" :disabled="this.disabled" class="more">
-        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
-      </button>
-    </div>
+    <div class="station" v-if="loginAuth">
+      <ul class="tab clearfix">
+        <li :class="{active:tabActive==1}" @click="showInbox">收件箱 <em>14</em></li>
+        <li :class="{active:tabActive==2}" @click="showOutbox">发件箱 <em></em></li>
+      </ul>
+      <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
 
+        <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
+               :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+               :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+               :btnTitle='parseAccessMode(msg.accessmode)'
+               :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
+        <button @click="loadMore()" :disabled="this.disabled" class="more">
+          <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
+        </button>
+      </div>
+      <div class="outbox" v-show="!seeInbox">
+        <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
+                :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
+             'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
+                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
+             'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+                :btnTitle='parseAccessMode(msg.accessmode)'
+                :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
+        <button @click="loadMore()" :disabled="this.disabled" class="more">
+          <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
+        </button>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
+  import router from '@/router/index'
   import tool from "@/api/tool";
   import Inbox from '@/components/base/inbox/inbox'
   import Outbox from '@/components/base/outbox/outbox'
@@ -55,11 +67,25 @@
         moreText: '查看更多',
         disabled: false,
         isIcon: true,
+        loginAuth : true
       }
     },
     props: {},
     watch: {},
     methods: {
+      isLogin(){
+        let login=tool.islogin();
+        if(login){
+          this.loginAuth = true;
+        }else {
+          this.loginAuth = false;
+        }
+      },
+      login(){
+        this.$router.replace({
+          path: '/login'
+        });
+      },
       parseAccessMode(tag) {
         if (tag == 1 || tag == 2) {
           return '待处理';
@@ -69,10 +95,6 @@
           return '已拒绝';
         }
       },
-      showDetail(){
-        // window.location.reload();
-      },
-
       showInbox() {
         this.msgs = null;
         this.tabActive = 1;
@@ -123,6 +145,7 @@
     computed: {},
     created() {
       this.loadMore();
+      this.isLogin();
     },
     mounted() {
 
@@ -135,57 +158,91 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/const.scss';
   @import '~@/assets/scss/mixin.scss';
-
-  .station {
-    padding: 0 10px 80px;
-
-    .tab {
-      margin: 15px 0 0px;
-
-      li {
-        float: left;
-        margin-right: 15px;
-        color: #528de8;
-        font-size: 10px;
-        width: 75px;
-        height: 20px;
-        line-height: 20px;
-        border-radius: 20px;
-        border: 1px solid #528de8;
-        text-align: center;
-
-        &.active {
-          background: #528de8;
-          color: #fff;
-        }
-
-      }
-    }
-    .inbox {
-      text-align: left;
-    }
-
-    .outbox {
-      text-align: left;
-    }
-    .more {
-      font-size: 12px;
-      color: #3f80e9;
-      text-align: center;
+  .auth{
+    .login{
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0px;
       background: #fff;
-      display: table;
-      margin: 20px auto 0;
-
-      i {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        @include bg-image("../../news/img/more");
-        background-size: 12px auto;
-        margin-left: 6px;
+      header{
+        height: 44px;
+        line-height: 44px;
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        position: relative;
+      }
+      .main{
+        margin: 228px auto 0;
+        display: table;
+        .img{
+          width:229px;
+          height:16px;
+          @include bg-image("../img/msg-auth");
+          background-size: 229px 16px;
+          margin-bottom: 37px;
+        }
+        .login-btn{
+          width:150px;
+          height:30px;
+          margin: auto;
+          line-height: 30px;
+          border-radius: 30px;
+        }
       }
     }
+    .station {
+      padding: 0 10px 80px;
 
+      .tab {
+        margin: 15px 0 0px;
+
+        li {
+          float: left;
+          margin-right: 15px;
+          color: #528de8;
+          font-size: 10px;
+          width: 75px;
+          height: 20px;
+          line-height: 20px;
+          border-radius: 20px;
+          border: 1px solid #528de8;
+          text-align: center;
+
+          &.active {
+            background: #528de8;
+            color: #fff;
+          }
+
+        }
+      }
+      .inbox {
+        text-align: left;
+      }
+
+      .outbox {
+        text-align: left;
+      }
+      .more {
+        font-size: 12px;
+        color: #3f80e9;
+        text-align: center;
+        background: #fff;
+        display: table;
+        margin: 20px auto 0;
+
+        i {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          @include bg-image("../../news/img/more");
+          background-size: 12px auto;
+          margin-left: 6px;
+        }
+      }
+
+    }
   }
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="inbox-page clearfix">
     <i class="icon-type fl" :class="typeIcon" v-if="btnShow"></i>
-    <i class="icon-type fl" :class="iconSwitch" v-if="!btnShow"></i>
+    <i class="icon-type fl" :class="{'icon-no-see':this.msgContent.readTime==null,'icon-already-see':this.msgContent.readTime!=null}" v-if="!btnShow"></i>
     <div class="message mar">
       <div class="top-message" @click.prevent="showDetail">
         <p>
@@ -34,7 +34,6 @@
         id: '',
         sort: '',
         reg: true,
-        iconSwitch :'icon-no-see',
         msgContent : null
       }
     },
@@ -65,9 +64,8 @@
     methods: {
       showDetail() {
         if(this.msgContent.accessmode==1){
-          this.msgContent.accessmode=2;
+          this.msgContent.accessmode==2;
         }
-        this.iconSwitch='icon-already-see';
         this.isShow = !this.isShow;
         if (this.content != null && this.content.readTime == null)
           this.$api.get('/ah/s0/i/read', {
