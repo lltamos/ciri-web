@@ -436,33 +436,10 @@
               this.cId=order.corpId;
               //TODO 投资意向函 企业优势 附件
               console.log(this.capitalInjectionFormId)
-              //投资意向函中文  英文
-              this.chineseInt=order.capitalInjectionFormNote.valueCn;
-              this.englishInt=order.capitalInjectionFormNote.valueEn;
-              if(!order.capitalInjectionFormNote.setValueCn && rder.capitalInjectionFormNote.setValueEn){
-
-              }
-              //企业优势中文 英文
-              this.chineseAdv=order.advantageNote.valueCn;
-              this.englishAdv=order.advantageNote.valueEn;
-              if(!order.advantageNote.setValueCn && rder.advantageNote.setValueEn){
-
-              }
-
-              //投资意向函附件上传
-              for(var photo of  order.capitalInjectionPhoto){
-                let a;
-                a={fileId:photo.name,fileName:photo.originalName,fileSize: photo.size,url:tool.oos()+ photo.name,val:photo.summary.valueCn}
-                this.askFileList.push(a);
-              }
-              //企业优势附件
-              for(var photo of  order.capitalInjectionFile){
-                let a;
-                a={fileId:photo.name,fileName:photo.originalName,fileSize: photo.size,url:tool.oos()+ photo.name,val:photo.summary.valueCn}
-                this.askFileList1.push(a);
-              }
-
-              console.log(this.askFileList);
+              this.chineseAdv=order.capitalInjectionFormNote.valueCn;
+              // this.chineseAdv=order.advantageNote.valueCn;  //项目优势中文测试在该项目中
+              // this.chineseAdv=order.advantageNote.valueEn;
+              // setValueCn
               //
             }
           console.log(r.data);
