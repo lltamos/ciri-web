@@ -458,7 +458,7 @@
     },
     filters: {},
     computed: {},
-    
+
     activated() {
       this.projId = this.$route.query.projId;
       this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
