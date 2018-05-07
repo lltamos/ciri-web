@@ -499,6 +499,7 @@
                     val: photo.summary.valueCn
                   }
                   this.askFileList.push(a);
+                  this.askSummaryList.push(photo.summary.valueCn)
                 }
               }
               //企业优势附件
@@ -512,6 +513,7 @@
                     val: file.summary.valueCn
                   }
                   this.askFileList1.push(a);
+                  this.askSummaryList1.push(photo.summary.valueCn)
                 }
               }
             }
