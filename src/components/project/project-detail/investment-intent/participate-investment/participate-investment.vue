@@ -382,32 +382,59 @@
           this.chineseAdv = "没有内容";
         }else{
           this.chineseAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
         }
 
       },
       fillAdvEn(){
         let cont= sessionStorage.getItem("advEn");
-        if(cont === "" || cont === "undefined" || cont === "null"){
+        if(cont === "" || cont === "undefined" || cont === null){
           this.englishAdv = "没有内容";
         }else{
           this.englishAdv = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
         }
       },
       fillInt(){
         let cont= sessionStorage.getItem("intCh");
-        if(cont === "" || cont === "undefined" || cont === "null"){
+        if(cont === "" || cont === "undefined" || cont === null){
           this.chineseInt = "没有内容";
         }else{
           this.chineseInt = cont;
+          if (cont.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+
+          return tool.replaceAll(cont, '\n', '<br/>');
         }
 
       },
       fillIntEn(){
         let contEn= sessionStorage.getItem("intEn");
-        if(contEn === "" || contEn === "undefined" || contEn === "null"){
+        if(contEn === "" || contEn === "undefined" || contEn === null){
           this.englishInt = "没有内容";
         }else{
           this.englishInt = contEn;
+          if (contEn.length > 405){
+            this.moreShow = true;
+          }else{
+            this.moreShow = false;
+          }
+          return tool.replaceAll(contEn, '\n', '<br/>');
         }
 
       }
@@ -495,9 +522,9 @@
     },
     mounted() {
       this.fillAdv();
-      // this.fillAdvEn();
-      // this.fillInt();
-      // this.fillIntEn();
+      this.fillAdvEn();
+      this.fillInt();
+      this.fillIntEn();
     },
     destroyed() {
     }
