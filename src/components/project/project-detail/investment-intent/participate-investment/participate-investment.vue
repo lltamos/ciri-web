@@ -474,9 +474,10 @@
       //判读
       let editstatus = sessionStorage.getItem("editstatus");
       //当tag=1 时调用方法回显示数据
-      let tag = this.$route.query.tag;
+      // let tag = this.$route.query.tag;
       // alert(temp);
-      if (editstatus != 1 && tag == 1) {
+      // if (editstatus != 1 && tag == 1) {
+      if (editstatus != 1 ) {
         this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
           // console.log(r);
           if (r.code == 200) {
@@ -545,6 +546,7 @@
         });
       }
       sessionStorage.setItem("editstatus", 2);
+      alert(sessionStorage.getItem("editstatus"))
 
     },
     mounted() {

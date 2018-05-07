@@ -136,7 +136,7 @@
               //编辑合投意向
               tag=1;
             }
-            this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,tag:tag}});
+            this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
           }
         },
         filters: {},
