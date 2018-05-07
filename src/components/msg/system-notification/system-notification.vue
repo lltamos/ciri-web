@@ -1,5 +1,6 @@
 <template>
-  <div class="system">
+  <Loading v-if="notloading"></Loading>
+  <div class="system" v-else>
     <div v-if="msgs!=null&&msgs.length!=0" class="inbox" v-show="seeInbox">
       <Inbox v-for='(msg,index) in this.msgs' :content='msg' :key='index'
              :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
@@ -20,12 +21,14 @@
   import tool from "@/api/tool";
   import Inbox from '@/components/base/inbox/inbox'
   import Outbox from '@/components/base/outbox/outbox'
+  import Loading from '@/components/base/loading/loading'
 
   export default {
     components: {
       tool,
       Inbox,
-      Outbox
+      Outbox,
+      Loading
     },
     data() {
       return {
@@ -37,6 +40,7 @@
         moreText: '查看更多',
         disabled: false,
         isIcon: true,
+        notloading: true,
       }
     },
     props: {},
