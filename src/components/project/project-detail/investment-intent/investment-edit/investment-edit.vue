@@ -36,7 +36,9 @@
     },
     methods: {
       back() {
-        window.history.back()
+        sessionStorage.setItem("editstatus",1);
+        window.history.back();
+        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       fill(){
         sessionStorage.setItem(this.key, this.word);

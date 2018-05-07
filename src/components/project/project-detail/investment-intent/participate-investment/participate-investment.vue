@@ -189,6 +189,7 @@
       return {
         isLead: false,
         cId: 0,
+        from:false,//控制是否发送查询请求
         advActive:1,
         intentActive: 1,
         seeLanguage: true,
@@ -453,11 +454,13 @@
         }else
           tool.toast(r.msg);
       });
+
+      //判读
+      let editstatus=sessionStorage.getItem("editstatus");
       //当tag=1 时调用方法回显示数据
       let tag=this.$route.query.tag;
-      //let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-      //console.log(redirect);
-      if(tag==1){
+      // alert(temp);
+      if(editstatus != 1 && tag == 1){
         this.$api.post('/ah/s5/getUserProjectConInvest', {projId:this.projId,userId:tool.getuser()}).then(r => {
           // console.log(r);
           if (r.code == 200) {
@@ -477,6 +480,8 @@
               //项目投资意向函信息中英文
               this.chineseInt=order.capitalInjectionFormNote.valueCn;
               this.englishInt=order.capitalInjectionFormNote.valueEn;
+              sessionStorage.setItem("intCh", this.chineseInt);
+              sessionStorage.setItem("intEh", this.englishInt);
               if(!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn){
                 this.intentActive = 2;
                 this.seeIntent = false;
@@ -484,6 +489,8 @@
               //项目企业优势信息中英文
               this.chineseAdv=order.advantageNote.valueCn;
               this.englishAdv=order.advantageNote.valueEn;
+              sessionStorage.setItem("advCh", this.chineseAdv);
+              sessionStorage.setItem("advEh", this.englishAdv);
               if(!order.advantageNote.setValueCn && order.advantageNote.setValueEn){
                   this.advActive = 2;
                   this.seeLanguage = false;
@@ -521,6 +528,9 @@
           }
         });
       }
+
+      sessionStorage.setItem("editstatus",2);
+
     },
     mounted() {
       this.fillAdv();
