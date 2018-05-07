@@ -85,18 +85,24 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeIntent">
-          <div :class="article">
+          <!--<div :class="article">
             {{this.chineseInt}}
           </div>
-          <div class="read-more" @click="readMore" v-show="moreShow">
+          <div class="read-more" @click="readMore" v-show="moreShowChInt">
             <span v-text="moreText">展开</span>
             <i :class="iconMore"></i>
-          </div>
+          </div>-->
+          <intentEdit :moreShow="this.moreShowChInt" :content="this.chineseInt"></intentEdit>
         </div>
         <div class="adv-content english" v-show="!seeIntent">
-          <div class="article">
+          <!--<div class="article">
             {{this.englishInt}}
           </div>
+          <div class="read-more" @click="readMore" v-show="moreShowEnInt">
+            <span v-text="moreText">展开</span>
+            <i :class="iconMore"></i>
+          </div>-->
+          <intentEdit :moreShow="this.moreShowEnInt" :content="this.englishInt"></intentEdit>
 
         </div>
       </div>
@@ -150,19 +156,10 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeLanguage">
-          <div :class="article">
-            {{this.chineseAdv}}
-          </div>
-          <div class="read-more" @click="readMore" v-show="moreShow">
-            <span v-text="moreText">展开</span>
-            <i :class="iconMore"></i>
-          </div>
+          <intentEdit :moreShow="this.moreShowChAdv" :content="this.chineseAdv"></intentEdit>
         </div>
         <div class="adv-content english" v-show="!seeLanguage">
-          <div class="article">
-            {{this.englishAdv}}
-          </div>
-
+          <intentEdit :moreShow="this.moreShowEnAdv" :content="this.englishAdv"></intentEdit>
         </div>
       </div>
 
@@ -194,11 +191,13 @@
   import FileIntroduction from '@/components/base/file-introduction/file-introduction'
   import tool from "../../../../../api/tool"
   import gbus from '@/api/gbus'
+  import intentEdit from '@/components/base/intent-edit/intent-edit'
 
   export default {
     components: {
       CrossLine,
-      FileIntroduction
+      FileIntroduction,
+      intentEdit
     },
     data() {
       return {
@@ -210,6 +209,10 @@
         seeLanguage: true,
         seeIntent: true,
         moreShow: false,
+        moreShowChInt:false,
+        moreShowEnInt:false,
+        moreShowChAdv:false,
+        moreShowEnAdv:false,
         iconMore: 'icon-more',
         moreText: '展开',
         article: 'article',
@@ -400,9 +403,9 @@
         } else {
           this.chineseAdv = cont;
           if (cont.length > 405) {
-            this.moreShow = true;
+            this.moreShowChAdv = true;
           } else {
-            this.moreShow = false;
+            this.moreShowChAdv = false;
           }
 
           return tool.replaceAll(cont, '\n', '<br/>');
@@ -416,9 +419,9 @@
         } else {
           this.englishAdv = cont;
           if (cont.length > 405) {
-            this.moreShow = true;
+            this.moreShowEnAdv = true;
           } else {
-            this.moreShow = false;
+            this.moreShowEnAdv = false;
           }
 
           return tool.replaceAll(cont, '\n', '<br/>');
@@ -431,9 +434,9 @@
         } else {
           this.chineseInt = cont;
           if (cont.length > 405) {
-            this.moreShow = true;
+            this.moreShowChInt = true;
           } else {
-            this.moreShow = false;
+            this.moreShowChInt = false;
           }
 
           return tool.replaceAll(cont, '\n', '<br/>');
@@ -447,9 +450,9 @@
         } else {
           this.englishInt = contEn;
           if (contEn.length > 405) {
-            this.moreShow = true;
+            this.moreShowEnInt = true;
           } else {
-            this.moreShow = false;
+            this.moreShowEnInt = false;
           }
           return tool.replaceAll(contEn, '\n', '<br/>');
         }
@@ -562,340 +565,293 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
-
-  .participate {
+  .participate{
     text-align: left;
-
-  .remind {
-    padding: 7px 17px;
-    height: 30px;
-    overflow: hidden;
-    line-height: 16px;
-    background: #f5f5f5;
-    margin: 15px 10px 10px;
-    color: #528de8;
-    font-size: 10px;
-    border-radius: 2px;
-    text-align: center;
-  }
-
-  .item-remark {
-    font-size: 11px;
-    color: #666;
-    height: 26px;
-    line-height: 26px;
-  }
-
-  .partipate-title {
-    font-size: 15px;
-    color: #333;
-    margin-left: -5px;
-
-  .title-edit {
-    color: #528de8;
-    font-size: 13px;
-  }
-
-  }
-  .item {
-    height: 40px;
-    line-height: 40px;
-    margin-right: 20px;
-
-  i {
-    position: relative;
-    display: inline-block;
-    width: 12px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-size: 12px auto;
-    background-position: center;
-    vertical-align: middle;
-
-  input[type="radio"], input[type="checkbox"] {
-    position: absolute;
-    top: 14px;
-    left: 0;
-    opacity: 0;
-  }
-
-  }
-  .icon-check {
-  @include bg-image("../../../img/check");
-    margin-right: 10px;
-
-  }
-
-  .icon-radio {
-  @include bg-image("../../../img/radio");
-    margin-right: 10px;
-
-  }
-
-  span {
-    height: 45px;
-    line-height: 45px;
-    display: inline-block;
-    font-size: 15px;
-  }
-
-  }
-  .active {
-
-  .icon-check {
-  @include bg-image("../../../img/checked");
-    margin-right: 10px;
-  }
-
-  .icon-radio {
-  @include bg-image("../../../img/radioed");
-    margin-right: 10px;
-  }
-
-  }
-  .invest-radio {
-    text-align: left;
-    display: flex;
-    justify-content: left;
-    border-bottom: 1px solid #dedede;
-    margin: 0px 10px;
-  }
-
-  .way {
-    color: #333;
-    padding: 15px 0px;
-    border-bottom: 1px solid #dedede;
-    margin: 0px 10px;
-
-  .item {
-    margin-left: 33px;
-    font-size: 13px;
-    height: 30px;
-    line-height: 30px;
-
-  span {
-    height: 30px;
-    line-height: 30px;
-    font-size: 13px;
-  }
-
-  }
-
-  }
-  .money {
-    color: #333;
-    padding: 15px 0px;
-    border-bottom: 1px solid #dedede;
-    margin: 0px 10px;
-
-  .range {
-    margin: 15px 0px 0px 45px;
-    font-size: 13px;
-    color: #333;
-
-  span, input {
-    display: inline-block;
-  }
-
-  }
-  .range-input {
-    width: 45px;
-    height: 20px;
-    background-color: #dedede;
-    margin: 0px 10px;
-    border: 1px solid #dedede;
-  }
-
-  }
-  .company {
-    color: #333;
-    padding: 15px 0px;
-    margin: 0px 10px;
-
-  .item {
-    margin-left: 33px;
-    font-size: 13px;
-    height: 30px;
-    line-height: 30px;
-
-  span {
-    height: 30px;
-    line-height: 30px;
-    font-size: 13px;
-  }
-
-  }
-
-  }
-  .upload-wrap {
-
-  .up-title {
-    margin-top: 15px;
-
-  .up-word {
-    font-size: 13px;
-  }
-
-  .upload {
-    font-size: 13px;
-    color: #3f83e6;
-    position: relative;
-
-  .upload-file {
-    font-size: 12px;
-    color: #528de8;
-    display: inline-block;
-    height: 27px;
-    line-height: 27px;
-    position: relative;
-    right: -100px;
-  }
-
-  .fill-input {
-    height: 27px;
-    opacity: 0;
-    width: 100px;
-  }
-
-  }
-
-  }
-  }
-  .intent-letter {
-    color: #333;
-    padding: 15px 0px;
-    margin: 0px 10px;
-
-  .language-wrap {
-    font-size: 13px;
-
-  .language-div {
-    border-top: 1px solid #dedede;
-
-  .item-remark {
-
-  }
-
-  .lag-radio {
-    text-align: left;
-    display: flex;
-    justify-content: left;
-
-  .item {
-
-  span {
-    font-size: 13px;
-  }
-
-  }
-  }
-  }
-
-  }
-  .adv-content {
-    border: 1px solid #dedede;
-    border-radius: 3px;
-    padding: 10px;
-
-  .article {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 22px;
-    color: #666;
-    text-indent: 2em;
-    max-height: 200px;
-    overflow: hidden;
-
-  &
-  .activeWord {
-    max-height: 10000px;
-  }
-
-  }
-  .read-more {
-    font-size: 13px;
-    color: #3f80e9;
-    line-height: 1;
-    text-align: center;
-    float: right;
-    margin-top: 10px;
-    padding-right: 10px;
-
-  i {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-size: 10px auto;
-  }
-
-  i.icon-more {
-  @include bg-image("../../../../news/img/more");
-  }
-
-  i.pack-up {
-  @include bg-image("../../../img/pack-up");
-  }
-
-  }
-  }
-
-  }
-  .advantage {
-    color: #333;
-    padding: 15px 0px;
-    margin: 0px 10px;
-
-  .language-wrap {
-    font-size: 13px;
-
-  .language-div {
-    border-top: 1px solid #dedede;
-
-  .item-remark {
-
-  }
-
-  .lag-radio {
-    text-align: left;
-    display: flex;
-    justify-content: left;
-
-  .item {
-
-  span {
-    font-size: 13px;
-  }
-
-  }
-  }
-  }
-  .adv-content {
-    border: 1px solid #dedede;
-    border-radius: 3px;
-    padding: 10px;
-  }
-
-  }
-  }
-  .submit-wrap {
-    width: 100%;
-    height: 70px;
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  .submit {
-    width: 150px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 13px;
-    border-radius: 6px;
-    background-color: #528de8;
-    color: #fff;
-    text-align: center;
-  }
-
-  }
+    .remind{
+      padding: 7px 17px;
+      height:30px;
+      overflow: hidden;
+      line-height: 16px;
+      background: #f5f5f5;
+      margin: 15px 10px 10px;
+      color: #528de8;
+      font-size: 10px;
+      border-radius: 2px;
+      text-align: center;
+    }
+    .item-remark{
+      font-size: 11px;
+      color: #666;
+      height: 26px;
+      line-height: 26px;
+    }
+    .partipate-title{
+      font-size: 15px;
+      color: #333;
+      margin-left: -5px;
+      .title-edit{
+        color: #528de8;
+        font-size: 13px;
+      }
+    }
+    .item {
+      height: 40px;
+      line-height: 40px;
+      margin-right: 20px;
+      i {
+        position: relative;
+        display: inline-block;
+        width: 12px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-size: 12px auto;
+        background-position: center;
+        vertical-align: middle;
+        input[type="radio"],input[type="checkbox"] {
+          position: absolute;
+          top: 14px;
+          left: 0;
+          opacity: 0;
+        }
+
+      }
+      .icon-check {
+        @include bg-image("../../../img/check");
+        margin-right: 10px;
+
+      }
+      .icon-radio {
+        @include bg-image("../../../img/radio");
+        margin-right: 10px;
+
+      }
+
+      span {
+        height: 45px;
+        line-height: 45px;
+        display: inline-block;
+        font-size: 15px;
+      }
+
+    }
+    .active {
+      .icon-check {
+        @include bg-image("../../../img/checked");
+        margin-right: 10px;
+      }
+      .icon-radio {
+        @include bg-image("../../../img/radioed");
+        margin-right: 10px;
+      }
+
+    }
+    .invest-radio{
+      text-align: left;
+      display: flex;
+      justify-content: left;
+      border-bottom: 1px solid #dedede;
+      margin: 0px 10px;
+    }
+    .way{
+      color: #333;
+      padding: 15px 0px;
+      border-bottom: 1px solid #dedede;
+      margin: 0px 10px;
+      .item{
+        margin-left: 33px;
+        font-size: 13px;
+        height: 30px;
+        line-height: 30px;
+        span{
+          height: 30px;
+          line-height: 30px;
+          font-size: 13px;
+        }
+      }
+
+    }
+    .money{
+      color: #333;
+      padding: 15px 0px;
+      border-bottom: 1px solid #dedede;
+      margin: 0px 10px;
+      .range{
+        margin: 15px 0px 0px 45px;
+        font-size: 13px;
+        color: #333;
+        span,input{
+          display: inline-block;
+        }
+      }
+      .range-input{
+        width: 45px;
+        height: 20px;
+        background-color: #dedede;
+        margin: 0px 10px;
+        border: 1px solid #dedede;
+      }
+
+    }
+    .company{
+      color: #333;
+      padding: 15px 0px;
+      margin: 0px 10px;
+      .item{
+        margin-left: 33px;
+        font-size: 13px;
+        height: 30px;
+        line-height: 30px;
+        span{
+          height: 30px;
+          line-height: 30px;
+          font-size: 13px;
+        }
+      }
+
+    }
+    .upload-wrap{
+      .up-title{
+        margin-top: 15px;
+        .up-word{
+          font-size: 13px;
+        }
+        .upload{
+          font-size: 13px;
+          color: #3f83e6;
+          position: relative;
+          .upload-file{
+            font-size: 12px;
+            color:#528de8;
+            display: inline-block;
+            height:27px;
+            line-height: 27px;
+            position: relative;
+            right: -100px;
+          }
+          .fill-input{
+            height:27px;
+            opacity: 0;
+            width: 100px;
+          }
+
+        }
+
+      }
+    }
+    .intent-letter{
+      color: #333;
+      padding: 15px 0px;
+      margin: 0px 10px;
+      .language-wrap{
+        font-size: 13px;
+        .language-div{
+          border-top: 1px solid #dedede;
+          .item-remark{
+
+          }
+          .lag-radio{
+            text-align: left;
+            display: flex;
+            justify-content: left;
+            .item{
+              span{
+                font-size: 13px;
+              }
+            }
+          }
+        }
+
+      }
+
+    }
+    .adv-content{
+      border: 1px solid #dedede;
+      border-radius: 3px;
+      padding:10px;
+      .article{
+        margin-top: 10px;
+        font-size: 13px;
+        line-height: 22px;
+        color: #666;
+        text-indent: 2em;
+        max-height: 200px;
+        overflow: hidden;
+        &.activeWord {
+          max-height:10000px;
+        }
+      }
+      .read-more {
+        font-size: 13px;
+        color: #3f80e9;
+        line-height: 1;
+        text-align: center;
+        float: right;
+        margin-top: 10px;
+        padding-right: 10px;
+
+        i {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          background-size: 10px auto;
+        }
+
+        i.icon-more {
+          @include bg-image("../../../../news/img/more");
+        }
+
+        i.pack-up {
+          @include bg-image("../../../img/pack-up");
+        }
+
+      }
+    }
+    .advantage{
+      color: #333;
+      padding: 15px 0px;
+      margin: 0px 10px;
+      .language-wrap{
+        font-size: 13px;
+        .language-div{
+          border-top: 1px solid #dedede;
+          .item-remark{
+
+          }
+          .lag-radio{
+            text-align: left;
+            display: flex;
+            justify-content: left;
+            .item{
+              span{
+                font-size: 13px;
+              }
+            }
+          }
+        }
+        .adv-content{
+          border: 1px solid #dedede;
+          border-radius: 3px;
+          padding: 10px;
+        }
+      }
+    }
+    .submit-wrap{
+      width: 100%;
+      height: 70px;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .submit{
+        width: 150px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+        border-radius: 6px;
+        background-color: #528de8;
+        color: #fff;
+        text-align: center;
+      }
+    }
   }
 </style>
