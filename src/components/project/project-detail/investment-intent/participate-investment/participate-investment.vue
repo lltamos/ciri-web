@@ -362,13 +362,16 @@
         param.append('capitalInjectionFormId', this.capitalInjectionFormId);
         param.append('fileSummary', this.askSummaryList1);
         param.append('photoSummary', this.askSummaryList);
+        param.append('advantageNoteZh', this.chineseAdv);
+        param.append('advantageNoteCn', this.englishAdv);
+        param.append('capitalInjectionFormNoteZh', this.chineseInt);
+        param.append('capitalInjectionFormNoteCn', this.englishInt);
 
-
-        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(res => {}).then(r => {
-          if (r.code == 200){
+        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(r => {
+          if (r.data.code == 200){
             tool.toast('提交成功')
           } else
-            tool.toast(r.msg);
+            tool.toast(r.data.msg);
         })
       },
       fillAdvCh(){
