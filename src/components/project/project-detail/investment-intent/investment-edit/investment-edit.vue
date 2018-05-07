@@ -37,7 +37,6 @@
     },
     methods: {
       back() {
-        sessionStorage.setItem("editstatus", 1);
         window.history.back();
         gbus.$emit('emitRefreshDate', null);
         // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});

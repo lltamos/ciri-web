@@ -458,7 +458,8 @@
     },
     filters: {},
     computed: {},
-    created() {
+    
+    activated() {
       this.projId = this.$route.query.projId;
       this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
         if (r.code == 200) {
@@ -472,82 +473,77 @@
       });
 
       //判读
-      let editstatus = sessionStorage.getItem("editstatus");
       //当tag=1 时调用方法回显示数据
       // let tag = this.$route.query.tag;
       // alert(temp);
       // if (editstatus != 1 && tag == 1) {
-      if (editstatus != 1 ) {
-        this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
-          // console.log(r);
-          if (r.code == 200) {
-            if (r.data.order != null && r.data.order.length == 1) {
-              let order = r.data.order[0];
-              console.log(order);
-              //用户的合投信息
-              this.isLead = order.isLead;
-              //参与合投方式
-              this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
-              //预期投资金额
-              this.investAmount = order.investAmount.amount / 10000;
-              //参与合投企业
-              this.cId = order.corpId;
-              //TODO 投资意向函 企业优势 附件
-              console.log(this.capitalInjectionFormId);
-              //项目投资意向函信息中英文
-              this.chineseInt = order.capitalInjectionFormNote.valueCn;
-              this.englishInt = order.capitalInjectionFormNote.valueEn;
-              sessionStorage.setItem("intCh", this.chineseInt);
-              sessionStorage.setItem("intEn", this.englishInt);
-              if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
-                this.intentActive = 2;
-                this.seeIntent = false;
-              }
-              //项目企业优势信息中英文
-              this.chineseAdv = order.advantageNote.valueCn;
-              this.englishAdv = order.advantageNote.valueEn;
-              sessionStorage.setItem("advCh", this.chineseAdv);
-              sessionStorage.setItem("advEn", this.englishAdv);
-              if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
-                this.advActive = 2;
-                this.seeLanguage = false;
-              }
-              //投资意向函附件
-              if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
-                for (var photo of order.capitalInjectionPhoto) {
-                  let a = {
-                    fileId: photo.name,
-                    fileName: photo.originalName,
-                    fileSize: photo.size,
-                    url: tool.oos() + photo.name,
-                    val: photo.summary.valueCn
-                  }
-                  this.askFileList.push(a);
-                  this.askSummaryList.push(photo.summary.valueCn)
+
+      this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
+        // console.log(r);
+        if (r.code == 200) {
+          if (r.data.order != null && r.data.order.length == 1) {
+            let order = r.data.order[0];
+            console.log(order);
+            //用户的合投信息
+            this.isLead = order.isLead;
+            //参与合投方式
+            this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
+            //预期投资金额
+            this.investAmount = order.investAmount.amount / 10000;
+            //参与合投企业
+            this.cId = order.corpId;
+            //TODO 投资意向函 企业优势 附件
+            console.log(this.capitalInjectionFormId);
+            //项目投资意向函信息中英文
+            this.chineseInt = order.capitalInjectionFormNote.valueCn;
+            this.englishInt = order.capitalInjectionFormNote.valueEn;
+            sessionStorage.setItem("intCh", this.chineseInt);
+            sessionStorage.setItem("intEn", this.englishInt);
+            if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
+              this.intentActive = 2;
+              this.seeIntent = false;
+            }
+            //项目企业优势信息中英文
+            this.chineseAdv = order.advantageNote.valueCn;
+            this.englishAdv = order.advantageNote.valueEn;
+            sessionStorage.setItem("advCh", this.chineseAdv);
+            sessionStorage.setItem("advEn", this.englishAdv);
+            if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
+              this.advActive = 2;
+              this.seeLanguage = false;
+            }
+            //投资意向函附件
+            if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
+              for (var photo of order.capitalInjectionPhoto) {
+                let a = {
+                  fileId: photo.name,
+                  fileName: photo.originalName,
+                  fileSize: photo.size,
+                  url: tool.oos() + photo.name,
+                  val: photo.summary.valueCn
                 }
-              }
-              //企业优势附件
-              if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
-                for (var file of order.capitalInjectionFile) {
-                  let a = {
-                    fileId: file.name,
-                    fileName: file.originalName,
-                    fileSize: file.size,
-                    url: tool.oos() + file.name,
-                    val: file.summary.valueCn
-                  }
-                  this.askFileList1.push(a);
-                  this.askSummaryList1.push(photo.summary.valueCn)
-                }
+                this.askFileList.push(a);
+                this.askSummaryList.push(photo.summary.valueCn)
               }
             }
-            console.log(r.data);
+            //企业优势附件
+            if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
+              for (var file of order.capitalInjectionFile) {
+                let a = {
+                  fileId: file.name,
+                  fileName: file.originalName,
+                  fileSize: file.size,
+                  url: tool.oos() + file.name,
+                  val: file.summary.valueCn
+                }
+                this.askFileList1.push(a);
+                this.askSummaryList1.push(photo.summary.valueCn)
+              }
+            }
           }
-        });
-      }
-      sessionStorage.setItem("editstatus", 2);
-      // alert(sessionStorage.getItem("editstatus"))
-
+          console.log(r.data);
+        }
+      });
     },
     mounted() {
       gbus.$on('emitRefreshDate', () => {
