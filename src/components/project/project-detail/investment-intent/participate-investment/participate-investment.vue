@@ -56,7 +56,8 @@
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="this.seeIntent" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="!this.seeIntent" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -114,7 +115,8 @@
     <div class="advantage">
       <div class="partipate-title clearfix">【企业优势】
         <span class="item-remark">(选填)</span>
-        <router-link :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="this.seeLanguage" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}" class="title-edit fr">编辑</router-link>
+        <router-link v-if="!this.seeLanguage" :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}" class="title-edit fr">编辑</router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -374,9 +376,9 @@
             tool.toast(r.data.msg);
         })
       },
-      fillAdvCh(){
+      fillAdv(){
         let cont= sessionStorage.getItem("advCh");
-        if(cont === "" || cont === "undefined"){
+        if(cont === "" || cont === "undefined" || cont === "null"){
           this.chineseAdv = "没有内容";
         }else{
           this.chineseAdv = cont;
@@ -390,9 +392,9 @@
         }
 
       },
-      fillIntCh(){
+      fillInt(){
         let cont= sessionStorage.getItem("intCh");
-        if(cont === "" || cont === "undefined"){
+        if(cont === "" || cont === "undefined" || cont === "null"){
           this.chineseInt = "没有内容";
         }else{
           this.chineseInt = cont;
@@ -470,8 +472,8 @@
       }
     },
     mounted() {
-      // this.fillAdvCh();
-      // this.fillIntCh();
+      this.fillAdv();
+      this.fillInt();
     },
     destroyed() {
     }
