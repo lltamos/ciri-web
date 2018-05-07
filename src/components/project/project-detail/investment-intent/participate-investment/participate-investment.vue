@@ -209,6 +209,10 @@
         capitalInjectionFormId: [],
         chineseInt: '',
         chineseAdv: '',
+        advantageNoteZh: '',
+        advantageNoteCn : '',
+        capitalInjectionFormNoteZh: '',
+        capitalInjectionFormNoteCn: ''
       }
     },
     props: {},
@@ -360,7 +364,10 @@
         param.append('capitalInjectionFormId', this.capitalInjectionFormId);
         param.append('fileSummary', this.askSummaryList1);
         param.append('photoSummary', this.askSummaryList);
-
+        param.append('advantageNoteZh', this.advantageNoteZh);
+        param.append('advantageNoteCn', this.advantageNoteCn);
+        param.append('capitalInjectionFormNoteZh', this.capitalInjectionFormNoteZh);
+        param.append('capitalInjectionFormNoteCn', this.capitalInjectionFormNoteCn);
 
         this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(r => {
           if (r.code == 200){
