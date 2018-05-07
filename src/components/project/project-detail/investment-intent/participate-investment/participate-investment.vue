@@ -369,7 +369,7 @@
         param.append('capitalInjectionFormNoteZh', this.chineseInt);
         param.append('capitalInjectionFormNoteCn', this.englishInt);
 
-        this.axios.post(tool.domind() + tool.path() + '/ah/s0/apply', param).then(r => {
+        this.axios.post(tool.domind() + tool.path() + '/ah/s5/apply', param).then(r => {
           if (r.data.code == 200){
             tool.toast('提交成功')
           } else

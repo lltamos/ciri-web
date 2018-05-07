@@ -69,7 +69,8 @@
         this.isShow = !this.isShow;
         if (this.content != null && this.content.readTime == null)
           this.$api.get('/ah/s0/i/read', {
-            msgId: this.content.id
+            msgId: this.content.id,
+            receiver: this.content.receiver
           }).then(res => {
             if (res.code == 200) {
               this.content.readTime=new Date();

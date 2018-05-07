@@ -1,7 +1,9 @@
 <template>
   <div class="inbox-page clearfix">
     <i class="icon-type fl" :class="typeIcon" v-if="btnShow"></i>
-    <i class="icon-type fl" :class="{'icon-no-see':this.msgContent.readTime==null,'icon-already-see':this.msgContent.readTime!=null}" v-if="!btnShow"></i>
+    <i class="icon-type fl"
+       :class="{'icon-no-see':this.msgContent.readTime==null,'icon-already-see':this.msgContent.readTime!=null}"
+       v-if="!btnShow"></i>
     <div class="message mar">
       <div class="top-message" @click.prevent="showDetail">
         <p>
@@ -34,7 +36,7 @@
         id: '',
         sort: '',
         reg: true,
-        msgContent : null
+        msgContent: null
       }
     },
     props: {
@@ -63,16 +65,17 @@
     watch: {},
     methods: {
       showDetail() {
-        if(this.msgContent.accessmode==1){
-          this.msgContent.accessmode==2;
+        if (this.msgContent.accessmode == 1) {
+          this.msgContent.accessmode == 2;
         }
         this.isShow = !this.isShow;
         if (this.content != null && this.content.readTime == null)
           this.$api.get('/ah/s0/i/read', {
-            msgId: this.content.id
+            msgId: this.content.id,
+            receiver: this.content.receiver
           }).then(res => {
             if (res.code == 200) {
-              this.content.readTime=new Date();
+              this.content.readTime = new Date();
               console.log('已阅读消息')
             }
           });
@@ -86,13 +89,13 @@
           if (res.code == 200) {
             console.log('已阅读消息')
             // this.$emit('showDetail');
-            if(t==1){
-              this.msgContent.accessmode=3;
+            if (t == 1) {
+              this.msgContent.accessmode = 3;
             }
 
           }
-          if(t==0){
-            this.msgContent.accessmode=4;
+          if (t == 0) {
+            this.msgContent.accessmode = 4;
           }
         });
       },
