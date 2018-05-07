@@ -8,6 +8,9 @@
              'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
              :btnTitle='parseAccessMode(msg.accessmode)'
              :btnShow='msg.isApprove == 1 ? true : false' @showDetail="showDetail" :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
+      <button @click="loadMore()" :disabled="this.disabled" class="more">
+        <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
+      </button>
 
     </div>
   </div>
@@ -29,7 +32,11 @@
         seeInbox: true,
         isShow: false,
         icon: "icon-no-see",
-        msgs: null
+        msgs: null,
+        pageId: 1,
+        moreText: '查看更多',
+        disabled: false,
+        isIcon: true,
       }
     },
     props: {},
@@ -49,11 +56,22 @@
       },
       loadMore() {
         this.$api.get('/ah/s0/i/sysmsg', {
-          pageId: 1,
+          pageId: this.pageId,
           rowCount: 10
         }).then(res => {
           if (res.code == 200) {
-            this.msgs = res.data.msgs
+            this.notloading = false;
+            if (this.pageId == 1 || this.msgs == null) {
+              this.msgs = res.data.msgs
+            } else {
+              this.msgs = this.msgs.concat(res.data.msgs);
+            }
+            this.pageId = this.pageId + 1;
+            if (res.data.msgs.length == 0 || res.data.msgs.length < 10) {
+              this.moreText = '没有更多了';
+              this.disabled = 'disabled';
+              this.isIcon = false;
+            }
           }
         });
       },
@@ -76,6 +94,24 @@
 
   .system {
     text-align: left;
+    padding-bottom: 80px;
+    .more {
+      font-size: 12px;
+      color: #3f80e9;
+      text-align: center;
+      background: #fff;
+      display: table;
+      margin: 20px auto 0;
+
+      i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        @include bg-image("../../news/img/more");
+        background-size: 12px auto;
+        margin-left: 6px;
+      }
+    }
 
   }
 
