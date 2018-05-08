@@ -336,7 +336,7 @@
       },
       //查看文件
       lookFile(fileUrl){
-        tool.toast(fileUrl);
+        // tool.toast(fileUrl);
         window.location.href = fileUrl;
       },
       //删除交流信息
