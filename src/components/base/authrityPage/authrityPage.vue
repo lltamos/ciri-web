@@ -1,6 +1,6 @@
 <template>
     <div class="pop-up" v-show="authorityShow">
-      <p class="title">此页面仅限 项目库会员 及更高等级会员查看，您当前会员等级为<span>注册会员</span>！</p>
+      <p class="title">此页面仅限 项目库会员 及更高等级会员查看，<br/>您当前会员等级为<span>注册会员</span>！</p>
       <div class="btn-warp clearfix">
         <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
         <!--<div class="upgrade fr" @click="upgrade">升级</div>-->
@@ -60,8 +60,7 @@
       font-size: 13px;
       color:#333;
       line-height: 20px;
-      margin: 23px auto 24px;
-      width: 230px;
+      margin: 17px auto 20px;
       text-align: center;
       span{
         color:#fdb140;
@@ -88,6 +87,7 @@
       .upgrade{
         color: white;
         background-color: #3f83e6;
+        font-size: 13px
       }
     }
   }
