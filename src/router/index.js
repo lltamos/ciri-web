@@ -26,6 +26,7 @@ import InvestmentIntent from '@/components/project/project-detail/investment-int
 import ParticipateInvestment
   from '@/components/project/project-detail/investment-intent/participate-investment/participate-investment'
 import InvestmentEdit from '@/components/project/project-detail/investment-intent/investment-edit/investment-edit'
+import InvestmentDetail from '@/components/project/project-detail/investment-intent/investment-detail'
 import Msg from '@/components/msg/msg'
 import Station from '@/components/msg/station/station'
 import SystemNotification from '@/components/msg/system-notification/system-notification'
@@ -238,7 +239,11 @@ export default new Router({
       path: '/project/project-detail/investment-intent/investment-edit',
       component: InvestmentEdit
     },
-
+    //投资意向详情页
+    {
+      path: '/project/project-detail/investment-detail',
+      component: InvestmentDetail
+    },
     // 项目进展  详情页
     {
       path: '/project/project-detail/progress-detail',

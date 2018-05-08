@@ -81,8 +81,9 @@
     mounted (){
       // 图片加载更多
       let imgHeight=this.imgHeight();
+      console.log(imgHeight);
       imgHeight=tool.pxKey(imgHeight)
-      if(imgHeight>316){
+      if(imgHeight>300){
         this.moreShow = true;
       }else {
         this.moreShow = false;

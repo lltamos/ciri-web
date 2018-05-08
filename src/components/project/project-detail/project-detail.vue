@@ -138,7 +138,7 @@
             clickable: true
           }
         },
-        tabWarp:'tab-warp',
+        tabWarp: 'tab-warp',
         projId: 0,
         projAbstract: null,
         likes: 0,
@@ -170,7 +170,7 @@
     },
     methods: {
       //页面滚动时
-      handleScroll () {
+      handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         if (scrollTop > 580) {
           this.tabWarp = 'tab-warp active'
@@ -264,13 +264,13 @@
       }
     },
     created() {
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
       this.init();
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
     },
-    destroyed () {
-      window.removeEventListener("scroll",this.handleScroll);
+    destroyed() {
+      window.removeEventListener("scroll", this.handleScroll);
     }
   }
 </script>
@@ -281,346 +281,344 @@
 
   .project-detail {
 
-  h4 {
-    text-align: left;
-    overflow: hidden;
-    line-height: 1;
-    height: 16px;
-    padding: 12px 10px 12px 15px;
-    color: #333;
-    font-size: 16px;
-    font-weight: normal;
-  @include onepx('bottom');
+    h4 {
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      @include onepx('bottom');
 
-  .left-line {
-    position: absolute;
-    display: block;
-    width: 3px;
-    height: 15px;
-    background-color: #528de8;
-    left: 0;
-    top: 12px;
-  }
+      .left-line {
+        position: absolute;
+        display: block;
+        width: 3px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top: 12px;
+      }
 
-  .detail-warp {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 40px;
-    line-height: 1;
+      .detail-warp {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        line-height: 1;
 
-  .to-detail {
-    display: inline-block;
-    font-size: 13px;
-    color: #528de8;
+        .to-detail {
+          display: inline-block;
+          font-size: 13px;
+          color: #528de8;
 
-  }
+        }
 
-  .more {
-    display: inline-block;
-    width: 10px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-size: 10px auto;
-    background-position: center;
-  @include bg-image("../img/to-detail");
-    vertical-align: middle;
-  }
+        .more {
+          display: inline-block;
+          width: 10px;
+          height: 40px;
+          background-repeat: no-repeat;
+          background-size: 10px auto;
+          background-position: center;
+          @include bg-image("../img/to-detail");
+          vertical-align: middle;
+        }
 
-  }
-  }
-  .project-intro {
-    text-align: left;
-
-  .document-txt {
-    padding: 10px;
-    font-size: 13px;
-    color: #333;
-    line-height: 20px;
-  }
-
-  .thumbs-up {
-    display: table;
-    margin: -5px auto 25px;
-    background: #4285f4;
-    color: #fefeff;
-    font-size: 11px;
-    height: 23px;
-    padding: 5px 10px;
-    line-height: 1;
-    border-radius: 2px;
-
-  .icon-dianzan {
-    display: inline-block;
-    width: 9px;
-    height: 23px;
-    margin-right: 5px;
-    background-repeat: no-repeat;
-    background-size: 9px auto;
-    background-position: center;
-  @include bg-image("../img/icon-dianzan");
-    vertical-align: bottom;
-  }
-
-  .count-warp {
-    display: inline-block;
-    height: 23px;
-    line-height: 23px;
-  }
-
-  .count {
-    font-size: 7px;
-    margin-left: 5px;
-  }
-
-  }
-  .thumbs-down {
-    display: table;
-    margin: -5px auto 25px;
-    background: #bbb;
-    color: #fefeff;
-    font-size: 11px;
-    height: 23px;
-    padding: 5px 10px;
-    line-height: 1;
-    border-radius: 2px;
-
-  .icon-dianzan {
-    display: inline-block;
-    width: 9px;
-    height: 23px;
-    margin-right: 5px;
-    background-repeat: no-repeat;
-    background-size: 9px auto;
-    background-position: center;
-  @include bg-image("../img/icon-dianzan");
-    vertical-align: bottom;
-  }
-
-  .count-warp {
-    display: inline-block;
-    height: 23px;
-    line-height: 23px;
-  }
-
-  .count {
-    font-size: 7px;
-    margin-left: 5px;
-  }
-
-  }
-  .pro-focus {
-    padding: 0 10px;
-
-  .slider {
-    border-bottom: 1px dashed #dedede;
-    padding: 15px 0 10px;
-    margin-bottom: 10px;
-
-  .img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0px auto 7px;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
-  }
-  span {
-    font-size: 12px;
-    color: #333;
-    display: block;
-    text-align: center;
-  }
-
-  }
-  .title-focus {
-    font-size: 12px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 10px;
-
-  .intro {
-    line-height: 18px;
-    width: 74%;
-  @include right-bar(- 20 px, 33 px);
-    margin-right: 0;
-
-  &
-  :after {
-    top: 2px;
-    margin: 0 10px;
-  }
-
-  }
-  .state-focus {
-    width: 22%;
-
-  i {
-    display: block;
-    width: 15px;
-    height: 15px;
-    margin: 0 auto 5px;
-    background-repeat: no-repeat;
-    background-size: 15px auto;
-    background-position: center;
-  @include bg-image("../img/focus");
-  }
-
-  span {
-    display: block;
-  }
-
-  }
-  .focused {
-    width: 22%;
-
-  i {
-    display: block;
-    width: 15px;
-    height: 15px;
-    margin: 0 auto 5px;
-    background-repeat: no-repeat;
-    background-size: 15px auto;
-    background-position: center;
-  @include bg-image("../img/focused");
-  }
-
-  span {
-    display: block;
-
-  }
-
-  }
-  }
-  }
-
-  }
-  .tab-warp {
-  @include onepx('bottom');
-    &.active{
-      position: fixed;
-      top:0;
-      left: 0;
-      right: 0;
-      display: block;
-      background: #fff;
-      z-index: 999;
+      }
     }
-  .project-tab {
-    height: 45px;
-    text-align: center;
-    margin: auto;
-    display: table;
-  li {
-    float: left;
-    line-height: 45px;
-    font-size: 15px;
-    color: #333;
-    margin-right: 18px;
+    .project-intro {
+      text-align: left;
 
-  &
-  :last-child {
-    margin-right: 0;
-  }
+      .document-txt {
+        padding: 10px;
+        font-size: 13px;
+        color: #333;
+        line-height: 20px;
+      }
 
-  }
-  li.router-link-active {
-    border-bottom: 2px solid #333;
-  }
+      .thumbs-up {
+        display: table;
+        margin: -5px auto 25px;
+        background: #4285f4;
+        color: #fefeff;
+        font-size: 11px;
+        height: 23px;
+        padding: 5px 10px;
+        line-height: 1;
+        border-radius: 2px;
 
-  }
-  }
-  .project-rec {
-    background: #f5f5f5;
+        .icon-dianzan {
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
 
-  h4 {
-    background: #fff;
+        .count-warp {
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
 
-  &
-  :after {
-    border-top: none;
-  }
+        .count {
+          font-size: 7px;
+          margin-left: 5px;
+        }
 
-  }
-  .recommdnd-warp {
-    text-align: left;
+      }
+      .thumbs-down {
+        display: table;
+        margin: -5px auto 25px;
+        background: #bbb;
+        color: #fefeff;
+        font-size: 11px;
+        height: 23px;
+        padding: 5px 10px;
+        line-height: 1;
+        border-radius: 2px;
 
-  .recommdnd-card {
-    background: #fff;
-    width: 48.7%;
-    float: left;
-    position: relative;
-    margin-bottom: 10px;
+        .icon-dianzan {
+          display: inline-block;
+          width: 9px;
+          height: 23px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: 9px auto;
+          background-position: center;
+          @include bg-image("../img/icon-dianzan");
+          vertical-align: bottom;
+        }
 
-  &
-  :nth-of-type(odd) {
-    margin-right: 2.6%;
-  }
+        .count-warp {
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+        }
 
-  .img {
-    height: 118px;
-    width: 100%;
+        .count {
+          font-size: 7px;
+          margin-left: 5px;
+        }
 
-  img {
-    width: 100%;
-    height: 100%
-  }
+      }
+      .pro-focus {
+        padding: 0 10px;
 
-  }
-  .main-news {
-    padding: 10px;
+        .slider {
+          border-bottom: 1px dashed #dedede;
+          padding: 15px 0 10px;
+          margin-bottom: 10px;
 
-  h2 {
-    font-size: 13px;
-    color: #333;
-    height: 32px;
-    line-height: 16px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    font-weight: normal;
-  }
+          .img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0px auto 7px;
 
-  .tip-news {
-    overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+            }
 
-  i {
-    display: block;
-    margin-right: 6px;
-    width: 10px;
-    height: 10px;
-    background-size: 10px auto;
-  }
+          }
+          span {
+            font-size: 12px;
+            color: #333;
+            display: block;
+            text-align: center;
+          }
 
-  .indu {
-  @include bg-image("../../base/img/industry");
-  }
+        }
+        .title-focus {
+          font-size: 12px;
+          color: #333;
+          text-align: center;
+          margin-bottom: 10px;
 
-  .view {
-  @include bg-image("../../base/img/view");
-  }
+          .intro {
+            line-height: 18px;
+            width: 74%;
+            @include right-bar(- 20 px, 33px);
+            margin-right: 0;
 
-  span {
-    margin-right: 10px;
-    font-size: 10px;
-    line-height: 1;
-    color: #666;
-    margin-top: 1px;
-  }
+            &:after {
+              top: 2px;
+              margin: 0 10px;
+            }
 
-  span.count {
-    margin-right: 0;
-  }
+          }
+          .state-focus {
+            width: 22%;
 
-  }
-  }
-  }
-  }
-  }
+            i {
+              display: block;
+              width: 15px;
+              height: 15px;
+              margin: 0 auto 5px;
+              background-repeat: no-repeat;
+              background-size: 15px auto;
+              background-position: center;
+              @include bg-image("../img/focus");
+            }
+
+            span {
+              display: block;
+            }
+
+          }
+          .focused {
+            width: 22%;
+
+            i {
+              display: block;
+              width: 15px;
+              height: 15px;
+              margin: 0 auto 5px;
+              background-repeat: no-repeat;
+              background-size: 15px auto;
+              background-position: center;
+              @include bg-image("../img/focused");
+            }
+
+            span {
+              display: block;
+
+            }
+
+          }
+        }
+      }
+
+    }
+    .tab-warp {
+      @include onepx('bottom');
+      &.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: block;
+        background: #fff;
+        z-index: 999;
+      }
+      .project-tab {
+        height: 45px;
+        text-align: center;
+        margin: auto;
+        display: table;
+        li {
+          float: left;
+          line-height: 45px;
+          font-size: 15px;
+          color: #333;
+          margin-right: 18px;
+
+          &
+          :last-child {
+            margin-right: 0;
+          }
+
+        }
+        li.router-link-active {
+          border-bottom: 2px solid #333;
+        }
+
+      }
+    }
+    .project-rec {
+      background: #f5f5f5;
+
+      h4 {
+        background: #fff;
+
+        &
+        :after {
+          border-top: none;
+        }
+
+      }
+      .recommdnd-warp {
+        text-align: left;
+
+        .recommdnd-card {
+          background: #fff;
+          width: 48.7%;
+          float: left;
+          position: relative;
+          margin-bottom: 10px;
+
+          &:nth-of-type(odd) {
+            margin-right: 2.6%;
+          }
+
+          .img {
+            height: 118px;
+            width: 100%;
+
+            img {
+              width: 100%;
+              height: 100%
+            }
+
+          }
+          .main-news {
+            padding: 10px;
+
+            h2 {
+              font-size: 13px;
+              color: #333;
+              height: 32px;
+              line-height: 16px;
+              overflow: hidden;
+              margin-bottom: 10px;
+              font-weight: normal;
+            }
+
+            .tip-news {
+              overflow: hidden;
+
+              i {
+                display: block;
+                margin-right: 6px;
+                width: 10px;
+                height: 10px;
+                background-size: 10px auto;
+              }
+
+              .indu {
+                @include bg-image("../../base/img/industry");
+              }
+
+              .view {
+                @include bg-image("../../base/img/view");
+              }
+
+              span {
+                margin-right: 10px;
+                font-size: 10px;
+                line-height: 1;
+                color: #666;
+                margin-top: 1px;
+              }
+
+              span.count {
+                margin-right: 0;
+              }
+
+            }
+          }
+        }
+      }
+    }
   }
 
 </style>
