@@ -10,7 +10,7 @@
                  :setProjVideo="setProjVideo"
                  :projPhoto="projPhoto"
                  :projAddress="projAddress"
-                 :projMaturity="projMaturity"></projectHeader>
+                 :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
   <div class="project-intro">
     <h4>
       <div class="border"></div>
