@@ -6,8 +6,8 @@
       </div>
       <div class="search-warp" id="search-warp">
         <div class="search" :class="scrollSearch">
-          <i class="icon-search"></i>
-          <input type="text" placeholder="项目 投资人">
+          <i class="icon-search" @click="search"></i>
+          <input type="text" v-model="text" placeholder="项目 投资人">
         </div>
       </div>
     </div>
@@ -165,11 +165,19 @@
         i: [],
         c: [],
         m: [],
-        t: []
+        t: [],
+        text: ''
       }
     },
     props: {},
     methods: {
+      search() {
+        let path = '/search'
+        if (!tool.isBank(this.text)){
+          path = path + '?text=' + this.text
+        }
+        this.$router.push({ path: path });
+      },
       init1() {
         this.pageId = 1
         this.loadMore()

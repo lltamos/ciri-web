@@ -33,7 +33,7 @@
           <li @click="search('哈萨克斯坦')">哈萨克斯坦</li>
         </ul>
       </div>
-      <SearchList v-show="!keyword" :ent="this.ent" :isRightAwaySearch="this.isRightAwaySearch"
+      <SearchList ref="ccc" v-show="!keyword" :ent="this.ent" :isRightAwaySearch="this.isRightAwaySearch"
                   :searchValue="this.searchValue"></SearchList>
     </div>
   </div>
@@ -42,6 +42,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import SearchList from '@/components/search/search-list'
+  import tool from "@/api/tool";
 
   export default {
     components: {
@@ -80,6 +81,11 @@
     filters: {},
     computed: {},
     created() {
+      let temp = this.$route.query.text
+      if (!tool.isBank(temp)){
+        this.searchValue = temp;
+        this.searchKey();
+      }
     },
     mounted() {
     },
