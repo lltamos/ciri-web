@@ -251,12 +251,14 @@
       next();
     },
     beforeRouteLeave(to,from,next){
-      //不是跳转到编辑页面也终止页面
-      // if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
-      //   gbus.$on('emitRefreshDate',null)
-      //   console.log(1111111111111111111111111111);
-      //   this.$destroy();
-      // }
+      // 不是跳转到编辑页面...终止页面
+      if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
+        // gbus.$on('emitRefreshDate',null);
+        // this.askFileList=new Array();
+        // this.askFileList1=new Array();
+        // console.log(1111111111111111111111111111);
+        this.$destroy();
+      }
       next();
     },
     methods: {
