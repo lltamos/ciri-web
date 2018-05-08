@@ -6,18 +6,19 @@
     <i class="icon_search" @click="search"></i>
   </div>
   <div class="main" v-if="!tag">
-    <h4>
-      <i class="left-line"></i><span>{{this.detailContent.title.valueCn}}</span>
-      <span class="time">{{this.detailContent.time}}</span>
-    </h4>
-    <div class="img">
-      <img src="../../../news/img/p_1.jpg" alt="" title="">
+    <div v-if="this.detailContent">
+      <h4>
+        <i class="left-line"></i><span>{{this.detailContent.title.valueCn}}</span>
+        <span class="time">{{this.detailContent.time}}</span>
+      </h4>
+      <div class="img">
+        <img src="../../../news/img/p_1.jpg" alt="" title="">
+      </div>
+      <div class="article">
+        <p>{{this.detailContent.content.valueCn}}</p>
+      </div>
+      <div class="small-btn" @click="back">返回</div>
     </div>
-    <div class="article">
-      <p>{{this.detailContent.content.valueCn}}</p>
-    </div>
-    <div class="small-btn" @click="back">返回</div>
-
   </div>
   <div v-if="tag">没有权限</div>
 </div>

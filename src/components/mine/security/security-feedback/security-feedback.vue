@@ -112,7 +112,7 @@
     }
     .heart_comment {
       padding: 0 10px;
-      font-size: 13px;
+      font-size: 14px;
       color: #999;
       .in_phone {
         outline: 0;
@@ -124,12 +124,14 @@
         padding: 0 3.4%;
         margin-top: 10px;
         margin-bottom: 20px;
+        font-size: 14px;
       }
 
       .tit_inp {
         margin-top: 13px;
         margin-bottom: 10px;
         width: 92%;
+        font-size: 14px;
         background: #fff;
         outline: 0;
         border: 1px solid #dedede;

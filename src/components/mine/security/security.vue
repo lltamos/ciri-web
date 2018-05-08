@@ -59,7 +59,7 @@
     </div>
   </div>
   <div class="exit">
-    <div class="btn" @click="loginOut">退出</div>
+    <div class="btn" @click="loginOut">退出登录</div>
     </div>
   </div>
 </template>

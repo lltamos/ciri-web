@@ -203,8 +203,8 @@ export default {
     }
   }
   #slider3 {
-    margin-top: 17px;
-    margin-bottom: 13px;
+    padding-top: 17px;
+    padding-bottom: 13px;
     .swiper-slide{width:110px; margin: 0 10px !important;}
     .invest-finance {
       width: 110px;
@@ -213,6 +213,7 @@ export default {
       @include bg-image("../img/slider-bg");
       background-size: 110px auto;
       text-align: center;
+      box-shadow: 0px 3px 7px #eee;
       h3 {
         font-size: 14px;
         color: #666;
