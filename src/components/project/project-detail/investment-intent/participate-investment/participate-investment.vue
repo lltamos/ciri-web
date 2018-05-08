@@ -202,7 +202,7 @@
     data() {
       return {
         isLead: false,
-        cId: 0,
+        cId: '',
         from: false,//控制是否发送查询请求
         advActive: 1,
         intentActive: 1,
@@ -248,6 +248,15 @@
       }else {
         sessionStorage.setItem("fromStatus", 2);
       }
+      next();
+    },
+    beforeRouteLeave(to,from,next){
+      //不是跳转到编辑页面也终止页面
+      // if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
+      //   gbus.$on('emitRefreshDate',null)
+      //   console.log(1111111111111111111111111111);
+      //   this.$destroy();
+      // }
       next();
     },
     methods: {
@@ -404,7 +413,9 @@
 
         this.axios.post(tool.domind() + tool.path() + '/ah/s5/apply', param).then(r => {
           if (r.data.code == 200) {
+            gbus.$emit('emitRefreshDate', null);
             tool.toast('提交成功')
+            this.$router.push({path:'/project/project-detail/investment-intent',query:{projId:this.projId}});
           } else
             tool.toast(r.data.msg);
         })
@@ -473,23 +484,22 @@
     },
     filters: {},
     computed: {},
-
     activated() {
       this.projId = this.$route.query.projId;
-      this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
-        if (r.code == 200) {
-          this.isLeadQualified = r.isLeadQualified;
-          this.corps = r.data;
-          this.cifs = r.cifs;
-          if (r.data != null)
-            this.cId = r.data[0].corpId;
-        } else
-          tool.toast(r.msg);
-      });
-
       console.log(sessionStorage.getItem("fromStatus"))
-      //判读
+      //判读是否是从编辑页面 跳转来的 是的话不发送请求 用缓存显示数据
       if (sessionStorage.getItem("fromStatus") == 1) {
+        //
+        this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
+          if (r.code == 200) {
+            this.isLeadQualified = r.isLeadQualified;
+            this.corps = r.data;
+            this.cifs = r.cifs;
+            if (r.data != null)
+              this.cId = r.data[0].corpId;
+          } else
+            tool.toast(r.msg);
+        });
         //当调用方法回显示数据
         this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
           if (r.code == 200) {
