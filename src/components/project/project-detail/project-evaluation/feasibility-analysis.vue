@@ -12,34 +12,36 @@
         <h4>
           <i class="left-line"></i><span>项目融资分析</span>
         </h4>
-        <table width="100%" border="1" cellspacing="0" cellpadding="0">
-          <tbody>
-          <tr>
-            <td>目标融资金额</td>
-            <td>{{this.requiredFund}}</td>
-          </tr>
-          <tr>
-            <td>项目自有资金</td>
-            <td>{{this.internalFund}}万美元</td>
-          </tr>
-          <tr>
-            <td>项目总投资额</td>
-            <td>{{this.totalInvestFund}}</td>
-          </tr>
-          <tr>
-            <td>项目年收益率（IRR）</td>
-            <td>{{this.irr}}%</td>
-          </tr>
-          <tr>
-            <td>项目净产值（NPV）</td>
-            <td>{{this.npv}}万美元</td>
-          </tr>
-          <tr>
-            <td>净现值说明</td>
-            <td>{{this.npvSummary}}</td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="company-msg">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+              <td>目标融资金额</td>
+              <td>{{this.requiredFund}}</td>
+            </tr>
+            <tr>
+              <td>项目自有资金</td>
+              <td>{{this.internalFund}}万美元</td>
+            </tr>
+            <tr>
+              <td>项目总投资额</td>
+              <td>{{this.totalInvestFund}}</td>
+            </tr>
+            <tr>
+              <td>项目年收益率（IRR）</td>
+              <td>{{this.irr}}%</td>
+            </tr>
+            <tr>
+              <td>项目净产值（NPV）</td>
+              <td>{{this.npv}}万美元</td>
+            </tr>
+            <tr>
+              <td>净现值说明</td>
+              <td>{{this.npvSummary}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="article-warp">
           <div class="pro-article clearfix">
             <p class="title">【项目投资概算】</p>
@@ -206,7 +208,52 @@
 
   }
   .finance-info {
-    padding: 10px 10px 17px;
+    padding: 10px 0px 17px;
+    .company-msg{
+      padding: 10px;
+      margin-bottom: 7px;
+      text-align: left;
+      table{
+        border-collapse: collapse;
+        tr{
+          height:28px;
+          line-height: 28px;
+          font-size: 13px;
+          color: #666;
+          td:first-child{
+            padding: 0 6px 0 25px;
+            @include one-border();
+            &:after{
+              border-bottom: none;
+              border-left: none;
+            }
+          }
+          td:last-child{
+            text-align: left;
+            padding-left: 20px;
+            @include one-border();
+            &:after{
+              border-bottom: none;
+              border-left: none;
+              border-right: none;
+            }
+          }
+          &:last-child{
+            td{
+              @include one-border();
+              &:after{
+                border-left: none;
+              }
+              &:last-child{
+                &:after{
+                  border-right: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     .article-warp {
       text-align: left;
 
@@ -260,30 +307,6 @@
         }
       }
     }
-
-  table {
-    margin-top: 10px;
-    border: 1px solid #dedede;
-
-  tr {
-    height: 28px;
-    line-height: 28px;
-    font-size: 13px;
-    color: #666;
-
-  td:first-child {
-    text-align: left;
-    padding: 0 10px 0 17px;
-    width: 130px;
-  }
-
-  td:last-child {
-    text-align: left;
-    padding-left: 20px;
-  }
-
-  }
-  }
 
   }
   }

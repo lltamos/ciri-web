@@ -106,7 +106,7 @@
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <span class="thumb-up fr">{{project.likes}}</span>
+                <span class="thumb-up fr" style="margin-right: 6px;">{{project.likes}}</span>
                 <i class="icon-thumbup fr"></i>
               </div>
             </div>

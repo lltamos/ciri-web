@@ -3,7 +3,7 @@
 <template>
   <div class="news">
     <header class="gradient">源合资讯
-      <i class="icon_search"></i>
+      <i class="icon_search" @click="search"></i>
     </header>
     <cross-line></cross-line>
     <tab-bar></tab-bar>
@@ -45,6 +45,9 @@
     props: {},
     watch: {},
     methods: {
+      search () {
+        this.$router.push({ path: "/search" });
+      }
 
     },
     filters: {},
