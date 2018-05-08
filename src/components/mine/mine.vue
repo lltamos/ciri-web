@@ -40,7 +40,7 @@
               <template v-if="userAuthCode!='0'">
                 <router-link :to="{path:'/mine/identity',query:{ tag: userAuthCode}}">
                   <i class="identity "></i>
-                  <span>实名认证</span>
+                  <span>{{identityTitle}}</span>
                 </router-link>
               </template>
               <!--认证过 跳转到认证页面-->
@@ -138,7 +138,8 @@ export default {
       vip:false,
       yhw:false,
       xmk:false,
-      userAuthCode:0
+      userAuthCode:0,
+      identityTitle:'未认证'
     };
   },
   props: {},
@@ -169,6 +170,13 @@ export default {
             //当认证信息为2时，点亮图标
             if(res.data.data.userAuth=='2'){
               this.userAuth = true;
+              this.identityTitle = '已认证'
+            }else if(res.data.data.userAuth=='1'){
+              this.identityTitle = '认证中'
+            }else if (res.data.data.userAuth=='4'){
+              this.identityTitle = '未认证'
+            }else{
+              this.identityTitle = '未认证'
             }
             //
             var level=res.data.data.memberLevelId;

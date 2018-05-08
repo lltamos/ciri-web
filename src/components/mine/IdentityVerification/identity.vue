@@ -102,7 +102,7 @@
   }
 </script>
 
-<style type="text/scss" lang="scss" scoped>
+<style type="text/scss" lang="scss">
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
   .identity{
