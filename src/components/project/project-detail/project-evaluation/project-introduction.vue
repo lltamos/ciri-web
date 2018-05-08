@@ -291,8 +291,8 @@
           font-size: 13px;
           color: #666;
           td:first-child{
-            text-align: center;
-            padding: 0 6px 0 5px;
+            text-align: left;
+            padding: 0 6px 0 35px;
             @include one-border();
             &:after{
               border-bottom: none;
