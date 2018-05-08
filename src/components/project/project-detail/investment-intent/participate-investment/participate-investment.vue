@@ -236,7 +236,20 @@
     },
     props: {},
     watch: {},
-
+    beforeRouteEnter:(to,from,next)=>{
+      //清空session
+      var path=from.path;
+      if(path.lastIndexOf("investment-edit") == -1){
+        sessionStorage.setItem("intCh", "");
+        sessionStorage.setItem("intEn", "");
+        sessionStorage.setItem("advCh", "");
+        sessionStorage.setItem("advEn", "");
+        sessionStorage.setItem("fromStatus", 1);
+      }else {
+        sessionStorage.setItem("fromStatus", 2);
+      }
+      next();
+    },
     methods: {
       leadRadio(index) {
         this.isLead = index;
@@ -385,9 +398,9 @@
         param.append('fileSummary', this.askSummaryList1);
         param.append('photoSummary', this.askSummaryList);
         param.append('advantageNoteZh', this.chineseAdv);
-        param.append('advantageNoteCn', this.englishAdv);
+        param.append('advantageNoteEn', this.englishAdv);
         param.append('capitalInjectionFormNoteZh', this.chineseInt);
-        param.append('capitalInjectionFormNoteCn', this.englishInt);
+        param.append('capitalInjectionFormNoteEn', this.englishInt);
 
         this.axios.post(tool.domind() + tool.path() + '/ah/s5/apply', param).then(r => {
           if (r.data.code == 200) {
@@ -407,7 +420,6 @@
           } else {
             this.moreShowChAdv = false;
           }
-
           return tool.replaceAll(cont, '\n', '<br/>');
         }
 
@@ -475,86 +487,93 @@
           tool.toast(r.msg);
       });
 
+      console.log(sessionStorage.getItem("fromStatus"))
       //判读
-      //当tag=1 时调用方法回显示数据
-      // let tag = this.$route.query.tag;
-      // alert(temp);
-      // if (editstatus != 1 && tag == 1) {
-
-      this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
-        // console.log(r);
-        if (r.code == 200) {
-          if (r.data.order != null && r.data.order.length == 1) {
-            let order = r.data.order[0];
-            console.log(order);
-            //用户的合投信息
-            this.isLead = order.isLead;
-            //参与合投方式
-            this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
-            //预期投资金额
-            this.investAmount = order.investAmount.amount / 10000;
-            //参与合投企业
-            this.cId = order.corpId;
-            //TODO 投资意向函 企业优势 附件
-            console.log(this.capitalInjectionFormId);
-            //项目投资意向函信息中英文
-            this.chineseInt = order.capitalInjectionFormNote.valueCn;
-            this.englishInt = order.capitalInjectionFormNote.valueEn;
-            sessionStorage.setItem("intCh", this.chineseInt);
-            sessionStorage.setItem("intEn", this.englishInt);
-            if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
-              this.intentActive = 2;
-              this.seeIntent = false;
-            }
-            //项目企业优势信息中英文
-            this.chineseAdv = order.advantageNote.valueCn;
-            this.englishAdv = order.advantageNote.valueEn;
-            sessionStorage.setItem("advCh", this.chineseAdv);
-            sessionStorage.setItem("advEn", this.englishAdv);
-            if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
-              this.advActive = 2;
-              this.seeLanguage = false;
-            }
-            //投资意向函附件
-            if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
-              for (var photo of order.capitalInjectionPhoto) {
-                let a = {
-                  fileId: photo.name,
-                  fileName: photo.originalName,
-                  fileSize: photo.size,
-                  url: tool.oos() + photo.name,
-                  val: photo.summary.valueCn
+      if (sessionStorage.getItem("fromStatus") == 1) {
+        //当调用方法回显示数据
+        this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
+          if (r.code == 200) {
+            if (r.data.order != null && r.data.order.length == 1) {
+              let order = r.data.order[0];
+              console.log(order);
+              //用户的合投信息
+              this.isLead = order.isLead;
+              //参与合投方式
+              this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
+              //预期投资金额
+              this.investAmount = order.investAmount.amount / 10000;
+              //参与合投企业
+              this.cId = order.corpId;
+              //TODO 投资意向函 企业优势 附件
+              console.log(this.capitalInjectionFormId);
+              //项目投资意向函信息中英文
+              if (order.capitalInjectionFormNote.setValueCn) {
+                this.chineseInt = order.capitalInjectionFormNote.valueCn;
+                sessionStorage.setItem("intCh", this.chineseInt);
+              }
+              if (order.capitalInjectionFormNote.setValueEn) {
+                this.englishInt = order.capitalInjectionFormNote.valueEn;
+                sessionStorage.setItem("intEn", this.englishInt);
+              }
+              if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
+                this.intentActive = 2;
+                this.seeIntent = false;
+              }
+              //项目企业优势信息中英文
+              if (order.advantageNote.setValueCn) {
+                this.chineseAdv = order.advantageNote.valueCn;
+                sessionStorage.setItem("advCh", this.chineseAdv);
+              }
+              if (order.advantageNote.setValueEn) {
+                this.englishAdv = order.advantageNote.valueEn;
+                sessionStorage.setItem("advEn", this.englishAdv);
+              }
+              if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
+                this.advActive = 2;
+                this.seeLanguage = false;
+              }
+              //投资意向函附件
+              if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
+                for (var photo of order.capitalInjectionPhoto) {
+                  let a = {
+                    fileId: photo.name,
+                    fileName: photo.originalName,
+                    fileSize: photo.size,
+                    url: tool.oos() + photo.name,
+                    val: photo.summary.setValueCn ? photo.summary.valueCn : ''
+                  }
+                  this.askFileList.push(a);
+                  this.askSummaryList.push(photo.summary.valueCn)
                 }
-                this.askFileList.push(a);
-                this.askSummaryList.push(photo.summary.valueCn)
+              }
+              //企业优势附件
+              if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
+                for (var file of order.capitalInjectionFile) {
+                  let a = {
+                    fileId: file.name,
+                    fileName: file.originalName,
+                    fileSize: file.size,
+                    url: tool.oos() + file.name,
+                    val: file.summary.setValueCn ? file.summary.valueCn : ''
+                  }
+                  this.askFileList1.push(a);
+                  this.askSummaryList1.push(file.summary.valueCn)
+                }
               }
             }
-            //企业优势附件
-            if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
-              for (var file of order.capitalInjectionFile) {
-                let a = {
-                  fileId: file.name,
-                  fileName: file.originalName,
-                  fileSize: file.size,
-                  url: tool.oos() + file.name,
-                  val: file.summary.valueCn
-                }
-                this.askFileList1.push(a);
-                this.askSummaryList1.push(photo.summary.valueCn)
-              }
-            }
+            console.log(r.data);
           }
-          console.log(r.data);
-        }
-      });
-    },
-    mounted() {
+        });
+      }
       gbus.$on('emitRefreshDate', () => {
         this.fillAdv();
         this.fillAdvEn();
         this.fillInt();
         this.fillIntEn();
       })
+
+    },
+    mounted() {
 
     },
     destroyed() {

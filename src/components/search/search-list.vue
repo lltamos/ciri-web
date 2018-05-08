@@ -109,6 +109,7 @@
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "@/api/tool"
   export default {
     components: {
       CrossLine
@@ -151,6 +152,15 @@
     },
     methods: {
       loadMore() {
+        if (tool.isBank(this.searchValue)) {
+          tool.toast('搜索内容不能为空')
+          this.count1 = 0;
+          this.count2 = 0;
+          this.count3 = 0;
+          this.init();
+          this.moreText = ''
+          return ;
+        }
         this.$api.post('/pb/p/getProjectByLike', {
           text: this.searchValue,
           pageId: this.pageId,

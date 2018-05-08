@@ -65,10 +65,10 @@
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
-              <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
-                <span class="to-detail" @click="showInvestDetail">详情</span>
+              <div to="" class="detail-warp" v-model="companyProgress.companyId"  @click="showInvestDetail(companyProgress.companyId)">
+                <span class="to-detail">详情</span>
                 <i class="more"></i>
-              </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -84,10 +84,10 @@
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
-              <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
+              <div to="" class="detail-warp" v-model="companyProgress.companyId" @click="showInvestDetail(companyProgress.companyId)">
                 <span class="to-detail" >详情</span>
                 <i class="more"></i>
-              </router-link>
+              </div>
             </div>
           </div>
 
@@ -138,9 +138,13 @@
             }
             this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
           },
-          showInvestDetail(){
-            this.$router.push({path:'/project/project-detail/investment-detail',query: {title:''}});
-
+          showInvestDetail(companyId){
+            let level = sessionStorage.getItem("userLevel");
+            if(level=='5' || level=='2'|| level=='6'|| level=='7'){
+              this.$router.push({path:'/project/project-detail/investment-detail',query: {projId:this.projId,companyId:companyId}});
+            }else{
+              console.log('权限不足，请升级会员等级');
+            }
           }
         },
         filters: {},
