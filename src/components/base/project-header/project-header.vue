@@ -3,7 +3,7 @@
     <div class="header-bar gradient">
       <i class="icon-back" @click="back"></i>
       <h1>看好项目 上源合网</h1>
-      <i class="icon_search"></i>
+      <i class="icon_search" @click="search"></i>
     </div>
     <div class="project">
       <div class="img">
@@ -82,6 +82,9 @@
     methods: {
       back() {
         window.history.back();
+      },
+      search () {
+        this.$router.push({ path: "/search" });
       }
     },
     created() {
