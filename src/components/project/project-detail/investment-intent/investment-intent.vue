@@ -28,9 +28,13 @@
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
-          <div class="participate " :class="closeShot?'participate-selected':'participate-no-select'" @click="showParticipate" v-text="cast">
+          <div class="participate " :class="closeShot?'participate-selected':'participate-no-select'" @click="showParticipate" v-text="cast" v-if="authority">
             <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
             <!--参与合投-->
+          </div>
+          <div v-if="!authority">
+            <!--权限弹框-->
+            <AuthrityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthrityPage>
           </div>
         </div>
       </div>
@@ -90,8 +94,11 @@
               </div>
             </div>
           </div>
+        </div>
 
-
+        <div v-if="!authorityWin">
+          <!--权限弹框-->
+          <Authority :authorityShow="authorityShowWin" @authorityHide="authorityHideWin" @upgrade="upgradeWin"></Authority>
         </div>
       </div>
 
@@ -105,10 +112,14 @@
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from '@/api/tool'
+  import Authority from '@/components/base/authority/authority'
+  import AuthrityPage from '@/components/base/authrityPage/authrityPage'
     export default {
         components: {
           CrossLine,
-          tool
+          tool,
+          Authority,
+          AuthrityPage
         },
         data() {
             return {
@@ -121,7 +132,11 @@
               isCoinvesting:false, //5.项目是否处于合同的状态
               isUserInCoInvest:false,  //6.判断用户是否参与过合投
               cast:"参与合投",
-              closeShot:false  //合投按钮是否点亮
+              closeShot:false,  //合投按钮是否点亮
+              authorityShow:false,
+              authorityShowWin:false,
+              authorityWin:true,//投资意向详情权限
+              authority:true//合投进展权限
             }
         },
         props: {},
@@ -141,11 +156,28 @@
           showInvestDetail(companyId){
             let level = sessionStorage.getItem("userLevel");
             if(level=='5' || level=='2'|| level=='6'|| level=='7'){
+              this.authorityWin = true;
+              this.authorityShowWin = false;
               this.$router.push({path:'/project/project-detail/investment-detail',query: {projId:this.projId,companyId:companyId}});
             }else{
-              console.log('权限不足，请升级会员等级');
+              this.authorityWin = false;
+              this.authorityShowWin = true;
             }
-          }
+          },
+          upgrade () {
+            this.$router.push({ path: "/mine/member-center" });
+          },
+          //权限弹框
+          authorityHide () {
+            this.authorityShow = false;
+          },
+          upgradeWin () {
+            this.$router.push({ path: "/mine/member-center" });
+          },
+          //权限弹框
+          authorityHideWin () {
+            this.authorityShowWin = false;
+          },
         },
         filters: {},
         computed: {},
@@ -161,43 +193,52 @@
             }
 
           });
-          //项目合投前流程
-          this.$api.post('/ah/s5/projectInvestment',{projId:this.projId,userId:tool.getuser()}).then(r => {
-          // this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
-            // console.log(r)
-            if(r.code==200){
-              this.userRole=r.data.userRole;
-              this.isUserAuthed=r.data.isUserAuthed;
-              this.isCorpAuthed=r.data.isCorpAuthed;
-              this.isRiskAgreementSigned=r.data.isRiskAgreementSigned;
-              this.isCoinvesting=r.data.isCoinvesting;
-              this.isUserInCoInvest=r.data.isUserInCoInvest;
-              //判断用户角色
-              if(this.userRole){
-                if(this.isUserAuthed && this.isCorpAuthed && this.isRiskAgreementSigned && this.isCoinvesting){
-                  this.closeShot=true;
-                  // console.log(this.closeShot);
-                  if(this.isUserInCoInvest){
-                    this.cast="编辑合投意向";
-                  }else {
-                    this.cast="参与合投";
+
+          let level = sessionStorage.getItem('userLevel');
+          if(level=='5' || level=='2'|| level=='6'|| level=='7'){
+            this.authority = true;
+            this.authorityShow = false;
+            //项目合投前流程
+            this.$api.post('/ah/s5/projectInvestment',{projId:this.projId,userId:tool.getuser()}).then(r => {
+              // this.$api.post('/ah/s5/projectInvestment',{projId:156000023,userId:18244526524}).then(r => {
+              // console.log(r)
+              if(r.code==200){
+                this.userRole=r.data.userRole;
+                this.isUserAuthed=r.data.isUserAuthed;
+                this.isCorpAuthed=r.data.isCorpAuthed;
+                this.isRiskAgreementSigned=r.data.isRiskAgreementSigned;
+                this.isCoinvesting=r.data.isCoinvesting;
+                this.isUserInCoInvest=r.data.isUserInCoInvest;
+                //判断用户角色
+                if(this.userRole){
+                  if(this.isUserAuthed && this.isCorpAuthed && this.isRiskAgreementSigned && this.isCoinvesting){
+                    this.closeShot=true;
+                    // console.log(this.closeShot);
+                    if(this.isUserInCoInvest){
+                      this.cast="编辑合投意向";
+                    }else {
+                      this.cast="参与合投";
+                    }
+                    // console.log(this.cast);
                   }
-                  // console.log(this.cast);
+                }else {
+                  this.closeShot=false;
+                  tool.toast("非投资方不能发送合投申请");
                 }
-              }else {
-                this.closeShot=false;
-                tool.toast("非投资方不能发送合投申请");
+                // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
+                //   isUserAuthed:false, //2.判断用户是否是实名认证用户
+                //   isCorpAuthed:false, //3.用户是否通过了企业认证
+                //   isRiskAgreementSigned:false, //4.风险提示协议是否签署
+                //   isCoinvesting:false, //5.项目是否处于合投的状态
+                //   isUserInCoInvest:false //6.判断用户是否参与过合投
               }
-              // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
-              //   isUserAuthed:false, //2.判断用户是否是实名认证用户
-              //   isCorpAuthed:false, //3.用户是否通过了企业认证
-              //   isRiskAgreementSigned:false, //4.风险提示协议是否签署
-              //   isCoinvesting:false, //5.项目是否处于合投的状态
-              //   isUserInCoInvest:false //6.判断用户是否参与过合投
-            }else if(r.code==403){
-              tool.toast("权限不足，请升级用户等级");
-            }
-          });
+            });
+
+          }else{
+            this.authority = false;
+            this.authorityShow = true;
+          }
+
 
         },
         mounted() {
