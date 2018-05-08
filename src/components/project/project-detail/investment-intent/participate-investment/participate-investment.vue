@@ -505,7 +505,7 @@
               //参与合投企业
               this.cId = order.corpId;
               //TODO 投资意向函 企业优势 附件
-              console.log(this.capitalInjectionFormId);
+              // console.log(this.capitalInjectionFormId);
               //项目投资意向函信息中英文
               if (order.capitalInjectionFormNote.setValueCn) {
                 this.chineseInt = order.capitalInjectionFormNote.valueCn;

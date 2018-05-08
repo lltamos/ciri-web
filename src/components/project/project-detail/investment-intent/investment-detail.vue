@@ -3,11 +3,11 @@
     <header class="clearfix">投资意向
       <i class="icon-back" @click="back"></i>
     </header>
-    <div class="project-name">巴西卡瓦风电项目</div>
+    <div class="project-name">{{projName}}</div>
     <div class="company">
-      <div class="project-title">中国电力新能源发展公司<label class="direction">【领投方】</label></div>
-      <div class="method">参与合投方式：<span>资金入股</span></div>
-      <div class="money">预测投资金额：<span>500万美元</span></div>
+      <div class="project-title">{{companyName}}<label class="direction">【{{lead}}】</label></div>
+      <div class="method">参与合投方式：<span>{{joinWay}}</span></div>
+      <div class="money">预测投资金额：<span>{{investAmount}}</span></div>
     </div>
     <CrossLine></CrossLine>
     <div class="intent-letter">
@@ -43,96 +43,74 @@
 
       <div class="upload-wrap">
         <div class="file-warp">
-          <div class="file">
+          <div class="file" v-for="(file,index) in capitalInjectionPhoto" :key="index">
             <div class="title">
               <i class="icon-type icon-pdf"></i>
               <a>
-                <span class="file-title">建设许可证.pdf</span>
+                <span class="file-title">{{file.fileName}}</span>
               </a>
-              <label class="handle">查看</label>
+              <label class="handle"  @click="lookFile(file.url)">查看</label>
             </div>
           </div>
-
-          <div class="file">
-            <div class="title">
-              <i class="icon-type icon-pdf"></i>
-              <a>
-                <span class="file-title">建设许可证.pdf</span>
-              </a>
-              <label class="handle">查看</label>
-            </div>
-          </div>
-
         </div>
-
       </div>
-    </div>
 
-    <CrossLine></CrossLine>
-    <div class="intent-letter">
-      <div class="clearfix title-div">
-        <div class="partipate-title fl">【企业优势】</div>
-        <div class="language-wrap fr">
-          <div class="language-div">
-            <div class="lag-radio">
-              <div class="item" :class="{active:advActive==1}" @click="advchinese">
-                <i class="icon-radio">
-                  <input type="radio" name=""/>
-                </i>
-                <span>中文</span>
-              </div>
-              <div class="item" :class="{active:advActive==2}" @click="advEnglish">
-                <i class="icon-radio">
-                  <input type="radio" name=""/>
-                </i>
-                <span>英文</span>
+      <CrossLine></CrossLine>
+      <div class="intent-letter">
+        <div class="clearfix title-div">
+          <div class="partipate-title fl">【企业优势】</div>
+          <div class="language-wrap fr">
+            <div class="language-div">
+              <div class="lag-radio">
+                <div class="item" :class="{active:advActive==1}" @click="advchinese">
+                  <i class="icon-radio">
+                    <input type="radio" name=""/>
+                  </i>
+                  <span>中文</span>
+                </div>
+                <div class="item" :class="{active:advActive==2}" @click="advEnglish">
+                  <i class="icon-radio">
+                    <input type="radio" name=""/>
+                  </i>
+                  <span>英文</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="content-div">
-        <div class="adv-content chinese clearfix" v-show="seeLanguage">
-          <intentEdit :moreShow="this.moreShowChAdv" :content="this.chineseAdv"></intentEdit>
-        </div>
-        <div class="adv-content english" v-show="!seeLanguage">
-          <intentEdit :moreShow="this.moreShowEnAdv" :content="this.englishAdv"></intentEdit>
-        </div>
-      </div>
-
-      <div class="upload-wrap">
-        <div class="file-warp">
-          <div class="file">
-            <div class="title">
-              <i class="icon-type icon-pdf"></i>
-              <a>
-                <span class="file-title">建设许可证.pdf</span>
-              </a>
-              <label class="handle">查看</label>
-            </div>
+        <div class="content-div">
+          <div class="adv-content chinese clearfix" v-show="seeLanguage">
+            <intentEdit :moreShow="this.moreShowChAdv" :content="this.chineseAdv"></intentEdit>
           </div>
+          <div class="adv-content english" v-show="!seeLanguage">
+            <intentEdit :moreShow="this.moreShowEnAdv" :content="this.englishAdv"></intentEdit>
+          </div>
+        </div>
 
-          <div class="file">
-            <div class="title">
-              <i class="icon-type icon-pdf"></i>
-              <a>
-                <span class="file-title">建设许可证.pdf</span>
-              </a>
-              <label class="handle">查看</label>
+        <div class="upload-wrap">
+          <div class="file-warp">
+            <div class="file" v-for="(file,index) in capitalInjectionFile" :key="index">
+              <div class="title">
+                <i class="icon-type icon-pdf"></i>
+                <a>
+                  <span class="file-title">{{file.fileName}}</span>
+                </a>
+                <label class="handle" @click="lookFile(file.url)">查看</label>
+              </div>
             </div>
           </div>
 
         </div>
-
       </div>
+
     </div>
-
   </div>
 </template>
 
 <script>
   import CrossLine from '@/components/base/cross-line/cross-line'
   import intentEdit from '@/components/base/intent-edit/intent-edit'
+  import tool from '@/api/tool'
   export default {
     components: {
       CrossLine,
@@ -152,6 +130,15 @@
         chineseAdv: '',
         englishInt: '',
         englishAdv: '',
+        projId:'',
+        companyId:'',
+        projName:'',
+        companyName:'',
+        joinWay:'',
+        investAmount:'',//资金+单位
+        capitalInjectionPhoto:[],//投资意向附件文件
+        capitalInjectionFile:[],//企业优势附件文件
+        lead:''
       };
     },
     props: {},
@@ -176,12 +163,87 @@
         this.advActive = 2;
         this.seeLanguage = false;
       },
-
+      lookFile(fileUrl){
+        // alert(fileUrl);
+        window.location.href = fileUrl;
+      }
     },
     filters: {},
     computed: {},
     created() {
+      this.projId = this.$route.query.projId;
+      this.companyId = this.$route.query.companyId;
+      this.$api.post('/ah/s5/getCompanyProjectConInvest', {projId: this.projId, companyId: this.companyId}).then(r => {
+        if (r.code == 200) {
+          this.projName=r.data.projName.valueCn;
+          this.companyName = r.data.companyName;
+          let order=r.data.order;
+          this.lead=order.isLead ? '领投方':'跟投方';
+          //参与合投的方式
+          this.joinWay=r.data.joinWay.join(",");
+          //参与合投的资金
+          let amount = order.investAmount.amount;
+          if(amount > 10000){
+            this.investAmount=parseInt(amount/10000)+"万"+r.data.currencyName;
+          }else {
+            this.investAmount=parseInt(amount)+r.data.currencyName;
+          }
+          //项目投资意向函信息中英文
+          if (order.capitalInjectionFormNote.setValueCn) {
+            this.chineseInt = order.capitalInjectionFormNote.valueCn;
+          }
+          if (order.capitalInjectionFormNote.setValueEn) {
+            this.englishInt = order.capitalInjectionFormNote.valueEn;
+          }
+          if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
+            this.intentActive = 2;
+            this.seeIntent = false;
+          }
+          //项目企业优势信息中英文
+          if (order.advantageNote.setValueCn) {
+            this.chineseAdv = order.advantageNote.valueCn;
+          }
+          if (order.advantageNote.setValueEn) {
+            this.englishAdv = order.advantageNote.valueEn;
+          }
+          if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
+            this.advActive = 2;
+            this.seeLanguage = false;
+          }
 
+          // capitalInjectionPhoto:'',//投资意向附件文件
+          //   capitalInjectionFile:'',//企业优势附件文件
+          //投资意向函附件
+          if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
+            for (var photo of order.capitalInjectionPhoto) {
+              let a = {
+                fileId: photo.name,
+                fileName: photo.originalName,
+                fileSize: photo.size,
+                url: tool.oos() + photo.name,
+                val: photo.summary.setValueCn ? photo.summary.valueCn : ''
+              }
+              this.capitalInjectionPhoto.push(a);
+            }
+          }
+          //企业优势附件
+          if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
+            for (var file of order.capitalInjectionFile) {
+              let a = {
+                fileId: file.name,
+                fileName: file.originalName,
+                fileSize: file.size,
+                url: tool.oos() + file.name,
+                val: file.summary.setValueCn ? file.summary.valueCn : ''
+              }
+              this.capitalInjectionFile.push(a);
+            }
+          }
+          console.log(r.data);
+        }else if(r.code == 403){
+          tool.toast("权限不足")
+        }
+      });
     },
     mounted() {
     },
