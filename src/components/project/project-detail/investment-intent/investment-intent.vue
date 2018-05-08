@@ -141,7 +141,7 @@
           showInvestDetail(companyId){
             let level = sessionStorage.getItem("userLevel");
             if(level=='5' || level=='2'|| level=='6'|| level=='7'){
-              this.$router.push({path:'/project/project-detail/investment-detail',query: {companyId:companyId}});
+              this.$router.push({path:'/project/project-detail/investment-detail',query: {projId:this.projId,companyId:companyId}});
             }else{
               console.log('权限不足，请升级会员等级');
             }
