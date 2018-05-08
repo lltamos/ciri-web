@@ -66,7 +66,7 @@
             </div>
             <div class="detail fr">
               <router-link to="" class="detail-warp" v-model="companyProgress.companyId">
-                <span class="to-detail">详情</span>
+                <span class="to-detail" @click="showInvestDetail">详情</span>
                 <i class="more"></i>
               </router-link>
             </div>
@@ -137,6 +137,10 @@
               tag=1;
             }
             this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
+          },
+          showInvestDetail(){
+            this.$router.push({path:'/project/project-detail/investment-detail',query: {title:''}});
+
           }
         },
         filters: {},
