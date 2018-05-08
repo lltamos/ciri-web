@@ -5,7 +5,6 @@
     <header class="gradient">源合资讯
       <i class="icon_search" @click="search"></i>
     </header>
-    <cross-line></cross-line>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">

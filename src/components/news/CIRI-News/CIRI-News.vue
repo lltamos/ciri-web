@@ -170,8 +170,11 @@
           color: #fff;
           height: 10px;
           padding: 0 10px;
+          &:after{
+            border: none;
+          }
           .view {
-
+            margin-top: -3px;
             i {
               display: block;
               float: left;

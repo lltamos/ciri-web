@@ -29,16 +29,6 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg"
-                   @focus="Focus">
-          </div>
-        </div>
-        <i class="iconImg icon-password"></i>
-        <div :class="pswIcon" @click="pswShow"></div>
-      </div>
-      <div class="iconWrap">
-        <div class="mint-cell">
-          <div class="mint-cell-wrapper">
             <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="verifyCode" @blur="fixImg"
                    @focus="Focus">
           </div>
@@ -46,6 +36,16 @@
         <i class="iconImg icon-authcode"></i>
         <div class="switch getCodeBg" v-show="showCode" @click="getCode">发送验证码</div>
         <div class="switch getCodeBg" v-show="!showCode">{{count}} s</div>
+      </div>
+      <div class="iconWrap">
+        <div class="mint-cell">
+          <div class="mint-cell-wrapper">
+            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg"
+                   @focus="Focus">
+          </div>
+        </div>
+        <i class="iconImg icon-password"></i>
+        <div :class="pswIcon" @click="pswShow"></div>
       </div>
       <div class="error">
         <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
@@ -265,6 +265,9 @@
 
   .icon-email {
   @include bg-image('./img/email');
+  }
+  .icon-authcode {
+    @include bg-image('./img/authcode');
   }
 
   .iconImg {
