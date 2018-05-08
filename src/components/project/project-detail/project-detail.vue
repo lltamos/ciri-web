@@ -10,7 +10,7 @@
                    :setProjVideo="setProjVideo"
                    :projPhoto="projPhoto"
                    :projAddress="projAddress"
-                   :projMaturity="projMaturity"></projectHeader>
+                   :projMaturity="projMaturity" text="项目详情"></projectHeader>
     <div class="project-intro">
       <h4>
         <i class="left-line"></i><span>项目简介</span>

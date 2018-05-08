@@ -7,7 +7,7 @@
       <div class="search-warp" id="search-warp">
         <div class="search" :class="scrollSearch">
           <i class="icon-search" @click="search"></i>
-          <input type="text" v-model="text" placeholder="项目 投资人">
+          <input type="text" v-model="text" placeholder="项目 投资人" @keyup.enter="search">
         </div>
       </div>
     </div>

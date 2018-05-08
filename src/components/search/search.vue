@@ -81,13 +81,13 @@
     filters: {},
     computed: {},
     created() {
+    },
+    mounted() {
       let temp = this.$route.query.text
       if (!tool.isBank(temp)){
         this.searchValue = temp;
         this.searchKey();
       }
-    },
-    mounted() {
     },
     destroyed() {
     }
