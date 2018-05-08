@@ -2,7 +2,7 @@
   <div class="investment-edit">
     <header class="clearfix">{{this.$route.query.title}}
       <i class="icon-back" @click="back"></i>
-      <span class="submit" @click="back">提交</span>
+      <span class="submit" @click="confrim">提交</span>
     </header>
     <div class="remind">
       （请依据模板完善内容）
@@ -41,14 +41,22 @@
         gbus.$emit('emitRefreshDate', null);
         // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
-      fill() {
+      confrim() {
         sessionStorage.setItem(this.key, this.word);
+        window.history.back();
+        gbus.$emit('emitRefreshDate', null);
+        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
+      },
+      fill() {
+
       }
     },
     props: {},
     created() {
       this.key = this.$route.query.key;
-      this.word = sessionStorage.getItem(this.key);
+      if(sessionStorage.getItem(this.key) != null){
+        this.word = sessionStorage.getItem(this.key);
+      }
     },
     mounted() {
 
