@@ -123,11 +123,12 @@
             tool.toast('登录状态下才能点赞')
             return
           }
+          this.likes = this.likes + 1
+          this.isLikes = true
           this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               if (res.code === 200) {
-                this.likes = this.likes + 1
-                this.isLikes = true
+
               }
           })
         },
