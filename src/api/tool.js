@@ -4,8 +4,8 @@ import moment from 'moment'
 
 export default {
   domind: function () {
-    // return 'http://60.205.7.211:8816'
-    return 'http://192.168.2.27:8080'
+    //return 'http://60.205.7.211:8816'
+    return 'http://127.0.0.1:8080'
   },
   path: function () {
     return '/gateway'
@@ -83,8 +83,7 @@ export default {
     return MessageBox({
       title: '提示',
       message: msg,
-      showCancelButton: true,
-      confirmButtonText:'删除'
+      showCancelButton: true
     });
   },
   replaceAll: function (target, s1, s2) {
