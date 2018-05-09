@@ -13,35 +13,10 @@
   </div>
   <!-- swiper -->
   <swiper :options="swiperOption" id="slider3">
-    <swiper-slide>
+    <swiper-slide if="weekList !=null && weekList.length > 0 " v-for="(week,index) in weekList"  :key="index">
       <div class="invest-finance">
         <h3>投融资周报</h3>
-        <div class="time">02月24日-03月02日</div>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">02月24日-03月02日</div>
-
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">03月24日-04月02日</div>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">04月24日-05月02日</div>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">05月24日-06月02日</div>
+        <div class="time">{{week.title}}</div>
       </div>
     </swiper-slide>
   </swiper>
@@ -110,7 +85,10 @@ export default {
       page: 1,
       articles: null,
       moreText: '查看更多',
-      isIcon: true
+      isIcon: true,
+      weekPageSize:4,//投融资周报每页数据量
+      weekPage:1 ,//页码
+      weekList:[]
     };
   },
   methods: {
@@ -140,6 +118,21 @@ export default {
           }
           this.page = this.page + 1;
         });
+    },
+    weekNew(){
+      //发送请求分页查询数据
+      this.$api.post('/app/news/article/getLevelActive', {
+        page: this.weekPage,
+        rouCount: this.weekPageSize,
+        cid: "1007"
+      }).then(r => {
+        if (r.code == 200) {
+          console.log(this.weekList.length);
+          console.log(r.data);
+          this.weekList=this.weekList.concat(r.data);
+          console.log(this.weekList);
+        }
+      });
     }
   },
   mounted() {
@@ -156,6 +149,8 @@ export default {
         }
       });
     this.loadMore();
+
+    this.weekNew();
   },
   activated() {},
   filters: {

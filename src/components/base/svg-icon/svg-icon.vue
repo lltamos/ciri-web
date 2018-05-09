@@ -16,27 +16,24 @@
     <line x1="257" y1="263.5" x2="700" y2="263.5"></line>
     <polyline fill="none" stroke-miterlimit="10" points="700,350.3 506.5,350.3 236.6,350.3 214.5,322.5"></polyline>
     <text x="700" y="85" text-anchor="end" fill="black">
-      <tspan x="500" y="85"  class="Stitle">项目总投资：</tspan>
+      <tspan x="460" y="85"  class="Stitle">项目总投资：</tspan>
       <tspan x="700" y="85" class=" fz-large c-primary Skey" fill="#333">{{amount}}</tspan>
     </text>
     <text x="700" y="165" text-anchor="end" fill="black">
-      <tspan x="500" y="165">预期收益率：</tspan>
+      <tspan x="460" y="165">预期收益率：</tspan>
       <tspan x="700" y="165" class="fz-large c-primary" fill="#333">{{irr}}%</tspan>
-
     </text>
-
     <text x="700" y="256" text-anchor="end" fill="black">
-      <tspan x="500" y="256">项目开发商：</tspan>
+      <tspan x="460" y="256">项目开发商：</tspan>
       <tspan x="700" y="256" class="fz-large c-primary" fill="#333" v-if="this.projDevelopers != null">
         {{projDevelopers}}
       </tspan>
     </text>
     <text x="700" y="342" text-anchor="end" fill="black">
-      <tspan x="500" y="342">意向投资方：</tspan>
+      <tspan x="460" y="342">意向投资方：</tspan>
       <tspan x="700" y="342" class="c-primary" v-if="potentialInvestorSize != null">{{potentialInvestorSize}}位</tspan>
     </text>
   </svg>
-
 </template>
 
 <script>
