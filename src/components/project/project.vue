@@ -491,7 +491,8 @@
         height: 205px;
         overflow: hidden;
         .recommdnd-card {
-          border: 1px solid #dedede;
+          /*border: 1px solid #dedede;*/
+          @include one-border();
           box-sizing: border-box;
           background: #fff;
           width: 48.7%;
