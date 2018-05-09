@@ -518,7 +518,7 @@
         li {
           float: left;
           line-height: 45px;
-          font-size: 15px;
+          font-size: 17px;
           color: #333;
           margin-right: 18px;
 
