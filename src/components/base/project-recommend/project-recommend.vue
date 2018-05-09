@@ -34,9 +34,8 @@
         </div>
         <ul class="proj-info">
           <li>
-            <em><i class="large">{{project.fund}}</i>{{project.currencyName}}</em>
-            <span>项目总投资</span>
-            <div class="fg-line"></div>
+            <em><i class="large">{{parseFloat(project.financingProgress)}}%</i></em>
+            <span>融资进度</span>
           </li>
           <li>
             <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
@@ -44,8 +43,9 @@
             <div class="fg-line"></div>
           </li>
           <li>
-            <em><i class="large">{{parseFloat(project.financingProgress)}}%</i></em>
-            <span>融资进度</span>
+            <em><i class="large">{{project.fund}}</i>{{project.currencyName}}</em>
+            <span>项目总投资</span>
+            <div class="fg-line"></div>
           </li>
         </ul>
         <div class="tip-news">
@@ -201,7 +201,7 @@
       height: 365px;
       width: 100%;
       margin-top: 14px;
-      border-radius: 3px;
+      border-radius: 7px;
       overflow: hidden;
       box-shadow: 0px 7px 15px #ccc;
       -webkit-box-shadow: 0px 7px 15px #ccc;
@@ -253,7 +253,7 @@
             margin-top: 14px;
           }
           h2 {
-            font-size: 14px;
+            font-size: 16px;
             height: 40px;
             line-height: 40px;
           }
@@ -317,12 +317,12 @@
           }
 
           .yellow {
-            width: 140px;
+            width: 150px;
             font-size: 22px;
             margin-right: 10px;
             text-align: center;
             border: 1px solid #fdb140;
-            zoom:0.5;
+            zoom:0.4;
             -webkit-transform-origin: 100% 100%;
             transform-origin: 100% 100%;
           }
@@ -395,7 +395,7 @@
             em {
               i {
                 color: #3f83e6;
-                font-size: 16px;
+                font-size: 18px;
                 font-style: normal;
               }
             }

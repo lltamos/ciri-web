@@ -431,9 +431,9 @@
 
       span {
         display: block;
-        font-size: 15px;
-        height: 15px;
-        line-height: 15px;
+        font-size: 14px;
+        height: 14px;
+        line-height: 14px;
         margin-top: 8px;
       }
 
@@ -451,21 +451,26 @@
           color: #333;
           flex: 1;
           &.active {
-            color: #3f83e6;
+            color: #528de8;
             @include bottom-bar();
             &:before{
               right:50%;
               margin-right: -14px;
+              height:3px;
+              background:#528de8 ;
             }
           }
         }
         .recommend {
           @include right-bar();
           margin-right: 0;
+          &:after{
+            right:0;
+          }
         }
 
         .case {
-          margin-left: 35px;
+          margin-left: 0px;
 
         }
 
