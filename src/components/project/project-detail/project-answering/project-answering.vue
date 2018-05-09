@@ -113,6 +113,7 @@
               </div>
             </div>
           </div>
+
           <div class="read-more" @click="allQuestion()"
                v-if="questions!=null && questions.length > 0 && page < questionCount/pageSize">
             <span>查看更多</span>
@@ -711,6 +712,7 @@
         }
         p.hint{
           margin-top:10px ;
+          font-size: 13px;
         }
         .pop-bottom{
           height:27px;
@@ -786,13 +788,13 @@
       .question{
         padding: 0 10px;
         .tab{
-          margin:20px 0 5px;
+          margin:15px 0 5px;
           li{
             float:left;
             margin-right: 15px;
             color:#528de8;
             font-size: 10px;
-            width:75px;
+            width:60px;
             height:20px;
             line-height: 20px;
             border-radius: 20px;
@@ -803,6 +805,9 @@
               color:#fff;
             }
 
+          }
+          li:last-child{
+            width: 80px;
           }
         }
         .question-list{
@@ -816,8 +821,8 @@
             }
           }
           .head-portrait{
-            height:45px;
-            width: 45px;
+            height:35px;
+            width: 35px;
             border-radius: 50%;
             overflow: hidden;
             position: absolute;
