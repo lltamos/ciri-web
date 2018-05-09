@@ -80,16 +80,32 @@ export default {
       swiperOption: {
         slidesPerView: 3,
         spaceBetween: 30,
-        freeMode: true
+        freeMode: true,
+        on: {
+          // reachEnd: function () {
+          slideChange: function () {
+            var index = this.activeIndex;
+            // tool.toast(this.activeIndex);
+            // tool.toast(parent.weekList);
+            // tool.toast( index>=this.weekList.length - 3 && index <= this.weekTotal - 3);
+            // if(this.activeIndex >=this.weekList.length - 3 && this.activeIndex < this.weekTotal - 3 ){
+            //   tool.toast(this.weekList.length-this.activeIndex);
+            //   this.weekNew();
+            // }
+          },
+        }
       },
       page: 1,
-      articles: null,
+      articles: [],
       moreText: '查看更多',
       isIcon: true,
-      weekPageSize:4,//投融资周报每页数据量
+      weekPageSize:7,//投融资周报每页数据量
       weekPage:1 ,//页码
+      weekTotal:0,//总数据
       weekList:[]
     };
+  },
+  computed:{
   },
   methods: {
     handleChange(index) {},
@@ -127,10 +143,9 @@ export default {
         cid: "1007"
       }).then(r => {
         if (r.code == 200) {
-          console.log(this.weekList.length);
-          console.log(r.data);
           this.weekList=this.weekList.concat(r.data);
-          console.log(this.weekList);
+          this.weekTotal=r.total;
+          this.page += 1;
         }
       });
     }
@@ -149,7 +164,6 @@ export default {
         }
       });
     this.loadMore();
-
     this.weekNew();
   },
   activated() {},
