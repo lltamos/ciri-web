@@ -578,6 +578,9 @@
             }
             console.log(r.data);
           }
+          else{
+            tool.toast(r.msg)
+          }
         });
       }
       let r = this.investAmount;

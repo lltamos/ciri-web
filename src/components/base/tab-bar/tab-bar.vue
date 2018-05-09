@@ -80,9 +80,9 @@ export default {
       }
       span {
         display: block;
-        font-size: 10px;
-        height:10px;
-        line-height: 10px;
+        font-size: 12px;
+        height:12px;
+        line-height: 12px;
         margin-top: 3px;
       }
       .title-project{
@@ -91,7 +91,7 @@ export default {
     }
 
     li.router-link-active {
-      color: #009fe8;
+      color: #528de8;
     }
 
     .icon-index {

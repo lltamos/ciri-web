@@ -13,6 +13,7 @@
       </div>
       <div class="img">
         <img class="item-pic" v-lazy="project.url" alt="" src="">
+        <div class="icon-success" v-show="successShow"></div>
         <div class="title">
           <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
           <div class="icon-quality fl" v-else>{{project.cornerTagName}}</div>
@@ -36,6 +37,7 @@
           <li>
             <em><i class="large">{{parseFloat(project.financingProgress)}}%</i></em>
             <span>融资进度</span>
+            <div class="fg-line"></div>
           </li>
           <li>
             <em><i class="large">{{parseFloat(project.irr)}}%</i></em>
@@ -45,7 +47,6 @@
           <li>
             <em><i class="large">{{project.fund}}</i>{{project.currencyName}}</em>
             <span>项目总投资</span>
-            <div class="fg-line"></div>
           </li>
         </ul>
         <div class="tip-news">
@@ -79,7 +80,8 @@
         tag: [101001, 101002],
         disabled: false,
         notloading: true,
-        isIcon: true
+        isIcon: true,
+        successShow : true
       }
     },
     props: {
@@ -126,9 +128,14 @@
           }
           this.pageId = this.pageId + 1;
           if (r.data.list.length == 0 || r.data.list.length < 5) {
-            this.moreText = '没有更多了';
+            this.moreText = '请期待更多优质项目';
             this.disabled = 'disabled';
             this.isIcon = false;
+          }
+          if(this.tabPanel==1){
+            this.successShow= false;
+          }else {
+            this.successShow= true;
           }
         });
       },
@@ -230,11 +237,24 @@
           width: 100%;
           height: 100%;
         }
+        .icon-success{
+          position: absolute;
+          bottom:25px;
+          right: 10px;
+          z-index: 5;
+          display: block;
+          width:81px;
+          height:81px;
+          background-size: 81px auto;
+          @include bg-image("../../index/img/icon-success");
+
+        }
         .title {
           overflow: hidden;
           position: absolute;
           bottom:0;
           left: 0;
+          z-index: 6;
           color:#fff;
           background:rgba(51,51,51,.6) ;
           height:40px;
@@ -281,13 +301,12 @@
         }
         .icon-dianzan {
           display: inline-block;
-          width: 9px;
-          height:9px;
+          width: 12px;
+          height:12px;
           background-repeat: no-repeat;
-          background-size: 9px auto;
+          background-size: 12px auto;
           background-position: center;
           @include bg-image("../../index/img/thumb-up");
-          vertical-align: middle;
         }
         .count-warp {
           display: inline-block;
@@ -295,7 +314,7 @@
           line-height: 20px;
         }
         .count {
-          font-size: 7px;
+          font-size: 13px;
         }
       }
       .main-news {
@@ -366,7 +385,7 @@
           span {
             float: left;
             margin-right: 10px;
-            font-size: 10px;
+            font-size: 13px;
             line-height: 1;
             color: #666;
             margin-top: 1px;
@@ -379,7 +398,7 @@
           @include onepx('bottom');
           li {
             flex: 1;
-            font-size: 12px;
+            font-size: 14px;
             color: #777;
             position: relative;
             margin: 13px 0;
@@ -403,7 +422,7 @@
               display: block;
               height: 12px;
               line-height: 1;
-              margin-top: 3px;
+              margin-top:3px;
             }
           }
           .svg-circle {
@@ -436,8 +455,8 @@
       }
     }
     .more {
-      font-size: 12px;
-      color: #3f80e9;
+      font-size: 13px;
+      color: #528de8;
       background: #fff;
       margin-top: 20px;
       text-align: center;
