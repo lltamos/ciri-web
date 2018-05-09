@@ -38,12 +38,18 @@
                 <img v-if="question.headUrl != null && question.headUrl !='' "  v-lazy="question.headUrl"  alt="">
                 <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
               </div>
+              <div class="top-infor">
+                <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
+                <div class="time">{{question.updateTime|time}}</div>
+              </div>
+              <div class="ques-title">{{question.message}}</div>
+
               <div class="main-news">
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
                 <!--<div class="user-name">{{(question.userid == null || question.userid == ""  ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null || question.userid == "" ? "匿名": question.userid)}}</div>-->
-                <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
-                <div class="delete" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
-                <div class="ques-title">{{question.message}}</div>
+
+                <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
+
                 <div class="file-warp">
                   <div class="file" v-if="question.fileMetas != null && question.fileMetas.length !=0 " v-for="(fileMeta,index) in question.fileMetas" :key="index">
                     <i class="icon-type icon-pdf"></i>
@@ -52,12 +58,15 @@
                   </div>
                 </div>
                 <div class="qs-bottom clearfix">
-                  <div class="time fl">{{question.updateTime|time}}</div>
                   <div class="fr dz-hf" >
-                    <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
+                    <div class="dz-wrap">
                       <i class="icon-dz active" v-if="question.likeStatus==true"></i>
                       <i v-else class="icon-dz" ></i>
-                    <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
+                      <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
+                    </div>
+                    <div class="dz-wrap">
+                      <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
+                    </div>
                   </div>
                 </div>
                 <!--回答信息-->
@@ -66,14 +75,14 @@
                   <div class="marked-warp">
                     <div class="marked-words">
                       <div class="user-warp clearfix">
-                        <div class="head-portrait">
+                        <div class="head-portrait small-head-portrait">
                           <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                           <img v-if="ask.headUrl != null && ask.headUrl !='' "  v-lazy="ask.headUrl"  alt="">
                           <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                         </div>
                         <div class="fl">
                           <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                          <div class="delete" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                          <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                           <div class="time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
                           <!--<div class="fr dz-hf">-->
@@ -111,6 +120,7 @@
                   </div>
                 </div>
               </div>
+              <CrossLine></CrossLine>
             </div>
           </div>
 
@@ -132,12 +142,19 @@
               <img v-if="myQuestion.headUrl != null && myQuestion.headUrl !='' "  v-lazy="myQuestion.headUrl"  alt="">
               <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
             </div>
+
+            <div class="top-infor">
+              <div class="user-name">{{myQuestion.userid.length >15 ? myQuestion.userid.substr(0,15)+'...' : myQuestion.userid}}</div>
+              <div class="time">{{myQuestion.updateTime|time}}</div>
+            </div>
+            <div class="ques-title">{{myQuestion.message}}</div>
+
             <div class="main-news">
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
-              <div class="user-name">{{myQuestion.userid.length >15 ? myQuestion.userid.substr(0,15)+'...' : myQuestion.userid}}</div>
-              <div class="delete" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
-              <div class="ques-title">{{myQuestion.message}}</div>
+
+              <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+
               <div class="file-warp">
                 <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
                   <i class="icon-type icon-pdf"></i>
@@ -146,12 +163,15 @@
                 </div>
               </div>
               <div class="qs-bottom clearfix">
-                <div class="time fl">{{myQuestion.updateTime|time}}</div>
                 <div class="fr dz-hf" >
-                  <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
-                  <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
-                  <i v-else class="icon-dz" ></i>
-                  <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                  <div class="dz-wrap">
+                    <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
+                    <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
+                    <i v-else class="icon-dz" ></i>
+                  </div>
+                  <div class="dz-wrap">
+                    <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                  </div>
                 </div>
               </div>
               <!--回答信息-->
@@ -167,7 +187,7 @@
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="delete back-del" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                         <div class="time">{{ask.updateTime|time}}</div>
                         <!--回复点赞数量-->
                       </div>
@@ -196,7 +216,9 @@
                 </div>
               </div>
             </div>
+            <CrossLine></CrossLine>
           </div>
+
           <!--点击加载更多我的问题-->
           <div class="read-more" @click="myQuestion" v-if="myQuestions != null && myQuestions.length>0 && myPage < myQuestionCount/pageSize">
             <span >查看更多</span>
@@ -812,14 +834,7 @@
         }
         .question-list{
           margin-top: 15px;
-          padding-left: 55px;
           position: relative;
-          @include onepx('bottom');
-          &:last-child{
-            &:after{
-              border:none;
-            }
-          }
           .head-portrait{
             height:35px;
             width: 35px;
@@ -833,19 +848,35 @@
               height:100%;
             }
           }
-          .main-news{
+          .top-infor{
+            padding-left: 47px;
+            height: 35px;
             .user-name{
-              font-size: 13px;
-              color:#999;
+              font-size: 15px;
+              color: #333;
               line-height: 1;
-              margin-bottom: 15px;
+              margin-bottom: 3px;
               em{
                 margin-left: 7px;
                 color:#528de8;
                 font-size: 10px;
               }
-
             }
+            .time{
+              color: #666;
+              font-size: 13px;
+            }
+          }
+          .ques-title{
+            font-size: 14px;
+            color:#333;
+            height: 23px;
+            line-height: 23px;
+            margin-top: 15px;
+          }
+          .main-news{
+            padding-left: 17px;
+            margin-bottom: 15px;
             .delete{
               font-size: 12px;
               color:#666;
@@ -853,12 +884,13 @@
               position: absolute;
               right:0;
               top:0;
-            }
-            .ques-title{
-              font-size: 14px;
-              color:#333;
-              line-height: 1;
-
+              text-align: right;
+              background-size: 12px 12px;
+              background-repeat: no-repeat;
+              background-position: 0px center;
+              &.main-del{
+                @include bg-image('../../img/delete-question');
+              }
             }
             .file-warp{
               .file{
@@ -866,13 +898,12 @@
                 line-height: 13px;
                 position: relative;
                 padding-left: 28px;
-                background: #f5f5f5;
-                border-bottom: 1px solid #dedede;
+                border: 1px solid #dedede;
                 &:first-child{
                   margin-top: 10px;
                 }
-                &:last-child{
-                  border-bottom:none;
+                &:nth-child(n+2){
+                  border-top:none;
                 }
                 .icon-type{
                   position: absolute;
@@ -913,27 +944,34 @@
               }
             }
             .qs-bottom{
-              height:12px;
-              line-height: 1;
               font-size: 12px;
-              color:#528de8;
-              padding: 15px 0;
-              .time{
-                color: #666;
-              }
+              color:#666;
+              padding: 11px 0 15px 0px;
               .dz-hf{
-                .icon-dz{
+                .dz-wrap{
+                  width: 57px;
+                  height: 22px;
+                  line-height: 22px;
+                  border: 1px solid #dedede;
+                  border-radius: 30px;
                   display: inline-block;
-                  width: 9px;
-                  height:12px;
-                  @include bg-image('../../img/thumbs-up');
-                  background-size: 9px 12px;
-                  background-repeat: no-repeat;
-                  background-position: center;
-                  margin-right: 10px;
-                  &.active{
-                    @include bg-image('../../img/thumbs-uped')
+                  text-align: center;
+                  .icon-dz{
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    @include bg-image('../../img/thumbs-up');
+                    background-size: 9px 12px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    margin-right: 4px;
+                    &.active{
+                      @include bg-image('../../img/thumbs-uped')
+                    }
                   }
+                }
+                .dz-wrap:first-child{
+                  margin-right: 12px;
                 }
                 .reply{
                   em{
@@ -947,10 +985,7 @@
             .questioner-visible{
               background: #f5f5f5;
               padding:0 10px 15px;
-              margin-bottom: 17px;
-              .file{
-                background: #fff;
-              }
+              border-bottom: 1px dashed #666;
               .marked-words{
                 color:#528de8;
                 font-size: 14px;
@@ -965,18 +1000,37 @@
                 }
                 .user-warp{
                   position: relative;
-                  padding-left: 55px;
-                  .delete{
-                    color: #528de8;
+                  padding-left: 37px;
+                  .small-head-portrait{
+                    width: 25px;
+                    height: 25px;
+                  }
+                  .user-name{
+                    font-size: 14px;
+                    color: #333;
                   }
                   .time{
                     font-size: 12px;
-                    color:#666;
+                    color: #666;
                   }
+                  .delete{
+                    color: #528de8;
+                    width: 41px;
+                    height: 12px;
+                    text-align: right;
+                    background-size: 12px 12px;
+                    background-repeat: no-repeat;
+                    background-position: 0px center;
+                    &.back-del{
+                      @include bg-image('../../img/delete');
+
+                    }
+                  }
+
 
                 }
                 .ques-title{
-                  margin-top: 15px;
+                  font-size: 13px;
                 }
               }
             }
