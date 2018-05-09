@@ -35,9 +35,9 @@
       <div class="partipate-title">【预期投资金额】</div>
       <div class="item-remark">(若您选择非现金方式参与和投，请估算其在该项目中的现金价值)</div>
       <div class="range">
-        <span>-</span>
+        <span @click="reduceAmount" :disabled="investAmount === 0">-</span>
         <input type="text" v-model="investAmount" class="range-input"/>
-        <span>+</span>
+        <span @click="addAmount">+</span>
       </div>
     </div>
     <div class="company">
@@ -262,6 +262,13 @@
       next();
     },
     methods: {
+      reduceAmount(){
+        if(this.investAmount === 0)return;
+        this.investAmount--;
+      },
+      addAmount(){
+        this.investAmount++;
+      },
       leadRadio(index) {
         this.isLead = index;
       },
@@ -720,6 +727,7 @@
         background-color: #dedede;
         margin: 0px 10px;
         border: 1px solid #dedede;
+        padding-left: 10px;
       }
 
     }
