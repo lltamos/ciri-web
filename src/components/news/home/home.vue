@@ -19,34 +19,9 @@
         <div class="time">02月24日-03月02日</div>
       </div>
     </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">02月24日-03月02日</div>
-
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">03月24日-04月02日</div>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">04月24日-05月02日</div>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div class="invest-finance">
-        <h3>投融资周报</h3>
-        <div class="time">05月24日-06月02日</div>
-      </div>
-    </swiper-slide>
   </swiper>
-  <div class="cross-line"></div>
 
+  <div class="cross-line"></div>
      <div class="project" v-for="(article,index) in articles" :key="article.id">
      <router-link   :to="{path:'/news/news-detail/',query: {id: article.id}}">
       <div  v-if="(index+1)%5!==0" class="project2">
@@ -115,6 +90,9 @@ export default {
   },
   methods: {
     handleChange(index) {},
+    getMore(){
+
+    },
     loadMore() {
       let param = tool.buildForm([
         { key: "page", v: this.page },
