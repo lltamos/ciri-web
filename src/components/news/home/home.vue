@@ -14,7 +14,7 @@
   <!-- swiper -->
   <swiper :options="swiperOption" ref="mySwiper" id="slider3">
     <swiper-slide if="weekList !=null && weekList.length > 0 " v-for="(week,index) in weekList"  :key="index">
-      <div class="invest-finance">
+      <div class="invest-finance"  @click="lookWeek(week.id)">
         <h3>投融资周报</h3>
         <div class="time">{{week.title}}</div>
       </div>
@@ -152,6 +152,10 @@ export default {
           console.log(this.weekList);
         }
       });
+    },
+    //查看投融资周报详情
+    lookWeek(articleId){
+      this.$router.push({path:'/news/news-detail/',query: {id: articleId}});
     }
   },
   mounted() {

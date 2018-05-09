@@ -255,7 +255,6 @@
       },
       //查看投融资周报详情
       lookWeek(articleId){
-        alert(articleId);
         this.$router.push({path:'/news/news-detail/',query: {id: articleId}});
       }
     }
