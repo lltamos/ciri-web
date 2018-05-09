@@ -19,7 +19,7 @@
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
-            <li v-for='item in items'>{{item.length>20 ? item.substr(0,20)+'...' :item }}</li>
+            <li v-for='item in items'>{{item.length>18 ? item.substr(0,18)+'...' :item }}</li>
           </ul>
         </div>
       </div>
