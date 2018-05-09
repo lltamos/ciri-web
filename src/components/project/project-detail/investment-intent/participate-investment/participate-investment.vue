@@ -1,5 +1,8 @@
 <template>
   <div class="participate">
+    <header class="clearfix">发布合投意向
+      <i class="icon-back" @click="back"></i>
+    </header>
     <div class="remind">
       请完善投资意向，并上传意向函扫描件，<br/>项目发起人将第一时间与您联系。
     </div>
@@ -35,9 +38,9 @@
       <div class="partipate-title">【预期投资金额】</div>
       <div class="item-remark">(若您选择非现金方式参与和投，请估算其在该项目中的现金价值)</div>
       <div class="range">
-        <span>-</span>
-        <input type="text" v-model="investAmount" class="range-input"/>
-        <span>+</span>
+        <span @click="reduceAmount" :disabled="investAmount === 0">-</span>
+        <input type="text" v-model="investAmount" class="range-input" ref="amountInput"/>
+        <span @click="addAmount">+</span>
       </div>
     </div>
     <div class="company">
@@ -85,25 +88,10 @@
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
         <div class="adv-content chinese clearfix" v-show="seeIntent">
-          <!--<div :class="article">
-            {{this.chineseInt}}
-          </div>
-          <div class="read-more" @click="readMore" v-show="moreShowChInt">
-            <span v-text="moreText">展开</span>
-            <i :class="iconMore"></i>
-          </div>-->
           <intentEdit :moreShow="this.moreShowChInt" :content="this.chineseInt"></intentEdit>
         </div>
         <div class="adv-content english" v-show="!seeIntent">
-          <!--<div class="article">
-            {{this.englishInt}}
-          </div>
-          <div class="read-more" @click="readMore" v-show="moreShowEnInt">
-            <span v-text="moreText">展开</span>
-            <i :class="iconMore"></i>
-          </div>-->
           <intentEdit :moreShow="this.moreShowEnInt" :content="this.englishInt"></intentEdit>
-
         </div>
       </div>
 
@@ -231,7 +219,7 @@
         chineseInt: '',
         chineseAdv: '',
         englishInt: '',
-        englishAdv: '',
+        englishAdv: ''
       }
     },
     props: {},
@@ -262,6 +250,21 @@
       next();
     },
     methods: {
+      back() {
+        window.history.back();
+      },
+      reduceAmount(){
+        if(this.investAmount>0){
+          this.investAmount = parseInt(this.investAmount - 0) - parseInt((this.investAmount - 0) * 0.05);
+        }
+      },
+      addAmount(){
+        if(this.investAmount==0){
+          this.investAmount = parseInt(this.investAmount - 0) +100;
+        }else if(this.investAmount>0){
+          this.investAmount = parseInt(this.investAmount - 0) + parseInt((this.investAmount - 0) * 0.05);
+        }
+      },
       leadRadio(index) {
         this.isLead = index;
       },
@@ -577,6 +580,10 @@
           }
         });
       }
+      let r = this.investAmount;
+      console.log(this.investAmount);
+      this.flag = r;
+      console.log(this.flag);
       gbus.$on('emitRefreshDate', () => {
         this.fillAdv();
         this.fillAdvEn();
@@ -598,6 +605,24 @@
   @import '~@/assets/scss/mixin.scss';
   .participate{
     text-align: left;
+    header {
+      height: 44px;
+      line-height: 44px;
+      font-size: 20px;
+      color: #333;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid #dedede;
+      .icon-back {
+        display: block;
+        float: left;
+        width: 22px;
+        height: 22px;
+        margin: 11px auto;
+        @include bg-image("../../../img/icon-back");
+        background-size: 22px auto;
+      }
+    }
     .remind{
       padding: 7px 17px;
       height:30px;
@@ -720,6 +745,7 @@
         background-color: #dedede;
         margin: 0px 10px;
         border: 1px solid #dedede;
+        padding-left: 10px;
       }
 
     }

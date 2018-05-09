@@ -33,7 +33,7 @@
                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
            'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
                :btnTitle='parseAccessMode(msg.accessmode)'
-               :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
+               :btnShow='false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
         <button @click="loadMore()" :disabled="this.disabled" class="more">
           <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
         </button>

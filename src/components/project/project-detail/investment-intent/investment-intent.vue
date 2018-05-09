@@ -50,7 +50,7 @@
           </div>
           <div class="line">
             <div class="bg"></div>
-            <div class="now" :style="{'width':projectProgress.financingProgress + '%'}"></div>
+            <div class="now" :style="{'width':(projectProgress.financingProgress>100 ? 100 : projectProgress.financingProgress) + '%'}"></div>
           </div>
           <div class="time">
             <div>合投结束时间：<span>{{projectProgress.endTime}}</span></div>

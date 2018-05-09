@@ -62,8 +62,8 @@
     <CrossLine></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
-        <div class="recommend fl tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
-        <div class="case fl tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
+        <div class="recommend tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>
+        <div class="case tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">成功案例</div>
       </div>
     </div>
     <div id="index-industry" :class="{active:tabActive==1}">
@@ -316,7 +316,7 @@
 
       .anno {
         display: inline-block;
-        font-size: 11px;
+        font-size: 12px;
         height: 30px;
         line-height: 30px;
         padding-left: 65px;
@@ -355,8 +355,8 @@
       }
     }
     #slider3 {
-      margin-top: 17px;
-      margin-bottom: 13px;
+      padding-top: 17px;
+      padding-bottom: 13px;
       .swiper-slide{width:110px; margin: 0 10px !important;}
       .invest-finance {
         width: 110px;
@@ -365,6 +365,7 @@
         @include bg-image("../news/img/slider-bg");
         background-size: 110px auto;
         text-align: center;
+        box-shadow: 0px 3px 7px #eee;
         h3 {
           font-size: 14px;
           color: #666;
@@ -372,7 +373,7 @@
           line-height: 35px;
         }
         .time {
-          font-size: 11px;
+          font-size: 12px;
           color: #3f83e6;
           height: 20px;
           line-height: 20px;
@@ -430,9 +431,9 @@
 
       span {
         display: block;
-        font-size: 15px;
-        height: 15px;
-        line-height: 15px;
+        font-size: 14px;
+        height: 14px;
+        line-height: 14px;
         margin-top: 8px;
       }
 
@@ -443,22 +444,33 @@
       .tab-project {
         height: 40px;
         line-height: 40px;
-        margin: auto;
-        display: table;
-        font-size: 16px;
+        font-size: 17px;
+        display: flex;
+        flex-direction: row;
         .tab-box {
           color: #333;
+          flex: 1;
           &.active {
-            color: #3f83e6;
+            color: #528de8;
             @include bottom-bar();
+            &:before{
+              right:50%;
+              margin-right: -14px;
+              height:3px;
+              background:#528de8 ;
+            }
           }
         }
         .recommend {
           @include right-bar();
+          margin-right: 0;
+          &:after{
+            right:0;
+          }
         }
 
         .case {
-          margin-left: 35px;
+          margin-left: 0px;
 
         }
 

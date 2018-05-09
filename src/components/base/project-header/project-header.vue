@@ -9,7 +9,7 @@
       <div class="img">
         <div class="icon-state">{{status}}</div>
         <img v-lazy="projPhoto" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
-      <div class="project-number">编号 <span>76000008</span></div>
+      <div class="project-number">编号 <span>{{this.$route.query.projId}}</span></div>
       <div class="main-news">
         <div class="title">
           <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{cornerTag}}
@@ -93,6 +93,7 @@
       }
     },
     created() {
+      console.log(this.$route.query.projId);
     },
     mounted() {
     }
@@ -186,7 +187,7 @@
       .project-number{
         position: absolute;
         top:81px;
-        left: 24px;
+        left: 20px;
         font-size: 11px;
         line-height: 11px;
         color:#333;

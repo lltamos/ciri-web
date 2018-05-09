@@ -341,7 +341,7 @@
       },
       //删除交流信息
       deleteAsk(chatId){
-        MessageBox.confirm('确定删除吗?').then(action => {
+        MessageBox.confirm('确认要删除这个回复吗?').then(action => {
           this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
             if(r.code==200){
               tool.toast('删除成功');

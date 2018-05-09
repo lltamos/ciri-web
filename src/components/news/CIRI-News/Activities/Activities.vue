@@ -71,7 +71,7 @@
           {key: "tag", v: 2010}
         ]);
         this.axios
-          .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+          .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
           .then(res => {
             if (res.data.code === 200) {
               if (this.page === 1) {
