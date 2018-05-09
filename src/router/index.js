@@ -222,17 +222,17 @@ export default new Router({
             requireAuth: true,
           },
           component: InvestmentIntent
-        },
-        //参与合投
-        {
-          path: 'investment-intent/participate-investment',
-          meta: {
-            requireAuth: true,
-            keepAlive: true
-          },
-          component: ParticipateInvestment,
         }
       ]
+    },
+    //参与合投
+    {
+      path: '/project/project-detail/investment-intent/participate-investment',
+      meta: {
+        requireAuth: true,
+        keepAlive: true
+      },
+      component: ParticipateInvestment,
     },
     // 投资意向编辑页
     {
