@@ -12,13 +12,19 @@
     </mt-swipe>
   </div>
   <!-- swiper -->
-  <swiper :options="swiperOption" id="slider3">
+  <swiper :options="swiperOption" ref="mySwiper" id="slider3">
     <swiper-slide if="weekList !=null && weekList.length > 0 " v-for="(week,index) in weekList"  :key="index">
       <div class="invest-finance">
         <h3>投融资周报</h3>
         <div class="time">{{week.title}}</div>
       </div>
     </swiper-slide>
+    <!--<swiper-slide v-for="(week,index) in weekList1"  :key="index">-->
+      <!--<div class="invest-finance">-->
+        <!--<h3>投融资周报</h3>-->
+        <!--<div class="time">{{week.title}}</div>-->
+      <!--</div>-->
+    <!--</swiper-slide>-->
   </swiper>
   <div class="cross-line"></div>
 
@@ -80,7 +86,12 @@ export default {
       swiperOption: {
         slidesPerView: 3,
         spaceBetween: 30,
-        freeMode: true
+        freeMode: true,
+        on:{
+          slidePrevTransitionEnd: function(){
+            alert('切换结束了');
+          },
+        },
       },
       page: 1,
       articles: null,
@@ -88,8 +99,16 @@ export default {
       isIcon: true,
       weekPageSize:4,//投融资周报每页数据量
       weekPage:1 ,//页码
-      weekList:[]
+      weekList:[],
+      translate: null
     };
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper
+    }
+  },
+  watch: {
   },
   methods: {
     handleChange(index) {},
@@ -128,7 +147,7 @@ export default {
       }).then(r => {
         if (r.code == 200) {
           console.log(this.weekList.length);
-          console.log(r.data);
+          // console.log(r.data);
           this.weekList=this.weekList.concat(r.data);
           console.log(this.weekList);
         }
@@ -151,6 +170,12 @@ export default {
     this.loadMore();
 
     this.weekNew();
+
+    console.log('this is current swiper instance object', this.swiper);
+    console.log(this.swiper);
+
+
+
   },
   activated() {},
   filters: {

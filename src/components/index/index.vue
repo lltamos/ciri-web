@@ -561,7 +561,7 @@
             height: 36px;
             line-height: 16px;
             border: 1px solid #dedede;
-            border-radius: 3px;
+            border-radius: 5px;
             padding: 0 3.4%;
             margin-top: 11px;
             margin-bottom: 13px;
@@ -573,7 +573,7 @@
             background: #fff;
             outline: 0;
             border: 1px solid #dedede;
-            border-radius: 3px;
+            border-radius: 5px;
             padding: 3.4%;
             line-height: 16px;
             height: 101px;
@@ -586,7 +586,10 @@
             height: 35px;
             line-height: 35px;
             float: right;
+            border-radius: 5px;
             margin-bottom: 17px;
+            font-size: 16px;
+            background: #528de8;
           }
 
         }
