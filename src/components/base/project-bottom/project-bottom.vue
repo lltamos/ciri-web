@@ -1,7 +1,7 @@
 <template>
   <div class="project-bottom">
     <ul class="tab-warp">
-      <li class="back">
+      <li class="back" @click="backProject">
         <i class="icon-back"></i>
         <span>返回</span>
       </li>
@@ -53,6 +53,10 @@
       projId: Number
     },
     methods: {
+      //返回到列表页
+      backProject(){
+        this.$router.push('/project');
+      },
       collect () {
         if (tool.getuser() === null) {
           this.$router.replace({path: '/login'})
