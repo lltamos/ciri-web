@@ -153,7 +153,7 @@
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
 
-              <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
 
               <div class="file-warp">
                 <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
@@ -808,9 +808,10 @@
         z-index: 999;
       }
       .question{
-        padding: 0 10px;
+        /*padding: 0 10px;*/
         .tab{
           margin:15px 0 5px;
+          padding: 0 10px;
           li{
             float:left;
             margin-right: 15px;
@@ -842,14 +843,14 @@
             overflow: hidden;
             position: absolute;
             top:0;
-            left: 0;
+            left: 10px;
             img{
               width: 100%;
               height:100%;
             }
           }
           .top-infor{
-            padding-left: 47px;
+            padding-left: 57px;
             height: 35px;
             .user-name{
               font-size: 15px;
@@ -873,9 +874,10 @@
             height: 23px;
             line-height: 23px;
             margin-top: 15px;
+            padding-left: 10px;
           }
           .main-news{
-            padding-left: 17px;
+            padding: 0 10px 0px 27px;
             margin-bottom: 15px;
             .delete{
               font-size: 12px;

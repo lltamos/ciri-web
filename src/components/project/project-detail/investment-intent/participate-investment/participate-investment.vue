@@ -41,6 +41,7 @@
         <span class="range-amount fl" @click="reduceAmount" :disabled="investAmount <= 20">-</span>
         <input type="text" v-model="investAmount" class="range-input fl" ref="amountInput"/>
         <span class="range-amount fl" @click="addAmount">+</span>
+        <span class="range-word fl">万</span>
       </div>
     </div>
     <div class="company">
@@ -740,6 +741,13 @@
           height: 22px;
           background-color: #dedede;
           text-align: center;
+        }
+        .range-word{
+          display: inline-block;
+          height: 22px;
+          line-height: 22px;
+          margin-left: 6px;
+          color: #528de8;
         }
         input{
           display: inline-block;
