@@ -318,7 +318,7 @@
         }
       }
       .main-news {
-        height: 142px;
+        height: 144px;
         box-sizing: border-box;
         position: relative;
         padding: 15px 10px;
@@ -365,9 +365,9 @@
             display: block;
             float: left;
             margin-right: 6px;
-            width: 10px;
-            height: 10px;
-            background-size: 10px auto;
+            width: 13px;
+            height: 13px;
+            background-size: 13px auto;
           }
           .loc {
             @include bg-image("../img/location");
@@ -388,7 +388,6 @@
             font-size: 13px;
             line-height: 1;
             color: #666;
-            margin-top: 1px;
           }
         }
         .proj-info {
