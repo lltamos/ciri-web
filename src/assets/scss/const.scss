@@ -153,8 +153,28 @@ background: #3f83e6;
 
 //删除弹框样式调整
 .mint-msgbox-wrapper{
+  .mint-msgbox{
+    border-radius: 6px;}
   .mint-msgbox-title{
     display: none;
+  }
+  .mint-msgbox-content{
+    min-height: auto;
+    padding:40px 20px 32px;
+    .mint-msgbox-message{
+      color:#333;
+      font-size: 16px;
+      line-height: 1;
+    }
+  }
+  .mint-msgbox-btn{
+    font-size: 18px;
+    line-height: 45px;
+    color:#333;
+    font-weight: normal;
+  }
+  .mint-msgbox-confirm{
+    color:#528de8;
   }
 }
 
