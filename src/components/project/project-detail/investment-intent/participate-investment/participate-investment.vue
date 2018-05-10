@@ -37,10 +37,10 @@
     <div class="money">
       <div class="partipate-title">【预期投资金额】</div>
       <div class="item-remark">(若您选择非现金方式参与和投，请估算其在该项目中的现金价值)</div>
-      <div class="range">
-        <span @click="reduceAmount" :disabled="investAmount === 0">-</span>
-        <input type="text" v-model="investAmount" class="range-input" ref="amountInput"/>
-        <span @click="addAmount">+</span>
+      <div class="range clearfix">
+        <span class="range-amount fl" @click="reduceAmount" :disabled="investAmount <= 20">-</span>
+        <input type="text" v-model="investAmount" class="range-input fl" ref="amountInput"/>
+        <span class="range-amount fl" @click="addAmount">+</span>
       </div>
     </div>
     <div class="company">
@@ -254,16 +254,12 @@
         window.history.back();
       },
       reduceAmount(){
-        if(this.investAmount>0){
-          this.investAmount = parseInt(this.investAmount - 0) - parseInt((this.investAmount - 0) * 0.05);
+        if(this.investAmount>20){
+          this.investAmount -= 20;
         }
       },
       addAmount(){
-        if(this.investAmount==0){
-          this.investAmount = parseInt(this.investAmount - 0) +100;
-        }else if(this.investAmount>0){
-          this.investAmount = parseInt(this.investAmount - 0) + parseInt((this.investAmount - 0) * 0.05);
-        }
+        this.investAmount += 20;
       },
       leadRadio(index) {
         this.isLead = index;
@@ -738,17 +734,22 @@
         margin: 15px 0px 0px 45px;
         font-size: 13px;
         color: #333;
-        span,input{
+        .range-amount{
+          display: inline-block;
+          width: 18px;
+          height: 22px;
+          background-color: #dedede;
+          text-align: center;
+        }
+        input{
           display: inline-block;
         }
       }
       .range-input{
-        width: 45px;
+        width: 65px;
         height: 20px;
-        background-color: #dedede;
-        margin: 0px 10px;
-        border: 1px solid #dedede;
-        padding-left: 10px;
+        border: 1px solid #b8b8b8;
+        text-align: center;
       }
 
     }
