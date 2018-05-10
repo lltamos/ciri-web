@@ -65,8 +65,8 @@
         }
       }
       li.router-link-active{
-        background: #3f83e6;
-        color:#fff;
+        border: 1px solid #528de8;
+        color:#528de8;
       }
     }
   }
