@@ -188,45 +188,44 @@
       // let url = location.href.split('#')[0];
       let url = 'test.bjciri.com'
       this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
-        if (res.code == 200) {
-          wxconfig.timestamp = res.data.timestamp;
-          wxconfig.signature = res.data.signature;
-          wxconfig.noncestr = res.data.noncestr;
-          console.log(res)
-          wx.config(wxconfig);
-          wx.ready(function () {
-            // 在这里调用 API
-            wx.onMenuShareTimeline({
-              title: 'test',
-              link: url,
-              imgUrl: 'test',
-              success: function () {
-                // 用户确认分享后执行的回调函数
-                alert(1)
-              },
-              cancel: function () {
-                // 用户取消分享后执行的回调函数
-                alert(2)
-              }
-            });
+          if (res.code == 200) {
+            wxconfig.timestamp = res.data.timestamp;
+            wxconfig.signature = res.data.signature;
+            wxconfig.noncestr = res.data.noncestr;
+            console.log(res)
+            wx.config(wxconfig);
+            wx.ready(function () {
+              // 在这里调用 API
+              wx.onMenuShareTimeline({
+                title: 'test',
+                link: url,
+                imgUrl: 'test',
+                success: function () {
+                  // 用户确认分享后执行的回调函数
+                  alert(1)
+                },
+                cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                  alert(2)
+                }
+              });
 
-            wx.onMenuShareAppMessage({
-              title: 'xxxxxxxxxxx', // 分享标题
-              desc: 'xxxxxxxxxxx', // 分享描述
-              link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-              imgUrl: 'xxxxxxxxxx', // 分享图标
-              type: '', // 分享类型,music、video或link，不填默认为link
-              dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-              success: function () {
-                // 用户确认分享后执行的回调函数
-              },
-              cancel: function () {
-                // 用户取消分享后执行的回调函数
-              }
+              wx.onMenuShareAppMessage({
+                title: 'xxxxxxxxxxx', // 分享标题
+                desc: 'xxxxxxxxxxx', // 分享描述
+                link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: 'xxxxxxxxxx', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                  // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                }
+              });
             });
-
           }
-
 
         }
       );
