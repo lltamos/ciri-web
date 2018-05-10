@@ -88,10 +88,10 @@ export default {
         spaceBetween: 30,
         freeMode: true,
         on:{
-          slidePrevTransitionEnd: function(){
-            alert('切换结束了');
-          },
-        },
+          slidePrevTransitionEnd:()=>{
+            console.log(this);
+          }
+        }
       },
       page: 1,
       articles: null,
@@ -174,12 +174,7 @@ export default {
     this.loadMore();
 
     this.weekNew();
-
-    console.log('this is current swiper instance object', this.swiper);
-    console.log(this.swiper);
-
-
-
+    // console.log(this.swiper);
   },
   activated() {},
   filters: {
