@@ -186,11 +186,12 @@
         if (tool.getuser() === null) {
           this.$router.replace({path: '/login'})
         }
+        this.likes = this.likes + 1
+        this.isLikes = true
         this.$api.post('/pb/s0/l/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
           if (res.code === 200) {
-            this.likes = this.likes + 1
-            this.isLikes = true
+
           }
         })
       },
