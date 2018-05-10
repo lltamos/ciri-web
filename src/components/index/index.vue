@@ -165,9 +165,17 @@
         swiperOption2: {
           slidesPerView: 3,
           spaceBetween: 30,
-          freeMode: true
+          freeMode: true,
+          on:{
+            slidePrevTransitionEnd:()=>{
+              // console.log(this.weekList);
+              if(this.weekList != null && this.weekList.length >= 0 && this.weekList.length <this.weekTotal){
+                this.weekNew()
+              }
+            }
+          }
         },
-        weekPageSize:7,//投融资周报每页数据量
+        weekPageSize:4,//投融资周报每页数据量
         weekPage:1 ,//页码
         weekTotal:0,//总数据
         weekList:[],
