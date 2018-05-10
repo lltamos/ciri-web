@@ -117,6 +117,9 @@ export default {
   methods: {
     handleChange(index) {},
     loadMore() {
+      if(!this.isIcon){
+        return
+      }
       let param = tool.buildForm([
         { key: "page", v: this.page },
         { key: "rouCount", v: 10 },
@@ -126,13 +129,13 @@ export default {
         .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
         .then(res => {
           if (res.data.code === 200) {
-            if (this.page === 1) {
+            if (this.page === 1 || this.articles == null) {
               this.articles = res.data.data;
             } else {
               this.articles = this.articles.concat(res.data.data);
             }
             // this.isMore = this.articles.length != res.data.total;
-            if(this.articles.length != res.data.total){
+            if(this.articles.length < res.data.total){
               this.moreText='查看更多'
             }else{
               this.moreText='没有更多了';
@@ -153,7 +156,7 @@ export default {
           console.log(this.weekList.length);
           this.weekList=this.weekList.concat(r.data);
           this.weekTotal=r.total;
-          this.page += 1;
+          this.weekPage += 1;
         }
       });
     },
