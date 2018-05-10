@@ -72,7 +72,7 @@
           .post(tool.domind() + "/gateway/app/news/article/getArticles", param)
           .then(res => {
             if (res.data.code === 200) {
-              if (this.page === 1) {
+              if (this.page === 1 || this.articles == null) {
                 this.articles = res.data.data;
               } else {
                 this.articles = this.articles.concat(res.data.data);
