@@ -188,11 +188,18 @@
       let url = 'test.bjciri.com'
       this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
           if (res.code == 200) {
-            wxconfig.timestamp = res.data.timestamp;
-            wxconfig.signature = res.data.signature;
-            wxconfig.nonceStr = res.data.noncestr;
+//            wxconfig.timestamp = res.data.timestamp;
+//            wxconfig.signature = res.data.signature;
+//            wxconfig.nonceStr = res.data.noncestr;
             console.log(res)
-            wx.config(wxconfig);
+            wx.config({
+              debug: true,
+              appId: 'wx28d44097b0f145cb',
+              timestamp: res.data.timestamp,
+              nonceStr: res.data.noncestr,
+              signature: res.data.signature,
+              jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
+            });
             wx.ready(function () {
               wx.onMenuShareTimeline({
                 title: 'test',
@@ -231,159 +238,187 @@
   @import "~@/assets/scss/reset.scss";
 
   .project-land {
-    .project-intro {
-      text-align: left;
-      h4 {
-        overflow: hidden;
-        line-height: 1;
-        height: 16px;
-        padding: 15px 10px 12px 15px;
-        color: #333;
-        font-size: 16px;
-        font-weight: normal;
-        position: relative;
-        .border {
-          margin-top: 7px;
-        }
-        .title-intro {
-          font-size: 15px;
-          line-height: 1;
-          position: absolute;
-          left: 50%;
-          top: 12px;
-          margin-left: -40px;
-          width: 60px;
-          padding: 0 10px;
-          background-color: #fff;
-        }
-        .left-line {
-          position: absolute;
-          display: block;
-          width: 3px;
-          height: 15px;
-          background-color: #528de8;
-          left: 0;
-          top: 12px;
-        }
-        span {
 
-        }
-        .detail-warp {
-          position: absolute;
-          right: 0;
-          top: 0;
-          height: 40px;
-          line-height: 1;
-          .to-detail {
-            display: inline-block;
-            font-size: 13px;
-            color: #528de8;
+  .project-intro {
+    text-align: left;
 
-          }
-          .more {
-            display: inline-block;
-            width: 10px;
-            height: 40px;
-            background-repeat: no-repeat;
-            background-size: 10px auto;
-            background-position: center;
-            @include bg-image("../img/to-detail");
-            vertical-align: middle;
-          }
-        }
-      }
-      .document-txt {
-        padding: 10px;
-        font-size: 13px;
-        color: #333;
-        line-height: 20px;
-      }
-      .btn-warp {
-        display: table;
-        margin: -5px auto 25px;
-        .thumbs-up {
-          display: inline-block;
-          border: 1px solid #dedede;
-          color: #999;
-          font-size: 11px;
-          height: 23px;
-          padding: 0 8px;
-          line-height: 1;
-          border-radius: 23px;
-          &.active {
-            background: #4285f4;
-            color: #fff;
-            .icon-dianzan {
-              @include bg-image("../../index/img/thumb-uped");
-            }
-          }
-          .icon-dianzan {
-            display: inline-block;
-            width: 11px;
-            height: 23px;
-            background-repeat: no-repeat;
-            background-size: 11px auto;
-            background-position: center;
-            @include bg-image("../../index/img/thumb-up");
-            vertical-align: bottom;
-          }
-          .count-warp {
-            display: inline-block;
-            height: 23px;
-            line-height: 23px;
-          }
-          .count {
-            font-size: 11px;
-          }
-        }
-        .share {
-          margin-left: 25px;
-          .icon-dianzan {
-            @include bg-image("../../base/img/bottom-share");
-          }
-        }
-      }
-    }
-    .project-detail {
-      padding: 15px 10px;
-      .title-warp {
-        position: relative;
-        .border-line {
-          margin-top: 7px;
-          @include onepx();
-        }
-        .title {
-          font-size: 15px;
-          line-height: 1;
-          position: absolute;
-          left: 50%;
-          top: -7px;
-          margin-left: -40px;
-          width: 60px;
-          padding: 0 10px;
-          background-color: #fff;
-        }
-      }
-      .img {
-        width: 100%;
-        height: 252px;
-        margin-top: 30px;
-        margin-bottom: 25px;
-        img {
-          height: 100%;
-          width: 100%;
-        }
-      }
-      .view-detail {
-        width: 150px;
-        height: 30px;
-        font-size: 13px;
-        color: #fefeff;
-        margin: auto;
-        display: table;
-        margin-bottom: 15px;
-      }
-    }
+  h4 {
+    overflow: hidden;
+    line-height: 1;
+    height: 16px;
+    padding: 15px 10px 12px 15px;
+    color: #333;
+    font-size: 16px;
+    font-weight: normal;
+    position: relative;
+
+  .border {
+    margin-top: 7px;
+  }
+
+  .title-intro {
+    font-size: 15px;
+    line-height: 1;
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    margin-left: -40px;
+    width: 60px;
+    padding: 0 10px;
+    background-color: #fff;
+  }
+
+  .left-line {
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 15px;
+    background-color: #528de8;
+    left: 0;
+    top: 12px;
+  }
+
+  span {
+
+  }
+
+  .detail-warp {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 40px;
+    line-height: 1;
+
+  .to-detail {
+    display: inline-block;
+    font-size: 13px;
+    color: #528de8;
+
+  }
+
+  .more {
+    display: inline-block;
+    width: 10px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: 10px auto;
+    background-position: center;
+  @include bg-image("../img/to-detail");
+    vertical-align: middle;
+  }
+
+  }
+  }
+  .document-txt {
+    padding: 10px;
+    font-size: 13px;
+    color: #333;
+    line-height: 20px;
+  }
+
+  .btn-warp {
+    display: table;
+    margin: -5px auto 25px;
+
+  .thumbs-up {
+    display: inline-block;
+    border: 1px solid #dedede;
+    color: #999;
+    font-size: 11px;
+    height: 23px;
+    padding: 0 8px;
+    line-height: 1;
+    border-radius: 23px;
+
+  &
+  .active {
+    background: #4285f4;
+    color: #fff;
+
+  .icon-dianzan {
+  @include bg-image("../../index/img/thumb-uped");
+  }
+
+  }
+  .icon-dianzan {
+    display: inline-block;
+    width: 11px;
+    height: 23px;
+    background-repeat: no-repeat;
+    background-size: 11px auto;
+    background-position: center;
+  @include bg-image("../../index/img/thumb-up");
+    vertical-align: bottom;
+  }
+
+  .count-warp {
+    display: inline-block;
+    height: 23px;
+    line-height: 23px;
+  }
+
+  .count {
+    font-size: 11px;
+  }
+
+  }
+  .share {
+    margin-left: 25px;
+
+  .icon-dianzan {
+  @include bg-image("../../base/img/bottom-share");
+  }
+
+  }
+  }
+  }
+  .project-detail {
+    padding: 15px 10px;
+
+  .title-warp {
+    position: relative;
+
+  .border-line {
+    margin-top: 7px;
+  @include onepx();
+  }
+
+  .title {
+    font-size: 15px;
+    line-height: 1;
+    position: absolute;
+    left: 50%;
+    top: -7px;
+    margin-left: -40px;
+    width: 60px;
+    padding: 0 10px;
+    background-color: #fff;
+  }
+
+  }
+  .img {
+    width: 100%;
+    height: 252px;
+    margin-top: 30px;
+    margin-bottom: 25px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+
+  }
+  .view-detail {
+    width: 150px;
+    height: 30px;
+    font-size: 13px;
+    color: #fefeff;
+    margin: auto;
+    display: table;
+    margin-bottom: 15px;
+  }
+
+  }
   }
 
 </style>
