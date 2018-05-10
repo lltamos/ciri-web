@@ -9,7 +9,7 @@
           <div class="img">
             <div class="icon-state">{{pro.status}}</div>
             <img v-lazy="pro.url" alt="" width="100%" height="100%">
-            <i @click="favorite($event,pro.projId)" class="favorite icon-favorite"></i>
+            <i v-tap.prevent="{methods : favorite ,projId:pro.projId}" :id="'projId' + pro.projId" class="favorite icon-favorite"></i>
           </div>
           <div class="main-news">
             <div class="title">
@@ -102,8 +102,9 @@
         this.unfavorite();
         window.history.back()
       },
-      favorite(e, projId) {
-        let element = e.currentTarget;
+      favorite(obj) {
+        let projId = obj.projId;
+        let element = document.getElementById('projId' + projId);
         if (element.classList.contains('quit-favorite')) {
           this.proArray.pop(projId);
         } else {
