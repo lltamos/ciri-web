@@ -522,7 +522,9 @@
           color: #333;
         }
         li.router-link-active {
-          border-bottom: 2px solid #333;
+          border-bottom: 2px solid #258de8;
+          color: #528de8;
+          font-weight: 500;
         }
 
       }
