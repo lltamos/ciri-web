@@ -514,20 +514,12 @@
       .project-tab {
         height: 45px;
         text-align: center;
-        margin: auto;
-        display: table;
+        display: flex;
+        justify-content: space-evenly;
         li {
-          float: left;
           line-height: 45px;
           font-size: 17px;
           color: #333;
-          margin-right: 18px;
-
-          &
-          :last-child {
-            margin-right: 0;
-          }
-
         }
         li.router-link-active {
           border-bottom: 2px solid #333;
