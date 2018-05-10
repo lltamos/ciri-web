@@ -59,13 +59,20 @@
                 </div>
                 <div class="qs-bottom clearfix">
                   <div class="fr dz-hf" >
-                    <div class="dz-wrap">
-                      <i class="icon-dz active" v-if="question.likeStatus==true"></i>
-                      <i v-else class="icon-dz" ></i>
-                      <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
+                    <div class="dz-wrap" :class="[question.likeStatus?'active-like':'']" @click="likesChat(question)">
+                      <div v-if="question.likes">
+                        <i class="icon-dz"></i>
+                        <span class="dz-count">{{question.likes}}</span>
+                      </div>
+                      <div v-else>看好</div>
                     </div>
-                    <div class="dz-wrap">
-                      <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
+                    <div class="dz-wrap" @click="askQuestion(question.id)">
+                      <div v-if="question.total">
+                        <i class="icon-replay"></i>
+                        <span class="dz-count">{{question.total>999?"999+":question.total}}</span>
+                      </div>
+                      <div v-else>回复</div>
+
                     </div>
                   </div>
                 </div>
@@ -110,13 +117,13 @@
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
                 <div v-if="question.projectChatList !=null && question.projectChatList.length >0">
-                  <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                    <span>查看更多</span>
-                    <i class="icon-more"></i>
+                  <div class="read-more back-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                    <span>查看全部{{question.total}}条回复</span>
+                    <!--<i class="icon-more"></i>-->
                   </div>
-                  <div class="read-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
+                  <div class="read-more back-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
                     <span >收起</span>
-                    <i class="pack-up"></i>
+                    <!--<i class="pack-up"></i>-->
                   </div>
                 </div>
               </div>
@@ -164,13 +171,19 @@
               </div>
               <div class="qs-bottom clearfix">
                 <div class="fr dz-hf" >
-                  <div class="dz-wrap">
-                    <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
-                    <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
-                    <i v-else class="icon-dz" ></i>
+                  <div class="dz-wrap" :class="[myQuestion.likes?'active-like':'']" @click="likesChat(myQuestion)">
+                    <div v-if="myQuestion.likes">
+                      <span class="dz-count">{{myQuestion.likes}}</span>
+                      <i class="icon-dz active"></i>
+                    </div>
+                    <div v-else>看好</div>
                   </div>
-                  <div class="dz-wrap">
-                    <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                  <div class="dz-wrap" @click="askQuestion(myQuestion.id)">
+                    <div v-if="myQuestion.total">
+                      <i class="icon-replay"></i>
+                      <span class="dz-count">{{myQuestion.total>999?"999+":myQuestion.total}}</span>
+                    </div>
+                    <div v-else>回复</div>
                   </div>
                 </div>
               </div>
@@ -206,14 +219,14 @@
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
               <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0">
-                <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                  <span>查看更多</span>
-                  <i class="icon-more"></i>
+                <div class="read-more back-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
+                  <span>查看全部{{myQuestion.total}}条回复</span>
+                  <!--<i class="icon-more"></i>-->
                 </div>
-                <div class="read-more" @click="backUpAsk(question)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
+                <div class="read-more back-more" @click="backUpAsk(myQuestion)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
                   <span >收起</span>
-                  <i class="pack-up"></i>
-                </div>
+                  <!--<i class="pack-up"></i>-->
+              </div>
               </div>
             </div>
             <CrossLine></CrossLine>
@@ -503,7 +516,7 @@
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        console.log(quesiton);
+        console.log(d);
         let pageId = 1;
         // if(quesiton.projectChatList == null || question.projectChatList.length<=5){
         //   pageId = 2;
@@ -520,10 +533,10 @@
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
 
-            console.log(quesiton);
+           /* console.log(quesiton);
             console.log(quesiton.projectChatList.length)
 
-            console.log(quesiton.total > quesiton.projectChatList.length);
+            console.log(quesiton.total > quesiton.projectChatList.length);*/
             d.setAttribute("pageId",pageId);
             // console.log(parseInt(d.getAttribute("pageId")));
           }
@@ -963,18 +976,42 @@
                   border-radius: 30px;
                   display: inline-block;
                   text-align: center;
+                  font-size: 12px
+
+
+
+                ;
+                  &.active-like{
+                    border: 1px solid #528de8;
+                    background-color: #528de8;
+                    .icon-dz{
+                      @include bg-image('../../img/thumbs-uped-white');
+                    }
+                    .dz-count{
+                      color: #fff;
+                      font-size: 12px;
+                      height: 12px;
+                    }
+                  }
                   .icon-dz{
                     display: inline-block;
                     width: 12px;
                     height: 12px;
                     @include bg-image('../../img/thumbs-up');
-                    background-size: 9px 12px;
+                    background-size: 12px 12px;
                     background-repeat: no-repeat;
                     background-position: center;
                     margin-right: 4px;
-                    &.active{
-                      @include bg-image('../../img/thumbs-uped')
-                    }
+                  }
+                  .icon-replay{
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    @include bg-image('../../img/replay');
+                    background-size: 12px 12px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    margin-right: 4px;
                   }
                 }
                 .dz-wrap:first-child{
@@ -1070,6 +1107,12 @@
           i.pack-up{
             @include bg-image("../../img/pack-up");
           }
+        }
+        .back-more{
+          text-align: left;
+          margin-top: 0px;
+          background-color: #f5f5f5;
+          padding: 0px 0px 15px 17px;
         }
       }
     }
