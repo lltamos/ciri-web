@@ -129,6 +129,9 @@
               </div>
               <CrossLine></CrossLine>
             </div>
+            <div v-if="questions == null || questions.length == 0 ">
+              <img src="../../img/timer-none.png" alt="">
+            </div>
           </div>
 
           <div class="read-more" @click="allQuestion()"
@@ -230,6 +233,9 @@
               </div>
             </div>
             <CrossLine></CrossLine>
+          </div>
+          <div v-if="myQuestions == null || myQuestions.length == 0 ">
+            <img src="../../img/timer-none.png" alt="">
           </div>
 
           <!--点击加载更多我的问题-->
@@ -884,7 +890,6 @@
           .ques-title{
             font-size: 14px;
             color:#333;
-            height: 23px;
             line-height: 23px;
             margin-top: 15px;
             padding-left: 10px;
