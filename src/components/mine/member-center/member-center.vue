@@ -28,10 +28,10 @@
       <ul class="member-classify">
         <li>
           <div class="img fl">
-            <i class="icon-vip" v-bind:class="{active:vip}"></i>
+            <i class="icon-project" v-bind:class="{active:xmk}"></i>
           </div>
           <div class="classify fl">
-            <span>VIP会员</span>
+            <span>项目库会员</span>
             <em>一年特权</em>
           </div>
         </li>
@@ -46,10 +46,10 @@
         </li>
         <li>
           <div class="img fl">
-            <i class="icon-project" v-bind:class="{active:xmk}"></i>
+            <i class="icon-vip" v-bind:class="{active:vip}"></i>
           </div>
           <div class="classify fl">
-            <span>项目库会员</span>
+            <span>VIP会员</span>
             <em>一年特权</em>
           </div>
         </li>
@@ -58,11 +58,11 @@
       <div class="title">未开通会员特权</div>
       <div class="member-dredge">
         <div class="img fl">
-          <i class="icon-vip active"></i>
+          <i class="icon-project active"></i>
         </div>
         <div class="member-detail fl">
-          <h2>VIP会员</h2>
-          <p>成为您专属的海外事业部</p>
+          <h2>项目库会员</h2>
+          <p>查阅项目信息/业主信息等</p>
           <p>一年特权</p>
         </div>
         <div class="btn-warp fr">
@@ -84,11 +84,11 @@
       </div>
       <div class="member-dredge">
         <div class="img fl">
-          <i class="icon-project active"></i>
+          <i class="icon-vip active"></i>
         </div>
         <div class="member-detail fl">
-          <h2>项目库会员</h2>
-          <p>查阅项目信息/业主信息等</p>
+          <h2>VIP会员</h2>
+          <p>成为您专属的海外事业部</p>
           <p>一年特权</p>
         </div>
         <div class="btn-warp fr">
