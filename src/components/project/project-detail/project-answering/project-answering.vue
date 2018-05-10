@@ -153,7 +153,7 @@
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
 
-              <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
 
               <div class="file-warp">
                 <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
@@ -180,14 +180,14 @@
                 <div class="marked-warp">
                   <div class="marked-words">
                     <div class="user-warp clearfix">
-                      <div class="head-portrait">
+                      <div class="head-portrait small-head-portrait">
                         <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                         <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
                         <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete back-del" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                         <div class="time">{{ask.updateTime|time}}</div>
                         <!--回复点赞数量-->
                       </div>
@@ -808,9 +808,10 @@
         z-index: 999;
       }
       .question{
-        padding: 0 10px;
+        /*padding: 0 10px;*/
         .tab{
           margin:15px 0 5px;
+          padding: 0 10px;
           li{
             float:left;
             margin-right: 15px;
@@ -842,14 +843,14 @@
             overflow: hidden;
             position: absolute;
             top:0;
-            left: 0;
+            left: 10px;
             img{
               width: 100%;
               height:100%;
             }
           }
           .top-infor{
-            padding-left: 47px;
+            padding-left: 57px;
             height: 35px;
             .user-name{
               font-size: 15px;
@@ -873,23 +874,29 @@
             height: 23px;
             line-height: 23px;
             margin-top: 15px;
+            padding-left: 10px;
           }
           .main-news{
-            padding-left: 17px;
+            padding: 0 10px 0px 27px;
             margin-bottom: 15px;
             .delete{
               font-size: 12px;
               color:#666;
               line-height: 1;
               position: absolute;
-              right:0;
+              right:10px;
               top:0;
               text-align: right;
               background-size: 12px 12px;
               background-repeat: no-repeat;
               background-position: 0px center;
+              width: 41px;
+              height: 12px;
               &.main-del{
                 @include bg-image('../../img/delete-question');
+              }
+              &.back-del{
+                @include bg-image('../../img/delete');
               }
             }
             .file-warp{
@@ -985,7 +992,9 @@
             .questioner-visible{
               background: #f5f5f5;
               padding:0 10px 15px;
-              border-bottom: 1px dashed #666;
+              &:nth-child(n+5){
+                border-top: 1px dashed #666;
+              }
               .marked-words{
                 color:#528de8;
                 font-size: 14px;
@@ -1023,7 +1032,9 @@
                     background-position: 0px center;
                     &.back-del{
                       @include bg-image('../../img/delete');
-
+                    }
+                    &.main-del{
+                      @include bg-image('../../img/delete-question');
                     }
                   }
 
