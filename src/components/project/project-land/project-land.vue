@@ -184,8 +184,8 @@
     },
     mounted() {
 
-      // let url = location.href.split('#')[0];
-      let url = 'test.bjciri.com'
+       let url = location.href;
+//      let url = 'http://test.bjciri.com/'
       this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
           if (res.code == 200) {
 //            wxconfig.timestamp = res.data.timestamp;
