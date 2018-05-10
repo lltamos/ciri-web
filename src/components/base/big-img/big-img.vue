@@ -4,7 +4,7 @@
       <vue-preview v-if="this.imgList!=null" :slides="this.imgList" @close="handleClose" class="structure-warp clearfix"></vue-preview>
     </div>
     <div class="read-more" @click="readMore" v-show="moreShow">
-      <span v-text="moreText">展开</span>
+      <span v-text="moreText">查看更多</span>
       <i :class="iconMore"></i>
     </div>
   </div>
@@ -16,7 +16,7 @@
     data() {
       return {
         slide1: [],
-        moreText: '展开',
+        moreText: '查看更多',
         iconMore: 'icon-more',
         article: 'article',
         moreShow: false
@@ -24,12 +24,12 @@
     },
     methods: {
       readMore() {
-        if (this.moreText == '展开') {
+        if (this.moreText == '查看更多') {
           this.moreText = '收起'
           this.iconMore = 'pack-up'
           this.article = 'article active'
         } else {
-          this.moreText = '展开';
+          this.moreText = '查看更多';
           this.iconMore = 'icon-more'
           this.article = 'article'
         }
@@ -111,7 +111,6 @@
       color: #3f80e9;
       line-height: 1;
       text-align: center;
-      float: right;
       margin-top: 10px;
       padding-right: 10px;
       padding-bottom: 17px;
