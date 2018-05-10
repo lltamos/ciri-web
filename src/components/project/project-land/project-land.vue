@@ -128,7 +128,6 @@
           this.$api.post('/pb/s0/l/addLike',
             {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
               if (res.code === 200) {
-
               }
           })
         },
