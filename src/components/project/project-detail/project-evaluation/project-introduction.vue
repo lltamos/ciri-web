@@ -7,39 +7,39 @@
     <table width="100%" cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
-          <td>项目名称</td>
+          <td>项目名称：</td>
           <td>{{projName}}</td>
         </tr>
         <tr>
-          <td align="center">项目类型</td>
+          <td>项目类型：</td>
           <td>{{constructionType}}</td>
         </tr>
         <tr>
-          <td align="center">所属行业</td>
+          <td>所属行业：</td>
           <td>{{industry}}</td>
         </tr>
         <tr>
-          <td align="center">项目位置</td>
+          <td>项目位置：</td>
           <td>{{projAddress}}</td>
         </tr>
         <tr>
-          <td>所在区域</td>
+          <td>所在区域：</td>
           <td>{{projArea}}</td>
         </tr>
         <tr>
-          <td align="center">项目规模</td>
+          <td>项目规模：</td>
           <td>{{amount}}</td>
         </tr>
         <tr>
-          <td align="center">投资方式</td>
+          <td>投资方式：</td>
           <td>{{investMode}}</td>
         </tr>
         <tr>
-          <td align="center">投资收益率</td>
+          <td>投资收益率：</td>
           <td>{{irr}}%</td>
         </tr>
         <tr>
-          <td align="center">项目开发商</td>
+          <td>项目开发商：</td>
           <td>
             <div v-if="projDevelopers != null && projDevelopers.length > 0">{{projDevelopers.length>7?projDevelopers.substring(0,4)+'***'+projDevelopers.substring(projDevelopers.length-2,projDevelopers.length):projDevelopers}}</div>
           </td>
@@ -281,7 +281,7 @@
       }
     }
     .company-msg{
-      padding: 10px;
+      padding: 15px;
       margin-bottom: 7px;
       table{
         border-collapse: collapse;
@@ -292,35 +292,11 @@
           color: #666;
           td:first-child{
             text-align: left;
-            padding: 0 6px 0 35px;
-            @include one-border();
-            &:after{
-              border-bottom: none;
-              border-left: none;
-            }
+            width: 90px;
           }
           td:last-child{
             text-align: left;
-            padding-left: 20px;
-            @include one-border();
-            &:after{
-              border-bottom: none;
-              border-left: none;
-              border-right: none;
-            }
-          }
-          &:last-child{
-            td{
-              @include one-border();
-              &:after{
-                border-left: none;
-              }
-              &:last-child{
-                &:after{
-                  border-right: none;
-                }
-              }
-            }
+            color: #333;
           }
         }
       }
@@ -335,6 +311,7 @@
           height:24px;
           line-height: 24px;
           td{
+            width: 50%;
             &:first-child{
               text-align: center;
               border-right:1px solid #dedede;

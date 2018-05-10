@@ -514,30 +514,22 @@
       .project-tab {
         height: 45px;
         text-align: center;
-        margin: auto;
-        display: table;
+        display: flex;
+        justify-content: space-evenly;
         li {
-          float: left;
           line-height: 45px;
           font-size: 17px;
           color: #333;
-          margin-right: 18px;
-
-          &
-          :last-child {
-            margin-right: 0;
-          }
-
         }
         li.router-link-active {
-          border-bottom: 2px solid #333;
+          border-bottom: 2px solid #258de8;
+          color: #528de8;
+          font-weight: 500;
         }
 
       }
     }
     .project-rec {
-      background: #f5f5f5;
-
       h4 {
         background: #fff;
 
@@ -552,15 +544,11 @@
 
         .recommdnd-card {
           background: #fff;
-          width: 48.7%;
+          width: 48%;
           float: left;
           position: relative;
           margin-bottom: 10px;
-
-          &:nth-of-type(odd) {
-            margin-right: 2.6%;
-          }
-
+          margin-left: 1.3%;
           .img {
             height: 118px;
             width: 100%;
@@ -573,6 +561,9 @@
           }
           .main-news {
             padding: 10px;
+            border-left: 1px solid #dedede;
+            border-right: 1px solid #dedede;
+            border-bottom: 1px solid #dedede;
 
             h2 {
               font-size: 13px;
