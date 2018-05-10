@@ -16,27 +16,27 @@
           <table width="100%" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
-              <td>目标融资金额</td>
+              <td>目标融资金额：</td>
               <td>{{this.requiredFund}}</td>
             </tr>
             <tr>
-              <td>项目自有资金</td>
+              <td>项目自有资金：</td>
               <td>{{this.internalFund}}万美元</td>
             </tr>
             <tr>
-              <td>项目总投资额</td>
+              <td>项目总投资额：</td>
               <td>{{this.totalInvestFund}}</td>
             </tr>
             <tr>
-              <td>项目年收益率（IRR）</td>
+              <td>项目年收益率(IRR)：</td>
               <td>{{this.irr}}%</td>
             </tr>
             <tr>
-              <td>项目净产值（NPV）</td>
+              <td>项目净产值(NPV)：</td>
               <td>{{this.npv}}万美元</td>
             </tr>
             <tr>
-              <td>净现值说明</td>
+              <td>净现值说明：</td>
               <td>{{this.npvSummary}}</td>
             </tr>
             </tbody>
@@ -210,9 +210,8 @@
   .finance-info {
     padding: 10px 0px 17px;
     .company-msg{
-      padding: 10px;
+      padding: 15px;
       margin-bottom: 7px;
-      text-align: left;
       table{
         border-collapse: collapse;
         tr{
@@ -221,35 +220,12 @@
           font-size: 13px;
           color: #666;
           td:first-child{
-            padding: 0 6px 0 25px;
-            @include one-border();
-            &:after{
-              border-bottom: none;
-              border-left: none;
-            }
+            text-align: left;
+            width: 130px;
           }
           td:last-child{
             text-align: left;
-            padding-left: 20px;
-            @include one-border();
-            &:after{
-              border-bottom: none;
-              border-left: none;
-              border-right: none;
-            }
-          }
-          &:last-child{
-            td{
-              @include one-border();
-              &:after{
-                border-left: none;
-              }
-              &:last-child{
-                &:after{
-                  border-right: none;
-                }
-              }
-            }
+            color: #333;
           }
         }
       }
