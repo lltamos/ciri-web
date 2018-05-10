@@ -1,4 +1,4 @@
-const wx = require('weixin-js-sdk')
+
 
 // 配置微信 config信息
 export default {

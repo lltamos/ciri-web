@@ -71,7 +71,9 @@
   import svgIcon from '@/components/base/svg-icon/svg-icon'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from '@/api/tool'
+  import wxconfig from '@/api/wx'
 
+  const wx = require('weixin-js-sdk')
   export default {
     components: {
       projectHeader,
@@ -183,8 +185,9 @@
     },
     mounted() {
 
-      let url = location.href.split('#')[0];
-      this.$api.get('/app/wx/signatrue', {url: url}).then(res => {
+      // let url = location.href.split('#')[0];
+      let url = 'test.bjciri.com'
+      this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
         if (res.code == 200) {
           wxconfig.timestamp = res.data.timestamp;
           wxconfig.signature = res.data.signature;
@@ -195,7 +198,7 @@
             // 在这里调用 API
             wx.onMenuShareTimeline({
               title: 'test',
-              link: test.bjciri.com,
+              link: url,
               imgUrl: 'test',
               success: function () {
                 // 用户确认分享后执行的回调函数
