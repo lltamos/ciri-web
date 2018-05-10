@@ -242,6 +242,8 @@
           console.log(r.data);
         }else if(r.code == 403){
           tool.toast("权限不足")
+        }else {
+          tool.toast(r.msg)
         }
       });
     },
