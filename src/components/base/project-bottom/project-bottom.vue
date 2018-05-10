@@ -1,13 +1,13 @@
 <template>
   <div class="project-bottom">
     <ul class="tab-warp">
+      <li class="back" @click="backProject">
+        <i class="icon-back"></i>
+        <span>返回</span>
+      </li>
       <li v-bind:class="[collected ? 'favorited' : 'favorite' ,'']" @click="collect">
         <i class="icon-fav"></i>
         <span>{{collects}}人已收藏</span>
-      </li>
-      <li class="share">
-        <i class="icon-share"></i>
-        <span>{{shares}}人已分享</span>
       </li>
       <li class="appoint" @click="appoint">
         <i class="icon-appoint"></i>
@@ -49,11 +49,14 @@
     },
     props: {
       collects: String,
-      shares: String,
       collected: Boolean,
       projId: Number
     },
     methods: {
+      //返回到列表页
+      backProject(){
+        this.$router.push('/project');
+      },
       collect () {
         if (tool.getuser() === null) {
           this.$router.replace({path: '/login'})
@@ -143,7 +146,7 @@
         }
       }
       li.favorite{
-        width:28%;
+        width:32%;
         border-right: 1px solid #dedede;
         box-sizing: border-box;
         i{
@@ -151,17 +154,17 @@
         }
       }
       li.favorited{
-        width:28%;
-        border-right: 1px solid #dedede;
-        box-sizing: border-box;
+        width:32%;
         i{
           @include bg-image("../img/bottom-faved");
         }
       }
-      li.share{
-        width:25.3%;
+      li.back{
+        width:21.3%;
+        border-right: 1px solid #dedede;
+        box-sizing: border-box;
         i{
-          @include bg-image("../img/bottom-share");
+          @include bg-image("../img/bottom-back");
         }
       }
       li.appoint{
@@ -177,6 +180,7 @@
         }
         span{
           color:#fff;
+          font-size: 15px;
           display: inline-block;
         }
       }

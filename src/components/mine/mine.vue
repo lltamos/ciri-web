@@ -84,9 +84,9 @@
         </div>
         <ul class="member">
           <!--icon-vip 添加active  VIP会员点亮-->
-          <li><i class="icon-vip"  v-bind:class="{active:vip}"></i><span>VIP会员</span></li>
-          <li><i class="icon-yuanhe"  v-bind:class="{active:yhw}"></i><span>源合网会员</span></li>
           <li><i class="icon-project"  v-bind:class="{active:xmk}"></i><span>项目库会员</span></li>
+          <li><i class="icon-yuanhe"  v-bind:class="{active:yhw}"></i><span>源合网会员</span></li>
+          <li><i class="icon-vip"  v-bind:class="{active:vip}"></i><span>VIP会员</span></li>
         </ul>
         <cross-line></cross-line>
         <ul class="member">

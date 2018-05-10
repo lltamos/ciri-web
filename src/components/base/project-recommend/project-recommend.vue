@@ -31,9 +31,9 @@
           <div v-for="tag in project.tags" :key="tag" class="f1">
             <div class="fl yellow">{{tag}}</div>
           </div>
-          <div class="video fl"></div>
+          <div class="video fl" v-show="project.url!=null"></div>
         </div>
-        <ul class="proj-info">
+        <ul class="proj-info" :class="{active:project.tags==null && project.url==null}">
           <li>
             <em><i class="large">{{parseFloat(project.financingProgress)}}%</i></em>
             <span>融资进度</span>
@@ -205,7 +205,7 @@
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
-      height: 365px;
+      height: 381px;
       width: 100%;
       margin-top: 14px;
       border-radius: 7px;
@@ -288,7 +288,7 @@
         font-size: 10px;
         position: absolute;
         right:10px;
-        bottom: 10px;
+        bottom: 11px;
         z-index: 99;
         height:20px;
         line-height: 22px;
@@ -318,7 +318,7 @@
         }
       }
       .main-news {
-        height: 132px;
+        height: 144px;
         box-sizing: border-box;
         position: relative;
         padding: 15px 10px;
@@ -365,9 +365,9 @@
             display: block;
             float: left;
             margin-right: 6px;
-            width: 10px;
-            height: 10px;
-            background-size: 10px auto;
+            width: 13px;
+            height: 13px;
+            background-size: 13px auto;
           }
           .loc {
             @include bg-image("../img/location");
@@ -388,7 +388,6 @@
             font-size: 13px;
             line-height: 1;
             color: #666;
-            margin-top: 1px;
           }
         }
         .proj-info {
@@ -396,12 +395,15 @@
           display: flex;
           flex-direction: row;
           @include onepx('bottom');
+          &.active{
+            padding-bottom: 15px;
+          }
           li {
             flex: 1;
             font-size: 14px;
             color: #777;
             position: relative;
-            margin: 13px 0;
+            margin: 13px 0 17px;
             .fg-line {
               position: absolute;
               height: 25px;
@@ -420,7 +422,6 @@
             }
             span {
               display: block;
-              height: 12px;
               line-height: 1;
               margin-top:3px;
             }

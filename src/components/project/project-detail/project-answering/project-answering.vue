@@ -59,13 +59,20 @@
                 </div>
                 <div class="qs-bottom clearfix">
                   <div class="fr dz-hf" >
-                    <div class="dz-wrap">
-                      <i class="icon-dz active" v-if="question.likeStatus==true"></i>
-                      <i v-else class="icon-dz" ></i>
-                      <span class="dz-count" @click="likesChat(question)">{{question.likes}}</span>
+                    <div class="dz-wrap" :class="[question.likeStatus?'active-like':'']" @click="likesChat(question)">
+                      <div v-if="question.likes">
+                        <i class="icon-dz"></i>
+                        <span class="dz-count">{{question.likes}}</span>
+                      </div>
+                      <div v-else>看好</div>
                     </div>
-                    <div class="dz-wrap">
-                      <span class="reply" @click="askQuestion(question.id)">回复<em>({{question.total>999?"999+":question.total}})</em></span>
+                    <div class="dz-wrap" @click="askQuestion(question.id)">
+                      <div v-if="question.total">
+                        <i class="icon-replay"></i>
+                        <span class="dz-count">{{question.total>999?"999+":question.total}}</span>
+                      </div>
+                      <div v-else>回复</div>
+
                     </div>
                   </div>
                 </div>
@@ -110,17 +117,20 @@
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
                 <div v-if="question.projectChatList !=null && question.projectChatList.length >0">
-                  <div class="read-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                    <span>查看更多</span>
-                    <i class="icon-more"></i>
+                  <div class="read-more back-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
+                    <span>查看全部{{question.total}}条回复</span>
+                    <!--<i class="icon-more"></i>-->
                   </div>
-                  <div class="read-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
+                  <div class="read-more back-more" @click="backUpAsk(question)" v-if="question.projectChatList.length>pageSize && question.total<=question.projectChatList.length">
                     <span >收起</span>
-                    <i class="pack-up"></i>
+                    <!--<i class="pack-up"></i>-->
                   </div>
                 </div>
               </div>
               <CrossLine></CrossLine>
+            </div>
+            <div v-if="questions == null || questions.length == 0 ">
+              <img src="../../img/timer-none.png" alt="">
             </div>
           </div>
 
@@ -153,7 +163,7 @@
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
 
-              <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
 
               <div class="file-warp">
                 <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
@@ -164,13 +174,19 @@
               </div>
               <div class="qs-bottom clearfix">
                 <div class="fr dz-hf" >
-                  <div class="dz-wrap">
-                    <span class="dz-count" @click="likesChat(myQuestion)">{{myQuestion.likes}}</span>
-                    <i class="icon-dz active" v-if="myQuestion.likeStatus==true"></i>
-                    <i v-else class="icon-dz" ></i>
+                  <div class="dz-wrap" :class="[myQuestion.likes?'active-like':'']" @click="likesChat(myQuestion)">
+                    <div v-if="myQuestion.likes">
+                      <span class="dz-count">{{myQuestion.likes}}</span>
+                      <i class="icon-dz active"></i>
+                    </div>
+                    <div v-else>看好</div>
                   </div>
-                  <div class="dz-wrap">
-                    <span class="reply" @click="askQuestion(myQuestion.id)">回复<em>({{myQuestion.total>999?"999+":myQuestion.total}})</em></span>
+                  <div class="dz-wrap" @click="askQuestion(myQuestion.id)">
+                    <div v-if="myQuestion.total">
+                      <i class="icon-replay"></i>
+                      <span class="dz-count">{{myQuestion.total>999?"999+":myQuestion.total}}</span>
+                    </div>
+                    <div v-else>回复</div>
                   </div>
                 </div>
               </div>
@@ -180,14 +196,14 @@
                 <div class="marked-warp">
                   <div class="marked-words">
                     <div class="user-warp clearfix">
-                      <div class="head-portrait">
+                      <div class="head-portrait small-head-portrait">
                         <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                         <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
                         <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete back-del" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                         <div class="time">{{ask.updateTime|time}}</div>
                         <!--回复点赞数量-->
                       </div>
@@ -206,17 +222,20 @@
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
               <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0">
-                <div class="read-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
-                  <span>查看更多</span>
-                  <i class="icon-more"></i>
+                <div class="read-more back-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
+                  <span>查看全部{{myQuestion.total}}条回复</span>
+                  <!--<i class="icon-more"></i>-->
                 </div>
-                <div class="read-more" @click="backUpAsk(question)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
+                <div class="read-more back-more" @click="backUpAsk(myQuestion)" v-if="myQuestion.projectChatList.length>pageSize && myQuestion.total<=myQuestion.projectChatList.length">
                   <span >收起</span>
-                  <i class="pack-up"></i>
-                </div>
+                  <!--<i class="pack-up"></i>-->
+              </div>
               </div>
             </div>
             <CrossLine></CrossLine>
+          </div>
+          <div v-if="myQuestions == null || myQuestions.length == 0 ">
+            <img src="../../img/timer-none.png" alt="">
           </div>
 
           <!--点击加载更多我的问题-->
@@ -503,7 +522,7 @@
       //获取
       moreAsk(quesiton,e){
         var d = e.currentTarget;
-        console.log(quesiton);
+        console.log(d);
         let pageId = 1;
         // if(quesiton.projectChatList == null || question.projectChatList.length<=5){
         //   pageId = 2;
@@ -520,10 +539,10 @@
             quesiton.total=r.total;
             quesiton.projectChatList=quesiton.projectChatList.concat(r.data);
 
-            console.log(quesiton);
+           /* console.log(quesiton);
             console.log(quesiton.projectChatList.length)
 
-            console.log(quesiton.total > quesiton.projectChatList.length);
+            console.log(quesiton.total > quesiton.projectChatList.length);*/
             d.setAttribute("pageId",pageId);
             // console.log(parseInt(d.getAttribute("pageId")));
           }
@@ -808,9 +827,10 @@
         z-index: 999;
       }
       .question{
-        padding: 0 10px;
+        /*padding: 0 10px;*/
         .tab{
           margin:15px 0 5px;
+          padding: 0 10px;
           li{
             float:left;
             margin-right: 15px;
@@ -842,14 +862,14 @@
             overflow: hidden;
             position: absolute;
             top:0;
-            left: 0;
+            left: 10px;
             img{
               width: 100%;
               height:100%;
             }
           }
           .top-infor{
-            padding-left: 47px;
+            padding-left: 57px;
             height: 35px;
             .user-name{
               font-size: 15px;
@@ -870,26 +890,31 @@
           .ques-title{
             font-size: 14px;
             color:#333;
-            height: 23px;
             line-height: 23px;
             margin-top: 15px;
+            padding-left: 10px;
           }
           .main-news{
-            padding-left: 17px;
+            padding: 0 10px 0px 27px;
             margin-bottom: 15px;
             .delete{
               font-size: 12px;
               color:#666;
               line-height: 1;
               position: absolute;
-              right:0;
+              right:10px;
               top:0;
               text-align: right;
               background-size: 12px 12px;
               background-repeat: no-repeat;
               background-position: 0px center;
+              width: 41px;
+              height: 12px;
               &.main-del{
                 @include bg-image('../../img/delete-question');
+              }
+              &.back-del{
+                @include bg-image('../../img/delete');
               }
             }
             .file-warp{
@@ -956,18 +981,42 @@
                   border-radius: 30px;
                   display: inline-block;
                   text-align: center;
+                  font-size: 12px
+
+
+
+                ;
+                  &.active-like{
+                    border: 1px solid #528de8;
+                    background-color: #528de8;
+                    .icon-dz{
+                      @include bg-image('../../img/thumbs-uped-white');
+                    }
+                    .dz-count{
+                      color: #fff;
+                      font-size: 12px;
+                      height: 12px;
+                    }
+                  }
                   .icon-dz{
                     display: inline-block;
                     width: 12px;
                     height: 12px;
                     @include bg-image('../../img/thumbs-up');
-                    background-size: 9px 12px;
+                    background-size: 12px 12px;
                     background-repeat: no-repeat;
                     background-position: center;
                     margin-right: 4px;
-                    &.active{
-                      @include bg-image('../../img/thumbs-uped')
-                    }
+                  }
+                  .icon-replay{
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    @include bg-image('../../img/replay');
+                    background-size: 12px 12px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    margin-right: 4px;
                   }
                 }
                 .dz-wrap:first-child{
@@ -985,7 +1034,9 @@
             .questioner-visible{
               background: #f5f5f5;
               padding:0 10px 15px;
-              border-bottom: 1px dashed #666;
+              &:nth-child(n+5){
+                border-top: 1px dashed #666;
+              }
               .marked-words{
                 color:#528de8;
                 font-size: 14px;
@@ -1023,7 +1074,9 @@
                     background-position: 0px center;
                     &.back-del{
                       @include bg-image('../../img/delete');
-
+                    }
+                    &.main-del{
+                      @include bg-image('../../img/delete-question');
                     }
                   }
 
@@ -1059,6 +1112,12 @@
           i.pack-up{
             @include bg-image("../../img/pack-up");
           }
+        }
+        .back-more{
+          text-align: left;
+          margin-top: 0px;
+          background-color: #f5f5f5;
+          padding: 0px 0px 15px 17px;
         }
       }
     }

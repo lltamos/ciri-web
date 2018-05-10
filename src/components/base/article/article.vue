@@ -129,7 +129,7 @@
     font-size: 13px;
     line-height: 22px;
     color: #666;
-    text-indent: 2em;
+    /*text-indent: 2em;*/
     max-height:330px;
     overflow: hidden;
     /*text-overflow: ellipsis;*/
