@@ -48,7 +48,7 @@
                 <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
                 <!--<div class="user-name">{{(question.userid == null || question.userid == ""  ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null || question.userid == "" ? "匿名": question.userid)}}</div>-->
 
-                <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(question.id)">{{question.oneselfInfo == true?"删除" :""}}</div>
+                <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(question.id,1)">{{question.oneselfInfo == true?"删除" :""}}</div>
 
                 <div class="file-warp">
                   <div class="file" v-if="question.fileMetas != null && question.fileMetas.length !=0 " v-for="(fileMeta,index) in question.fileMetas" :key="index">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="fl">
                           <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                          <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                          <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                           <div class="time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
                           <!--<div class="fr dz-hf">-->
@@ -163,7 +163,7 @@
               <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
               <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
 
-              <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
+              <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id,1)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
 
               <div class="file-warp">
                 <div class="file" v-if="myQuestion.fileMetas != null && myQuestion.fileMetas.length > 0 " v-for="(fileMeta,zzindex) in myQuestion.fileMetas"  :key="zzindex" >
@@ -203,7 +203,7 @@
                       </div>
                       <div class="fl">
                         <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                        <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                         <div class="time">{{ask.updateTime|time}}</div>
                         <!--回复点赞数量-->
                       </div>
@@ -382,8 +382,19 @@
         window.location.href = fileUrl;
       },
       //删除交流信息
-      deleteAsk(chatId){
-        MessageBox.confirm('确认要删除这个回复吗?').then(action => {
+      deleteAsk(chatId,t){
+        let flag='';
+        if(t==1){
+           flag='确认要删除这个问题吗?'
+        }else if(t == 2){
+           flag='确认要删除这个回复吗?'
+        }
+        console.log(MessageBox);
+        console.dir(MessageBox);
+        MessageBox.confirm('',{
+          message: flag,
+          confirmButtonText: '删除',
+        }).then(action => {
           this.$api.post('/ah/s0/chat/delProjectChatByProjChatId',{name:tool.getuser(),chatId:chatId}).then(r => {
             if(r.code==200){
               tool.toast('删除成功');
