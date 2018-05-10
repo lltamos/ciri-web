@@ -111,7 +111,8 @@
         </div>
         <div class="heart_comment clearfix">
           <textarea id="fdContent" class="tit_inp" placeholder="请输入问题或建议" v-model="homeContent1"></textarea>
-          <input id="fdContact" type="text" placeholder="请输入联系方式" class="in_phone" v-model="homeContact">
+          <p class="click-me" v-show="fdContactShow" @click="ContactShow">点我>>留下您的联系方式，有惊喜哦</p>
+          <input id="fdContact" v-show="!fdContactShow" type="text" placeholder="请输入联系方式" class="in_phone" v-model="homeContact">
           <div id="feedbackAction" class="btn" @click="indexFeedBack">提交</div>
         </div>
       </div>
@@ -181,7 +182,8 @@
         weekList:[],
         tabActive: 1,
         homeContent1:'',
-        homeContact: ''
+        homeContact: '',
+        fdContactShow:true
       }
     },
     computed: {
@@ -203,6 +205,9 @@
       this.weekNew();
     },
     methods: {
+      ContactShow(){
+        this.fdContactShow = false
+      },
       //今日公告
       scroll() {
         this.animate = true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
@@ -587,6 +592,14 @@
             height: 101px;
             resize: none;
             font-family: "Microsoft Yahei";
+          }
+          .click-me{
+            font-size: 13px;
+            color:#528de8;
+            line-height: 13px;
+            height:13px;
+            margin: 13px 0;
+            text-align: left;
           }
 
           #feedbackAction {
