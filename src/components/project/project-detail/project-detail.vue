@@ -200,6 +200,7 @@
           tool.toast('不能重复关注')
           return
         }
+        this.interest = true
         this.$api.post('/user/interest',
           {username: tool.getuser(), projId: this.projId}).then(res => {
           if (res.code === 2000) {
@@ -208,7 +209,6 @@
             else
               this.potentialInvestorSize = parseInt(this.potentialInvestorSize) + 1
           }
-          this.interest = true
           this.init()
         })
       },
