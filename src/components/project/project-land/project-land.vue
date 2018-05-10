@@ -191,7 +191,7 @@
           if (res.code == 200) {
             wxconfig.timestamp = res.data.timestamp;
             wxconfig.signature = res.data.signature;
-            wxconfig.noncestr = res.data.noncestr;
+            wxconfig.nonceStr = res.data.noncestr;
             console.log(res)
             wx.config(wxconfig);
             wx.ready(function () {
