@@ -262,7 +262,7 @@
           if (r.code == 200) {
             this.weekList=this.weekList.concat(r.data);
             this.weekTotal=r.total;
-            this.page += 1;
+            this.weekPage += 1;
           }
         });
       },

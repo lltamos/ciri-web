@@ -84,7 +84,7 @@
           shares: null,
           irr: '0',
           amount: null,
-          projDevelopers: 'CIRI',
+          projDevelopers: '',
           potentialInvestor: null,
           potentialInvestorSize: 0,
           financingProgress: null,

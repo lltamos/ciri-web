@@ -47,7 +47,7 @@
           amount: String,
           projDevelopers: {
             type: String,
-            default: 'CIRI'
+            default: ''
           },
           potentialInvestorSize: Number,
           financingProgress: Number
