@@ -6,38 +6,38 @@
         <i class="left-line"></i><span>项目开发商</span>
       </h4>
       <div v-if="this.projectOwnerContact!=null" class="company-msg">
-        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+        <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
-            <td>公司名称</td>
+            <td>公司名称：</td>
             <td>{{projectOwnerContact.corpName.valueCn}}</td>
           </tr>
           <tr>
-            <td>公司类型</td>
+            <td>公司类型：</td>
             <td>{{projectOwnerContact.corpTypeNote}}</td>
           </tr>
           <tr>
-            <td>公司地址</td>
+            <td>公司地址：</td>
             <td>{{projectOwnerContact.corpAddress.valueCn}}</td>
           </tr>
           <tr>
-            <td>公司电话</td>
+            <td>公司电话：</td>
             <td>{{projectOwnerContact.corpTel}}</td>
           </tr>
           <tr>
-            <td>公司传真</td>
+            <td>公司传真：</td>
             <td>{{projectOwnerContact.corpTax}}</td>
           </tr>
           <tr>
-            <td>公司网址</td>
+            <td>公司网址：</td>
             <td>{{projectOwnerContact.website}}</td>
           </tr>
           <tr>
-            <td>公司简介</td>
+            <td>公司简介：</td>
             <td>{{projectOwnerContact.corpSummary.valueCn}}</td>
           </tr>
           <tr>
-            <td>项目案例</td>
+            <td>项目案例：</td>
             <td>{{projectOwnerContact.msgForInvestor.valueCn}}</td>
           </tr>
           </tbody>
@@ -45,25 +45,42 @@
       </div>
       <div v-if="this.projectOwnerContact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
         <div class="contact-title">【联系人信息】</div>
-        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+        <table class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
-          <tr>
-            <td>
-              <p class="contact-card">姓名</p>
-              <p class="contact-card">职位</p>
-              <p class="contact-card">电话</p>
-              <p class="contact-card">邮箱</p>
-            </td>
-            <td style="min-width:50px;">
-              <p class="contact-card">{{projectOwnerContact.contact[0].name.valueCn}}</p>
-              <p class="contact-card">{{projectOwnerContact.contact[0].jobInfo.valueCn}}</p>
-              <p class="contact-card">{{projectOwnerContact.contact[0].tel}}</p>
-              <p class="contact-card">{{projectOwnerContact.contact[0].email}}</p>
-            </td>
-            <td>
-              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-            </td>
-          </tr>
+          <!--<tr>
+              <td>
+                <p class="contact-card">姓名</p>
+                <p class="contact-card">职位</p>
+                <p class="contact-card">电话</p>
+                <p class="contact-card">邮箱</p>
+              </td>
+              <td style="min-width:50px;">
+                <p class="contact-card">{{projectOwnerContact.contact[0].name.valueCn}}</p>
+                <p class="contact-card">{{projectOwnerContact.contact[0].jobInfo.valueCn}}</p>
+                <p class="contact-card">{{projectOwnerContact.contact[0].tel}}</p>
+                <p class="contact-card">{{projectOwnerContact.contact[0].email}}</p>
+              </td>
+              <td>
+                <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+              </td>
+            </tr>-->
+            <tr>
+              <td>姓名</td>
+              <td>{{projectOwnerContact.contact[0].name.valueCn}}</td>
+              <td rowspan="4"><div class="recommend"><a shape="rect" class="btn">在线沟通</a></div></td>
+            </tr>
+            <tr>
+              <td>职位</td>
+              <td>{{projectOwnerContact.contact[0].jobInfo.valueCn}}</td>
+            </tr>
+            <tr>
+              <td>电话</td>
+              <td>{{projectOwnerContact.contact[0].tel}}</td>
+            </tr>
+            <tr>
+              <td>邮箱</td>
+              <td>{{projectOwnerContact.contact[0].email}}</td>
+            </tr>
           </tbody>
         </table>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title">【企业资料】</div>
@@ -88,65 +105,82 @@
         <i class="left-line"></i><span>项目代理</span>
       </h4>
       <div v-if="this.projectAgentContact!=null" class="company-msg">
-        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+        <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
-          <tr>
-            <td>公司名称</td>
-            <td>{{projectAgentContact.corpName.valueCn}}</td>
-          </tr>
-          <tr>
-            <td>公司类型</td>
-            <td>{{projectAgentContact.corpTypeNote}}</td>
-          </tr>
-          <tr>
-            <td>公司地址</td>
-            <td>{{projectAgentContact.corpAddress.valueCn}}</td>
-          </tr>
-          <tr>
-            <td>公司电话</td>
-            <td>{{projectAgentContact.corpTel}}</td>
-          </tr>
-          <tr>
-            <td>公司传真</td>
-            <td>{{projectAgentContact.corpTax}}</td>
-          </tr>
-          <tr>
-            <td>公司网址</td>
-            <td>{{projectAgentContact.website}}</td>
-          </tr>
-          <tr>
-            <td>公司简介</td>
-            <td>{{projectAgentContact.corpSummary.valueCn}}</td>
-          </tr>
-          <tr>
-            <td>项目案例</td>
-            <td>{{projectAgentContact.msgForInvestor.valueCn}}</td>
-          </tr>
+            <tr>
+              <td>公司名称：</td>
+              <td>{{projectAgentContact.corpName.valueCn}}</td>
+            </tr>
+            <tr>
+              <td>公司类型：</td>
+              <td>{{projectAgentContact.corpTypeNote}}</td>
+            </tr>
+            <tr>
+              <td>公司地址：</td>
+              <td>{{projectAgentContact.corpAddress.valueCn}}</td>
+            </tr>
+            <tr>
+              <td>公司电话：</td>
+              <td>{{projectAgentContact.corpTel}}</td>
+            </tr>
+            <tr>
+              <td>公司传真：</td>
+              <td>{{projectAgentContact.corpTax}}</td>
+            </tr>
+            <tr>
+              <td>公司网址：</td>
+              <td>{{projectAgentContact.website}}</td>
+            </tr>
+            <tr>
+              <td>公司简介：</td>
+              <td>{{projectAgentContact.corpSummary.valueCn}}</td>
+            </tr>
+            <tr>
+              <td>项目案例：</td>
+              <td>{{projectAgentContact.msgForInvestor.valueCn}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
       <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0"
            class="contact-info">
         <div class="contact-title">【联系人信息】</div>
-        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+        <table class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
-          <tr>
-            <td>
-              <p class="contact-card">姓名</p>
-              <p class="contact-card">职位</p>
-              <p class="contact-card">电话</p>
-              <p class="contact-card">邮箱</p>
-            </td>
-            <td v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">
-              <p class="contact-card">{{projectAgentContact.contact[0].name.valueCn}}</p>
-              <p class="contact-card">{{projectAgentContact.contact[0].jobInfo.valueCn}}</p>
-              <p class="contact-card">{{projectAgentContact.contact[0].tel}}</p>
-              <p class="contact-card">{{projectAgentContact.contact[0].email}}</p>
-            </td>
-            <td>
-              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-            </td>
-          </tr>
+            <!--<tr>
+              <td>
+                <p class="contact-card">姓名</p>
+                <p class="contact-card">职位</p>
+                <p class="contact-card">电话</p>
+                <p class="contact-card">邮箱</p>
+              </td>
+              <td v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">
+                <p class="contact-card">{{projectAgentContact.contact[0].name.valueCn}}</p>
+                <p class="contact-card">{{projectAgentContact.contact[0].jobInfo.valueCn}}</p>
+                <p class="contact-card">{{projectAgentContact.contact[0].tel}}</p>
+                <p class="contact-card">{{projectAgentContact.contact[0].email}}</p>
+              </td>
+              <td>
+                <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+              </td>
+            </tr>-->
+            <tr>
+              <td>姓名</td>
+              <td>{{projectAgentContact.contact[0].name.valueCn}}</td>
+              <td rowspan="4"><div class="recommend"><a shape="rect" class="btn">在线沟通</a></div></td>
+            </tr>
+            <tr>
+              <td>职位</td>
+              <td>{{projectAgentContact.contact[0].jobInfo.valueCn}}</td>
+            </tr>
+            <tr>
+              <td>电话</td>
+              <td>{{projectAgentContact.contact[0].tel}}</td>
+            </tr>
+            <tr>
+              <td>邮箱</td>
+              <td>{{projectAgentContact.contact[0].email}}</td>
+            </tr>
           </tbody>
         </table>
         <div class="contact-title">【企业资料】</div>
@@ -241,230 +275,205 @@
   .project-developer {
     text-align: left;
 
-  h4 {
-    text-align: left;
-    overflow: hidden;
-    line-height: 1;
-    height: 16px;
-    padding: 12px 10px 12px 15px;
-    color: #333;
-    font-size: 16px;
-    font-weight: normal;
-  @include onepx('bottom');
+    h4 {
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      @include onepx('bottom');
 
-  .left-line {
-    position: absolute;
-    display: block;
-    width: 3px;
-    height: 15px;
-    background-color: #528de8;
-    left: 0;
-    top: 12px;
-  }
+      .left-line {
+        position: absolute;
+        display: block;
+        width: 3px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top: 12px;
+      }
 
-  }
-  .company-msg {
-    padding: 0 10px;
+    }
+    .company-msg{
+      padding: 15px;
+      margin-bottom: 7px;
+      table{
+        border-collapse: collapse;
+        tr{
+          height:28px;
+          line-height: 28px;
+          font-size: 13px;
+          color: #666;
+          td:first-child{
+            text-align: left;
+            width: 90px;
+          }
+          td:last-child{
+            text-align: left;
+            color: #333;
+          }
+        }
+      }
+    }
+    .contact-info {
+      padding: 0 10px;
 
-  table {
-    border: 1px solid #dedede;
-    margin: 10px 0 15px;
+      .contact-title {
+        font-size: 14px;
+        color: #333;
+      }
+      .file-warp {
+        padding-top: 10px;
+        padding-bottom: 17px;
 
-  tr {
-    height: 28px;
-    line-height: 28px;
-    font-size: 13px;
-    color: #666;
+        .file {
+          border-bottom: 1px dashed #dedede;
+          position: relative;
+          padding: 13px 0;
 
-  td:first-child {
-    text-align: left;
-    padding: 0 15px 0 17px;
-    width: 60px;
-  }
+          &:first-child {
+            border-top: 1px dashed #dedede;
+          }
 
-  td:last-child {
-    text-align: left;
-    padding-left: 20px;
-  }
+          .title {
+            padding-left: 17px;
+            position: relative;
+            margin-bottom: 12px;
+            line-height: 14px;
 
-  }
-  }
-  }
-  .contact-info {
-    padding: 0 10px;
+            .icon-type {
+              position: absolute;
+              top: 0;
+              left: 0;
+              display: inline-block;
+              width: 11px;
+              height: 13px;
+              background-size: 11px 13px;
+              vertical-align: middle;
 
-  .contact-title {
-    font-size: 14px;
-    color: #333;
-  }
+              &.icon-pdf {
+                @include bg-image("../../img/pdf");
+              }
 
-  table {
-    border: 1px solid #dedede;
-    margin: 10px 0 15px;
-    font-size: 13px;
-    color: #666;
-    text-align: left;
+              &.icon-jpg {
+                @include bg-image("../../img/jpg");
+              }
 
-  td {
+              &.icon-ppt {
+                @include bg-image("../../img/ppt");
+              }
 
-  p {
-    border-bottom: 1px solid #dedede;
-    line-height: 25px;
-    padding-left: 20px;
+              &.icon-xls {
+                @include bg-image("../../img/xls");
+              }
 
-  &
-  :last-child {
-    border-bottom: none;
-  }
+            }
+            .file-title {
+              font-size: 14px;
+              color: #333;
+              line-height: 1;
+              display: inline-block;
+            }
 
-  }
-  &
-  :first-child {
+          }
+          .intro {
+            position: relative;
+            padding-left: 70px;
+            font-size: 13px;
+            line-height: 1;
+            color: #666;
 
-  p {
-    padding-left: 17px;
-    padding-right: 15px;
-  }
+            dt {
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
 
-  }
-  .recommend {
-    margin: 0 auto;
-    display: table;
+            dd {
+              width: 180px;
+              overflow: hidden;
+              height: 13px;
+            }
 
-  a {
-    padding: 2px 11px;
-    color: #fff;
-    font-size: 13px;
-    line-height: 22px;
-  }
+          }
+          .btn {
+            width: 75px;
+            height: 22px;
+            line-height: 22px;
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            margin-top: -11px;
+            font-size: 13px;
 
-  }
-  &
-  :last-child {
-    width: 95px;
-  }
+          }
 
-  }
+          .bg-blue {
+            background: #528de8;
+          }
 
-  }
-  .file-warp {
-    padding-top: 10px;
-    padding-bottom: 17px;
+          .bg-gray {
+            background: #bbb;
+          }
 
-  .file {
-    border-bottom: 1px dashed #dedede;
-    position: relative;
-    padding: 13px 0;
+          .agreed {
+            background: #fff;
+            font-size: 13px;
+            color: #666;
+            text-align: left;
 
-  &
-  :first-child {
-    border-top: 1px dashed #dedede;
-  }
+            .icon-agreed {
+              display: inline-block;
+              width: 13px;
+              height: 13px;
+              @include bg-image("../../img/progress-finished");
+              background-size: 13px auto;
+              margin-right: 5px;
+            }
 
-  .title {
-    padding-left: 17px;
-    position: relative;
-    margin-bottom: 12px;
-    line-height: 14px;
+          }
+        }
+      }
+    }
+    .merge-table {
+      border: 1px solid #dedede;
+      margin: 10px 0 15px;
+      font-size: 13px;
+      color: #666;
+      text-align: left;
 
-  .icon-type {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    width: 11px;
-    height: 13px;
-    background-size: 11px 13px;
-    vertical-align: middle;
+      td {
+        text-align: center;
+        height: 28px;
+        line-height: 28px;
+        &:first-child{
+          width: 50px;
+        }
+        &:nth-child(n+2){
+          width: 200px;
+        }
+        .recommend {
+          margin: 0 auto;
+          display: table;
 
-  &
-  .icon-pdf {
-  @include bg-image("../../img/pdf");
-  }
+          a {
+            padding: 2px 11px;
+            color: #fff;
+            font-size: 13px;
+            line-height: 22px;
+          }
 
-  &
-  .icon-jpg {
-  @include bg-image("../../img/jpg");
-  }
+        }
+        &:last-child {
+          width: 95px;
+        }
 
-  &
-  .icon-ppt {
-  @include bg-image("../../img/ppt");
-  }
+      }
 
-  &
-  .icon-xls {
-  @include bg-image("../../img/xls");
-  }
-
-  }
-  .file-title {
-    font-size: 14px;
-    color: #333;
-    line-height: 1;
-    display: inline-block;
-  }
-
-  }
-  .intro {
-    position: relative;
-    padding-left: 70px;
-    font-size: 13px;
-    line-height: 1;
-    color: #666;
-
-  dt {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  dd {
-    width: 180px;
-    overflow: hidden;
-    height: 13px;
-  }
-
-  }
-  .btn {
-    width: 75px;
-    height: 22px;
-    line-height: 22px;
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    margin-top: -11px;
-    font-size: 13px;
-
-  }
-
-  .bg-blue {
-    background: #528de8;
-  }
-
-  .bg-gray {
-    background: #bbb;
-  }
-
-  .agreed {
-    background: #fff;
-    font-size: 13px;
-    color: #666;
-    text-align: left;
-
-  .icon-agreed {
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-  @include bg-image("../../img/progress-finished");
-    background-size: 13px auto;
-    margin-right: 5px;
-  }
-
-  }
-  }
-  }
-  }
+    }
 
   }
 
