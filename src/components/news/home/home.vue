@@ -89,7 +89,10 @@ export default {
         freeMode: true,
         on:{
           slidePrevTransitionEnd:()=>{
-            console.log(this);
+            // console.log(this.weekList);
+            if(this.weekList != null && this.weekList.length >= 0 && this.weekList.length <this.weekTotal){
+              this.weekNew()
+            }
           }
         }
       },
@@ -100,6 +103,7 @@ export default {
       weekPageSize:4,//投融资周报每页数据量
       weekPage:1 ,//页码
       weekList:[],
+      weekTotal:0,//投融资总数据
       translate: null
     };
   },
@@ -147,9 +151,9 @@ export default {
       }).then(r => {
         if (r.code == 200) {
           console.log(this.weekList.length);
-          // console.log(r.data);
           this.weekList=this.weekList.concat(r.data);
-          console.log(this.weekList);
+          this.weekTotal=r.total;
+          this.page += 1;
         }
       });
     },
