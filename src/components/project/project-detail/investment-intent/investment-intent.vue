@@ -18,10 +18,10 @@
             <!--isCorpAuthed:false, //3.用户是否通过了企业认证-->
             <!--isRiskAgreementSigned:false, //4.风险提示协议是否签署-->
           </div>
-          <div class="point-name color-selected">
-            <div>实名认证</div>
-            <div>企业认证</div>
-            <div>签署协议</div>
+          <div class="point-name">
+            <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">实名认证</div>
+            <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">企业认证</div>
+            <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">签署协议</div>
           </div>
           <div class="process-remind">
             <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
