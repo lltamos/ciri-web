@@ -67,7 +67,6 @@
             <tr>
               <td>姓名</td>
               <td>{{projectOwnerContact.contact[0].name.valueCn}}</td>
-              <td rowspan="4"><div class="recommend"><a shape="rect" class="btn">在线沟通</a></div></td>
             </tr>
             <tr>
               <td>职位</td>
@@ -83,6 +82,7 @@
             </tr>
           </tbody>
         </table>
+        <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title">【企业资料】</div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
@@ -440,7 +440,7 @@
     }
     .merge-table {
       border: 1px solid #dedede;
-      margin: 10px 0 15px;
+      margin: 10px 0 10px;
       font-size: 13px;
       color: #666;
       text-align: left;
@@ -453,24 +453,23 @@
           width: 50px;
         }
         &:nth-child(n+2){
-          width: 200px;
-        }
-        .recommend {
-          margin: 0 auto;
-          display: table;
-
-          a {
-            padding: 2px 11px;
-            color: #fff;
-            font-size: 13px;
-            line-height: 22px;
-          }
-
-        }
-        &:last-child {
-          width: 95px;
+          text-align: left;
+          padding-left: 20px;
         }
 
+      }
+
+    }
+    .recommend {
+      margin: 0 auto 12px;
+      display: table;
+
+      a {
+        padding: 2px 11px;
+        color: #fff;
+        font-size: 13px;
+        line-height: 22px;
+        background: #bbb;
       }
 
     }
