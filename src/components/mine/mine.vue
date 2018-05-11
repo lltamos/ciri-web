@@ -89,6 +89,9 @@
           <li><i class="icon-vip"  v-bind:class="{active:vip}"></i><span>VIP会员</span></li>
         </ul>
         <cross-line></cross-line>
+        <div class="member-center">
+          <h2>我是投资方</h2>
+        </div>
         <ul class="member">
           <li><i class="my-company"></i><span>我的企业</span></li>
           <li><i class="company-verify"></i><span>企业认证</span></li>

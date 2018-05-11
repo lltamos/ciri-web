@@ -42,10 +42,22 @@
     methods: {
       back() {
         window.history.back()
-      }
+      },
+      //页面滚动时
+      handleScroll() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        let searchWarp = document.getElementById('search-warp');
+        this.searchBarFixed = scrollTop > 350;
+        let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
+        if (searchWarp != null) {
+          searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
+        }
+      },
     },
     props: {},
     created() {
+      //页面滚动时
+      window.addEventListener('scroll', this.handleScroll);
       this.axios
         .get(tool.domind() + "/gateway/app/news/article/" + this.$route.query.id)
         .then(res => {
@@ -53,6 +65,10 @@
             this.content = res.data.data;
           }
         });
+    },
+    destroyed() {
+      window.removeEventListener("scroll", this.handleScroll);
+
     },
     mounted() {
     }
