@@ -467,7 +467,7 @@
           margin: 0 10px 0 12px;
           @include bg-image('./img/icon-search');
           position: relative;
-          top: 2px;
+          top: 4px;
 
         }
         input {

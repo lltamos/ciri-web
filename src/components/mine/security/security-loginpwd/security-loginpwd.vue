@@ -143,7 +143,7 @@
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
   .main{
-    padding: 0 10px;
+    padding: 15px 10px;
     .iconWrap{
       position: relative;
       .mint-cell{
