@@ -61,7 +61,7 @@
                      replace>项目进展
         </router-link>
         <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}"
-                     replace>项目交流
+                     replace>项目答疑
         </router-link>
         <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}"
                      replace>投资意向
