@@ -1,67 +1,67 @@
 <template>
-  <div class="project-land">
-    <projectHeader :visit="visit"
-                   :projName="projName"
-                   :cornerTag="cornerTag"
-                   :projType="projType"
-                   :tag="tag"
-                   :status="status"
-                   :tags="tags"
-                   :setProjVideo="setProjVideo"
-                   :projPhoto="projPhoto"
-                   :projAddress="projAddress"
-                   :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
-    <div class="project-intro">
-      <h4>
-        <div class="border"></div>
-        <div class="title-intro">项目简介</div>
-        <!--<div @click="gotoDetail" class="detail-warp">
-          <span class="to-detail">项目详情</span>
-          <i class="more" ></i>
-        </div>-->
+<div class="project-land">
+  <projectHeader :visit="visit"
+                 :projName="projName"
+                 :cornerTag="cornerTag"
+                 :projType="projType"
+                 :tag="tag"
+                 :status="status"
+                 :tags="tags"
+                 :setProjVideo="setProjVideo"
+                 :projPhoto="projPhoto"
+                 :projAddress="projAddress"
+                 :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
+  <div class="project-intro">
+    <h4>
+      <div class="border"></div>
+      <div class="title-intro">项目简介</div>
+      <!--<div @click="gotoDetail" class="detail-warp">
+        <span class="to-detail">项目详情</span>
+        <i class="more" ></i>
+      </div>-->
 
-      </h4>
-      <p class="document-txt">{{projAbstract}}</p>
-      <div class="progress-model">
-        <svgIcon :irr="irr"
-                 :amount="amount"
-                 :projDevelopers="projDevelopers"
-                 :potentialInvestorSize="potentialInvestorSize"
-                 :financingProgress="financingProgress"></svgIcon>
+    </h4>
+    <p class="document-txt">{{projAbstract}}</p>
+    <div class="progress-model">
+      <svgIcon :irr="irr"
+               :amount="amount"
+               :projDevelopers="projDevelopers"
+               :potentialInvestorSize="potentialInvestorSize"
+               :financingProgress="financingProgress"></svgIcon>
+    </div>
+    <div class="btn-warp">
+      <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
+        <i class="icon-dianzan"></i>
+        <span class="count-warp">看好</span>
+        <span class="count">{{likes}}</span>
       </div>
-      <div class="btn-warp">
-        <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
-          <i class="icon-dianzan"></i>
-          <span class="count-warp">看好</span>
-          <span class="count">{{likes}}</span>
-        </div>
-        <div class="share thumbs-up">
-          <i class="icon-dianzan"></i>
-          <span class="count-warp">分享</span>
-          <span class="count">{{shares}}</span>
-        </div>
+      <div class="share thumbs-up">
+        <i class="icon-dianzan"></i>
+        <span class="count-warp">分享</span>
+        <span class="count">{{shares}}</span>
       </div>
     </div>
-    <CrossLine></CrossLine>
-    <!--项目详情-->
-    <div class="project-detail">
-      <div class="title-warp">
-        <div class="border-line"></div>
-        <div class="title">项目详情</div>
-      </div>
-      <div class="img">
-        <img src="../img/detail-summary.png" alt=""/>
-      </div>
-      <div @click="gotoDetail" class="view-detail btn">查看项目详情</div>
-
-    </div>
-    <CrossLine></CrossLine>
-    <!--客户经理-->
-    <project-manager></project-manager>
-    <project-bottom :collects="collects"
-                    :collected="collected"
-                    :projId="projId"></project-bottom>
   </div>
+  <CrossLine></CrossLine>
+  <!--项目详情-->
+  <div class="project-detail">
+    <div class="title-warp">
+      <div class="border-line"></div>
+      <div class="title">项目详情</div>
+    </div>
+    <div class="img">
+      <img src="../img/detail-summary.png" alt=""/>
+    </div>
+    <div @click="gotoDetail" class="view-detail btn">查看项目详情</div>
+
+  </div>
+  <CrossLine></CrossLine>
+  <!--客户经理-->
+  <project-manager></project-manager>
+  <project-bottom :collects="collects"
+                  :collected="collected"
+                  :projId="projId"></project-bottom>
+</div>
 </template>
 
 <script>
@@ -115,7 +115,7 @@
     methods: {
       addVisit() {
         this.$api.post('/pb/s0/l/updateRecord',
-          {projId: this.projId, tag: 2}).then(res => {
+          {projId: this.projId, tag: 0}).then(res => {
         })
       },
 
