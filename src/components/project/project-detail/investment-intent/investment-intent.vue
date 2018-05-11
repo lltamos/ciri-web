@@ -69,7 +69,7 @@
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
-              <div to="" class="detail-warp" v-model="companyProgress.companyId"  @click="showInvestDetail(companyProgress.companyId)">
+              <div to="" class="detail-warp" v-model="companyProgress.companyId"  @click="showInvestDetail(companyProgress.companyId,companyProgress.status)">
                 <span class="to-detail">详情</span>
                 <i class="more"></i>
               </div>
@@ -88,7 +88,7 @@
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
-              <div to="" class="detail-warp" v-model="companyProgress.companyId" @click="showInvestDetail(companyProgress.companyId)">
+              <div to="" class="detail-warp" v-model="companyProgress.companyId" @click="showInvestDetail(companyProgress.companyId,companyProgress.status)">
                 <span class="to-detail" >详情</span>
                 <i class="more"></i>
               </div>
@@ -155,12 +155,17 @@
             }
             this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
           },
-          showInvestDetail(companyId){
+          showInvestDetail(companyId,status){
             let level = sessionStorage.getItem("userLevel");
             if(level=='5' || level=='2'|| level=='6'|| level=='7'){
-              this.authorityWin = true;
-              this.authorityShowWin = false;
-              this.$router.push({path:'/project/project-detail/investment-detail',query: {projId:this.projId,companyId:companyId}});
+              //合投信息处于同意情况才可以被查看
+              if(status == 2){
+                this.authorityWin = true;
+                this.authorityShowWin = false;
+                this.$router.push({path:'/project/project-detail/investment-detail',query: {projId:this.projId,companyId:companyId}});
+              }else {
+                tool.toast("合投信息暂时不能查看")
+              }
             }else{
               this.authorityWin = false;
               this.authorityShowWin = true;
