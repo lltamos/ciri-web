@@ -126,8 +126,8 @@
               shareSDK.wxconfig.signature = res.data.signature;
               shareSDK.wxconfig.nonceStr = res.data.noncestr;
               shareSDK.wxconfig.appId = res.data.appid;
-              console.log(shareSDK.wxconfig)
-              shareSDK.share(this.projName, url, this.projPhoto, 'desc', shareSDK.wxconfig)
+              // console.log(shareSDK.wxconfig)
+              shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig)
             }
           }
         );
