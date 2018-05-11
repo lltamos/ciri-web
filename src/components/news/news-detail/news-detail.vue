@@ -1,8 +1,8 @@
 <template>
   <div class="news-detail">
-    <div class="header-bar">
+    <div class="header-bar" :class="{active:headerFixed}">
       <i class="icon-back" @click="back"></i>
-      <h1>资讯详情</h1>
+      <h1 v-show="headerFixed">{{this.content.title.length >5 ?this.content.title.substr(0,5):this.content.title}}</h1>
     </div>
     <div class="main">
       <h2>{{this.content.title}}</h2>
@@ -36,7 +36,8 @@
     },
     data() {
       return {
-        content: ""
+        content: "",
+        headerFixed: false
       };
     },
     methods: {
@@ -46,12 +47,12 @@
       //页面滚动时
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        let searchWarp = document.getElementById('search-warp');
-        this.searchBarFixed = scrollTop > 350;
-        let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
-        if (searchWarp != null) {
-          searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
-        }
+        // let searchWarp = document.getElementById('search-warp');
+        this.headerFixed = scrollTop >44;
+        // let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
+        // if (searchWarp != null) {
+        //   searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
+        // }
       },
     },
     props: {},
@@ -82,6 +83,13 @@
   .news-detail {
 
     .header-bar {
+      &.active{
+        position: fixed;
+        top:0;
+        left: 0;
+        right:0;
+        z-index: 999;
+      }
       height: 44px;
       line-height: 44px;
       color: #fff;
@@ -113,6 +121,7 @@
       h1 {
         color: #fff;
         font-size: 20px;
+        text-align: center;
       }
 
       .icon-back {

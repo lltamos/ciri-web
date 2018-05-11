@@ -61,14 +61,6 @@
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
         <span class="item-remark">(选填)</span>
-        <router-link v-if="this.seeIntent"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}"
-                     class="title-edit fr">编辑
-        </router-link>
-        <router-link v-if="!this.seeIntent"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}"
-                     class="title-edit fr">编辑
-        </router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -85,6 +77,16 @@
               </i>
               <span>英文</span>
             </div>
+
+            <router-link v-if="this.seeIntent"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+            <router-link v-if="!this.seeIntent"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+
           </div>
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
@@ -117,14 +119,7 @@
     <div class="advantage">
       <div class="partipate-title clearfix">【企业优势】
         <span class="item-remark">(选填)</span>
-        <router-link v-if="this.seeLanguage"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}"
-                     class="title-edit fr">编辑
-        </router-link>
-        <router-link v-if="!this.seeLanguage"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}"
-                     class="title-edit fr">编辑
-        </router-link>
+
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -141,6 +136,14 @@
               </i>
               <span>英文</span>
             </div>
+            <router-link v-if="this.seeLanguage"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+            <router-link v-if="!this.seeLanguage"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}"
+                         class="title-edit fr">编辑
+            </router-link>
           </div>
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
@@ -817,10 +820,19 @@
             text-align: left;
             display: flex;
             justify-content: left;
+            position: relative;
             .item{
               span{
                 font-size: 13px;
               }
+            }
+            a{
+              height: 40px;
+              line-height: 45px;
+              display: inline-block;
+              color: #528de8;
+              position: absolute;
+              right: 10px;
             }
           }
         }
@@ -885,10 +897,19 @@
             text-align: left;
             display: flex;
             justify-content: left;
+            position: relative;
             .item{
               span{
                 font-size: 13px;
               }
+            }
+            a{
+              height: 40px;
+              line-height: 45px;
+              display: inline-block;
+              color: #528de8;
+              position: absolute;
+              right: 10px;
             }
           }
         }
