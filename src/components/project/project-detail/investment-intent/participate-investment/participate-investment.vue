@@ -242,10 +242,6 @@
     beforeRouteLeave(to,from,next){
       // 不是跳转到编辑页面...终止页面
       if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
-        // gbus.$on('emitRefreshDate',null);
-        // this.askFileList=new Array();
-        // this.askFileList1=new Array();
-        // console.log(1111111111111111111111111111);
         this.$destroy();
       }
       next();
@@ -488,10 +484,9 @@
     computed: {},
     activated() {
       this.projId = this.$route.query.projId;
-      console.log(sessionStorage.getItem("fromStatus"))
+      // console.log(sessionStorage.getItem("fromStatus"))
       //判读是否是从编辑页面 跳转来的 是的话不发送请求 用缓存显示数据
       if (sessionStorage.getItem("fromStatus") == 1) {
-        //
         this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
           if (r.code == 200) {
             this.isLeadQualified = r.isLeadQualified;
@@ -575,22 +570,22 @@
             }
             console.log(r.data);
           }
-          else{
+          else if(r.code != 201){
             tool.toast(r.msg)
           }
         });
       }
       let r = this.investAmount;
-      console.log(this.investAmount);
-      this.flag = r;
-      console.log(this.flag);
+      // console.log(this.investAmount);
+      // this.flag = r;
+
       gbus.$on('emitRefreshDate', () => {
         this.fillAdv();
         this.fillAdvEn();
         this.fillInt();
         this.fillIntEn();
       })
-
+      console.log(111);
     },
     mounted() {
 
