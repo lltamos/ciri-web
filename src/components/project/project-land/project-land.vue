@@ -126,8 +126,7 @@
               shareSDK.wxconfig.signature = res.data.signature;
               shareSDK.wxconfig.nonceStr = res.data.noncestr;
               shareSDK.wxconfig.appId = res.data.appid;
-              // console.log(shareSDK.wxconfig)
-              shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig)
+              shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig,{projId:this.projId})
             }
           }
         );
@@ -194,7 +193,7 @@
           this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
           this.projAddress = res.data.projAddress
           this.projMaturity = res.data.projMaturity
-          this.share({projId:this.projId});
+          this.share();
         }
       });
     },
