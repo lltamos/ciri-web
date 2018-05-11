@@ -2,13 +2,12 @@
 <div class="progress-detail">
   <div class="header-bar gradient">
     <i class="icon-back" @click="back"></i>
-    <h1>项目名片</h1>
-    <i class="icon_search" @click="search"></i>
+    <h1>项目进展</h1>
   </div>
   <div class="main" v-if="!tag">
     <div v-if="this.detailContent">
       <h4>
-        <i class="left-line"></i><span>{{this.detailContent.title.valueCn}}</span>
+        <i class="left-line"></i><span class="pro-title">{{this.detailContent.title.valueCn}}</span>
         <span class="time">{{this.detailContent.time}}</span>
       </h4>
       <div class="img">
@@ -123,18 +122,26 @@
       .left-line{
         position: absolute;
         display: block;
-        width: 3px;
+        width: 4px;
         height: 15px;
         background-color: #528de8;
         left: 0;
         top:15px;
+      }
+      .pro-title{
+        font-size: 16px;
+        width: 265px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
       }
       .time{
         position: absolute;
         right:0;
         top:17px;
         line-height: 1;
-        font-size: 12px;
+        font-size: 13px;
         color:#666;
       }
     }
@@ -153,7 +160,7 @@
         text-align: left;
         p{
           margin-bottom:17px ;
-          font-size: 13px;
+          font-size: 15px;
           color:#333;
           line-height: 20px;
           text-indent: 2em;
@@ -162,7 +169,10 @@
       .small-btn{
         display: table;
         margin:0 auto 30px;
-        width:52px;
+        width:335px;
+        font-size: 16px;
+        height: 38px;
+        line-height: 38px;
 
       }
     }

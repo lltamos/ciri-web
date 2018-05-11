@@ -425,7 +425,7 @@
       fillAdv() {
         let cont = sessionStorage.getItem("advCh");
         if (cont == "" || cont == "undefined" || cont == null) {
-          this.chineseAdv = "没有内容";
+          //this.chineseAdv = "没有内容";
         } else {
           this.chineseAdv = cont;
           if (cont.length > 405) {
@@ -440,7 +440,7 @@
       fillAdvEn() {
         let cont = sessionStorage.getItem("advEn");
         if (cont === "" || cont === "undefined" || cont === null) {
-          this.englishAdv = "没有内容";
+          //this.englishAdv = "没有内容";
         } else {
           this.englishAdv = cont;
           if (cont.length > 405) {
@@ -455,7 +455,7 @@
       fillInt() {
         let cont = sessionStorage.getItem("intCh");
         if (cont === "" || cont === "undefined" || cont === null) {
-          this.chineseInt = "没有内容";
+          //this.chineseInt = "没有内容";
         } else {
           this.chineseInt = cont;
           if (cont.length > 405) {
@@ -471,7 +471,7 @@
       fillIntEn() {
         let contEn = sessionStorage.getItem("intEn");
         if (contEn === "" || contEn === "undefined" || contEn === null) {
-          this.englishInt = "没有内容";
+          //this.englishInt = "没有内容";
         } else {
           this.englishInt = contEn;
           if (contEn.length > 405) {
