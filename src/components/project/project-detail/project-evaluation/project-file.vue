@@ -91,6 +91,7 @@
     computed: {},
     created() {
       // this.projectId = '496000001';
+      this.projectId = window.location.href.split('?')[1].split('=')[1]
       let param = {
         projectId: window.location.href.split('?')[1].split('=')[1]
         // projectId: this.projectId
