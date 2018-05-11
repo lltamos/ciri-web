@@ -184,7 +184,6 @@
       });
     },
     mounted() {
-
       let url = location.href;
       this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
           if (res.code == 200) {

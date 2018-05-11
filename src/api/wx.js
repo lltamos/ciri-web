@@ -11,7 +11,6 @@ let shareSDK = {
   },
 
   share: function (title, url, imageurl, desc, config) {
-    alert("share");
     wx.config({
       debug: true,
       appId: config.appId,
@@ -26,11 +25,9 @@ let shareSDK = {
         title: title,
         link: url,
         imgUrl: imageurl,
-        success: function () {
-          alert("success")
+        success: () => {
         },
-        cancel: function () {
-          alert("cancel")
+        cancel: () => {
         }
       });
       wx.onMenuShareAppMessage({
@@ -40,9 +37,9 @@ let shareSDK = {
         imgUrl: imageurl,
         type: '',
         dataUrl: '',
-        success: function () {
+        success: () => {
         },
-        cancel: function () {
+        cancel: () => {
         }
       });
     });
