@@ -2,9 +2,7 @@ import api from '@/api/http'
 
 const wx = require('weixin-js-sdk')
 let shareSDK = {
-
   wxconfig: {
-    debug: false,
     appId: null,
     timestamp: null,
     nonceStr: null,
@@ -14,7 +12,7 @@ let shareSDK = {
 
   share: function (title, urllink, imageurl, desc, config, param) {
     wx.config({
-      debug: true,
+      debug: false,
       appId: config.appId,
       timestamp: config.timestamp,
       nonceStr: config.nonceStr,
