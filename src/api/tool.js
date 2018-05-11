@@ -5,7 +5,7 @@ import moment from 'moment'
 export default {
   domind: function () {
     return 'http://60.205.7.211:8816'
-    // return 'http://127.0.0.1:8080'
+    // return 'http://192.168.2.4:8080'
   },
   path: function () {
     return '/gateway'
@@ -76,7 +76,7 @@ export default {
     Toast({
       message: msg,
       position: 'bottom',
-      duration: 5000
+      duration: 2000
     });
   },
   MessageBox: function (msg) {
