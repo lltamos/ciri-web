@@ -65,7 +65,8 @@
               <img src="../../img/company.png">
             </div>
             <div class="content fl">
-              <div class="company-name">{{companyProgress.companyName}}</div>
+              <!-- <div class="company-name">{{companyProgress.companyName}}</div>-->
+              <div class="company-name">{{companyProgress.companyName.length>4?companyProgress.companyName.substr(0, 2) + '****' + companyProgress.companyName.substr(-2):companyProgress.companyName}}</div>
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
@@ -84,7 +85,8 @@
               <img src="../../img/company.png">
             </div>
             <div class="content fl">
-              <div class="company-name">{{companyProgress.companyName}}</div>
+              <!--<div class="company-name">{{companyProgress.companyName}}</div>-->
+              <div class="company-name">{{companyProgress.companyName.length>4?companyProgress.companyName.substr(0, 2) + '****' + companyProgress.companyName.substr(-2):companyProgress.companyName}}</div>
               <div class="count">意向投资额：<span>{{parseInt(companyProgress.companyMoney)}}</span>{{projectProgress.currencyName}}</div>
             </div>
             <div class="detail fr">
@@ -144,6 +146,13 @@
         props: {},
         watch: {},
         methods: {
+          /*getComName(str){
+            if(str>4){
+              str = str.substr(0, 2) + '****' + str.substr(-2);
+            }else{
+              str = str;
+            }
+          },*/
           showParticipate(){
             if(!this.closeShot){
               return;
@@ -413,6 +422,7 @@
             top: 0;
             bottom: 0;
             border-radius: 11px;
+            width: 0;
 
           }
         }

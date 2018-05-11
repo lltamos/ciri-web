@@ -99,6 +99,27 @@ export default {
   let num = str.replace("px","");
       num = parseInt(num);
   return num;
-}
+  },
+  /*隐藏用户名 中间加**  */
+  hiddenName:function(username){
+    if(this.checkEmail(username)){
+      let a = username.indexOf('@');
+      let b;
+      if(a >= 4 ){
+        b = username.substr(0, 4) + "****"
+      }else {
+        b = "****"
+      }
+      return b + username.substr(a, username.length);
+    }else if(this.checkMobile(username)) {
+      return username.substr(0,3)+"****"+username.substr(7,4)
+    }else {
+      if(username > 4 ){
+        return  username.substr(0,2)+"****"+username.substr(username.length - 2,2)
+      }else {
+        return username.substr(0,2)+"****"
+      }
+    }
+  }
 
 }
