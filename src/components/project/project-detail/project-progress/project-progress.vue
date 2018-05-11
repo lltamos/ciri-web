@@ -20,7 +20,11 @@
                 <!--<router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
                   <em>查看</em>
                 </router-link>-->
-                <em @click="seeDetail(projId,item.editInfo.createTime)">查看</em>
+                <span @click="seeDetail(projId,item.editInfo.createTime)">
+                  <em>查看</em>
+                  <i class="more"></i>
+                </span>
+
               </li>
           </ul>
         </div>
@@ -201,13 +205,14 @@
     .progress-warp{
       .reminder{
         padding: 0 10px;
-        height:28px;
+        height:56px;
         overflow: hidden;
         line-height:28px;
         background: #f5f5f5;
         margin:15px 0 ;
         color:#528de8;
-        font-size: 10px;
+        font-size: 13px;
+        text-align: center;
       }
       .project{
         position: relative;
@@ -267,6 +272,9 @@
               .time{
                 top:-2px;
               }
+              .more{
+                top: 5px;
+              }
             }
             &:last-child{
               border-bottom: none;
@@ -279,7 +287,7 @@
               width:90px;
               height:20px;
               line-height: 20px;
-              border: 2px solid #bbb;
+              border: 1px solid #bbb;
               border-radius: 20px;
               background: #fff;
               font-size: 12px;
@@ -291,7 +299,7 @@
               color:#333;
               height:20px;
               line-height: 20px;
-              width: 210px;
+              width: 200px;
               text-overflow:ellipsis;
               white-space : nowrap;
               overflow : hidden;
@@ -301,11 +309,26 @@
             }
             em{
               position: absolute;
-              right:0;
+              right: 20px;
               top:12px;
-              font-size: 12px;
-              color:#666;
-
+              font-size: 13px;
+              color:#528de8;
+            }
+            .more {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+              position: absolute;
+              right:0;
+              background-repeat: no-repeat;
+              background-size: 12px 12px;
+              background-position: center;
+              @include bg-image("../../img/to-detail");
+              vertical-align: middle;
+              top: 14px;
+              &:first-child{
+                top: 5px;
+              }
             }
             .img{
               margin-top: 15px;

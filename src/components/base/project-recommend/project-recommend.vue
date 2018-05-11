@@ -154,7 +154,7 @@
         }
         project.project.likesStatus = true;
         project.project.likes = project.project.likes + 1;
-        this.$api.post('/pb/s0/l/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
+        this.$api.post('/pb/p/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
           if (r.code == 200) {
           }
         });

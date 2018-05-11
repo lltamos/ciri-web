@@ -29,27 +29,27 @@
           <li :class="{active:tabActive==1}" @click="allShow">全部 <em>{{questionCount}}</em></li>
           <li :class="{active:tabActive==2}" @click="mineShow">我的问题 <em>{{myQuestionCount}}</em></li>
         </ul>
+        <!--所有问题-->
         <div class="all-warp" v-show="questionShow" >
-          <div class="question-warp"  >
-            <div class="question-list" v-if="questions != null && questions.length != 0 " v-for="(question,index) in questions" :key="index" >
-              <div class="head-portrait">
-                <!--<img src="../../../news/img/p_1.jpg" alt="">-->
 
+          <div class="question-warp"  >
+            <!--显示问题-->
+            <div class="question-list" v-if="questions != null && questions.length != 0 " v-for="(question,index) in questions" :key="index" >
+              <!--显示头像-->
+              <div class="head-portrait">
                 <img v-if="question.headUrl != null && question.headUrl !='' "  v-lazy="question.headUrl"  alt="">
                 <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
               </div>
+              <!--显示用户名和时间-->
               <div class="top-infor">
                 <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
                 <div class="time">{{question.updateTime|time}}</div>
               </div>
+              <!--提问信息-->
               <div class="ques-title">{{question.message}}</div>
 
               <div class="main-news">
-                <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-                <!--<div class="user-name">{{(question.userid == null || question.userid == ""  ? "匿名": question.userid).length >15 ?question.userid.substr(0,15)+'...' : (question.userid == null || question.userid == "" ? "匿名": question.userid)}}</div>-->
-
                 <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(question.id,1)">{{question.oneselfInfo == true?"删除" :""}}</div>
-
                 <div class="file-warp">
                   <div class="file" v-if="question.fileMetas != null && question.fileMetas.length !=0 " v-for="(fileMeta,index) in question.fileMetas" :key="index">
                     <i class="icon-type icon-pdf"></i>
@@ -79,40 +79,45 @@
                 <!--回答信息-->
                 <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList != '' && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
-                  <div class="marked-warp">
-                    <div class="marked-words">
-                      <div class="user-warp clearfix">
-                        <div class="head-portrait small-head-portrait">
-                          <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                          <img v-if="ask.headUrl != null && ask.headUrl !='' "  v-lazy="ask.headUrl"  alt="">
-                          <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                  <div v-if="ask != null">
+                    <div class="marked-warp">
+                      <div class="marked-words">
+                        <div class="user-warp clearfix">
+                          <div class="head-portrait small-head-portrait">
+                            <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+                            <img v-if="ask.headUrl != null && ask.headUrl !='' "  v-lazy="ask.headUrl"  alt="">
+                            <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                          </div>
+                          <div class="fl">
+                            <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                            <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                            <div class="time">{{ask.updateTime|time}}</div>
+                            <!--回复点赞数量-->
+                            <!--<div class="fr dz-hf">-->
+                              <!--<span class="dz-count">{{ask.likes}}</span>-->
+                              <!--<template v-if="ask.likeStatus==true">-->
+                                <!--<i class="icon-dz active" ></i>-->
+                              <!--</template>-->
+                              <!--<template v-if="ask.likeStatus==false">-->
+                                <!--<i class="icon-dz" ></i>-->
+                              <!--</template>-->
+                            <!--</div>-->
+                          </div>
                         </div>
-                        <div class="fl">
-                          <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                          <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
-                          <div class="time">{{ask.updateTime|time}}</div>
-                          <!--回复点赞数量-->
-                          <!--<div class="fr dz-hf">-->
-                            <!--<span class="dz-count">{{ask.likes}}</span>-->
-                            <!--<template v-if="ask.likeStatus==true">-->
-                              <!--<i class="icon-dz active" ></i>-->
-                            <!--</template>-->
-                            <!--<template v-if="ask.likeStatus==false">-->
-                              <!--<i class="icon-dz" ></i>-->
-                            <!--</template>-->
-                          <!--</div>-->
-                        </div>
+                        <div class="ques-title">{{ask.message}}</div>
                       </div>
-                      <div class="ques-title">{{ask.message}}</div>
                     </div>
-                  </div>
-                  <!--设置回答文件信息-->
-                  <div class="file-warp">
+                    <!--设置回答文件信息-->
+                    <div class="file-warp">
                     <div class="file"  v-for="(askFileMeta,index) in ask.fileMetas" :key="index">
                       <i class="icon-type icon-pdf"></i>
                       <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                       <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                     </div>
+                  </div>
+                  </div>
+                  <div v-else>
+                    仅提问者可见
                   </div>
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
@@ -129,22 +134,25 @@
               </div>
               <CrossLine></CrossLine>
             </div>
+            <!--当问题不存在时显示-->
             <div v-if="questions == null || questions.length == 0 ">
               <img src="../../img/timer-none.png" alt="">
             </div>
           </div>
-
+          <!--加载更多-->
           <div class="read-more" @click="allQuestion()"
                v-if="questions!=null && questions.length > 0 && page < questionCount/pageSize">
             <span>查看更多</span>
             <i class="icon-more"></i>
           </div>
+          <!--收起-->
           <div class="read-more" @click="backUp(1)"
                v-if="questions!=null && questions.length > 0 && page > 1 && page >= (questionCount/pageSize)">
             <span>收起</span>
             <i class="pack-up"></i>
           </div>
         </div>
+        <!--我的问题-->
         <div class="mine-warp" v-show="!questionShow">
           <div class="question-list" v-if="myQuestions != null && myQuestions.length >0 " v-for="(myQuestion,aindex) in myQuestions" :key="aindex" >
             <div class="head-portrait">
@@ -192,32 +200,37 @@
               </div>
               <!--回答信息-->
               <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 " v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
-                <!--回复的信息-->
-                <div class="marked-warp">
-                  <div class="marked-words">
-                    <div class="user-warp clearfix">
-                      <div class="head-portrait small-head-portrait">
-                        <!--<img src="../../../news/img/p_1.jpg" alt="">-->
-                        <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
-                        <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                <div v-if="ask != null">
+                  <!--回复的信息-->
+                  <div class="marked-warp">
+                    <div class="marked-words">
+                      <div class="user-warp clearfix">
+                        <div class="head-portrait small-head-portrait">
+                          <!--<img src="../../../news/img/p_1.jpg" alt="">-->
+                          <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
+                          <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                        </div>
+                        <div class="fl">
+                          <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                          <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
+                          <div class="time">{{ask.updateTime|time}}</div>
+                          <!--回复点赞数量-->
+                        </div>
                       </div>
-                      <div class="fl">
-                        <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
-                        <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
-                        <div class="time">{{ask.updateTime|time}}</div>
-                        <!--回复点赞数量-->
-                      </div>
+                      <div class="ques-title">{{ask.message}}</div>
                     </div>
-                    <div class="ques-title">{{ask.message}}</div>
                   </div>
-                </div>
-                <!--设置回答文件信息-->
-                <div class="file-warp">
+                  <!--设置回答文件信息-->
+                  <div class="file-warp">
                   <div class="file" v-if="ask.fileMetas != null && ask.fileMetas.length > 0" v-for="(askFileMeta,ccindex) in ask.fileMetas" :key="ccindex">
                     <i class="icon-type icon-pdf"></i>
                     <span class="file-title">{{askFileMeta.fileName.length >15 ? askFileMeta.fileName.substr(0,15)+'...'+askFileMeta.fileName.replace(/.+\./, "") :askFileMeta.fileName}}</span>
                     <div class="view" @click="lookFile(askFileMeta.url)">查看</div>
                   </div>
+                </div>
+                </div>
+                <div v-else>
+                  仅提问者可见
                 </div>
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
