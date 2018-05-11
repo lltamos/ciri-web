@@ -113,7 +113,7 @@
       methods: {
         addVisit () {
           this.$api.post('/pb/s0/l/updateRecord',
-            {projId: this.projId, tag: 1}).then(res => {
+            {projId: this.projId, tag: 0}).then(res => {
           })
         },
 
