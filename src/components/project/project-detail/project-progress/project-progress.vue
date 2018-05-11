@@ -25,9 +25,7 @@
           </ul>
         </div>
         <div v-if="!this.power">
-          <div class="timer-none" v-if="progressList == null || progressList.length ==0">
-            <img src="../../img/timer-none.png" alt="">
-          </div>
+          <div class="timer-none" v-if="progressList == null || progressList.length ==0"></div>
         </div>
         <div class="ask-pop pop-bg" v-show="askPop" @click="switchShow"></div>
         <div class="pop-up" v-show="askPop">
@@ -244,19 +242,18 @@
 
         }
       }
+      .timer-none{
+        height:190px;
+        width:100%;
+        @include bg-image('../../img/timer-none');
+        background-size: 100% 100%;
+
+      }
       .timer-shaft{
         padding:10px 10px 22px 55px;
         .timer-warp{
           padding-left: 45px;
           border-left: 1px dashed #dedede;
-          .timer-none{
-            height:190px;
-            width:80%;
-            img{
-              position: relative;
-              left: -100px;
-            }
-          }
           li{
             position: relative;
             border-bottom: 1px dashed #dedede;
