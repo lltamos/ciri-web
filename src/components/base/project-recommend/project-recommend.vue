@@ -74,7 +74,7 @@
     data() {
       return {
         moreText: '查看更多',
-        projects: null,
+        projects: [],
         pageId: 1,
         status: [7],
         tag: [101001, 101002],
@@ -121,7 +121,7 @@
           industryCategory: this.tabPanel==1?this.industryCategory:99
         }).then(r => {
           this.notloading = false;
-          if (this.pageId == 1) {
+          if (this.pageId == 1 || this.projects == null) {
             this.projects = r.data.list;
           } else {
             this.projects = this.projects.concat(r.data.list);
