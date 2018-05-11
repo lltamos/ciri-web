@@ -2,9 +2,7 @@ import api from '@/api/http'
 
 const wx = require('weixin-js-sdk')
 let shareSDK = {
-
   wxconfig: {
-    debug: true,
     appId: null,
     timestamp: null,
     nonceStr: null,
@@ -12,8 +10,7 @@ let shareSDK = {
     jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
   },
 
-  share: function (title, url, imageurl, desc, config, param) {
-    alert('title:'+title+'&&'+'url:'+url+'&&')
+  share: function (title, urllink, imageurl, desc, config, param) {
     wx.config({
       debug: false,
       appId: config.appId,
@@ -25,7 +22,7 @@ let shareSDK = {
     wx.ready(() => {
       wx.onMenuShareTimeline({
         title: title,
-        link: url,
+        link: urllink,
         imgUrl: imageurl,
         success: () => {
           api.post('/pb/p/updateRecord', {projId: param.projId, tag: 1});
@@ -36,7 +33,7 @@ let shareSDK = {
       wx.onMenuShareAppMessage({
         title: title,
         desc: desc,
-        link: url,
+        link: urllink,
         imgUrl: imageurl,
         type: '',
         dataUrl: '',

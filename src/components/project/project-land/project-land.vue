@@ -119,15 +119,14 @@
         })
       },
       share() {
-        console.log('开始执行 share 方法')
-        let url = location.href;
-        this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
+        let urlparm = window.location.href.split('#')[0]
+        let url =window.location.href.split('#')[0] + '#' + window.location.href.split('#')[1];
+        this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
             if (res.code == 200) {
               shareSDK.wxconfig.timestamp = res.data.timestamp;
               shareSDK.wxconfig.signature = res.data.signature;
               shareSDK.wxconfig.nonceStr = res.data.noncestr;
               shareSDK.wxconfig.appId = res.data.appid;
-              console.log('title:'+this.projName)
               shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig, {projId: this.projId})
             }
           }
@@ -162,11 +161,9 @@
       this.url = this.url + this.projId
 
       this.addVisit()
-      alert("获取文件头");
       this.$api.post('/pb/p/getProjectHeadInfo',
         {username: tool.getuser(), projId: this.projId}).then(res => {
         if (res.code === 200) {
-          alert("获取文件头成功");
           this.projAbstract = res.data.projAbstract
           this.projName = res.data.projName
           this.projPhoto = res.data.projPhoto
