@@ -126,7 +126,7 @@
               shareSDK.wxconfig.signature = res.data.signature;
               shareSDK.wxconfig.nonceStr = res.data.noncestr;
               shareSDK.wxconfig.appId = res.data.appid;
-              shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig,{projId:this.projId})
+              shareSDK.share(this.projName, url, this.projPhoto, this.projAbstract, shareSDK.wxconfig, {projId: this.projId})
             }
           }
         );
@@ -165,6 +165,9 @@
         {username: tool.getuser(), projId: this.projId}).then(res => {
         if (res.code === 200) {
           this.projAbstract = res.data.projAbstract
+          this.projName = res.data.projName
+          this.projPhoto = res.data.projPhoto
+          this.share();
           this.likes = parseInt(res.data.likes)
           this.collects = res.data.collects
           this.shares = res.data.shares
@@ -181,19 +184,19 @@
           this.potentialInvestorSize = res.data.potentialInvestorSize
           this.financingProgress = res.data.financingProgress
           this.visit = res.data.visit
-          this.projName = res.data.projName
+
           this.cornerTag = res.data.cornerTag
           this.projType = res.data.projType
           this.tag = res.data.tag
           this.status = res.data.status
           this.tags = res.data.tags
           this.setProjVideo = res.data.setProjVideo
-          this.projPhoto = res.data.projPhoto
+
           this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
           this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
           this.projAddress = res.data.projAddress
           this.projMaturity = res.data.projMaturity
-          this.share();
+
         }
       });
     },
