@@ -67,6 +67,12 @@ em{
 }
 //资讯页面通用样式
 .news{
+  .project1{
+    h2{
+      height:auto!important;
+      margin-bottom: 7px!important;
+    }
+  }
   .title-box{
     //浏览数
     .count{
@@ -76,12 +82,18 @@ em{
       margin-top: 2px;
     }
   }
+  .img-warp{
+    .img{
+      border-radius: 3px;
+      overflow: hidden;
+    }
+  }
 }
 
 #slider1 .mint-swipe-indicators {
-  right:-70px;
+  right:-50px;
   left: initial;
-  bottom:10px;
+  bottom:8px;
   z-index: 99;
 }
 

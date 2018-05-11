@@ -42,7 +42,7 @@
     </div>
 
     <div class="more">
-          <span @click=loadMore v-text="moreText">查看更多</span><i></i>
+      <span @click='loadMore' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
     </div>
     <div class="blank"></div>
   </div>
@@ -57,11 +57,15 @@ export default {
       articles: null,
       host: tool.oos(),
       page: 1,
-      moreText:'查看更多'
+      moreText:'查看更多',
+      isIcon: true,
     };
   },
   methods: {
     loadMore() {
+      if(!this.isIcon){
+        return
+      }
       let param = tool.buildForm([
         { key: "page", v: this.page },
         { key: "rouCount", v: 10 },
@@ -81,6 +85,7 @@ export default {
               this.moreText='查看更多'
             }else{
               this.moreText='没有更多了'
+              this.isIcon = false;
             }
           }
           this.page = this.page + 1;

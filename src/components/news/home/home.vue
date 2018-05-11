@@ -4,9 +4,10 @@
   <div class="slider" id="slider1">
     <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
-         <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}">
-        <img v-lazy="host+item.thumbnail">
-         <p id="slider2" v-text="item.title"> </p>
+         <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
+           <img v-lazy="host+item.thumbnail">
+           <p id="slider2">{{item.title.length>15 ? item.title.substr(0,15) +'...' : item.title}} </p>
+           <div class="bg-slider"></div>
          </router-link>
       </mt-swipe-item>
     </mt-swipe>
@@ -19,12 +20,6 @@
         <div class="time">{{week.title}}</div>
       </div>
     </swiper-slide>
-    <!--<swiper-slide v-for="(week,index) in weekList1"  :key="index">-->
-      <!--<div class="invest-finance">-->
-        <!--<h3>投融资周报</h3>-->
-        <!--<div class="time">{{week.title}}</div>-->
-      <!--</div>-->
-    <!--</swiper-slide>-->
   </swiper>
   <div class="cross-line"></div>
 
@@ -89,7 +84,6 @@ export default {
         freeMode: true,
         on:{
           slidePrevTransitionEnd:()=>{
-            // console.log(this.weekList);
             if(this.weekList != null && this.weekList.length >= 0 && this.weekList.length <this.weekTotal){
               this.weekNew()
             }
@@ -168,7 +162,7 @@ export default {
   mounted() {
     let param = tool.buildForm([
       { key: "page", v: 1 },
-      { key: "rouCount", v: 5 },
+      { key: "rouCount", v: 4 },
       { key: "level", v: 2001 }
     ]);
     this.axios
@@ -214,18 +208,31 @@ export default {
       color: #fff;
       height: 36px;
       line-height: 18px;
-      margin-top: -60px;
+      margin-top: -34px;
       padding: 0px 10px;
       text-align: left;
       width: 300px;
       text-overflow:ellipsis;
       white-space : nowrap;
       overflow : hidden;
+      background: rgba(51,51,51,.5);
+      z-index: 11;
+      position: relative;
     }
   }
   #slider1 {
+    position: relative;
     .mint-swipe-indicators {
       right: 10px;
+    }
+    .bg-slider{
+      background: rgba(51,51,51,.5);
+      position:absolute;
+      bottom: 0;
+      left: 0;
+      width:100%;
+      height:35px;
+      z-index: 10;
     }
   }
   #slider3 {

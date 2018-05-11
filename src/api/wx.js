@@ -13,6 +13,7 @@ let shareSDK = {
   },
 
   share: function (title, url, imageurl, desc, config, param) {
+    alert('title:'+title+'&&'+'url:'+url+'&&')
     wx.config({
       debug: false,
       appId: config.appId,
@@ -21,7 +22,6 @@ let shareSDK = {
       signature: config.signature,
       jsApiList: config.jsApiList
     });
-
     wx.ready(() => {
       wx.onMenuShareTimeline({
         title: title,

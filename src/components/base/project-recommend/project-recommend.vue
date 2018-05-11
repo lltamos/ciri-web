@@ -205,7 +205,7 @@
   .project-recommend {
     padding: 0px 10px 20px;
     .pro-card {
-      height: 381px;
+      /*height: 381px;*/
       width: 100%;
       margin-top: 14px;
       border-radius: 7px;
@@ -318,7 +318,7 @@
         }
       }
       .main-news {
-        height: 144px;
+        height: 142px;
         box-sizing: border-box;
         position: relative;
         padding: 15px 10px;
@@ -341,7 +341,7 @@
             margin-right: 10px;
             text-align: center;
             border: 1px solid #fdb140;
-            zoom:0.4;
+            zoom:0.5;
             -webkit-transform-origin: 100% 100%;
             transform-origin: 100% 100%;
           }
@@ -357,7 +357,6 @@
 
         }
         .tip-news {
-          height: 10px;
           position: absolute;
           bottom: 15px;
           left: 10px;
