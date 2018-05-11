@@ -357,12 +357,13 @@
         industryCategory: this.industryCategory
       }).then(r => {
         this.notloading = false;
-        if (this.pageId == 1 || this.projects == null) {
-          this.weekProjects = r.data.list;
-        } else {
-          this.weekProjects = this.projects.concat(r.data.list);
-        }
-        this.pageId = this.pageId + 1;
+        this.weekProjects = r.data.list;
+        // if (this.pageId == 1 || this.projects == null) {
+        //   this.weekProjects = r.data.list;
+        // } else {
+        //   this.weekProjects = this.projects.concat(r.data.list);
+        // }
+        // this.pageId = this.pageId + 1;
       });
     },
     created() {
