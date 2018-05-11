@@ -15,7 +15,7 @@ let shareSDK = {
       debug: true,
       appId: config.appId,
       timestamp: config.timestamp,
-      nonceStr: config.noncestr,
+      nonceStr: config.nonceStr,
       signature: config.signature,
       jsApiList: config.jsApiList
     });
