@@ -119,8 +119,9 @@
         })
       },
       share() {
-        let url = window.location.href.split('#')[0]
-        this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
+        let urlparm = window.location.href.split('#')[0]
+        let url =window.location.href.split('#')[0] + '#' + window.location.href.split('#')[1];
+        this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
             if (res.code == 200) {
               shareSDK.wxconfig.timestamp = res.data.timestamp;
               shareSDK.wxconfig.signature = res.data.signature;
