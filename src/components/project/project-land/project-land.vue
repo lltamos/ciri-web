@@ -1,67 +1,67 @@
 <template>
-<div class="project-land">
-  <projectHeader :visit="visit"
-                 :projName="projName"
-                 :cornerTag="cornerTag"
-                 :projType="projType"
-                 :tag="tag"
-                 :status="status"
-                 :tags="tags"
-                 :setProjVideo="setProjVideo"
-                 :projPhoto="projPhoto"
-                 :projAddress="projAddress"
-                 :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
-  <div class="project-intro">
-    <h4>
-      <div class="border"></div>
-      <div class="title-intro">项目简介</div>
-      <!--<div @click="gotoDetail" class="detail-warp">
-        <span class="to-detail">项目详情</span>
-        <i class="more" ></i>
-      </div>-->
+  <div class="project-land">
+    <projectHeader :visit="visit"
+                   :projName="projName"
+                   :cornerTag="cornerTag"
+                   :projType="projType"
+                   :tag="tag"
+                   :status="status"
+                   :tags="tags"
+                   :setProjVideo="setProjVideo"
+                   :projPhoto="projPhoto"
+                   :projAddress="projAddress"
+                   :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
+    <div class="project-intro">
+      <h4>
+        <div class="border"></div>
+        <div class="title-intro">项目简介</div>
+        <!--<div @click="gotoDetail" class="detail-warp">
+          <span class="to-detail">项目详情</span>
+          <i class="more" ></i>
+        </div>-->
 
-    </h4>
-    <p class="document-txt">{{projAbstract}}</p>
-    <div class="progress-model">
-      <svgIcon :irr="irr"
-               :amount="amount"
-               :projDevelopers="projDevelopers"
-               :potentialInvestorSize="potentialInvestorSize"
-               :financingProgress="financingProgress"></svgIcon>
-    </div>
-    <div class="btn-warp">
-      <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
-        <i class="icon-dianzan"></i>
-        <span class="count-warp">看好</span>
-        <span class="count">{{likes}}</span>
+      </h4>
+      <p class="document-txt">{{projAbstract}}</p>
+      <div class="progress-model">
+        <svgIcon :irr="irr"
+                 :amount="amount"
+                 :projDevelopers="projDevelopers"
+                 :potentialInvestorSize="potentialInvestorSize"
+                 :financingProgress="financingProgress"></svgIcon>
       </div>
-      <div class="share thumbs-up">
-        <i class="icon-dianzan"></i>
-        <span class="count-warp">分享</span>
-        <span class="count">{{shares}}</span>
+      <div class="btn-warp">
+        <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
+          <i class="icon-dianzan"></i>
+          <span class="count-warp">看好</span>
+          <span class="count">{{likes}}</span>
+        </div>
+        <div class="share thumbs-up">
+          <i class="icon-dianzan"></i>
+          <span class="count-warp">分享</span>
+          <span class="count">{{shares}}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <CrossLine></CrossLine>
-  <!--项目详情-->
-  <div class="project-detail">
-    <div class="title-warp">
-      <div class="border-line"></div>
-      <div class="title">项目详情</div>
-    </div>
-    <div class="img">
-      <img src="../img/detail-summary.png" alt=""/>
-    </div>
-    <div @click="gotoDetail" class="view-detail btn">查看项目详情</div>
+    <CrossLine></CrossLine>
+    <!--项目详情-->
+    <div class="project-detail">
+      <div class="title-warp">
+        <div class="border-line"></div>
+        <div class="title">项目详情</div>
+      </div>
+      <div class="img">
+        <img src="../img/detail-summary.png" alt=""/>
+      </div>
+      <div @click="gotoDetail" class="view-detail btn">查看项目详情</div>
 
+    </div>
+    <CrossLine></CrossLine>
+    <!--客户经理-->
+    <project-manager></project-manager>
+    <project-bottom :collects="collects"
+                    :collected="collected"
+                    :projId="projId"></project-bottom>
   </div>
-  <CrossLine></CrossLine>
-  <!--客户经理-->
-  <project-manager></project-manager>
-  <project-bottom :collects="collects"
-                  :collected="collected"
-                  :projId="projId"></project-bottom>
-</div>
 </template>
 
 <script>
@@ -114,9 +114,23 @@
     },
     methods: {
       addVisit() {
-        this.$api.post('/pb/s0/l/updateRecord',
+        this.$api.post('/pb/p/updateRecord',
           {projId: this.projId, tag: 0}).then(res => {
         })
+      },
+      share() {
+        let url = location.href;
+        this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
+            if (res.code == 200) {
+              shareSDK.wxconfig.timestamp = res.data.timestamp;
+              shareSDK.wxconfig.signature = res.data.signature;
+              shareSDK.wxconfig.nonceStr = res.data.noncestr;
+              shareSDK.wxconfig.appId = res.data.appid;
+              console.log(shareSDK.wxconfig)
+              shareSDK.share(this.projName, url, this.projPhoto, 'desc', shareSDK.wxconfig)
+            }
+          }
+        );
       },
 
       gotoDetail() {
@@ -133,7 +147,7 @@
         }
         this.likes = this.likes + 1
         this.isLikes = true
-        this.$api.post('/pb/s0/l/addLike',
+        this.$api.post('/pb/p/addLike',
           {userId: tool.getuser(), projId: this.projId, tag: 0}).then(res => {
           if (res.code === 200) {
           }
@@ -180,23 +194,12 @@
           this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
           this.projAddress = res.data.projAddress
           this.projMaturity = res.data.projMaturity
+          this.share({projId:this.projId});
         }
       });
     },
     mounted() {
-      let url = location.href;
-      this.$api.post('/app/wx/signatrue', {url: url}).then(res => {
-          if (res.code == 200) {
-            shareSDK.wxconfig.timestamp = res.data.timestamp;
-            shareSDK.wxconfig.signature = res.data.signature;
-            shareSDK.wxconfig.nonceStr = res.data.noncestr;
-            shareSDK.wxconfig.appId = res.data.appid;
-            console.log(shareSDK.wxconfig)
-            shareSDK.share(this.projName, url, this.projPhoto,'desc',  shareSDK.wxconfig)
-          }
 
-        }
-      );
     }
   }
 </script>
