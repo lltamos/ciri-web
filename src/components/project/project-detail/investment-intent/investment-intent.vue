@@ -413,6 +413,7 @@
             top: 0;
             bottom: 0;
             border-radius: 11px;
+            width: 0;
 
           }
         }
