@@ -13,7 +13,7 @@ let shareSDK = {
   },
 
   share: function (title, url, imageurl, desc, config, param) {
-    console.log('title:'+title+'&&'+'url:'+url+'&&')
+    alert('title:'+title+'&&'+'url:'+url+'&&')
     wx.config({
       debug: false,
       appId: config.appId,

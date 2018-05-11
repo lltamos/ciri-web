@@ -159,7 +159,7 @@
           margin: 0 10px 0 12px;
           @include bg-image('../project/img/icon-search');
           position: relative;
-          top: 2px;
+          top: 4px;
 
         }
         .search-cancel {
