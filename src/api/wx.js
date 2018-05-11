@@ -28,7 +28,7 @@ let shareSDK = {
         link: url,
         imgUrl: imageurl,
         success: () => {
-          api.post('/pb/p/updateRecord', {projId: param.projid, tag: 1});
+          api.post('/pb/p/updateRecord', {projId: param.projId, tag: 1});
         },
         cancel: () => {
         }
@@ -41,7 +41,7 @@ let shareSDK = {
         type: '',
         dataUrl: '',
         success: () => {
-          api.post('/pb/p/updateRecord', {projId: param.projid, tag: 1});
+          api.post('/pb/p/updateRecord', {projId: param.projId, tag: 1});
         },
         cancel: () => {
         }
