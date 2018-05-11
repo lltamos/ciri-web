@@ -45,8 +45,8 @@
         </h4>
         <div class="schedule">
           <div class="count">
-            <div>意向投资方<span>{{projectProgress.InvestorCount == null ? 0:projectProgress.InvestorCount}}</span>位</div>
-            <div>意向投资额<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>{{projectProgress.currencyName}}</div>
+            <div>意向投资方&nbsp;&nbsp;<span>{{projectProgress.InvestorCount == null ? 0:projectProgress.InvestorCount}}</span>&nbsp;&nbsp;位</div>
+            <div>意向投资额&nbsp;&nbsp;<span>{{parseInt(projectProgress.alreadyMoney == null ? 0:projectProgress.alreadyMoney)}}</span>&nbsp;&nbsp;{{projectProgress.currencyName}}</div>
           </div>
           <div class="line">
             <div class="bg"></div>
@@ -54,11 +54,11 @@
           </div>
           <div class="time">
             <div>合投结束时间：<span>{{projectProgress.endTime}}</span></div>
-            <div>当前进度<span>{{parseInt(projectProgress.financingProgress== null ? 0:projectProgress.financingProgress)}}%</span></div>
+            <div>当前进度&nbsp;&nbsp;<span class="cur-progress">{{parseInt(projectProgress.financingProgress== null ? 0:projectProgress.financingProgress)}}%</span></div>
           </div>
         </div>
         <div class="lead">
-          <div>领投方<span>{{projectProgress.leadInvestorCount == null ? 0:projectProgress.leadInvestorCount}}</span>位</div>
+          <div class="intent-direc">领投方<b>&nbsp;{{projectProgress.leadInvestorCount == null ? 0:projectProgress.leadInvestorCount}}&nbsp;</b>位</div>
           <div class="invest-wrap clearfix" v-if="projectProgress.leadInvestors != null && projectProgress.leadInvestors.length > 0"
                v-for="(companyProgress,index) in projectProgress.leadInvestors" :key="index">
             <div class="picture fl">
@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="follow">
-          <div>跟投方<span>{{projectProgress.followInvestorCount== null ? 0:projectProgress.followInvestorCount }}</span>位</div>
+          <div class="intent-direc">跟投方<b>&nbsp;{{projectProgress.followInvestorCount== null ? 0:projectProgress.followInvestorCount }}&nbsp;</b>位</div>
           <div class="invest-wrap clearfix" v-if="projectProgress.followInvestors != null && projectProgress.followInvestors.length > 0"
                v-for="(companyProgress,index) in projectProgress.followInvestors" :key="index">
             <div class="picture fl">
@@ -95,6 +95,8 @@
             </div>
           </div>
         </div>
+
+        <CrossLine></CrossLine>
 
         <div v-if="!authorityWin">
           <!--权限弹框-->
@@ -368,15 +370,16 @@
         @include onepx('bottom');
       }
       .schedule{
-        margin: 17px 15px 15px;
+        padding: 17px 15px 15px;
+        border-bottom: 1px solid #dedede;
         .count{
           display: flex;
           justify-content: space-between;
-          font-size: 13px;
+          font-size: 14px;
           color: #333333;
           span{
-            font-size: 15px;
-            color: #3f83e6;
+            font-size: 16px;
+            color: #528de8;
           }
         }
         .line{
@@ -412,19 +415,28 @@
           margin-top: 10px;
           display: flex;
           justify-content: space-between;
-          font-size: 13px;
+          font-size: 14px;
           color: #666;
           span{
-            font-size: 15px;
-            color: #3f83e6;
+            color: #333;
+          }
+          .cur-progress{
+            color: #528de8;
+            font-size: 16px;
           }
         }
       }
       .lead{
         text-align: left;
-        margin: 15px 0px 15px 15px;
+        margin: 15px 10px 5px 15px;
         font-size: 13px;
         color: #333;
+        .intent-direc{
+          font-size: 14px;
+          b{
+            font-size: 15px;
+          }
+        }
         .invest-wrap:nth-child(n+3){
           border-top: 1px solid #dedede;
         }
@@ -444,11 +456,11 @@
           margin-left: 12px;
           line-height: 22px;
           .company-name{
-            font-size: 12px;
+            font-size: 14px;
             color: #333;
           }
           .count{
-            font-size: 10px;
+            font-size: 13px;
             color: #666;
           }
 
@@ -473,10 +485,10 @@
 
             .more {
               display: inline-block;
-              width: 10px;
+              width: 12px;
               height: 40px;
               background-repeat: no-repeat;
-              background-size: 10px auto;
+              background-size: 12px;
               background-position: center;
               @include bg-image("../../img/to-detail");
               vertical-align: middle;
@@ -487,9 +499,15 @@
       }
       .follow{
         text-align: left;
-        margin: 15px 0px 15px 15px;
+        margin: 0px 10px 3px 15px;
         font-size: 13px;
         color: #333;
+        .intent-direc{
+          font-size: 14px;
+          b{
+            font-size: 15px;
+          }
+        }
         .invest-wrap:nth-child(n+3){
           border-top: 1px solid #dedede;
         }
