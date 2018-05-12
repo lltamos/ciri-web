@@ -387,7 +387,7 @@
           height: 90px!important;
           box-sizing: border-box;
           margin-top: 12px;
-          background: #000;
+          background: rgba(179, 171, 171, 0.5);
           img{
             width: 100%;
             height:60px;

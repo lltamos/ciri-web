@@ -8,7 +8,7 @@
       （请依据模板完善内容）
     </div>
     <div class="content">
-      <textarea v-model="word" @mouseleave="fill()"></textarea>
+      <textarea maxlength="10000" v-model="word" @mouseleave="fill()"></textarea>
     </div>
 
 
@@ -41,15 +41,14 @@
     },
     methods: {
       back() {
-        gbus.$emit('emitRefreshDate', null);
         window.history.back();
-        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       confrim() {
+        if(this.word==''){
+          this.word=" ";
+        }
         sessionStorage.setItem(this.key, this.word);
-        gbus.$emit('emitRefreshDate',null);
         window.history.back();
-        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       fill() {
 
