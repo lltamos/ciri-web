@@ -178,7 +178,7 @@
               </div>
               <div class="qs-bottom clearfix">
                 <div class="fr dz-hf" >
-                  <div class="dz-wrap" :class="[myQuestion.likes?'active-like':'']" @click="likesChat(myQuestion)">
+                  <div class="dz-wrap" :class="[myQuestion.likeStatus?'active-like':'']" @click="likesChat(myQuestion)">
                     <div v-if="myQuestion.likes">
                       <span class="dz-count">{{myQuestion.likes}}</span>
                       <i class="icon-dz active"></i>
