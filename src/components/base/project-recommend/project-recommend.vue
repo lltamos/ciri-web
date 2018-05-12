@@ -163,10 +163,9 @@
     filters: {},
     computed: {},
     created() {
-
+      this.loadMore();
     },
     mounted() {
-      this.loadMore();
     },
     destroyed() {
     }
