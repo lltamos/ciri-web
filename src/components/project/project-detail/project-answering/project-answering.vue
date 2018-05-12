@@ -42,7 +42,7 @@
               </div>
               <!--显示用户名和时间-->
               <div class="top-infor">
-                <div class="user-name">{{ question.userid.length >15 ?question.userid.substr(0,15)+'...' : question.userid }}</div>
+                <div class="user-name" v-text="hiddenName(question.userid)"></div>
                 <div class="time">{{question.updateTime|time}}</div>
               </div>
               <!--提问信息-->
@@ -92,19 +92,9 @@
                             <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                           </div>
                           <div class="fl">
-                            <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                            <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                             <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                             <div class="time">{{ask.updateTime|time}}</div>
-                            <!--回复点赞数量-->
-                            <!--<div class="fr dz-hf">-->
-                              <!--<span class="dz-count">{{ask.likes}}</span>-->
-                              <!--<template v-if="ask.likeStatus==true">-->
-                                <!--<i class="icon-dz active" ></i>-->
-                              <!--</template>-->
-                              <!--<template v-if="ask.likeStatus==false">-->
-                                <!--<i class="icon-dz" ></i>-->
-                              <!--</template>-->
-                            <!--</div>-->
                           </div>
                         </div>
                         <div class="ques-title">{{ask.message}}</div>
@@ -124,7 +114,7 @@
                   </div>
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
-                <div v-if="question.projectChatList !=null && question.projectChatList.length >0">
+                <div v-if="question.projectChatList !=null && question.projectChatList.length >0 &&memberLevel">
                   <div class="read-more back-more" v-if="question.total > question.projectChatList.length" @click="moreAsk(question,$event)" pageId="1">
                     <span>查看全部{{question.total}}条回复</span>
                     <!--<i class="icon-more"></i>-->
@@ -165,15 +155,12 @@
             </div>
 
             <div class="top-infor">
-              <div class="user-name">{{myQuestion.userid.length >15 ? myQuestion.userid.substr(0,15)+'...' : myQuestion.userid}}</div>
+              <div class="user-name" v-text="hiddenName(myQuestion.userid)"></div>
               <div class="time">{{myQuestion.updateTime|time}}</div>
             </div>
             <div class="ques-title">{{myQuestion.message}}</div>
 
             <div class="main-news">
-              <!--{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}-->
-              <!--<div class="user-name">{{(myQuestion.userid == null ? "匿名": myQuestion.userid).length >15 ?myQuestion.userid.substr(0,15)+'...' : (myQuestion.userid == null ? "匿名": myQuestion.userid)}}</div>-->
-
               <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id,1)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
 
               <div class="file-warp">
@@ -217,7 +204,7 @@
                           <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
                         </div>
                         <div class="fl">
-                          <div class="user-name">{{(ask.userid == null ? "匿名": ask.userid).length >15 ?ask.userid.substr(0,15)+'...' : (ask.userid == null ? "匿名": ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                          <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                           <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                           <div class="time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
@@ -240,7 +227,7 @@
                 </div>
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
-              <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0">
+              <div v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 &&memberLevel">
                 <div class="read-more back-more" v-if="myQuestion.total > myQuestion.projectChatList.length" @click="moreAsk(myQuestion,$event)" pageId="1">
                   <span>查看全部{{myQuestion.total}}条回复</span>
                   <!--<i class="icon-more"></i>-->
@@ -343,13 +330,29 @@
         backChecked:false,       //回复匿名
         backMessage:"",          //回复信息
         parentId:"",             //回复的父id值
-        memberLevel:true
+        memberLevel:true,
+        article:'article',
+        moreText:'展开',
 
       }
     },
     props: {},
     watch: {},
     methods: {
+      readMore(){
+        if (this.moreText == '展开') {
+          this.moreText = '收起'
+          this.iconMore = 'pack-up'
+          this.article = 'article activeWord'
+        } else {
+          this.moreText = '展开';
+          this.iconMore = 'icon-more'
+          this.article = 'article'
+        }
+      },
+      hiddenName(username){
+        return tool.hiddenName(username == null || username == '' ? "匿名用户": username)
+      },
       switchShow(){
         this.askPop = false;
       },
@@ -377,9 +380,6 @@
         //初始化我的问题
         this.myPage=0;
         this.myQuestion();
-      },
-      readMore () {
-
       },
       likesChat(question){
         // question.id,question.likes,question.likeStatus
