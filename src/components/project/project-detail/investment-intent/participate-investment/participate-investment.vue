@@ -229,9 +229,9 @@
     props: {},
     watch: {},
     beforeRouteEnter:(to,from,next)=>{
-      //清空session
       var path=from.path;
       gbus.$emit('emitRefreshDate', null);
+      //不是从编辑页面跳转来的
       if(path.lastIndexOf("investment-edit") == -1){
         sessionStorage.setItem("fromStatus", 1);
       }else {
@@ -247,7 +247,6 @@
         sessionStorage.setItem("advCh", "");
         sessionStorage.setItem("advEn", "");
         Object.assign(this.$data, this.$options.data())
-        // this.$destroy();
       }
       next();
     },
@@ -426,7 +425,6 @@
       fillAdv() {
         let cont = sessionStorage.getItem("advCh");
         if (cont == "" || cont == "undefined" || cont == null) {
-          //this.chineseAdv = "没有内容";
         } else {
           this.chineseAdv = cont;
           if (cont.length > 405) {
@@ -441,7 +439,6 @@
       fillAdvEn() {
         let cont = sessionStorage.getItem("advEn");
         if (cont === "" || cont === "undefined" || cont === null) {
-          //this.englishAdv = "没有内容";
         } else {
           this.englishAdv = cont;
           if (cont.length > 405) {
@@ -456,7 +453,6 @@
       fillInt() {
         let cont = sessionStorage.getItem("intCh");
         if (cont === "" || cont === "undefined" || cont === null) {
-          //this.chineseInt = "没有内容";
         } else {
           this.chineseInt = cont;
           if (cont.length > 405) {
@@ -472,7 +468,6 @@
       fillIntEn() {
         let contEn = sessionStorage.getItem("intEn");
         if (contEn === "" || contEn === "undefined" || contEn === null) {
-          //this.englishInt = "没有内容";
         } else {
           this.englishInt = contEn;
           if (contEn.length > 405) {
@@ -489,7 +484,6 @@
     computed: {},
     activated() {
       this.projId = this.$route.query.projId;
-      // console.log(sessionStorage.getItem("fromStatus"))
       //判读是否是从编辑页面 跳转来的 是的话不发送请求 用缓存显示数据
       if (sessionStorage.getItem("fromStatus") == 1) {
         this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
@@ -580,17 +574,10 @@
           }
         });
       }
-      // let r = this.investAmount;
-      // console.log(this.investAmount);
-      // this.flag = r;
-
-      gbus.$on('emitRefreshDate', () => {
-        this.fillAdv();
-        this.fillAdvEn();
-        this.fillInt();
-        this.fillIntEn();
-      })
-      console.log(111);
+      this.fillAdv();
+      this.fillAdvEn();
+      this.fillInt();
+      this.fillIntEn();
     },
     mounted() {
 

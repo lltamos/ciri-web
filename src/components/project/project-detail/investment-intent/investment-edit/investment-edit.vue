@@ -41,15 +41,14 @@
     },
     methods: {
       back() {
-        gbus.$emit('emitRefreshDate', null);
         window.history.back();
-        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       confrim() {
+        if(this.word==''){
+          this.word=" ";
+        }
         sessionStorage.setItem(this.key, this.word);
-        gbus.$emit('emitRefreshDate',null);
         window.history.back();
-        // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       fill() {
 
