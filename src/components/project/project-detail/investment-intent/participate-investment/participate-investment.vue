@@ -230,7 +230,6 @@
     watch: {},
     beforeRouteEnter:(to,from,next)=>{
       var path=from.path;
-      gbus.$emit('emitRefreshDate', null);
       //不是从编辑页面跳转来的
       if(path.lastIndexOf("investment-edit") == -1){
         sessionStorage.setItem("fromStatus", 1);
