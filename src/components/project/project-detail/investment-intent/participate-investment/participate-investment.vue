@@ -398,7 +398,7 @@
         }
         let param = new URLSearchParams();
         param.append('projId', this.projId);
-        param.append('isLead', this.isLead);
+        param.append('lead', this.isLead);
         param.append('name', tool.getuser());
         param.append('corpId', this.cId);
         param.append('photoMeta', this.photoMeta);

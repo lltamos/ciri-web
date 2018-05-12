@@ -277,7 +277,7 @@
             float: left;
             margin-right: 10px;
             font-size: 10px;
-            line-height: 1;
+            line-height: 0.6;
             color: #666;
             margin-top: 1px;
           }
