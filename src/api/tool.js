@@ -4,8 +4,8 @@ import moment from 'moment'
 
 export default {
   domind: function () {
-    return 'http://60.205.7.211:8816'
-    // return 'http://192.168.2.4:8080'
+    // return 'http://60.205.7.211:8816'
+    return 'http://192.168.2.4:8080'
   },
   path: function () {
     return '/gateway'
@@ -117,7 +117,7 @@ export default {
       if(username > 4 ){
         return  username.substr(0,2)+"****"+username.substr(username.length - 2,2)
       }else {
-        return username.substr(0,2)+"****"
+        return username;
       }
     }
   }
