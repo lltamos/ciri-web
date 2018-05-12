@@ -8,7 +8,7 @@
       （请依据模板完善内容）
     </div>
     <div class="content">
-      <textarea v-model="word" @mouseleave="fill()"></textarea>
+      <textarea maxlength="10000" v-model="word" @mouseleave="fill()"></textarea>
     </div>
 
 
