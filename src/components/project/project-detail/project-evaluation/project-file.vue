@@ -19,8 +19,12 @@
           <dd v-if="item.summary">{{item.summary}}</dd>
           <dd v-else>暂无</dd>
         </dl>
-        <div v-if="memberLevel" class="applyFile btn bg-blue" @click="showFileDetail(item)">
+        <div v-if="memberLevel && item.mode!=4" class="applyFile btn" :class="{'bg-blue':item.mode==1,'bg-gray':item.mode==2,'agreed':item.mode==3}" @click="showFileDetail(item)">
           {{fileMode(item.mode)}}
+        </div>
+        <div v-if="memberLevel && item.mode==4" class="applyFile btn refuse">
+          <div>重新申请</div>
+          <div class="icon-refuse">已拒绝</div>
         </div>
         <div v-if="!memberLevel" class="upAfter">升级后可查看</div>
 
@@ -123,138 +127,150 @@
   .project-file {
     text-align: left;
 
-  .authority {
-    padding: 0 10px 0;
-    margin: 15px 0px 5px 0px;
-  }
+    .authority {
+      padding: 0 10px 0;
+      margin: 15px 0px 5px 0px;
+    }
 
-  .file-warp {
-    padding: 0 10px 0;
+    .file-warp {
+      padding: 0 10px 0;
 
-  .file {
-    border-bottom: 1px dashed #dedede;
-    position: relative;
-    padding: 13px 0;
+      .file {
+        border-bottom: 1px dashed #dedede;
+        position: relative;
+        padding: 13px 0;
 
-  &
-  :last-child {
-    border-bottom: none;
-  }
+        &:last-child {
+          border-bottom: none;
+        }
+        .icon-refuse{
+          display: inline-block;
+          width: 75px;
+          color: #666;
+          font-size: 12px;
+          @include bg-image("../../img/icon-refuse");
+          background-size: 12px;
+          background-repeat: no-repeat;
+          text-align: center;
+          background-position: left center;
+        }
 
-  .title {
-    padding-left: 17px;
-    position: relative;
-    margin-bottom: 12px;
-    line-height: 14px;
+        .title {
+          padding-left: 17px;
+          position: relative;
+          margin-bottom: 12px;
+          line-height: 14px;
 
-  .icon-type {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    width: 11px;
-    height: 13px;
-    background-size: 11px 13px;
-    vertical-align: middle;
+          .icon-type {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: inline-block;
+            width: 11px;
+            height: 13px;
+            background-size: 11px 13px;
+            vertical-align: middle;
+            @include bg-image("../../img/pdf");
 
-  &
-  .icon-pdf {
-  @include bg-image("../../img/pdf");
-  }
+            &.icon-pdf {
+              @include bg-image("../../img/pdf");
+            }
 
-  &
-  .icon-jpg {
-  @include bg-image("../../img/jpg");
-  }
+            &.icon-jpg {
+              @include bg-image("../../img/jpg");
+            }
 
-  &
-  .icon-ppt {
-  @include bg-image("../../img/ppt");
-  }
+            &.icon-ppt {
+              @include bg-image("../../img/ppt");
+            }
 
-  &
-  .icon-xls {
-  @include bg-image("../../img/xls");
-  }
+            &.icon-xls {
+              @include bg-image("../../img/xls");
+            }
 
-  }
-  .file-title {
-    font-size: 14px;
-    color: #333;
-    line-height: 1;
-    display: inline-block;
-  }
+          }
+          .file-title {
+            font-size: 14px;
+            color: #333;
+            line-height: 1;
+            display: inline-block;
+          }
 
-  }
-  .intro {
-    position: relative;
-    padding-left: 70px;
-    font-size: 13px;
-    line-height: 1;
-    color: #666;
+        }
+        .intro {
+          position: relative;
+          padding-left: 70px;
+          font-size: 13px;
+          line-height: 1;
+          color: #666;
 
-  dt {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+          dt {
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
 
-  dd {
-    width: 180px;
-    overflow: hidden;
-    height: 13px;
-  }
+          dd {
+            width: 180px;
+            overflow: hidden;
+            height: 13px;
+          }
 
-  }
-  .upAfter {
-    width: 85px;
-    height: 22px;
-    line-height: 22px;
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    margin-top: -11px;
-    font-size: 13px;
-  }
+        }
+        .upAfter {
+          width: 85px;
+          height: 22px;
+          line-height: 22px;
+          position: absolute;
+          right: 0px;
+          top: 50%;
+          margin-top: -11px;
+          font-size: 13px;
+        }
 
-  .btn {
-    width: 75px;
-    height: 22px;
-    line-height: 22px;
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    margin-top: -11px;
-    font-size: 13px;
+        .btn {
+          width: 75px;
+          height: 22px;
+          line-height: 22px;
+          position: absolute;
+          right: 0px;
+          top: 50%;
+          margin-top: -11px;
+          font-size: 13px;
 
-  }
+        }
+        /*申请查看*/
+        .bg-blue {
+          background: #528de8;
+        }
+        /*已申请*/
+        .bg-gray {
+          background: #bbb;
+        }
+        /*已同意*/
+        .agreed {
+          background: #fff;
+          font-size: 13px;
+          color: #666;
+          text-align: left;
+          display: inline-block;
+          @include bg-image("../../img/progress-finished");
+          background-size: 13px auto;
+          background-repeat: no-repeat;
+          text-align: center;
+          background-position: left center;
 
-  .bg-blue {
-    background: #528de8;
-  }
+        }
+        /*从新申请*/
+        .refuse{
+          background: #fff;
+          font-size: 13px;
+          color: #528de8;
+          border: 1px solid #528de8;
+        }
 
-  .bg-gray {
-    background: #bbb;
-  }
-
-  .agreed {
-    background: #fff;
-    font-size: 13px;
-    color: #666;
-    text-align: left;
-
-  .icon-agreed {
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-  @include bg-image("../../img/progress-finished");
-    background-size: 13px auto;
-    margin-right: 5px;
-  }
-
-  }
-  }
-  }
+      }
+    }
   }
 
 </style>
