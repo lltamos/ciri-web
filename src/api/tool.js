@@ -5,7 +5,7 @@ import moment from 'moment'
 export default {
   domind: function () {
     return 'http://60.205.7.211:8816'
-    // return 'http://192.168.2.4:8080'
+    // return 'http://127.0.0.1:8080'
   },
   path: function () {
     return '/gateway'
@@ -95,29 +95,29 @@ export default {
   time(time) {
     return moment(time).format("YYYY-MM-DD");
   },
-  pxKey:function(str){
-  let num = str.replace("px","");
-      num = parseInt(num);
-  return num;
+  pxKey: function (str) {
+    let num = str.replace("px", "");
+    num = parseInt(num);
+    return num;
   },
   /*隐藏用户名 中间加**  */
-  hiddenName:function(username){
-    if(this.checkEmail(username)){
+  hiddenName: function (username) {
+    if (this.checkEmail(username)) {
       let a = username.indexOf('@');
       let b;
-      if(a >= 4 ){
+      if (a >= 4) {
         b = username.substr(0, 4) + "****"
-      }else {
+      } else {
         b = "****"
       }
       return b + username.substr(a, username.length);
-    }else if(this.checkMobile(username)) {
-      return username.substr(0,3)+"****"+username.substr(7,4)
-    }else {
-      if(username > 4 ){
-        return  username.substr(0,2)+"****"+username.substr(username.length - 2,2)
-      }else {
-        return username.substr(0,2)+"****"
+    } else if (this.checkMobile(username)) {
+      return username.substr(0, 3) + "****" + username.substr(7, 4)
+    } else {
+      if (username > 4) {
+        return username.substr(0, 2) + "****" + username.substr(username.length - 2, 2)
+      } else {
+        return username.substr(0, 2) + "****"
       }
     }
   }

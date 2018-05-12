@@ -71,6 +71,7 @@ export default new Router({
     {
       path: '/index',
       component: Index,
+      meta: {keepAlive: true}
 
     },
     // 搜索
