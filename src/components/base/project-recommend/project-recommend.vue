@@ -8,7 +8,7 @@
 
   <div class="project-recommend" v-else>
     <div class="pro-card" v-for="(project) in this.projects" :key="project.projId" @click="routerLand(project.projId)">
-      <div class="co-investing">
+      <div class="co-investing" :class="[tabPanel == 2?'co-investing-success':'']">
         {{project.status}}
       </div>
       <div class="img">
@@ -228,6 +228,9 @@
         background-position: center;
         font-size: 12px;
         color: #fff;
+        &.co-investing-success{
+          @include bg-image("../../index/img/co-investing-success");
+        }
       }
       .img {
         height: 233px;
