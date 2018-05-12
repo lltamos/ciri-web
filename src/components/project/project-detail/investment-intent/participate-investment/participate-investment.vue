@@ -61,14 +61,6 @@
     <div class="intent-letter">
       <div class="partipate-title clearfix">【投资意向函】
         <span class="item-remark">(选填)</span>
-        <router-link v-if="this.seeIntent"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}"
-                     class="title-edit fr">编辑
-        </router-link>
-        <router-link v-if="!this.seeIntent"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}"
-                     class="title-edit fr">编辑
-        </router-link>
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -85,6 +77,16 @@
               </i>
               <span>英文</span>
             </div>
+
+            <router-link v-if="this.seeIntent"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intCh'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+            <router-link v-if="!this.seeIntent"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'投资意向函',key:'intEn'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+
           </div>
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
@@ -117,14 +119,7 @@
     <div class="advantage">
       <div class="partipate-title clearfix">【企业优势】
         <span class="item-remark">(选填)</span>
-        <router-link v-if="this.seeLanguage"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}"
-                     class="title-edit fr">编辑
-        </router-link>
-        <router-link v-if="!this.seeLanguage"
-                     :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}"
-                     class="title-edit fr">编辑
-        </router-link>
+
       </div>
       <div class="language-wrap">
         <div class="language-div">
@@ -141,6 +136,14 @@
               </i>
               <span>英文</span>
             </div>
+            <router-link v-if="this.seeLanguage"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advCh'}}"
+                         class="title-edit fr">编辑
+            </router-link>
+            <router-link v-if="!this.seeLanguage"
+                         :to="{path:'/project/project-detail/investment-intent/investment-edit',query: {title:'企业优势',key:'advEn'}}"
+                         class="title-edit fr">编辑
+            </router-link>
           </div>
           <div class="item-remark">(填写后将优先受邀参与项目投资策划会)</div>
         </div>
@@ -242,10 +245,6 @@
     beforeRouteLeave(to,from,next){
       // 不是跳转到编辑页面...终止页面
       if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
-        // gbus.$on('emitRefreshDate',null);
-        // this.askFileList=new Array();
-        // this.askFileList1=new Array();
-        // console.log(1111111111111111111111111111);
         this.$destroy();
       }
       next();
@@ -425,7 +424,7 @@
       fillAdv() {
         let cont = sessionStorage.getItem("advCh");
         if (cont == "" || cont == "undefined" || cont == null) {
-          this.chineseAdv = "没有内容";
+          //this.chineseAdv = "没有内容";
         } else {
           this.chineseAdv = cont;
           if (cont.length > 405) {
@@ -440,7 +439,7 @@
       fillAdvEn() {
         let cont = sessionStorage.getItem("advEn");
         if (cont === "" || cont === "undefined" || cont === null) {
-          this.englishAdv = "没有内容";
+          //this.englishAdv = "没有内容";
         } else {
           this.englishAdv = cont;
           if (cont.length > 405) {
@@ -455,7 +454,7 @@
       fillInt() {
         let cont = sessionStorage.getItem("intCh");
         if (cont === "" || cont === "undefined" || cont === null) {
-          this.chineseInt = "没有内容";
+          //this.chineseInt = "没有内容";
         } else {
           this.chineseInt = cont;
           if (cont.length > 405) {
@@ -471,7 +470,7 @@
       fillIntEn() {
         let contEn = sessionStorage.getItem("intEn");
         if (contEn === "" || contEn === "undefined" || contEn === null) {
-          this.englishInt = "没有内容";
+          //this.englishInt = "没有内容";
         } else {
           this.englishInt = contEn;
           if (contEn.length > 405) {
@@ -488,10 +487,9 @@
     computed: {},
     activated() {
       this.projId = this.$route.query.projId;
-      console.log(sessionStorage.getItem("fromStatus"))
+      // console.log(sessionStorage.getItem("fromStatus"))
       //判读是否是从编辑页面 跳转来的 是的话不发送请求 用缓存显示数据
       if (sessionStorage.getItem("fromStatus") == 1) {
-        //
         this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
           if (r.code == 200) {
             this.isLeadQualified = r.isLeadQualified;
@@ -575,22 +573,22 @@
             }
             console.log(r.data);
           }
-          else{
+          else if(r.code != 201){
             tool.toast(r.msg)
           }
         });
       }
       let r = this.investAmount;
-      console.log(this.investAmount);
-      this.flag = r;
-      console.log(this.flag);
+      // console.log(this.investAmount);
+      // this.flag = r;
+
       gbus.$on('emitRefreshDate', () => {
         this.fillAdv();
         this.fillAdvEn();
         this.fillInt();
         this.fillIntEn();
       })
-
+      console.log(111);
     },
     mounted() {
 
@@ -822,10 +820,19 @@
             text-align: left;
             display: flex;
             justify-content: left;
+            position: relative;
             .item{
               span{
                 font-size: 13px;
               }
+            }
+            a{
+              height: 40px;
+              line-height: 45px;
+              display: inline-block;
+              color: #528de8;
+              position: absolute;
+              right: 10px;
             }
           }
         }
@@ -890,10 +897,19 @@
             text-align: left;
             display: flex;
             justify-content: left;
+            position: relative;
             .item{
               span{
                 font-size: 13px;
               }
+            }
+            a{
+              height: 40px;
+              line-height: 45px;
+              display: inline-block;
+              color: #528de8;
+              position: absolute;
+              right: 10px;
             }
           }
         }

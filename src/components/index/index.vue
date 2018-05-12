@@ -19,7 +19,8 @@
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
-            <li v-for='item in items'>{{item.length>18 ? item.substr(0,18)+'...' :item }}</li>
+            <!--<li v-for='item in items'>{{item.length>18 ? item.substr(0,18)+'...' :item }}</li>-->
+            <li v-for='item in items'>{{item}}</li>
           </ul>
         </div>
       </div>
@@ -341,6 +342,7 @@
           position: absolute;
           left: 0px;
           top: 0;
+          font-weight: 600;
 
         }
 
@@ -362,6 +364,10 @@
             list-style: none;
             line-height: 30px;
             height: 30px;
+            width: 240px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
 
         }
