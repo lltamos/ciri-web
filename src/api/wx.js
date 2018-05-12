@@ -12,7 +12,7 @@ let shareSDK = {
 
   share: function (title, urllink, imageurl, desc, config, param) {
     wx.config({
-      debug: false,
+      debug: true,
       appId: config.appId,
       timestamp: config.timestamp,
       nonceStr: config.nonceStr,
