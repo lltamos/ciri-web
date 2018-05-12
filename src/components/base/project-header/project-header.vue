@@ -14,7 +14,9 @@
         <div class="title">
           <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{cornerTag}}
           </div>
-          <h2 class="fl">{{projName}}</h2></div>
+          <h2 class="fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{projName.length>13 ? projName.substr(0,13)+'...' : projName}}</h2>
+          <h2 class="fl" v-if="cornerTag == null || cornerTag == '' || cornerTag == '无'">{{projName.length>18 ? projName.substr(0,18)+'...' : projName}}</h2>
+        </div>
         <div class="tip">
           <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
             <div class="fl red">{{t}}</div>
@@ -35,23 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="progress">
-      <div class="title">项目成熟度</div>
-      <div v-bind:class="[parseInt(projMaturity) == 0 ? 'icon1' : '','icon']">规划</div>
-      <div v-bind:class="[projMaturity >= 0 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 1 ? 'icon1' : '','icon']">概念</div>
-      <div v-bind:class="[projMaturity >= 1 ? 'line1' : 'line','line']"></div>
-      <div v-bind:class="[projMaturity >= 2 ? 'icon1' : '','icon']">审批</div>
-      <div v-bind:class="[projMaturity >= 2 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 3 ? 'icon1' : '','icon']">可研</div>
-      <div v-bind:class="[projMaturity >= 3 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 4 ? 'icon1' : '','icon']">投融资</div>
-      <div v-bind:class="[projMaturity >= 4 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 5 ? 'icon1' : '','icon']">建设</div>
-      <div v-bind:class="[projMaturity >= 5 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 6 ? 'icon1' : '','icon']">运营</div>
-      <div v-bind:class="[projMaturity >= 6 ? 'line1' : 'line','']"></div>
-      <div v-bind:class="[projMaturity >= 7 ? 'icon1' : '','icon']">出售</div>
+    <div class="progress" :class="{'pro-plan':parseInt(projMaturity) == 0,'pro-concept':projMaturity == 1,'pro-mature':projMaturity == 2,'pro-study':projMaturity == 3,'pro-decision':projMaturity == 4,'pro-construction':projMaturity == 5,'pro-operation':projMaturity == 6,'pro-sell':projMaturity == 7}">
     </div>
     <CrossLine></CrossLine>
   </div>
@@ -300,35 +286,48 @@
       }
     }
     .progress {
-      font-size: 12px;
-      color: #333;
+      width: 100%;
       height: 40px;
-      line-height: 1;
-      padding: 0 10px;
       @include onepx();
-
-      div {
-        float: left;
-        line-height: 40px;
-      }
-
-      .title {
-        margin-right: 10px;
-      }
-
-      .icon.actice {
-        color: #3f83e6;
-
-      }
-
-      .line {
-        height: 1px;
-        width: 9px;
-        background: #dedede;
-        margin: 20px 1px 0;
-      }
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: center;
 
     }
+    .pro-plan{
+      @include bg-image("../../project/img/pro-plan");
+
+    }
+    .pro-concept{
+      @include bg-image("../../project/img/pro-concept");
+
+    }
+    .pro-mature{
+      @include bg-image("../../project/img/pro-mature");
+
+    }
+    .pro-study{
+      @include bg-image("../../project/img/pro-study");
+
+    }
+    .pro-decision{
+      @include bg-image("../../project/img/pro-decision");
+
+    }
+    .pro-construction{
+      @include bg-image("../../project/img/pro-construction");
+
+    }
+    .pro-operation{
+      @include bg-image("../../project/img/pro-operation");
+
+    }
+    .pro-sell{
+      @include bg-image("../../project/img/pro-sell");
+
+    }
+
+
   }
 
 </style>

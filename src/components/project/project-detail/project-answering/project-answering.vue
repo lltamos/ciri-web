@@ -76,6 +76,9 @@
                     </div>
                   </div>
                 </div>
+                <div class="canot-see-replay" v-if="!memberLevel && question.total>0">
+                  回复限项目库会员及更高等级会员查看，<span @click="upgrade">立即开通></span>
+                </div>
                 <!--回答信息-->
                 <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList != '' && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
@@ -197,6 +200,9 @@
                     <div v-else>回复</div>
                   </div>
                 </div>
+              </div>
+              <div class="canot-see-replay" v-if="!memberLevel && myQuestion.total>0">
+                回复限项目库会员及更高等级会员查看，<span @click="upgrade">立即开通></span>
               </div>
               <!--回答信息-->
               <div class="questioner-visible"　v-if="myQuestion.projectChatList!=null && myQuestion.projectChatList.length>0 " v-for="(ask,aaindex) in myQuestion.projectChatList" :key="aaindex" >
@@ -336,7 +342,9 @@
         backVisibleStatus:false, //回复仅提问者可见
         backChecked:false,       //回复匿名
         backMessage:"",          //回复信息
-        parentId:""             //回复的父id值
+        parentId:"",             //回复的父id值
+        memberLevel:true
+
       }
     },
     props: {},
@@ -726,6 +734,12 @@
     },
     computed: {},
     created() {
+      let level = sessionStorage.getItem("userLevel");
+      if (level == '1' || level == '3') {
+        this.memberLevel = false;
+      } else {
+        this.memberLevel = true;
+      }
       this.proId = parseInt(this.$route.query.projId);
       this.allQuestion();
     },
@@ -875,6 +889,16 @@
           li:last-child{
             width: 80px;
           }
+        }
+        .canot-see-replay{
+          background-color: red;
+          width: 100%;
+          height: 44px;
+          line-height: 44px;
+          color: #ff0000;
+          background-color: #f5f5f5;
+          font-size: 14px;
+          padding-left: 10px;
         }
         .question-list{
           margin-top: 15px;
