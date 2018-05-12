@@ -12,7 +12,7 @@ let shareSDK = {
 
   share: function (title, urllink, imageurl, desc, config, param) {
     wx.config({
-      debug: true,
+      debug: false,
       appId: config.appId,
       timestamp: config.timestamp,
       nonceStr: config.nonceStr,
@@ -22,7 +22,7 @@ let shareSDK = {
     wx.ready(() => {
       wx.onMenuShareTimeline({
         title: title,
-        link: location.href.split('#')[0] + '#' + location.href.split('#')[1],
+        link: urllink,
         imgUrl: imageurl,
         success: () => {
           api.post('/pb/p/updateRecord', {projId: param.projId, tag: 1});
@@ -33,7 +33,7 @@ let shareSDK = {
       wx.onMenuShareAppMessage({
         title: title,
         desc: desc,
-        link: location.href.split('#')[0] + '#' + location.href.split('#')[1],
+        link: urllink,
         imgUrl: imageurl,
         type: '',
         dataUrl: '',

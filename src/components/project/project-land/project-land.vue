@@ -120,7 +120,7 @@
       },
       share() {
         let urlparm = window.location.href.split('#')[0]
-        let url =window.location.href.split('#')[0] + '#' + window.location.href.split('#')[1];
+        let url =window.location.href.split('#')[0] + '?#' + window.location.href.split('#')[1];
         this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
             if (res.code == 200) {
               shareSDK.wxconfig.timestamp = res.data.timestamp;
