@@ -46,7 +46,9 @@
                 <div class="time">{{question.updateTime|time}}</div>
               </div>
               <!--提问信息-->
-              <div class="ques-title">{{question.message}}</div>
+              <div class="ques-title">
+                <intentEdit :moreShow="question.message.length>405" :content="question.message"></intentEdit>
+              </div>
 
               <div class="main-news">
                 <div class="delete" :class="[question.oneselfInfo?'main-del':'']" @click="deleteAsk(question.id,1)">{{question.oneselfInfo == true?"删除" :""}}</div>
@@ -97,7 +99,9 @@
                             <div class="time">{{ask.updateTime|time}}</div>
                           </div>
                         </div>
-                        <div class="ques-title">{{ask.message}}</div>
+                        <div class="ques-title">
+                          <intentEdit :moreShow="ask.message.length>405" :content="ask.message"></intentEdit>
+                        </div>
                       </div>
                     </div>
                     <!--设置回答文件信息-->
@@ -158,7 +162,9 @@
               <div class="user-name" v-text="hiddenName(myQuestion.userid)"></div>
               <div class="time">{{myQuestion.updateTime|time}}</div>
             </div>
-            <div class="ques-title">{{myQuestion.message}}</div>
+            <div class="ques-title">
+              <intentEdit :moreShow="myQuestion.message.length>405" :content="myQuestion.message"></intentEdit>
+            </div>
 
             <div class="main-news">
               <div class="delete" :class="[myQuestion.oneselfInfo?'main-del':'']" @click="deleteAsk(myQuestion.id,1)">{{myQuestion.oneselfInfo == true?"删除" :""}}</div>
@@ -210,7 +216,9 @@
                           <!--回复点赞数量-->
                         </div>
                       </div>
-                      <div class="ques-title">{{ask.message}}</div>
+                      <div class="ques-title">
+                        <intentEdit :moreShow="ask.message.length>405" :content="ask.message"></intentEdit>
+                      </div>
                     </div>
                   </div>
                   <!--设置回答文件信息-->
@@ -292,14 +300,17 @@
   import Authority from '@/components/base/authority/authority'
   import moment from 'moment'
   import tool from "../../../../api/tool"
+  import intentEdit from '@/components/base/intent-edit/intent-edit'
   import { MessageBox } from 'mint-ui';
+
   export default {
     components: {
       CrossLine,
       FileDelete,
       Authority,
       tool,
-      MessageBox
+      MessageBox,
+      intentEdit
     },
     data() {
       return {
