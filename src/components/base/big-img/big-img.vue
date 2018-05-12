@@ -25,29 +25,29 @@
     methods: {
       readMore() {
         if (this.moreText == '查看更多') {
-          this.moreText = '收起'
-          this.iconMore = 'pack-up'
-          this.article = 'article active'
+          this.moreText = '收起';
+          this.iconMore = 'pack-up';
+          this.article = 'article active';
         } else {
           this.moreText = '查看更多';
-          this.iconMore = 'icon-more'
-          this.article = 'article'
+          this.iconMore = 'icon-more';
+          this.article = 'article';
         }
       },
       handleClose() {
       },
       // 获取图片高度
-      imgHeight(){
-        let imgWarp=document.getElementById("img-warp")
-        function getStyle(element,cssPropertyName){
-          if(window.getComputedStyle){//如果支持getComputedStyle属性（IE9及以上，ie9以下不兼容）
-            return window.getComputedStyle(element)[cssPropertyName];
-          }else{//如果支持currentStyle（IE9以下使用），返回
-            return element.currentStyle[cssPropertyName];
-          }
-        }
-        return getStyle(imgWarp,'height')
-      }
+      // imgHeight(){
+      //   let imgWarp=document.getElementById("img-warp")
+      //   function getStyle(element,cssPropertyName){
+      //     if(window.getComputedStyle){//如果支持getComputedStyle属性（IE9及以上，ie9以下不兼容）
+      //       return window.getComputedStyle(element)[cssPropertyName];
+      //     }else{//如果支持currentStyle（IE9以下使用），返回
+      //       return element.currentStyle[cssPropertyName];
+      //     }
+      //   }
+      //   return getStyle(imgWarp,'height')
+      // }
     },
     props: {
       content: Array
@@ -80,13 +80,16 @@
     },
     mounted (){
       // 图片加载更多
-      let imgHeight=this.imgHeight();
-      console.log(imgHeight);
-      imgHeight=tool.pxKey(imgHeight)
-      if(imgHeight>300){
+      // let imgHeight=this.imgHeight();
+      // imgHeight=tool.pxKey(imgHeight)
+      let imgWarp=document.getElementById("img-warp")
+      console.log(this.imgList);
+      if(this.imgList.length>4){
         this.moreShow = true;
       }else {
         this.moreShow = false;
+        this.article ='';
+        // imgWarp.style.height = 'auto';
       }
     },
     created() {
@@ -100,10 +103,10 @@
   @import '~@/assets/scss/mixin.scss';
   #big-img{
     .article{
-      max-height:316px;
+      height:316px;
       overflow: hidden;
       &.active{
-        max-height:10000px;
+        height:auto;
       }
     }
     .read-more {
