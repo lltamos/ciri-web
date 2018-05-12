@@ -231,11 +231,8 @@
     beforeRouteEnter:(to,from,next)=>{
       //清空session
       var path=from.path;
+      gbus.$emit('emitRefreshDate', null);
       if(path.lastIndexOf("investment-edit") == -1){
-        sessionStorage.setItem("intCh", "");
-        sessionStorage.setItem("intEn", "");
-        sessionStorage.setItem("advCh", "");
-        sessionStorage.setItem("advEn", "");
         sessionStorage.setItem("fromStatus", 1);
       }else {
         sessionStorage.setItem("fromStatus", 2);
@@ -245,7 +242,12 @@
     beforeRouteLeave(to,from,next){
       // 不是跳转到编辑页面...终止页面
       if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
-        this.$destroy();
+        sessionStorage.setItem("intCh", "");
+        sessionStorage.setItem("intEn", "");
+        sessionStorage.setItem("advCh", "");
+        sessionStorage.setItem("advEn", "");
+        Object.assign(this.$data, this.$options.data())
+        // this.$destroy();
       }
       next();
     },
@@ -501,7 +503,7 @@
             tool.toast(r.msg);
         });
         //当调用方法回显示数据
-        this.$api.post('/ah/s5/getUserProjectConInvest', {projId: this.projId, userId: tool.getuser()}).then(r => {
+        this.$api.post('/ah/s5/getUserProjectConInvest',{projId: this.projId, userId: tool.getuser()}).then(r => {
           if (r.code == 200) {
             if (r.data.order != null && r.data.order.length == 1) {
               let order = r.data.order[0];
@@ -578,7 +580,7 @@
           }
         });
       }
-      let r = this.investAmount;
+      // let r = this.investAmount;
       // console.log(this.investAmount);
       // this.flag = r;
 

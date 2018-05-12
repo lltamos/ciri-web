@@ -35,16 +35,20 @@
         key: ''
       };
     },
+    beforeRouteLeave(to, from, next) {
+      this.$destroy();
+      next();
+    },
     methods: {
       back() {
-        window.history.back();
         gbus.$emit('emitRefreshDate', null);
+        window.history.back();
         // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       confrim() {
         sessionStorage.setItem(this.key, this.word);
+        gbus.$emit('emitRefreshDate',null);
         window.history.back();
-        gbus.$emit('emitRefreshDate', null);
         // this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId,temp:1}});
       },
       fill() {
