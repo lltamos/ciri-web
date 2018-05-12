@@ -264,13 +264,14 @@
           .icon-quality {
             color: #fff;
             font-size: 10px;
-            line-height: 10px;
+            line-height: 12px;
+            height: 16px;
             background: #fdb140;
             padding: 3px 3px 0;
             text-align: center;
             margin-right: 5px;
             border-radius: 3px;
-            margin-top: 14px;
+            margin-top: 11px;
           }
           h2 {
             font-size: 16px;
