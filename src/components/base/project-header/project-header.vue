@@ -14,7 +14,9 @@
         <div class="title">
           <div class="icon-quality fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{cornerTag}}
           </div>
-          <h2 class="fl">{{projName}}</h2></div>
+          <h2 class="fl" v-if="cornerTag != null && cornerTag != '' && cornerTag != '无'">{{projName.length>13 ? projName.substr(0,13)+'...' : projName}}</h2>
+          <h2 class="fl" v-if="cornerTag == null || cornerTag == '' || cornerTag == '无'">{{projName.length>18 ? projName.substr(0,18)+'...' : projName}}</h2>
+        </div>
         <div class="tip">
           <div v-if="tags != null" class="f1" v-for="(t, index) in tags" :key="index">
             <div class="fl red">{{t}}</div>
