@@ -64,6 +64,9 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/reset.scss';
   @import '~@/assets/scss/mixin.scss';
+  .intent-edit{
+    overflow: auto;
+  }
   .article{
     margin-top: 10px;
     font-size: 13px;
