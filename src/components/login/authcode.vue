@@ -74,10 +74,10 @@
 
           this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
             if (res.data.code === 200) {
-              sessionStorage.setItem("token", res.data.token);
-              sessionStorage.setItem("username", res.data.username);
+              sessionStorage.setItem("token", res.data.data.token);
+              sessionStorage.setItem("username", res.data.data.username);
               sessionStorage.setItem("islogin", "true");
-              this.axios.defaults.headers.token = res.data.token;
+              this.axios.defaults.headers.token = res.data.data.token;
               this.$router.replace({path: '/index'})
             } else {
               this.error = '账号或密码错误，请重新输入'
