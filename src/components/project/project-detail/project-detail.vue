@@ -512,6 +512,7 @@
           line-height: 45px;
           font-size: 17px;
           color: #333;
+          flex:1;
         }
         li.router-link-active {
           border-bottom: 2px solid #258de8;
