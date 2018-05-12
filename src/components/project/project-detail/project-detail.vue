@@ -23,10 +23,17 @@
                  :potentialInvestorSize="potentialInvestorSize"
                  :financingProgress="financingProgress"></svgIcon>
       </div>
-      <div v-bind:class="[isLikes ? 'thumbs-down' : 'thumbs-up', '']" @click="giveLikes">
-        <i class="icon-dianzan"></i>
-        <span class="count-warp">看好</span>
-        <span class="count">({{likes}})</span>
+      <div class="btn-warp">
+        <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
+          <i class="icon-dianzan"></i>
+          <span class="count-warp">看好</span>
+          <span class="count">{{likes}}</span>
+        </div>
+        <div class="share thumbs-up">
+          <i class="icon-dianzan"></i>
+          <span class="count-warp">分享</span>
+          <span class="count">{{shares}}</span>
+        </div>
       </div>
       <CrossLine></CrossLine>
       <!--关注项目动态-->
@@ -340,75 +347,60 @@
         line-height: 20px;
       }
 
-      .thumbs-up {
+      .btn-warp {
         display: table;
         margin: -5px auto 25px;
-        background: #4285f4;
-        color: #fefeff;
-        font-size: 11px;
-        height: 23px;
-        padding: 5px 10px;
-        line-height: 1;
-        border-radius: 2px;
 
-        .icon-dianzan {
+        .thumbs-up {
           display: inline-block;
-          width: 9px;
+          border: 1px solid #dedede;
+          color: #999;
+          font-size: 11px;
           height: 23px;
-          margin-right: 5px;
-          background-repeat: no-repeat;
-          background-size: 9px auto;
-          background-position: center;
-          @include bg-image("../img/icon-dianzan");
-          vertical-align: bottom;
+          padding: 0 8px;
+          line-height: 1;
+          border-radius: 23px;
+
+          &
+          .active {
+            background: #4285f4;
+            color: #fff;
+
+            .icon-dianzan {
+              @include bg-image("../../index/img/thumb-uped");
+            }
+
+          }
+          .icon-dianzan {
+            display: inline-block;
+            width: 11px;
+            height: 23px;
+            background-repeat: no-repeat;
+            background-size: 11px auto;
+            background-position: center;
+            @include bg-image("../../index/img/thumb-up");
+            vertical-align: bottom;
+          }
+
+          .count-warp {
+            display: inline-block;
+            height: 23px;
+            line-height: 23px;
+          }
+
+          .count {
+            font-size: 11px;
+          }
+
         }
+        .share {
+          margin-left: 25px;
 
-        .count-warp {
-          display: inline-block;
-          height: 23px;
-          line-height: 23px;
+          .icon-dianzan {
+            @include bg-image("../../base/img/bottom-share");
+          }
+
         }
-
-        .count {
-          font-size: 7px;
-          margin-left: 5px;
-        }
-
-      }
-      .thumbs-down {
-        display: table;
-        margin: -5px auto 25px;
-        background: #bbb;
-        color: #fefeff;
-        font-size: 11px;
-        height: 23px;
-        padding: 5px 10px;
-        line-height: 1;
-        border-radius: 2px;
-
-        .icon-dianzan {
-          display: inline-block;
-          width: 9px;
-          height: 23px;
-          margin-right: 5px;
-          background-repeat: no-repeat;
-          background-size: 9px auto;
-          background-position: center;
-          @include bg-image("../img/icon-dianzan");
-          vertical-align: bottom;
-        }
-
-        .count-warp {
-          display: inline-block;
-          height: 23px;
-          line-height: 23px;
-        }
-
-        .count {
-          font-size: 7px;
-          margin-left: 5px;
-        }
-
       }
       .pro-focus {
         padding: 0 10px;
