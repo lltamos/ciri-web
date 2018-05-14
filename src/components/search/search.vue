@@ -9,7 +9,7 @@
     <div class="search-warp" id="search-warp">
       <div class="search-box">
         <i class="icon-search" @click="searchKey"></i>
-        <input type="text" placeholder="项目 投资人" v-model="searchValue" @keyup.enter="searchKey">
+        <input type="text" placeholder="搜索项目" v-model="searchValue" @keyup.enter="searchKey">
         <i class="search-cancel" @click="searchCancel" v-show="this.searchValue"></i>
       </div>
     </div>
