@@ -93,15 +93,14 @@
                 <p>意向投资方：<em>{{project.investors}}位</em></p>
               </div>
               <div class="tip-news">
-                <i class="loc"></i>
-                <span class="country">{{project.countryName}}</span>
                 <i class="indu"></i>
                 <span class="industry">{{project.industryName}}</span>
                 <i class="mold"></i>
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <div class="dz-wrap" :class="project.likesStatus==true?'active':''" v-tap.prevent="{methods : likeProject,project:project}" >
+                <div class="dz-wrap" :class="project.likesStatus==true?'active':''"
+                     v-tap.prevent="{methods : likeProject,project:project}">
                   <i class="icon-thumbup fr icon-dz"></i>
                   <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
                 </div>
@@ -170,10 +169,10 @@
     methods: {
       search() {
         let path = '/search'
-        if (!tool.isBank(this.text)){
+        if (!tool.isBank(this.text)) {
           path = path + '?text=' + this.text
         }
-        this.$router.push({ path: path });
+        this.$router.push({path: path});
       },
       init1() {
         this.pageId = 1
@@ -202,6 +201,9 @@
             this.moreText = '没有更多了';
             this.disabled = 'disabled';
             this.isIcon = false;
+          } else {
+            this.moreText = '查看更多';
+            this.disabled = false;
           }
         });
       },
@@ -341,7 +343,7 @@
         }
       },
       //点赞
-      likeProject(pro){
+      likeProject(pro) {
         let projId = pro.project.projId;
         if (tool.getuser() == null) {
           tool.toast("登录状态下才能点赞")
@@ -779,17 +781,6 @@
 
               }
 
-              /*.video {
-                width: 20px;
-                height: 20px;
-                background-repeat: no-repeat;
-                @include bg-image("../base/img/video");
-                background-size: 20px auto;
-                background-position: center;
-                margin-top: -3px;
-
-              }*/
-
             }
             .maturity {
               text-align: left;
@@ -838,7 +829,7 @@
               .view {
                 @include bg-image("../base/img/view");
               }
-              .dz-wrap{
+              .dz-wrap {
                 border: 1px solid #dedede;
                 border-radius: 14px;
                 color: #999;
@@ -849,16 +840,24 @@
                 z-index: 99;
                 height: 16px;
                 line-height: 16px;
+<<<<<<< HEAD
+                .dz-count{
+                  font-size: 12px;
+                  height: 12px;
+                  display: inline-block;
+                  margin-top: 2px;
+                }
                 &.active{
+=======
+                &.active {
+>>>>>>> origin/master
                   border: 1px solid #528de8;
                   background-color: #528de8;
-                  .icon-dz{
+                  .icon-dz {
                     @include bg-image("../index/img/thumb-uped");
                   }
-                  .dz-count{
+                  .dz-count {
                     color: #fff;
-                    font-size: 12px;
-                    height: 12px;
                   }
                 }
                 .icon-thumbup {
@@ -870,7 +869,7 @@
                   background-repeat: no-repeat;
                   background-size: 10px auto;
                   background-position: center;
-                  margin: 2px 2px 0px 4px;
+                  margin: 3px 2px 0px 5px;
                 }
               }
               span {
