@@ -24,7 +24,9 @@
                   <em>查看</em>
                   <i class="more"></i>
                 </span>
-
+                <div class="img-wrap" v-for="(ite,dex) in item.picture" :key="dex" v-if="item.picture != null && item.picture.length !=0">
+                  <img v-lazy="ite.name" alt=""/>
+                </div>
               </li>
           </ul>
         </div>
@@ -293,6 +295,16 @@
               font-size: 12px;
               text-align: center;
 
+            }
+            .img-wrap{
+              width: 73px;
+              height: 47px;
+              display: inline-block;
+              margin: 15px 4px 0px 5px;
+              img{
+                width: 100%;
+                height: 100%;
+              }
             }
             h2{
               font-size: 14px;
