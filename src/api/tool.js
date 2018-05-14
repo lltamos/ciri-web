@@ -1,4 +1,3 @@
-import 'mint-ui/lib/style.css'
 import {Toast, MessageBox} from 'mint-ui';
 import moment from 'moment'
 
