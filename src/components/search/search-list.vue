@@ -176,7 +176,6 @@
           }
           this.pageId = r.pageId + 1;
           if (r.data == null || r.data.length == 0 || !r.isNext) {
-            this.moreText = '没有更多了';
             this.searchContent = false;
             this.disabled = 'disabled';
             this.isIcon = false;
