@@ -180,6 +180,7 @@
             this.disabled = 'disabled';
             this.isIcon = false;
           }else {
+            this.searchContent = true;
             this.moreText = '查看更多';
             this.disabled = false;
             this.isIcon = true;
