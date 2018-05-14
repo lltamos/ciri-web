@@ -297,7 +297,7 @@
             this.delList(this.i, v);
             break;
           case 2:
-            this.delList(this.v, v);
+            this.delList(this.t, v);
             break;
           case 3:
             this.delList(this.m, v);
