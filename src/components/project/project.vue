@@ -2,7 +2,7 @@
   <div class="project-list">
     <div class="banner" id="bannerScroll">
       <div class="img">
-        <img src="../news/img/p_1.jpg" alt=""/>
+        <img src="../news/img/p_new.png" alt=""/>
       </div>
       <div class="search-warp" id="search-warp">
         <div class="search" :class="scrollSearch">

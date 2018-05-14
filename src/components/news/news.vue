@@ -2,9 +2,7 @@
 
 <template>
   <div class="news">
-    <header class="gradient">源合资讯
-      <i class="icon_search" @click="search"></i>
-    </header>
+    <header class="gradient">资讯</header>
     <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">
