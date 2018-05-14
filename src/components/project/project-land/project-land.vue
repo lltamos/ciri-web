@@ -302,8 +302,7 @@
           line-height: 1;
           border-radius: 23px;
 
-          &
-          .active {
+          &.active {
             background: #4285f4;
             color: #fff;
 
