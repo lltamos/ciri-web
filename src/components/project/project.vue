@@ -93,8 +93,6 @@
                 <p>意向投资方：<em>{{project.investors}}位</em></p>
               </div>
               <div class="tip-news">
-                <i class="loc"></i>
-                <span class="country">{{project.countryName}}</span>
                 <i class="indu"></i>
                 <span class="industry">{{project.industryName}}</span>
                 <i class="mold"></i>
@@ -779,17 +777,6 @@
 
               }
 
-              /*.video {
-                width: 20px;
-                height: 20px;
-                background-repeat: no-repeat;
-                @include bg-image("../base/img/video");
-                background-size: 20px auto;
-                background-position: center;
-                margin-top: -3px;
-
-              }*/
-
             }
             .maturity {
               text-align: left;
@@ -849,6 +836,12 @@
                 z-index: 99;
                 height: 16px;
                 line-height: 16px;
+                .dz-count{
+                  font-size: 12px;
+                  height: 12px;
+                  display: inline-block;
+                  margin-top: 2px;
+                }
                 &.active{
                   border: 1px solid #528de8;
                   background-color: #528de8;
@@ -857,8 +850,6 @@
                   }
                   .dz-count{
                     color: #fff;
-                    font-size: 12px;
-                    height: 12px;
                   }
                 }
                 .icon-thumbup {
@@ -870,7 +861,7 @@
                   background-repeat: no-repeat;
                   background-size: 10px auto;
                   background-position: center;
-                  margin: 2px 2px 0px 4px;
+                  margin: 3px 2px 0px 5px;
                 }
               }
               span {
