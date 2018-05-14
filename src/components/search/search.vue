@@ -10,7 +10,7 @@
       <div class="search-box">
         <i class="icon-search" @click="searchKey"></i>
         <input type="text" placeholder="项目 投资人" v-model="searchValue" @keyup.enter="searchKey">
-        <i class="search-cancel" @click="searchCancel"></i>
+        <i class="search-cancel" @click="searchCancel" :class="searchValue==''?'hidden':''"></i>
       </div>
     </div>
     <div class="main">
@@ -172,6 +172,9 @@
           @include bg-image('../index/img/search-cancel');
           position: relative;
           float: right;
+          &.hidden{
+             display:none;
+          }
         }
         input {
           height: 30px;
