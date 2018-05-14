@@ -691,7 +691,7 @@
         min-height: 300px;
         padding: 0 10px;
         .pro-list {
-          padding: 15px 0 15px 96px;
+          padding: 15px 0 5px 96px;
           position: relative;
           height: 76px;
           @include onepx('bottom');
