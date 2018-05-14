@@ -41,7 +41,7 @@
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <div class="dz-wrap">
+                <div class="dz-wrap" v-bind:class="{active:project.likesStatus}"　v-tap.prevent="{ methods : likeProject,project:project}">
                   <i class="icon-thumbup fr icon-dz"></i>
                   <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
                 </div>
@@ -87,9 +87,9 @@
               <span class="genre">{{project.constructionTypeName}}</span>
               <i class="view"></i>
               <span class="count">{{project.visit}}</span>
-              <div class="dz-wrap">
+              <div class="dz-wrap"　v-bind:class="{active:project.likesStatus}"　v-tap.prevent="{ methods : likeProject,project:project}">
                 <i class="icon-thumbup fr icon-dz"></i>
-                <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+                <span class="thumb-up fr dz-count" style="margin-right: 6px;"　>{{project.likes}}</span>
               </div>
             </div>
           </div>
@@ -197,9 +197,33 @@
           pageId: 1,
           pageSize: 4,
           status: 7,
+          userId: tool.getuser(),
           tag: 101001
         }).then(r => {
             this.projects1 = r.data.list;
+        });
+      },
+      //点赞
+      likeProject(pro){
+        let projId = pro.project.projId;
+        if (tool.getuser() == null) {
+          tool.toast("登录状态下才能点赞")
+          return
+        }
+        //不能重复点赞
+        if (pro.project.likesStatus == true) {
+          return;
+        }
+        pro.project.likesStatus = true;
+        let likes=parseInt(pro.project.likes)+1;
+        if(likes > 1000){
+          pro.project.likes = '999+'
+        }else {
+          pro.project.likes = likes
+        }
+        this.$api.post('/pb/p/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
+          if (r.code == 200) {
+          }
         });
       }
     },
