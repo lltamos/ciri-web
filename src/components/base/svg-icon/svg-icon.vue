@@ -6,9 +6,8 @@
       <circle class="circle-track" stroke-width="16" fill="none" stroke="#3EC1BE" cx="130" cy="225" r="115" stroke-dasharray="723" stroke-dashoffset="1441.104106092131" transform="rotate(-3 130 225)"></circle>
       <circle class="circle-train" stroke-width="16" fill="none" stroke="#FBB161" cx="130" cy="225" r="115" stroke-dasharray="723" stroke-dashoffset="722.5663103256525" transform="rotate(-1 130 225)"></circle>
     </g>
-    <text x="130" y="214" text-anchor="middle" fill="#fff">
-      <tspan font-size="30">{{financingProgress}}</tspan>
-      <tspan font-size="30">％</tspan>
+    <text x="130" y="214" text-anchor="middle" fill="#fff" class="per-wrap">
+      <tspan class="percent" font-size="30">{{financingProgress}}％</tspan>
     </text>
     <text x="130" y="260" fill="#fff" text-anchor="middle" font-size="30" class="fsn bold">融资进度</text>
     <polyline fill="none" stroke-miterlimit="10" points="700,92 250,92 214.5,120"></polyline>
@@ -79,6 +78,14 @@
     line,polyline{
       stroke: #6ed2ff;
     }
+    .per-wrap{
+      display: block;
+      .percent{
+        display: inline-block;
+        width: 50%;
+      }
+    }
+
     path{
       -webkit-transform: translate(0, 25%);
       transform: translate(0, 25%);
