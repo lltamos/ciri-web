@@ -18,7 +18,8 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input v-model="authcode" placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg"
+                   @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
@@ -26,7 +27,7 @@
         <div class="switch getCodeBg" v-show="!showCode">{{count}} s</div>
       </div>
       <div class="error">
-        <div v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
+        <div v-show="errorShow" class="errorText">{{error}}</div>
       </div>
       <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
     </div>
@@ -55,7 +56,9 @@
         position: '',
         phone: this.phone,
         errorShow: false,
-        aisle: 1
+        aisle: 1,
+        authcode: null,
+        error:'账号或验证码错误，请重新输入'
       }
     },
     props: {},
@@ -67,9 +70,15 @@
         let tag = tool.checkMobile(this.phone);
 
         if (tag) {
+          if (tool.isBank(this.authcode)) {
 
+            this.error = '验证码不能为空，请重新输入'
+            this.errorShow = true;
+            return
+          }
           let params = new URLSearchParams();
           params.append('key', this.phone);
+          params.append('pwd', this.authcode);
           params.append('aisle', this.aisle + '');
 
           this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
