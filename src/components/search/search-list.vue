@@ -10,10 +10,10 @@
     <li :class="{active:tabActive==3}" @click="changePanel(3)">项目出售（<span>{{this.count3}}</span>）</li>
   </ul>
   <div class="content">
-    <div class="img" v-show="!searchContent">
+    <div class="img" v-show="this.projects == null || this.projects.length == '0'">
       <img src="../project/img/timer-none.png" alt="">
     </div>
-    <div class="search-content" v-show="searchContent">
+    <div class="search-content">
       <div class="pro-warp">
         <router-link v-for="(project) in this.projects" :key="project.projId"
                      :to="{path:'/project/project-land',query: {projId: project.projId}}" >
@@ -116,7 +116,6 @@
     },
     data() {
         return {
-          searchContent : true,
           tabActive: 1,
           pageId: 1,
           type: 1,
@@ -124,7 +123,7 @@
           count2: 0,
           count3: 0,
           projects: null,
-          moreText: '查看更多',
+          moreText: '',
           disabled: false,
           isIcon: true,
           projects1: null
@@ -176,11 +175,10 @@
           }
           this.pageId = r.pageId + 1;
           if (r.data == null || r.data.length == 0 || !r.isNext) {
-            this.searchContent = false;
+            this.moreText = '';
             this.disabled = 'disabled';
             this.isIcon = false;
           }else {
-            this.searchContent = true;
             this.moreText = '查看更多';
             this.disabled = false;
             this.isIcon = true;
