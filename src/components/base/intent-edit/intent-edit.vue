@@ -68,7 +68,6 @@
     overflow: auto;
   }
   .article{
-    margin-top: 10px;
     font-size: 13px;
     line-height: 22px;
     color: #666;
