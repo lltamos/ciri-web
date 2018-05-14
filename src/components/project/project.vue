@@ -81,18 +81,18 @@
               <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
+            <div v-show="project.projVideoStatus" class="video fl"></div>
             <div class="main-news">
               <div class="title">
                 <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">
                   {{project.cornerTagName}}
                 </div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
-              <div class="tip">
+              <!--<div class="tip">
                 <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
                   <div class="fl red">{{t}}</div>
                 </div>
-                <div v-show="project.projVideoStatus" class="video fl"></div>
-              </div>
+              </div>-->
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
                 <p>意向投资方：<em>{{project.investors}}位</em></p>
@@ -106,8 +106,10 @@
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <span class="thumb-up fr" style="margin-right: 6px;">{{project.likes}}</span>
-                <i class="icon-thumbup fr"></i>
+                <div class="dz-wrap">
+                  <i class="icon-thumbup fr icon-dz"></i>
+                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -524,9 +526,10 @@
             }
             .tip-news {
               overflow: hidden;
+              width: 100%;
               i {
                 display: block;
-                margin-right: 6px;
+                margin-right: 3px;
                 width: 10px;
                 height: 10px;
                 background-size: 10px auto;
@@ -694,6 +697,7 @@
             img {
               width: 100%;
               height: 100%;
+              border-radius: 3px;
             }
             .icon-state {
               position: absolute;
@@ -706,6 +710,17 @@
               padding: 1px 2px;
               text-align: center;
             }
+          }
+          .video {
+            width: 12px;
+            height: 12px;
+            background-repeat: no-repeat;
+            @include bg-image("../base/img/video-left");
+            background-size: 12px auto;
+            background-position: center;
+            position: absolute;
+            top: 54px;
+            left: 5px;
           }
           .main-news {
             position: relative;
@@ -757,7 +772,7 @@
 
               }
 
-              .video {
+              /*.video {
                 width: 20px;
                 height: 20px;
                 background-repeat: no-repeat;
@@ -766,7 +781,7 @@
                 background-position: center;
                 margin-top: -3px;
 
-              }
+              }*/
 
             }
             .maturity {
@@ -794,12 +809,12 @@
             .tip-news {
               height: 10px;
               position: absolute;
-              bottom: 0;
               left: 0;
+              width: 100%;
               i {
                 display: block;
                 float: left;
-                margin-right: 6px;
+                margin-right: 3px;
                 width: 10px;
                 height: 10px;
                 background-size: 10px auto;
@@ -816,15 +831,41 @@
               .view {
                 @include bg-image("../base/img/view");
               }
-              .icon-thumbup {
-                @include bg-image("./img/thumbs-up");
-                margin-right: 0;
-                margin-top: -2px;
-                &.active {
-                  @include bg-image("./img/thumbs-uped");
+              .dz-wrap{
+                border: 1px solid #dedede;
+                border-radius: 14px;
+                color: #999;
+                padding: 0 2px;
+                font-size: 10px;
+                position: absolute;
+                right: 5px;
+                z-index: 99;
+                height: 16px;
+                line-height: 16px;
+                &.active{
+                  border: 1px solid #528de8;
+                  background-color: #528de8;
+                  .icon-dz{
+                    @include bg-image("../index/img/thumb-uped");
+                  }
+                  .dz-count{
+                    color: #fff;
+                    font-size: 12px;
+                    height: 12px;
+                  }
+                }
+                .icon-thumbup {
+                  @include bg-image("./img/thumbs-up");
+                  display: inline-block;
+                  width: 10px;
+                  height: 10px;
+                  line-height: 10px;
+                  background-repeat: no-repeat;
+                  background-size: 10px auto;
+                  background-position: center;
+                  margin: 2px 2px 0px 4px;
                 }
               }
-
               span {
                 float: left;
                 margin-right: 10px;
