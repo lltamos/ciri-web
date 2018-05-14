@@ -10,10 +10,10 @@
     <li :class="{active:tabActive==3}" @click="changePanel(3)">项目出售（<span>{{this.count3}}</span>）</li>
   </ul>
   <div class="content">
-    <div class="img" v-show="this.projects == null || this.projects.length == '0'">
+    <div class="img" v-if="this.projects == null || this.projects.length == '0'">
       <img src="../project/img/timer-none.png" alt="">
     </div>
-    <div class="search-content">
+    <div class="search-content" v-else>
       <div class="pro-warp">
         <router-link v-for="(project) in this.projects" :key="project.projId"
                      :to="{path:'/project/project-land',query: {projId: project.projId}}" >
