@@ -14,19 +14,20 @@
             <i class="icon-type" :class="isUserAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isCorpAuthed==true ? 'icon-selected' : 'icon-not-select'"></i>
             <i class="icon-type" :class="isRiskAgreementSigned==true ? 'icon-selected' : 'icon-not-select'"></i>
-            <!--isUserAuthed:false, //2.判断用户是否是实名认证用户-->
-            <!--isCorpAuthed:false, //3.用户是否通过了企业认证-->
-            <!--isRiskAgreementSigned:false, //4.风险提示协议是否签署-->
           </div>
           <div class="point-name">
             <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">实名认证</div>
             <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">企业认证</div>
             <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">签署协议</div>
           </div>
-          <div class="process-remind">
+          <div class="process-remind" v-if="!isUserInCoInvest">
             <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
+          </div>
+          <div class="process-remind" v-else>
+            <p>您已成功发送合投意向!</p>
+            <p>请等待项目业主确认您的合投意向</p>
           </div>
           <div class="participate " :class="closeShot?'participate-selected':'participate-no-select'" @click="showParticipate" v-text="cast" v-if="authority">
             <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
@@ -146,21 +147,9 @@
         props: {},
         watch: {},
         methods: {
-          /*getComName(str){
-            if(str>4){
-              str = str.substr(0, 2) + '****' + str.substr(-2);
-            }else{
-              str = str;
-            }
-          },*/
           showParticipate(){
             if(!this.closeShot){
               return;
-            }
-            let tag = 0; //参与合投
-            if( this.cast=="编辑合投意向"){
-              //编辑合投意向
-              tag=1;
             }
             this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
           },
