@@ -38,7 +38,7 @@
               <!--显示头像-->
               <div class="head-portrait">
                 <img v-if="question.headUrl != null && question.headUrl !='' "  v-lazy="question.headUrl"  alt="">
-                <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                <img v-else  src="../../img/ques-def.png"  alt="">
               </div>
               <!--显示用户名和时间-->
               <div class="top-infor">
@@ -91,7 +91,7 @@
                           <div class="head-portrait small-head-portrait">
                             <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                             <img v-if="ask.headUrl != null && ask.headUrl !='' "  v-lazy="ask.headUrl"  alt="">
-                            <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                            <img v-else  src="../../img/rep-def.png"  alt="">
                           </div>
                           <div class="fl">
                             <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
@@ -155,7 +155,7 @@
             <div class="head-portrait">
               <!--<img src="../../../news/img/p_1.jpg" alt="">-->
               <img v-if="myQuestion.headUrl != null && myQuestion.headUrl !='' "  v-lazy="myQuestion.headUrl"  alt="">
-              <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+              <img v-else  src="../../img/ques-def.png"  alt="">
             </div>
 
             <div class="top-infor">
@@ -207,7 +207,7 @@
                         <div class="head-portrait small-head-portrait">
                           <!--<img src="../../../news/img/p_1.jpg" alt="">-->
                           <img v-if="ask.headUrl != null && ask.headUrl !=''"  v-lazy="ask.headUrl"  alt="">
-                          <img v-else  src="http://ciri-test.oss-cn-beijing.aliyuncs.com/c54176040180785dda0443c6a8aac0c89cd61a57"  alt="">
+                          <img v-else  src="../../img/rep-def.png"  alt="">
                         </div>
                         <div class="fl">
                           <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
