@@ -65,11 +65,13 @@
           return false;
         }
         tool.MessageBox('是否申请查看？').then(action => {
+          item.mode =2;
           this.$api.get('/s3/p/file', {
             projId: this.projectId,
-            fileId: item.fileId
+            fileId: item.fileId,
           }).then(res => {
             console.log(res);
+
           })
         })
       },

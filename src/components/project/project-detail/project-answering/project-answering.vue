@@ -3,7 +3,7 @@
     <div class="answering-warp">
       <div class="ask-warp ask-bt">
           <div class="ask-describe"></div>
-          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟~" v-model="askMessage"></textarea>
+          <textarea name="" cols="30" rows="10" placeholder="相关问题的答复会展示在项目答疑区哟~" maxlength="1000" v-model="askMessage"></textarea>
           <p class="hint">问题答复后，将第一时间邮件或短信通知您</p>
           <div class="file-warp">
             <FileDelete v-for="(file,index) in askFileList"  :key="index"
@@ -268,7 +268,7 @@
         <div class="checkbox-warp">
           <input type="checkbox" v-model="backVisibleStatus">仅提问者可见
         </div>
-        <textarea name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
+        <textarea maxlength="1000" name="" id="" cols="30" rows="10" placeholder="写回复" v-model="backMessage"></textarea>
         <div class="file-warp">
           <FileDelete v-for="(file,index) in backFileList"  :key="index"
                       :file="file" :index="index" :tag="2"
