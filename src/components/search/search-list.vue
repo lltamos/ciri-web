@@ -23,16 +23,11 @@
               <img v-lazy="project.url" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
+            <div v-show="project.projVideoStatus" class="video fl"></div>
             <div class="main-news">
               <div class="title">
                 <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无' && project.cornerTagName != ''">{{project.cornerTagName}}</div>
                 <h2 class="fl" v-if="project.name != null">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
-              <div class="tip">
-                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
-                  <div class="fl red">{{t}}</div>
-                </div>
-                <div v-show="project.projVideoStatus" class="video fl"></div>
-              </div>
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
                 <p>意向投资方：<em>{{project.investors}}位</em></p>
@@ -46,8 +41,10 @@
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <span class="thumb-up fr">{{project.likes}}</span>
-                <i class="icon-thumbup fr"></i>
+                <div class="dz-wrap">
+                  <i class="icon-thumbup fr icon-dz"></i>
+                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -72,16 +69,11 @@
             <img v-lazy="project.url" alt="">
             <i class="favorite icon-favorite"></i>
           </div>
+          <div v-show="project.projVideoStatus" class="video fl"></div>
           <div class="main-news">
             <div class="title">
               <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">{{project.cornerTagName}}</div>
               <h2 class="fl" v-if="project.name != null">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
-            <div class="tip">
-              <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
-                <div class="fl red">{{t}}</div>
-              </div>
-              <div v-show="project.projVideoStatus" class="video fl"></div>
-            </div>
             <div class="maturity clearfix">
               <p>项目成熟度：<em>{{project.mature}}</em></p>
               <p>意向投资方：<em>{{project.investors}}位</em></p>
@@ -95,8 +87,10 @@
               <span class="genre">{{project.constructionTypeName}}</span>
               <i class="view"></i>
               <span class="count">{{project.visit}}</span>
-              <span class="thumb-up fr">{{project.likes}}</span>
-              <i class="icon-thumbup fr"></i>
+              <div class="dz-wrap">
+                <i class="icon-thumbup fr icon-dz"></i>
+                <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -228,13 +222,13 @@
     .pro-warp{
       padding: 0 10px;
       .pro-list {
-        padding: 15px 0 15px 96px;
+        padding: 15px 0 5px 96px;
         position: relative;
-        height:76px;
+        height: 76px;
         @include onepx('bottom');
         .img {
           width: 87px;
-          height: 56px;
+          height: 60px;
           position: absolute;
           top: 15px;
           left: 0;
@@ -253,6 +247,17 @@
             padding: 1px 2px;
             text-align: center;
           }
+        }
+        .video {
+          width: 12px;
+          height: 12px;
+          background-repeat: no-repeat;
+          @include bg-image("../base/img/video-left");
+          background-size: 12px auto;
+          background-position: center;
+          position: absolute;
+          top: 58px;
+          left: 5px;
         }
         .main-news {
           position: relative;
@@ -303,46 +308,34 @@
               border: 1px solid #fdb140;
 
             }
-
-            .video {
-              width: 20px;
-              height: 20px;
-              background-repeat: no-repeat;
-              @include bg-image("../base/img/video");
-              background-size: 20px auto;
-              background-position: center;
-              margin-top: -3px;
-
-            }
-
           }
-          .maturity{
+          .maturity {
             text-align: left;
             margin: 5px 0 10px;
-            height:14px;
+            height: 14px;
             line-height: 1;
-            p{
+            p {
               float: left;
               font-size: 11px;
-              color:#666;
-              &:first-child{
-                @include right-bar(-10px,14px);
+              color: #666;
+              &:first-child {
+                @include right-bar(-10px, 14px);
                 margin-right: 20px;
-                &:after{
-                  top:-2px;
+                &:after {
+                  top: -2px;
                 }
               }
-              em{
+              em {
                 font-size: 12px;
-                color:#528de8;
+                color: #528de8;
               }
             }
           }
           .tip-news{
-            height:10px;
+            height: 10px;
             position: absolute;
-            bottom: 0;
             left: 0;
+            width: 100%;
             i{
               display: block;
               float:left;
@@ -363,12 +356,39 @@
             .view{
               @include bg-image("../base/img/view");
             }
-            .icon-thumbup{
-              @include bg-image("../project/img/thumbs-up");
-              margin-right: 0;
-              margin-top: -2px;
+            .dz-wrap{
+              border: 1px solid #dedede;
+              border-radius: 14px;
+              color: #999;
+              padding: 0 2px;
+              font-size: 10px;
+              position: absolute;
+              right: 5px;
+              z-index: 99;
+              height: 16px;
+              line-height: 16px;
               &.active{
-                @include bg-image("../project/img/thumbs-uped");
+                border: 1px solid #528de8;
+                background-color: #528de8;
+                .icon-dz{
+                  @include bg-image("../index/img/thumb-uped");
+                }
+                .dz-count{
+                  color: #fff;
+                  font-size: 12px;
+                  height: 12px;
+                }
+              }
+              .icon-thumbup {
+                @include bg-image("../project/img/thumbs-up");
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                line-height: 10px;
+                background-repeat: no-repeat;
+                background-size: 10px auto;
+                background-position: center;
+                margin: 2px 2px 0px 4px;
               }
             }
 

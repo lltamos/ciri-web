@@ -726,7 +726,7 @@
             background-size: 12px auto;
             background-position: center;
             position: absolute;
-            top: 54px;
+            top: 58px;
             left: 5px;
           }
           .main-news {
