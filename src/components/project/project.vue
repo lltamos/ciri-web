@@ -840,7 +840,6 @@
                 z-index: 99;
                 height: 16px;
                 line-height: 16px;
-<<<<<<< HEAD
                 .dz-count{
                   font-size: 12px;
                   height: 12px;
@@ -848,15 +847,12 @@
                   margin-top: 2px;
                 }
                 &.active{
-=======
-                &.active {
->>>>>>> origin/master
                   border: 1px solid #528de8;
                   background-color: #528de8;
-                  .icon-dz {
+                  .icon-dz{
                     @include bg-image("../index/img/thumb-uped");
                   }
-                  .dz-count {
+                  .dz-count{
                     color: #fff;
                   }
                 }
