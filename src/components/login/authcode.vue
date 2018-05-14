@@ -18,7 +18,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg" @focus="Focus">
+            <input v-model="authcode" placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
@@ -55,7 +55,8 @@
         position: '',
         phone: this.phone,
         errorShow: false,
-        aisle: 1
+        aisle: 1,
+        authcode:null
       }
     },
     props: {},
@@ -70,6 +71,7 @@
 
           let params = new URLSearchParams();
           params.append('key', this.phone);
+          params.append('pwd', this.authcode);
           params.append('aisle', this.aisle + '');
 
           this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
