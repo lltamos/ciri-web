@@ -19,7 +19,7 @@
           <dd v-if="item.summary">{{item.summary}}</dd>
           <dd v-else>暂无</dd>
         </dl>
-        <div v-if="memberLevel && item.mode!=4" class="applyFile btn" :class="{'bg-blue':item.mode==1,'bg-gray':item.mode==2,'agreed':item.mode==3}" @click="showFileDetail(item)">
+        <div v-if="memberLevel && item.mode!=4" class="applyFile btn" :class="{'bg-blue':item.mode==1,'bg-gray':item.mode==2,'agreed':item.mode==3,'bg-sign':item.mode=='-1',}" @click="showFileDetail(item)">
           {{fileMode(item.mode)}}
         </div>
         <div v-if="memberLevel && item.mode==4" class="applyFile btn refuse">
@@ -90,6 +90,9 @@
           return '已同意';
         } else if (i == 4) {
           return '重新申请&nbsp;(已拒绝)';
+        } else if(i == '-1'){
+          return '请签署保密协议';
+
         }
       }
     },
@@ -274,6 +277,12 @@
           font-size: 13px;
           color: #528de8;
           border: 1px solid #528de8;
+        }
+        /*签署保密协议*/
+        .bg-sign{
+          width: 110px;
+          color: #ff0000;
+          background-color: #f5f5f5;
         }
 
       }
