@@ -697,7 +697,7 @@
           @include onepx('bottom');
           .img {
             width: 87px;
-            height: 56px;
+            height: 60px;
             position: absolute;
             top: 15px;
             left: 0;
