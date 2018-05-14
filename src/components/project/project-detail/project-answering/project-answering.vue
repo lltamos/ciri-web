@@ -82,7 +82,7 @@
                   回复限项目库会员及更高等级会员查看，<span @click="upgrade">立即开通></span>
                 </div>
                 <!--回答信息-->
-                <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList != '' && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
+                <div class="questioner-visible" v-if="question.projectChatList !== null && question.projectChatList.length !=0  " v-for="(ask,index) in question.projectChatList" :key="index">
                   <!--回复的信息-->
                   <div v-if="ask != null">
                     <div class="marked-warp">
