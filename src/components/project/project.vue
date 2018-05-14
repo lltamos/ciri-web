@@ -102,7 +102,7 @@
                 <div class="dz-wrap" :class="project.likesStatus==true?'active':''"
                      v-tap.prevent="{methods : likeProject,project:project}">
                   <i class="icon-thumbup fr icon-dz"></i>
-                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{parseInt(project.likes)>999?'999+':project.likes}}</span>
                 </div>
               </div>
             </div>

@@ -24,7 +24,7 @@
            v-tap.prevent="{ methods : thumbSwitch ,project:project}">
         <i class="icon-dianzan"></i>
         <!--<span class="count-warp">看好</span>-->
-        <span class="count">{{project.likes}}</span>
+        <span class="count">{{parseInt(project.likes)>999?'999+':project.likes}}</span>
       </div>
       <div class="main-news">
         <div class="tip">
