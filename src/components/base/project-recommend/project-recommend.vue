@@ -153,7 +153,12 @@
           return;
         }
         project.project.likesStatus = true;
-        project.project.likes = project.project.likes + 1;
+        let likes=parseInt(project.project.likes)+1;
+        if(likes > 1000){
+          project.project.likes = '999+'
+        }else {
+          project.project.likes = likes
+        }
         this.$api.post('/pb/p/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
           if (r.code == 200) {
           }
