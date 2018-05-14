@@ -193,9 +193,14 @@
           }
           .file-title {
             font-size: 14px;
+            height: 15px;
             color: #333;
             line-height: 1;
             display: inline-block;
+            width: 205px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
 
         }
