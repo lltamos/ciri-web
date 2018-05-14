@@ -88,11 +88,6 @@
                   {{project.cornerTagName}}
                 </div>
                 <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
-              <!--<div class="tip">
-                <div v-if="project.tags != null" class="f1" v-for="(t, index) in project.tags" :key="index">
-                  <div class="fl red">{{t}}</div>
-                </div>
-              </div>-->
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
                 <p>意向投资方：<em>{{project.investors}}位</em></p>
@@ -106,7 +101,7 @@
                 <span class="genre">{{project.constructionTypeName}}</span>
                 <i class="view"></i>
                 <span class="count">{{project.visit}}</span>
-                <div class="dz-wrap">
+                <div class="dz-wrap" :class="project.likesStatus==true?'active':''" v-tap.prevent="{methods : likeProject,project:project}" >
                   <i class="icon-thumbup fr icon-dz"></i>
                   <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
                 </div>
@@ -193,6 +188,7 @@
           industry: this.i,
           country: this.c,
           mature: this.m,
+          userId: tool.getuser(),
           constructionTypeId: this.t
         }).then(r => {
           this.notloading = false;
@@ -343,8 +339,25 @@
             this.m.push(v)
             break;
         }
+      },
+      //点赞
+      likeProject(pro){
+        let projId = pro.project.projId;
+        if (tool.getuser() == null) {
+          tool.toast("登录状态下才能点赞")
+          return
+        }
+        //不能重复点赞
+        if (pro.project.likesStatus == true) {
+          return;
+        }
+        pro.project.likesStatus = true;
+        pro.project.likes += 1;
+        this.$api.post('/pb/p/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
+          if (r.code == 200) {
+          }
+        });
       }
-
     },
     filters: {},
     computed: {},
@@ -360,12 +373,6 @@
       }).then(r => {
         this.notloading = false;
         this.weekProjects = r.data.list;
-        // if (this.pageId == 1 || this.projects == null) {
-        //   this.weekProjects = r.data.list;
-        // } else {
-        //   this.weekProjects = this.projects.concat(r.data.list);
-        // }
-        // this.pageId = this.pageId + 1;
       });
     },
     created() {
