@@ -7,7 +7,7 @@
       <div class="search-warp" id="search-warp">
         <div class="search" :class="scrollSearch">
           <i class="icon-search" @click="search"></i>
-          <input type="text" v-model="text" placeholder="搜索项目" @keyup.enter="search">
+          <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
         </div>
       </div>
     </div>
@@ -50,25 +50,26 @@
         </ul>
 
         <div class="pop-bg" v-show="popShow" @click="popSwitch" @touchmove.prevent>
-          <div class="tabCon" v-show="popShow" @touchmove.prevent>
-            <div class="content" v-for='(itemCon,index) in tabContents'
-                 v-show=" index == num" :key="index">
-              <form @submit.prevent="submit">
-                <ul>
-                  <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
-                    <input type="checkbox" value="全部"/>
-                  </li>
-                  <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
-                      :key="t">{{item[1]}}
-                    <input type="checkbox"/>
-                  </li>
-                </ul>
-                <div class="btn-warp clearfix">
-                  <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                  <button class="small-btn confirm fr" @click="init1">确定</button>
-                </div>
-              </form>
-            </div>
+        </div>
+        <div class="tabCon" v-show="popShow" @touchmove.prevent>
+          <div class="content" v-for='(itemCon,index) in tabContents'
+               v-show=" index == num" :key="index">
+            <form @submit.prevent="submit">
+              <ul>
+                <!--:class="{active:activeSwitch}"-->
+                <li :id="all(index)" @click="allActive($event ,index)" class="active">全部
+                  <input type="checkbox" value="全部"/>
+                </li>
+                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
+                    :key="t">{{item[1]}}
+                  <input type="checkbox"/>
+                </li>
+              </ul>
+              <div class="btn-warp clearfix">
+                <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
+                <button class="small-btn confirm fr" @click="init1">确定</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -251,6 +252,11 @@
 
       },
       liActive(e, v, index) {
+        let all=document.getElementById('all'+index);
+        if(all.classList.contains('active')){
+          all.classList.remove('active');
+        }
+        console.log(index);
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
@@ -268,6 +274,7 @@
         this.projectList='active';
       },
       allActive(e, index) {
+        console.log(index);
         let element = e.currentTarget
         if (element.classList.contains('active')) {
           element.classList.remove('active')
@@ -703,7 +710,6 @@
         }
       }
       .main {
-        min-height: 300px;
         padding: 0 10px;
         .pro-list {
           padding: 15px 0 5px 96px;
