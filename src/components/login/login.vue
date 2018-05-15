@@ -48,20 +48,17 @@
       <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
       <router-link to="/authcode" class="fs13">验证码登录</router-link>
     </div>
-    <bottomImg :class="position"></bottomImg>
   </div>
 </template>
 
 <script>
   import HeaderBar from "@/components/base/header-bar/header-bar";
-  import BottomImg from "@/components/base/bottomImg/bottomImg";
   import CrossLine from "@/components/base/cross-line/cross-line";
   import tool from "../../api/tool";
 
   export default {
     components: {
       HeaderBar,
-      BottomImg,
       CrossLine
     },
     data() {
