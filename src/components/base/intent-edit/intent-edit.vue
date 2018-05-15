@@ -66,6 +66,8 @@
   @import '~@/assets/scss/mixin.scss';
   .intent-edit{
     overflow: auto;
+    word-wrap:break-word;
+    word-break:break-all;
   }
   .article{
     font-size: 13px;
