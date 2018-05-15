@@ -56,7 +56,8 @@
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
               <ul>
-                <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
+                <!--:class="{active:activeSwitch}"-->
+                <li :id="all(index)" @click="allActive($event ,index)" class="active">全部
                   <input type="checkbox" value="全部"/>
                 </li>
                 <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
@@ -251,6 +252,11 @@
 
       },
       liActive(e, v, index) {
+        let all=document.getElementById('all'+index);
+        if(all.classList.contains('active')){
+          all.classList.remove('active');
+        }
+        console.log(index);
         let element = e.currentTarget;
         if (element.classList.contains('active')) {
           element.classList.remove('active');
@@ -704,7 +710,6 @@
         }
       }
       .main {
-        min-height: 300px;
         padding: 0 10px;
         .pro-list {
           padding: 15px 0 5px 96px;
