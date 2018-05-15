@@ -9,7 +9,7 @@
       <div class="file" v-for="(item,index) in projectFileList" :key="index"
            v-if="projectFileList != null && projectFileList.length !=0">
         <div class="title">
-          <i class="icon-type"></i>
+          <i class="icon-type" :class="'icon-'+item.originName.replace(/.+\./,'')"></i>
           <a :href="item.url" :download="item.originName">
             <span class="file-title">{{item.originName}}</span>
           </a>
