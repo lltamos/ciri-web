@@ -25,9 +25,19 @@
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
-          <div class="process-remind" v-else>
-            <p>您已成功发送合投意向!</p>
-            <p>请等待项目业主确认您的合投意向</p>
+          <div class="process-remind" v-else="isUserInCoInvest">
+            <template v-if="ProjectInvestOrderStatus==1">
+              <p>您已成功发送合投意向!</p>
+              <p>请等待项目业主确认您的合投意向</p>
+            </template>
+            <template v-if="ProjectInvestOrderStatus==2">
+              <p>恭喜！项目业主已接受您的投资意向！</p>
+              <p>您将受邀参加项目线下路演</p>
+            </template>
+            <template v-if="ProjectInvestOrderStatus==3">
+              <p>项目业主未接受您的合投意向</p>
+              <p>如果想重新申请合投，请联系项目业主</p>
+            </template>
           </div>
           <div class="participate " :class="closeShot?'participate-selected':'participate-no-select'" @click="showParticipate" v-text="cast" v-if="authority">
             <!--<router-link to="/project/project-detail/investment-intent/participate-investment">参与合投</router-link>-->
@@ -136,6 +146,7 @@
               isRiskAgreementSigned:false, //4.风险提示协议是否签署
               isCoinvesting:false, //5.项目是否处于合同的状态
               isUserInCoInvest:false,  //6.判断用户是否参与过合投
+              ProjectInvestOrderStatus:1,//7.用户合投的状态 默认等待状态 1 等待 2.成功3.失败
               cast:"参与合投",
               closeShot:false,  //合投按钮是否点亮
               authorityShow:false,
@@ -214,10 +225,16 @@
                 this.isRiskAgreementSigned=r.data.isRiskAgreementSigned;
                 this.isCoinvesting=r.data.isCoinvesting;
                 this.isUserInCoInvest=r.data.isUserInCoInvest;
+                //判断用户参与的状态
+                if(r.data.hasOwnProperty("ProjectInvestOrderStatus") && r.data.ProjectInvestOrderStatus != null && r.data.ProjectInvestOrderStatus != ''){
+                  this.ProjectInvestOrderStatus=r.data.ProjectInvestOrderStatus;
+                }
                 //判断用户角色
                 if(this.userRole){
                   if(this.isUserAuthed && this.isCorpAuthed && this.isRiskAgreementSigned && this.isCoinvesting){
-                    this.closeShot=true;
+                    if(this.ProjectInvestOrderStatus == 1){
+                      this.closeShot=true;
+                    }
                     // console.log(this.closeShot);
                     if(this.isUserInCoInvest){
                       this.cast="编辑合投意向";
@@ -230,20 +247,12 @@
                   this.closeShot=false;
                   tool.toast("非投资方不能发送合投申请");
                 }
-                // userRole:false, //   1.检查用户有效性, 用户角色, 以及是否是投资方. 非投资方不能发送意向投资申请
-                //   isUserAuthed:false, //2.判断用户是否是实名认证用户
-                //   isCorpAuthed:false, //3.用户是否通过了企业认证
-                //   isRiskAgreementSigned:false, //4.风险提示协议是否签署
-                //   isCoinvesting:false, //5.项目是否处于合投的状态
-                //   isUserInCoInvest:false //6.判断用户是否参与过合投
               }
             });
-
           }else{
             this.authority = false;
             this.authorityShow = true;
           }
-
 
         },
         mounted() {
