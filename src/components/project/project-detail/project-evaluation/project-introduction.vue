@@ -92,13 +92,14 @@
         </swiper-slide>
       </swiper>
     </div>
+    <CrossLine></CrossLine>
   </div>
   <div v-if="!authrityStatus">
     <div class="no-radio" @click="showAuthWindow"></div>
     <!--权限弹框-->
     <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
   </div>
-  <CrossLine></CrossLine>
+
   <Article :content="productService" text="项目详情"></Article>
   <BigImg v-if="this.photo!=null" :content="this.photo"></BigImg>
   <CrossLine></CrossLine>

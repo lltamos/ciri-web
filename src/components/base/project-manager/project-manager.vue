@@ -1,5 +1,8 @@
 <template>
-  <div class="manager-warp">
+  <div>
+    <CrossLine></CrossLine>
+    <div class="manager-warp">
+    </div>
   </div>
 </template>
 <script>

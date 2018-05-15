@@ -89,7 +89,7 @@
                 <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">
                   {{project.cornerTagName}}
                 </div>
-                <h2 class="fl">{{project.name.length>15?project.name.substr(0, 15) + '...' : project.name}}</h2></div>
+                <h2 class="fl">{{project.name.length>13?project.name.substr(0, 13) + '...' : project.name}}</h2></div>
               <div class="maturity clearfix">
                 <p>项目成熟度：<em>{{project.mature}}</em></p>
                 <p>意向投资方：<em>{{project.investors}}位</em></p>

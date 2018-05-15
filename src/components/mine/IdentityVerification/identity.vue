@@ -19,7 +19,7 @@
     template :'<div class="identity-success identity-icon">\n' +
     '        <div class="img"></div>\n' +
     '        <p class="title">您已提交实名认证，请耐心等待。</p>\n' +
-    '        <div class="btn" @click="this.$parent.back">返回</div>\n' +
+    '        <div class="btn" @click="this.$parent.mine">返回</div>\n' +
     '      </div>'
   }
   const IdentitySuccess ={
@@ -86,6 +86,9 @@
       identityVerification() {
         this.$router.push({path:'/mine/IdentityVerification'})
       },
+      mine(){
+        this.$router.replace({path: "/mine"});
+      }
 
     },
     created () {
