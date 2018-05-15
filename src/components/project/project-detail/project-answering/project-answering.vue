@@ -613,7 +613,8 @@
             status : this.askChecked ? 1 : 0,
           }).then(r => {
           if(r.code===200){
-            this.askMessage="";
+            this.askMessage="";//提问的信息栏
+            this.askChecked=false;  //提问匿名选项框
             this.askFileList=Array();
             tool.toast("提问成功");
             if(this.tabActive === 1){
