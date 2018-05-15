@@ -203,11 +203,15 @@
           //项目投资进展
           this.$api.post('/ah/s0/projectProgress',{projId:this.projId}).then(r => {
             // console.log(r)
-            if(r.code==200 && r.data.state==true){
-              this.projectProgress = r.data;
-              // alert(this.projectProgress.leadInvestors != null && this.projectProgress.leadInvestors.length > 0)
+            if(r.code==200){
+              if(r.data.state==true){
+                this.projectProgress = r.data;
+              }else {
+                tool.toast("项目暂时没有开启合投")
+              }
+            }else {
+              tool.toast(r.msg)
             }
-
           });
 
           let level = sessionStorage.getItem('userLevel');
