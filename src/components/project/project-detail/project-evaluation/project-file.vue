@@ -19,11 +19,12 @@
           <dd v-if="item.summary">{{item.summary}}</dd>
           <dd v-else>暂无</dd>
         </dl>
-        <div v-if="memberLevel && item.mode!=4" class="applyFile btn" :class="{'bg-blue':item.mode==1,'bg-gray':item.mode==2,'agreed':item.mode==3,'bg-sign':item.mode=='-1',}" @click="showFileDetail(item)">
+        <div v-if="memberLevel && item.mode!=4" class="applyFile btn"
+             :class="{'bg-blue':item.mode==1,'bg-gray':item.mode==2,'agreed':item.mode==3,'bg-sign':item.mode=='-1',}" @click="showFileDetail(item)">
           {{fileMode(item.mode)}}
         </div>
         <div v-if="memberLevel && item.mode==4" class="applyFile btn refuse">
-          <div>重新申请</div>
+          <div @click="showFileDetail(item)">{{fileMode(item.mode)}}</div>
           <div class="icon-refuse">已拒绝</div>
         </div>
         <div v-if="!memberLevel" class="upAfter">升级后可查看</div>
@@ -61,7 +62,7 @@
     watch: {},
     methods: {
       showFileDetail(item) {
-        if (item.mode != 1) {
+        if (item.mode != 1 && item.mode != 4) {
           return false;
         }
         tool.MessageBox('是否申请查看？').then(action => {
@@ -89,7 +90,7 @@
         } else if (i == 3) {
           return '已同意';
         } else if (i == 4) {
-          return '重新申请&nbsp;(已拒绝)';
+          return '重新申请';
         } else if(i == '-1'){
           return '请签署保密协议';
 
