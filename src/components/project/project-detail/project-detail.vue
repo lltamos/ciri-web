@@ -360,12 +360,9 @@
           padding: 0 8px;
           line-height: 1;
           border-radius: 23px;
-
-          &
-          .active {
+          &.active {
             background: #4285f4;
             color: #fff;
-
             .icon-dianzan {
               @include bg-image("../../index/img/thumb-uped");
             }
