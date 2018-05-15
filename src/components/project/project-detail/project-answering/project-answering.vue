@@ -96,10 +96,10 @@
                           <div class="fl">
                             <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                             <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
-                            <div class="time">{{ask.updateTime|time}}</div>
+                            <div class="time small-time">{{ask.updateTime|time}}</div>
                           </div>
                         </div>
-                        <div class="ques-title">
+                        <div class="ques-title ques-no-padding">
                           <intentEdit :moreShow="ask.message.length>405" :content="ask.message"></intentEdit>
                         </div>
                       </div>
@@ -113,8 +113,8 @@
                     </div>
                   </div>
                   </div>
-                  <div v-else>
-                    仅提问者可见
+                  <div v-else class="only-question">
+                    此回复仅提问者可见
                   </div>
                 </div>
                 <!--判断当回复的总数大于显示的数量时显示查看更多 当最后一页时显示收起-->
@@ -180,8 +180,8 @@
                 <div class="fr dz-hf" >
                   <div class="dz-wrap" :class="[myQuestion.likeStatus?'active-like':'']" @click="likesChat(myQuestion)">
                     <div v-if="myQuestion.likes">
-                      <span class="dz-count">{{myQuestion.likes}}</span>
                       <i class="icon-dz active"></i>
+                      <span class="dz-count">{{myQuestion.likes}}</span>
                     </div>
                     <div v-else>看好</div>
                   </div>
@@ -212,11 +212,11 @@
                         <div class="fl">
                           <div class="user-name" v-text="hiddenName(ask.userid)"><em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                           <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
-                          <div class="time">{{ask.updateTime|time}}</div>
+                          <div class="time small-time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
                         </div>
                       </div>
-                      <div class="ques-title">
+                      <div class="ques-title ques-no-padding">
                         <intentEdit :moreShow="ask.message.length>405" :content="ask.message"></intentEdit>
                       </div>
                     </div>
@@ -230,8 +230,8 @@
                   </div>
                 </div>
                 </div>
-                <div v-else>
-                  仅提问者可见
+                <div v-else class="only-question">
+                  此回复仅提问者可见
                 </div>
               </div>
               <!--判断当回复的总数大于显示的数量时显示查看更多 收起我的问题回复信息-->
@@ -290,8 +290,6 @@
       </div>
     </div>
     <CrossLine></CrossLine>
-    <!--权限弹框-->
-    <Authority :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></Authority>
   </div>
 </template>
 <script>
@@ -377,7 +375,7 @@
         this.authorityShow = false;
       },
       upgrade () {
-        this.$router.replace({ path: "/mine/member-center" });
+        this.$router.push({ path: "/mine/member-center" });
       },
       allShow () {
         this.questionShow = true;
@@ -876,7 +874,11 @@
         z-index: 999;
       }
       .question{
-        /*padding: 0 10px;*/
+        .only-question{
+          font-size: 14px;
+          color: #528de8;
+          padding-top: 15px;
+        }
         .tab{
           margin:15px 0 5px;
           padding: 0 10px;
@@ -902,8 +904,6 @@
           }
         }
         .canot-see-replay{
-          background-color: red;
-          width: 100%;
           height: 44px;
           line-height: 44px;
           color: #ff0000;
@@ -950,8 +950,11 @@
             font-size: 14px;
             color:#333;
             line-height: 23px;
-            margin-top: 15px;
-            padding-left: 10px;
+            margin-top: 10px;
+            padding:0px 15px;
+          }
+          .ques-no-padding{
+            padding:0px;
           }
           .main-news{
             padding: 0 10px 0px 27px;
@@ -1040,11 +1043,7 @@
                   border-radius: 30px;
                   display: inline-block;
                   text-align: center;
-                  font-size: 12px
-
-
-
-                ;
+                  font-size: 12px;
                   &.active-like{
                     border: 1px solid #528de8;
                     background-color: #528de8;
@@ -1054,7 +1053,6 @@
                     .dz-count{
                       color: #fff;
                       font-size: 12px;
-                      height: 12px;
                     }
                   }
                   .icon-dz{
@@ -1072,9 +1070,9 @@
                     width: 12px;
                     height: 12px;
                     @include bg-image('../../img/replay');
-                    background-size: 12px 12px;
+                    background-size: 12px auto;
                     background-repeat: no-repeat;
-                    background-position: center;
+                    background-position: center 1px;
                     margin-right: 4px;
                   }
                 }
@@ -1086,8 +1084,6 @@
                     margin-left: 10px;
                   }
                 }
-
-
               }
             }
             .questioner-visible{
@@ -1112,8 +1108,12 @@
                   position: relative;
                   padding-left: 37px;
                   .small-head-portrait{
-                    width: 25px;
-                    height: 25px;
+                    width: 30px;
+                    height: 30px;
+                    left: 0px;
+                  }
+                  .small-time{
+                    margin-top:4px;
                   }
                   .user-name{
                     font-size: 14px;
