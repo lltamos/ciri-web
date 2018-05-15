@@ -53,20 +53,17 @@
 
       <mt-button :class="loginClass" size="large" @click="restpswd">提交</mt-button>
     </div>
-    <bottomImg :class="position"></bottomImg>
   </div>
 </template>
 
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
-  import BottomImg from '@/components/base/bottomImg/bottomImg'
   import CrossLine from '@/components/base/cross-line/cross-line'
   import tool from "../../api/tool";
 
   export default {
     components: {
       HeaderBar,
-      BottomImg,
       CrossLine
     },
     data() {

@@ -366,11 +366,9 @@
 
       }
       .img {
-        width: 100%;
-        height: 252px;
-        margin-top: 30px;
-        margin-bottom: 25px;
-
+        width: 248px;
+        height: 248px;
+        margin: 30px auto 25px;
         img {
           height: 100%;
           width: 100%;
