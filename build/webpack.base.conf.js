@@ -25,7 +25,6 @@ module.exports = {
     app: './src/main.js'
   },
   externals: {
-    'vue': 'Vue',
     'vue-router': 'VueRouter',
     'axios':'axios',
     'moment':'moment',
