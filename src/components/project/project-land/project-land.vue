@@ -57,7 +57,9 @@
     </div>
     <CrossLine></CrossLine>
     <!--客户经理-->
-    <project-manager></project-manager>
+    <div class="man-warp">
+      <img src="../img/manager-bottom.jpg"/>
+    </div>
     <project-bottom :collects="collects"
                     :collected="collected"
                     :projId="projId"></project-bottom>
@@ -301,11 +303,9 @@
           padding: 0 8px;
           line-height: 1;
           border-radius: 23px;
-
           &.active {
             background: #4285f4;
             color: #fff;
-
             .icon-dianzan {
               @include bg-image("../../index/img/thumb-uped");
             }
@@ -337,7 +337,7 @@
           margin-left: 25px;
 
           .icon-dianzan {
-            @include bg-image("../../base/img/bottom-share");
+            @include bg-image("../../base/img/icon-share");
           }
 
         }
@@ -368,11 +368,9 @@
 
       }
       .img {
-        width: 100%;
-        height: 252px;
-        margin-top: 30px;
-        margin-bottom: 25px;
-
+        width: 248px;
+        height: 248px;
+        margin: 30px auto 25px;
         img {
           height: 100%;
           width: 100%;
@@ -389,6 +387,12 @@
         margin-bottom: 15px;
       }
 
+    }
+    .man-warp{
+      img{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 

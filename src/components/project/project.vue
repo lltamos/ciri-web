@@ -7,7 +7,7 @@
       <div class="search-warp" id="search-warp">
         <div class="search" :class="scrollSearch">
           <i class="icon-search" @click="search"></i>
-          <input type="text" v-model="text" placeholder="项目 投资人" @keyup.enter="search">
+          <input type="text" v-model="text" placeholder="搜索项目" @keyup.enter="search">
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
                 <div class="dz-wrap" :class="project.likesStatus==true?'active':''"
                      v-tap.prevent="{methods : likeProject,project:project}">
                   <i class="icon-thumbup fr icon-dz"></i>
-                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{project.likes}}</span>
+                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{parseInt(project.likes)>999?'999+':project.likes}}</span>
                 </div>
               </div>
             </div>
@@ -297,7 +297,7 @@
             this.delList(this.i, v);
             break;
           case 2:
-            this.delList(this.v, v);
+            this.delList(this.t, v);
             break;
           case 3:
             this.delList(this.m, v);
@@ -354,7 +354,12 @@
           return;
         }
         pro.project.likesStatus = true;
-        pro.project.likes += 1;
+        let likes=parseInt(pro.project.likes)+1;
+        if(likes > 1000){
+          pro.project.likes = '999+'
+        }else {
+          pro.project.likes = likes
+        }
         this.$api.post('/pb/p/addLike', {projId: projId, userId: tool.getuser(), tag: 0}).then(r => {
           if (r.code == 200) {
           }
