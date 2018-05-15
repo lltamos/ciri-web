@@ -57,7 +57,6 @@
       </div>
       <CrossLine></CrossLine>
     </div>
-
     <!--项目tab-->
     <div :class="tabWarp">
       <ul class="project-tab">
@@ -179,7 +178,7 @@
       //页面滚动时
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        if (scrollTop > 580) {
+        if (scrollTop > 603) {
           this.tabWarp = 'tab-warp active'
         } else {
           this.tabWarp = 'tab-warp'
@@ -523,8 +522,7 @@
       h4 {
         background: #fff;
 
-        &
-        :after {
+        &:after {
           border-top: none;
         }
 
