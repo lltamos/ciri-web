@@ -34,7 +34,7 @@ import index from "../../../../router";
             <td>{{projectOwnerContact.website}}</td>
           </tr>
           <tr>
-            <td>公司简介：</td>
+            <td style="position: relative;"><div class="pro-intro">公司简介：</div></td>
             <td>{{validateZH(projectOwnerContact.corpSummary)}}</td>
           </tr>
           <tr>
@@ -119,7 +119,7 @@ import index from "../../../../router";
             <td>{{projectAgentContact.website}}</td>
           </tr>
           <tr>
-            <td>公司简介：</td>
+            <td style="position: relative;"><div class="pro-intro">公司简介：</div></td>
             <td>{{validateZH(projectAgentContact.corpSummary)}}</td>
           </tr>
           <tr>
@@ -279,6 +279,10 @@ import index from "../../../../router";
     .company-msg {
       padding: 15px;
       margin-bottom: 7px;
+      .pro-intro{
+        position: absolute;
+        top: 0px;
+      }
       table {
         border-collapse: collapse;
         tr {
