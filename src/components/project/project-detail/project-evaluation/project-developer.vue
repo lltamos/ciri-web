@@ -1,3 +1,4 @@
+import index from "../../../../router";
 <template>
   <div>
     <div class="project-developer" v-if="memberLevel">
@@ -10,7 +11,7 @@
           <tbody>
           <tr>
             <td>公司名称：</td>
-            <td>{{projectOwnerContact.corpName.valueCn}}</td>
+            <td>{{validateZH(projectOwnerContact.corpName)}}</td>
           </tr>
           <tr>
             <td>公司类型：</td>
@@ -18,7 +19,7 @@
           </tr>
           <tr>
             <td>公司地址：</td>
-            <td>{{projectOwnerContact.corpAddress.valueCn}}</td>
+            <td>{{validateZH(projectOwnerContact.corpAddress)}}</td>
           </tr>
           <tr>
             <td>公司电话：</td>
@@ -34,55 +35,41 @@
           </tr>
           <tr>
             <td>公司简介：</td>
-            <td>{{projectOwnerContact.corpSummary.valueCn}}</td>
+            <td>{{validateZH(projectOwnerContact.corpSummary)}}</td>
           </tr>
           <tr>
             <td>项目案例：</td>
-            <td>{{projectOwnerContact.msgForInvestor.valueCn}}</td>
+            <td>{{validateZH(projectOwnerContact.msgForInvestor)}}</td>
           </tr>
           </tbody>
         </table>
       </div>
       <div v-if="this.projectOwnerContact!=null&&this.projectOwnerContact.contact.length!=0" class="contact-info">
         <div class="contact-title">【联系人信息】</div>
-        <table class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
-          <tbody>
-          <!--<tr>
-              <td>
-                <p class="contact-card">姓名</p>
-                <p class="contact-card">职位</p>
-                <p class="contact-card">电话</p>
-                <p class="contact-card">邮箱</p>
-              </td>
-              <td style="min-width:50px;">
-                <p class="contact-card">{{projectOwnerContact.contact[0].name.valueCn}}</p>
-                <p class="contact-card">{{projectOwnerContact.contact[0].jobInfo.valueCn}}</p>
-                <p class="contact-card">{{projectOwnerContact.contact[0].tel}}</p>
-                <p class="contact-card">{{projectOwnerContact.contact[0].email}}</p>
-              </td>
-              <td>
-                <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-              </td>
-            </tr>-->
+        <div v-for="(cont,index) in projectOwnerContact.contact" :key="index">
+          <table class="merge-table" width="100%"
+                 border="1" cellspacing="0" cellpadding="0">
+            <tbody>
             <tr>
               <td>姓名</td>
-              <td>{{projectOwnerContact.contact[0].name.valueCn}}</td>
+              <td>{{validateZH(cont.name)}}</td>
             </tr>
             <tr>
               <td>职位</td>
-              <td>{{projectOwnerContact.contact[0].jobInfo.valueCn}}</td>
+              <td>{{validateZH(cont.jobInfo)}}</td>
             </tr>
             <tr>
               <td>电话</td>
-              <td>{{projectOwnerContact.contact[0].tel}}</td>
+              <td>{{cont.tel}}</td>
             </tr>
             <tr>
               <td>邮箱</td>
-              <td>{{projectOwnerContact.contact[0].email}}</td>
+              <td>{{cont.email}}</td>
             </tr>
-          </tbody>
-        </table>
-        <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+            </tbody>
+          </table>
+          <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+        </div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title">【企业资料】</div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
@@ -92,7 +79,7 @@
             </div>
             <dl class="intro">
               <dt>文件说明：</dt>
-              <dd>{{file.summary.valueCn}}</dd>
+              <dd>{{validateZH(file.summary)}}</dd>
             </dl>
             <!--<div class="applyFile btn bg-blue">申请查看</div>-->
             <div class="agreed btn"><i class="icon-agreed"></i>已同意</div>
@@ -104,85 +91,72 @@
       <h4>
         <i class="left-line"></i><span>项目代理</span>
       </h4>
-      <div v-if="this.projectAgentContact!=null" class="company-msg">
+      <div class="company-msg">
         <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
-            <tr>
-              <td>公司名称：</td>
-              <td>{{projectAgentContact.corpName.valueCn}}</td>
-            </tr>
-            <tr>
-              <td>公司类型：</td>
-              <td>{{projectAgentContact.corpTypeNote}}</td>
-            </tr>
-            <tr>
-              <td>公司地址：</td>
-              <td>{{projectAgentContact.corpAddress.valueCn}}</td>
-            </tr>
-            <tr>
-              <td>公司电话：</td>
-              <td>{{projectAgentContact.corpTel}}</td>
-            </tr>
-            <tr>
-              <td>公司传真：</td>
-              <td>{{projectAgentContact.corpTax}}</td>
-            </tr>
-            <tr>
-              <td>公司网址：</td>
-              <td>{{projectAgentContact.website}}</td>
-            </tr>
-            <tr>
-              <td>公司简介：</td>
-              <td>{{projectAgentContact.corpSummary.valueCn}}</td>
-            </tr>
-            <tr>
-              <td>项目案例：</td>
-              <td>{{projectAgentContact.msgForInvestor.valueCn}}</td>
-            </tr>
+          <tr>
+            <td>公司名称：</td>
+            <td>{{validateZH(projectAgentContact.corpName)}}</td>
+          </tr>
+          <tr>
+            <td>公司类型：</td>
+            <td>{{projectAgentContact.corpTypeNote}}</td>
+          </tr>
+          <tr>
+            <td>公司地址：</td>
+            <td>{{validateZH(projectAgentContact.corpAddress)}}</td>
+          </tr>
+          <tr>
+            <td>公司电话：</td>
+            <td>{{projectAgentContact.corpTel}}</td>
+          </tr>
+          <tr>
+            <td>公司传真：</td>
+            <td>{{projectAgentContact.corpTax}}</td>
+          </tr>
+          <tr>
+            <td>公司网址：</td>
+            <td>{{projectAgentContact.website}}</td>
+          </tr>
+          <tr>
+            <td>公司简介：</td>
+            <td>{{validateZH(projectAgentContact.corpSummary)}}</td>
+          </tr>
+          <tr>
+            <td>项目案例：</td>
+            <td>{{validateZH(projectAgentContact.msgForInvestor)}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
       <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0"
            class="contact-info">
         <div class="contact-title">【联系人信息】</div>
+
         <table class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
-            <!--<tr>
-              <td>
-                <p class="contact-card">姓名</p>
-                <p class="contact-card">职位</p>
-                <p class="contact-card">电话</p>
-                <p class="contact-card">邮箱</p>
-              </td>
-              <td v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">
-                <p class="contact-card">{{projectAgentContact.contact[0].name.valueCn}}</p>
-                <p class="contact-card">{{projectAgentContact.contact[0].jobInfo.valueCn}}</p>
-                <p class="contact-card">{{projectAgentContact.contact[0].tel}}</p>
-                <p class="contact-card">{{projectAgentContact.contact[0].email}}</p>
-              </td>
-              <td>
-                <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-              </td>
-            </tr>-->
-            <tr>
-              <td>姓名</td>
-              <td>{{projectAgentContact.contact[0].name.valueCn}}</td>
-              <td rowspan="4"><div class="recommend"><a shape="rect" class="btn">在线沟通</a></div></td>
-            </tr>
-            <tr>
-              <td>职位</td>
-              <td>{{projectAgentContact.contact[0].jobInfo.valueCn}}</td>
-            </tr>
-            <tr>
-              <td>电话</td>
-              <td>{{projectAgentContact.contact[0].tel}}</td>
-            </tr>
-            <tr>
-              <td>邮箱</td>
-              <td>{{projectAgentContact.contact[0].email}}</td>
-            </tr>
+          <tr>
+            <td>姓名</td>
+            <td>{{projectAgentContact.contact[0].name.valueCn}}</td>
+            <td rowspan="4">
+              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td>职位</td>
+            <td>{{projectAgentContact.contact[0].jobInfo.valueCn}}</td>
+          </tr>
+          <tr>
+            <td>电话</td>
+            <td>{{projectAgentContact.contact[0].tel}}</td>
+          </tr>
+          <tr>
+            <td>邮箱</td>
+            <td>{{projectAgentContact.contact[0].email}}</td>
+          </tr>
           </tbody>
         </table>
+
         <div class="contact-title">【企业资料】</div>
         <div v-if="this.projectAgentContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectAgentContact.campaignFile" :key="file.name">
@@ -204,7 +178,8 @@
     </div>
     <div v-if="!memberLevel">
       <!--权限弹框-->
-      <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide" @upgrade="upgrade"></AuthorityPage>
+      <AuthorityPage :authorityShow="authorityShow" @authorityHide="authorityHide"
+                     @upgrade="upgrade"></AuthorityPage>
     </div>
   </div>
 </template>
@@ -232,6 +207,9 @@
     props: {},
     watch: {},
     methods: {
+      validateZH(str) {
+        return !tool.isBank(str) ? str.valueCn : '';
+      },
       upgrade() {
         this.$router.push({path: "/mine/member-center"});
       },
@@ -297,21 +275,21 @@
       }
 
     }
-    .company-msg{
+    .company-msg {
       padding: 15px;
       margin-bottom: 7px;
-      table{
+      table {
         border-collapse: collapse;
-        tr{
-          height:28px;
+        tr {
+          height: 28px;
           line-height: 28px;
           font-size: 13px;
           color: #666;
-          td:first-child{
+          td:first-child {
             text-align: left;
             width: 90px;
           }
-          td:last-child{
+          td:last-child {
             text-align: left;
             color: #333;
           }
@@ -449,10 +427,10 @@
         text-align: center;
         height: 28px;
         line-height: 28px;
-        &:first-child{
+        &:first-child {
           width: 50px;
         }
-        &:nth-child(n+2){
+        &:nth-child(n+2) {
           text-align: left;
           padding-left: 20px;
         }
