@@ -144,7 +144,6 @@
         width: 100%;
         height: 30px;
         border-radius: 30px;
-        border: 1px solid #dedede;
         margin: auto;
         left: 0;
         right: 0;
