@@ -247,11 +247,13 @@ body {
   header {
     height: 44px;
     line-height: 44px;
-    color: #fefefe;
+    color: #ffffff;
     font-size: 18px;
     text-align: center;
+    position: relative;
     .icon-setting {
-      float: right;
+      position: absolute;
+      right: 0px;
       height: 22px;
       width: 22px;
       margin: 11px 10px 0 0;
