@@ -1,78 +1,82 @@
 <template>
   <div class="project-detail">
-    <projectHeader :visit="visit"
-                   :projName="projName"
-                   :cornerTag="cornerTag"
-                   :projType="projType"
-                   :tag="tag"
-                   :status="status"
-                   :tags="tags"
-                   :setProjVideo="setProjVideo"
-                   :projPhoto="projPhoto"
-                   :projAddress="projAddress"
-                   :projMaturity="projMaturity" text="项目详情"></projectHeader>
-    <div class="project-intro">
-      <h4>
-        <i class="left-line"></i><span>项目简介</span>
-      </h4>
-      <p class="document-txt">{{projAbstract}}</p>
-      <div class="progress-model">
-        <svgIcon :irr="irr"
-                 :amount="amount"
-                 :projDevelopers="projDevelopers"
-                 :potentialInvestorSize="potentialInvestorSize"
-                 :financingProgress="financingProgress"></svgIcon>
-      </div>
-      <div class="btn-warp">
-        <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
-          <i class="icon-dianzan"></i>
-          <span class="count-warp">看好</span>
-          <span class="count">{{likes}}</span>
+    <div ref="fixedHeardvisit" id="fixedHeardvisit">
+      <projectHeader :visit="visit"
+                     :projName="projName"
+                     :cornerTag="cornerTag"
+                     :projType="projType"
+                     :tag="tag"
+                     :status="status"
+                     :tags="tags"
+                     :setProjVideo="setProjVideo"
+                     :projPhoto="projPhoto"
+                     :projAddress="projAddress"
+                     :projMaturity="projMaturity" text="项目详情"></projectHeader>
+      <div class="project-intro">
+        <h4>
+          <i class="left-line"></i><span>项目简介</span>
+        </h4>
+        <p class="document-txt">{{projAbstract}}</p>
+        <div class="progress-model">
+          <svgIcon :irr="irr"
+                   :amount="amount"
+                   :projDevelopers="projDevelopers"
+                   :potentialInvestorSize="potentialInvestorSize"
+                   :financingProgress="financingProgress"></svgIcon>
         </div>
-        <div class="share thumbs-up">
-          <i class="icon-dianzan"></i>
-          <span class="count-warp">分享</span>
-          <span class="count">{{shares}}</span>
-        </div>
-      </div>
-      <CrossLine></CrossLine>
-      <!--关注项目动态-->
-      <div class="pro-focus">
-        <!-- swiper -->
-        <swiper :options="swiperOption" class="slider">
-          <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
-            <div class="img">
-              <img v-lazy="p.url" alt=""/>
-            </div>
-            <span>{{p.name}}</span>
-          </swiper-slide>
-        </swiper>
-        <div class="title-focus clearfix">
-          <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
-          <div v-bind:class="[ interest ? 'focused' : 'state-focus' ,'fr']" @click="interest1">
-            <i class="icon-focus"></i>
-            <span>{{potentialInvestorSize}}人已关注</span>
+        <div class="btn-warp">
+          <div v-bind:class="[isLikes ? 'thumbs-up active' : 'thumbs-up', '']" @click="giveLikes">
+            <i class="icon-dianzan"></i>
+            <span class="count-warp">看好</span>
+            <span class="count">{{likes}}</span>
+          </div>
+          <div class="share thumbs-up">
+            <i class="icon-dianzan"></i>
+            <span class="count-warp">分享</span>
+            <span class="count">{{shares}}</span>
           </div>
         </div>
+        <CrossLine></CrossLine>
+        <!--关注项目动态-->
+        <div class="pro-focus">
+          <!-- swiper -->
+          <swiper :options="swiperOption" class="slider">
+            <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
+              <div class="img">
+                <img v-lazy="p.url" alt=""/>
+              </div>
+              <span>{{p.name}}</span>
+            </swiper-slide>
+          </swiper>
+          <div class="title-focus clearfix">
+            <p class="intro fl">关注项目动态后，您将通过站内信和电子邮件获取该项目的最新动态信息，实时跟进项目进展！</p>
+            <div v-bind:class="[ interest ? 'focused' : 'state-focus' ,'fr']" @click="interest1">
+              <i class="icon-focus"></i>
+              <span>{{potentialInvestorSize}}人已关注</span>
+            </div>
+          </div>
+        </div>
+        <CrossLine></CrossLine>
       </div>
-      <CrossLine></CrossLine>
-    </div>
-    <!--项目tab-->
-    <div :class="tabWarp">
-      <ul class="project-tab">
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}"
-                     replace>项目评估
-        </router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}"
-                     replace>项目进展
-        </router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}"
-                     replace>项目答疑
-        </router-link>
-        <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}"
-                     replace>投资意向
-        </router-link>
-      </ul>
+      <!--项目tab-->
+      <div style="height: 45px">
+        <div :class="tabWarp">
+          <ul class="project-tab" @click="fiexdScrollv">
+            <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}"
+                         replace>项目评估
+            </router-link>
+            <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}"
+                         replace>项目进展
+            </router-link>
+            <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}"
+                         replace>项目答疑
+            </router-link>
+            <router-link tag="li" :to="{ path: '/project/project-detail/investment-intent', query: {'projId': projId}}"
+                         replace>投资意向
+            </router-link>
+          </ul>
+        </div>
+      </div>
     </div>
     <keep-alive>
       <router-view></router-view>
@@ -134,6 +138,7 @@
     },
     data() {
       return {
+        floatp: false,
         // 关注项目动态左右滑动
         swiperOption: {
           slidesPerView: 4.5,
@@ -175,13 +180,22 @@
       }
     },
     methods: {
+      fiexdScrollv() {
+        let d = this.$refs.fixedHeardvisit;
+        if (this.floatp) {
+          scrollTo(0, d.offsetHeight-37);
+        }
+
+      },
       //页面滚动时
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         if (scrollTop > 603) {
           this.tabWarp = 'tab-warp active'
+          this.floatp = true;
         } else {
           this.tabWarp = 'tab-warp'
+          this.floatp = false;
         }
       },
       giveLikes() {
@@ -269,6 +283,9 @@
       gotoProjLand(id) {
         this.$router.replace({path: '/project/project-land?projId=' + id})
       }
+    },
+    mounted() {
+
     },
     created() {
       window.scrollTo(0, 0);
@@ -508,7 +525,7 @@
           line-height: 45px;
           font-size: 17px;
           color: #333;
-          flex:1;
+          flex: 1;
         }
         li.router-link-active {
           border-bottom: 2px solid #258de8;
