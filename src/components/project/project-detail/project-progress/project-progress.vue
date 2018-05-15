@@ -20,7 +20,7 @@
                 <!--<router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
                   <em>查看</em>
                 </router-link>-->
-                <span @click="seeDetail(projId,item.editInfo.createTime)">
+                <span @click="seeDetail(projId,item.editInfo.editTime)">
                   <em>查看</em>
                   <i class="more"></i>
                 </span>
@@ -164,7 +164,7 @@
           seeDetail(id,time){
             let level = sessionStorage.getItem("userLevel");
             if(!this.power && level>=2){
-              this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'createTime':time}});
+              this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'editTime':time}});
               this.authorityShow = false;
             }else{
               this.authorityShow = true;
@@ -186,7 +186,6 @@
               if (res.code === 200) {
                 this.power = false;
                 this.progressList = res.data;
-                this.memberLevel = res.memberLevel;
               }else if(res.code === 403){
                 this.power = true;
               }
@@ -206,14 +205,15 @@
     text-align: left;
     .progress-warp{
       .reminder{
-        padding: 0 10px;
-        height:56px;
+        padding: 7px 10px;
+        height: 30px;
         overflow: hidden;
-        line-height:28px;
+        line-height: 16px;
         background: #f5f5f5;
-        margin:15px 0 ;
-        color:#528de8;
-        font-size: 13px;
+        margin: 15px 10px;
+        color: #528de8;
+        font-size: 10px;
+        border-radius: 2px;
         text-align: center;
       }
       .project{
