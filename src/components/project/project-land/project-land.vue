@@ -337,7 +337,7 @@
           margin-left: 25px;
 
           .icon-dianzan {
-            @include bg-image("../../base/img/bottom-share");
+            @include bg-image("../../base/img/icon-share");
           }
 
         }
