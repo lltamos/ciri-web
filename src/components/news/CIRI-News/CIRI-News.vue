@@ -24,7 +24,7 @@
         </div>
       </router-link>
     </div>
-    <tab-bar></tab-bar>
+    <!--<tab-bar></tab-bar>-->
     <div class="main">
       <ul class="tab">
         <li>
