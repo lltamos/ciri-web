@@ -4,14 +4,14 @@
     <i class="icon-back" @click="back"></i>
     <h1>项目进展</h1>
   </div>
-  <div class="main" v-if="!tag">
+  <div class="main">
     <div v-if="this.detailContent">
       <h4>
         <i class="left-line"></i><span class="pro-title">{{this.detailContent.title.valueCn}}</span>
         <span class="time">{{this.detailContent.time}}</span>
       </h4>
-      <div class="img">
-        <img src="../../../news/img/p_1.jpg" alt="" title="">
+      <div class="img" v-for="(ite,dex) in detailContent.picture" :key="dex" v-if="detailContent.picture != null && detailContent.picture.length !=0">
+        <img v-lazy="ite.name" alt=""/>
       </div>
       <div class="article">
         <p>{{this.detailContent.content.valueCn}}</p>
@@ -19,7 +19,6 @@
       <div class="small-btn" @click="back">返回</div>
     </div>
   </div>
-  <div v-if="tag">没有权限</div>
 </div>
 </template>
 
@@ -48,16 +47,14 @@
         created() {
           let param = {
             projId:this.$route.query.projId,
-            createTime:this.$route.query.createTime
+            editTime:this.$route.query.editTime
           };
           this.$api
             .post("/ah/s3/getProjectProgressDetail",param)
             .then(res => {
               if (res.code === 200) {
                 this.detailContent = res.projectProgressDetail;
-                this.tag = false;
-              }else{
-                this.tag = true;
+
               }
 
 
@@ -150,7 +147,7 @@
       .img{
         height:231px;
         width:100%;
-        margin: 10px 0;
+        margin-top: 10px;
         img{
           width: 100%;
           height:100%;
@@ -158,6 +155,7 @@
       }
       .article{
         text-align: left;
+        margin-top: 10px;
         p{
           margin-bottom:17px ;
           font-size: 15px;
