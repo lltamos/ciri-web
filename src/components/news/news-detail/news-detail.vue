@@ -2,7 +2,7 @@
   <div class="news-detail">
     <div class="header-bar" :class="{active:headerFixed}">
       <i class="icon-back" @click="back"></i>
-      <h1 v-show="headerFixed">{{this.content.title.length >5 ?this.content.title.substr(0,5):this.content.title}}</h1>
+      <h1 v-show="headerFixed">{{this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
     </div>
     <div class="main">
       <h2>{{this.content.title}}</h2>
@@ -79,7 +79,6 @@
   @import "~@/assets/scss/reset.scss";
 
   .news-detail {
-
     .header-bar {
       &.active{
         position: fixed;
@@ -123,8 +122,8 @@
       }
 
       .icon-back {
-        display: block;
-        float: left;
+        position: absolute;
+        left: 0;
         width: 22px;
         height: 22px;
         margin: 11px auto;

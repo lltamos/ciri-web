@@ -58,7 +58,7 @@
     <CrossLine></CrossLine>
     <!--客户经理-->
     <div class="man-warp">
-      <img src="../img/manager-bottom.jpg"/>
+      <img src="../img/manager-bottom@2x.jpg"/>
     </div>
     <project-bottom :collects="collects"
                     :collected="collected"

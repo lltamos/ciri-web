@@ -480,7 +480,6 @@
 
             span {
               display: block;
-
             }
 
           }
@@ -536,7 +535,8 @@
           float: left;
           position: relative;
           margin-bottom: 10px;
-          margin-left: 1.3%;
+          margin-left: 1%;
+          border: 1px solid #dedede;
           .img {
             height: 118px;
             width: 100%;
@@ -549,10 +549,6 @@
           }
           .main-news {
             padding: 10px;
-            border-left: 1px solid #dedede;
-            border-right: 1px solid #dedede;
-            border-bottom: 1px solid #dedede;
-
             h2 {
               font-size: 13px;
               color: #333;

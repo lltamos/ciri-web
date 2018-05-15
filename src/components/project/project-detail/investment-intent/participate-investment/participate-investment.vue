@@ -227,7 +227,9 @@
       }
     },
     props: {},
-    watch: {},
+    watch: {
+
+    },
     beforeRouteEnter:(to,from,next)=>{
       var path=from.path;
       //不是从编辑页面跳转来的
@@ -492,85 +494,85 @@
             this.cifs = r.cifs;
             if (r.data != null)
               this.cId = r.data[0].corpId;
+            //当调用方法回显示数据
+            this.$api.post('/ah/s5/getUserProjectConInvest',{projId: this.projId, userId: tool.getuser()}).then(r => {
+              if (r.code == 200) {
+                if (r.data.order != null && r.data.order.length == 1) {
+                  let order = r.data.order[0];
+                  console.log(order);
+                  //用户的合投信息
+                  this.isLead = order.isLead;
+                  //参与合投方式
+                  this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
+                  //预期投资金额
+                  this.investAmount = order.investAmount.amount / 10000;
+                  //参与合投企业
+                  this.cId = order.corpId;
+                  //TODO 投资意向函 企业优势 附件
+                  // console.log(this.capitalInjectionFormId);
+                  //项目投资意向函信息中英文
+                  if (order.capitalInjectionFormNote.setValueCn) {
+                    this.chineseInt = order.capitalInjectionFormNote.valueCn;
+                    sessionStorage.setItem("intCh", this.chineseInt);
+                  }
+                  if (order.capitalInjectionFormNote.setValueEn) {
+                    this.englishInt = order.capitalInjectionFormNote.valueEn;
+                    sessionStorage.setItem("intEn", this.englishInt);
+                  }
+                  if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
+                    this.intentActive = 2;
+                    this.seeIntent = false;
+                  }
+                  //项目企业优势信息中英文
+                  if (order.advantageNote.setValueCn) {
+                    this.chineseAdv = order.advantageNote.valueCn;
+                    sessionStorage.setItem("advCh", this.chineseAdv);
+                  }
+                  if (order.advantageNote.setValueEn) {
+                    this.englishAdv = order.advantageNote.valueEn;
+                    sessionStorage.setItem("advEn", this.englishAdv);
+                  }
+                  if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
+                    this.advActive = 2;
+                    this.seeLanguage = false;
+                  }
+                  //投资意向函附件
+                  if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
+                    for (var photo of order.capitalInjectionPhoto) {
+                      let a = {
+                        fileId: photo.name,
+                        fileName: photo.originalName,
+                        fileSize: photo.size,
+                        url: tool.oos() + photo.name,
+                        val: photo.summary.setValueCn ? photo.summary.valueCn : ''
+                      }
+                      this.askFileList.push(a);
+                      this.askSummaryList.push(photo.summary.valueCn)
+                    }
+                  }
+                  //企业优势附件
+                  if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
+                    for (var file of order.capitalInjectionFile) {
+                      let a = {
+                        fileId: file.name,
+                        fileName: file.originalName,
+                        fileSize: file.size,
+                        url: tool.oos() + file.name,
+                        val: file.summary.setValueCn ? file.summary.valueCn : ''
+                      }
+                      this.askFileList1.push(a);
+                      this.askSummaryList1.push(file.summary.valueCn)
+                    }
+                  }
+                }
+                console.log(r.data);
+              }
+              else if(r.code != 201){
+                tool.toast(r.msg)
+              }
+            });
           } else
             tool.toast(r.msg);
-        });
-        //当调用方法回显示数据
-        this.$api.post('/ah/s5/getUserProjectConInvest',{projId: this.projId, userId: tool.getuser()}).then(r => {
-          if (r.code == 200) {
-            if (r.data.order != null && r.data.order.length == 1) {
-              let order = r.data.order[0];
-              console.log(order);
-              //用户的合投信息
-              this.isLead = order.isLead;
-              //参与合投方式
-              this.capitalInjectionFormId = this.capitalInjectionFormId.concat(order.capitalInjectionFormId);
-              //预期投资金额
-              this.investAmount = order.investAmount.amount / 10000;
-              //参与合投企业
-              this.cId = order.corpId;
-              //TODO 投资意向函 企业优势 附件
-              // console.log(this.capitalInjectionFormId);
-              //项目投资意向函信息中英文
-              if (order.capitalInjectionFormNote.setValueCn) {
-                this.chineseInt = order.capitalInjectionFormNote.valueCn;
-                sessionStorage.setItem("intCh", this.chineseInt);
-              }
-              if (order.capitalInjectionFormNote.setValueEn) {
-                this.englishInt = order.capitalInjectionFormNote.valueEn;
-                sessionStorage.setItem("intEn", this.englishInt);
-              }
-              if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
-                this.intentActive = 2;
-                this.seeIntent = false;
-              }
-              //项目企业优势信息中英文
-              if (order.advantageNote.setValueCn) {
-                this.chineseAdv = order.advantageNote.valueCn;
-                sessionStorage.setItem("advCh", this.chineseAdv);
-              }
-              if (order.advantageNote.setValueEn) {
-                this.englishAdv = order.advantageNote.valueEn;
-                sessionStorage.setItem("advEn", this.englishAdv);
-              }
-              if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
-                this.advActive = 2;
-                this.seeLanguage = false;
-              }
-              //投资意向函附件
-              if (order.capitalInjectionPhoto != null && order.capitalInjectionPhoto.length > 0) {
-                for (var photo of order.capitalInjectionPhoto) {
-                  let a = {
-                    fileId: photo.name,
-                    fileName: photo.originalName,
-                    fileSize: photo.size,
-                    url: tool.oos() + photo.name,
-                    val: photo.summary.setValueCn ? photo.summary.valueCn : ''
-                  }
-                  this.askFileList.push(a);
-                  this.askSummaryList.push(photo.summary.valueCn)
-                }
-              }
-              //企业优势附件
-              if (order.capitalInjectionFile != null && order.capitalInjectionFile.length > 0) {
-                for (var file of order.capitalInjectionFile) {
-                  let a = {
-                    fileId: file.name,
-                    fileName: file.originalName,
-                    fileSize: file.size,
-                    url: tool.oos() + file.name,
-                    val: file.summary.setValueCn ? file.summary.valueCn : ''
-                  }
-                  this.askFileList1.push(a);
-                  this.askSummaryList1.push(file.summary.valueCn)
-                }
-              }
-            }
-            console.log(r.data);
-          }
-          else if(r.code != 201){
-            tool.toast(r.msg)
-          }
         });
       }
       this.fillAdv();
@@ -579,7 +581,6 @@
       this.fillIntEn();
     },
     mounted() {
-
     },
     destroyed() {
     }
