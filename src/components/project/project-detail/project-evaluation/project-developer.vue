@@ -440,8 +440,14 @@ import index from "../../../../router";
 
     }
     .recommend {
-      margin: 0 auto 12px;
+      margin: 0 auto 0;
       display: table;
+      padding: 12px 0;
+      width: 100%;
+      border: 1px solid #dedede;
+      border-top: none;
+      box-sizing: border-box;
+
 
       a {
         padding: 2px 11px;
@@ -449,6 +455,10 @@ import index from "../../../../router";
         font-size: 13px;
         line-height: 22px;
         background: #bbb;
+        width: 74px;
+        height:21px;
+        margin: auto;
+        display: table;
       }
 
     }
