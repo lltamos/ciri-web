@@ -4,7 +4,7 @@
       {{this.content}}
     </div>
     <div class="read-more" @click="readMore" v-show="moreShow">
-      <span v-text="moreText">展开</span>
+      <span v-text="moreText">阅读全文</span>
       <i :class="iconMore"></i>
     </div>
   </div>
@@ -20,7 +20,7 @@
     data() {
       return {
         article:'article',
-        moreText:'展开',
+        moreText:'阅读全文',
         iconMore:'icon-more',
       }
     },
@@ -38,12 +38,12 @@
     },
     methods: {
       readMore(){
-        if (this.moreText == '展开') {
+        if (this.moreText == '阅读全文') {
           this.moreText = '收起'
           this.iconMore = 'pack-up'
           this.article = 'article activeWord'
         } else {
-          this.moreText = '展开';
+          this.moreText = '阅读全文';
           this.iconMore = 'icon-more'
           this.article = 'article'
         }
@@ -71,8 +71,8 @@
     font-size: 13px;
     line-height: 22px;
     color: #666;
-    text-indent: 2em;
-    max-height: 200px;
+    /*text-indent: 2em;*/
+    max-height: 85px;
     overflow: hidden;
     &.activeWord {
       max-height:10000px;

@@ -129,6 +129,9 @@
                 tool.toast("提问成功");
                 //隐藏提示框
                 this.askPop = false;
+                this.message="";        //提问的信息栏
+                this.askChecked=false;  //提问匿名选项框
+                this.askFileList=new Array();  //提问的文件数组
               }
             });
           },
