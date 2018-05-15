@@ -1,5 +1,5 @@
 <template>
-  <div class="project-list">
+  <div class="project-list" :class="projectList">
     <div class="banner" id="bannerScroll">
       <div class="img">
         <img src="../news/img/p_new.png" alt=""/>
@@ -49,25 +49,26 @@
           </li>
         </ul>
 
-        <div class="pop-bg" v-show="popShow" @click="popSwitch"></div>
-        <div class="tabCon" v-show="popShow">
-          <div class="content" v-for='(itemCon,index) in tabContents'
-               v-show=" index == num" :key="index">
-            <form @submit.prevent="submit">
-              <ul>
-                <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
-                  <input type="checkbox" value="全部"/>
-                </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
-                    :key="t">{{item[1]}}
-                  <input type="checkbox"/>
-                </li>
-              </ul>
-              <div class="btn-warp clearfix">
-                <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                <button class="small-btn confirm fr" @click="init1">确定</button>
-              </div>
-            </form>
+        <div class="pop-bg" v-show="popShow" @click="popSwitch" @touchmove.prevent>
+          <div class="tabCon" v-show="popShow" @touchmove.prevent>
+            <div class="content" v-for='(itemCon,index) in tabContents'
+                 v-show=" index == num" :key="index">
+              <form @submit.prevent="submit">
+                <ul>
+                  <li :id="all(index)" @click="allActive($event ,index)" :class="{active:activeSwitch}">全部
+                    <input type="checkbox" value="全部"/>
+                  </li>
+                  <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
+                      :key="t">{{item[1]}}
+                    <input type="checkbox"/>
+                  </li>
+                </ul>
+                <div class="btn-warp clearfix">
+                  <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
+                  <button class="small-btn confirm fr" @click="init1">确定</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -133,6 +134,7 @@
     },
     data() {
       return {
+        projectList:'active',
         scrollSearch: 'fixed',
         searchBarFixed: false,
         popShow: false,
@@ -245,7 +247,7 @@
         if (searchWarp != null) {
           searchWarp.style.background = 'rgba(82,141,232,1)';
         }
-
+        this.projectList='active';
 
       },
       liActive(e, v, index) {
@@ -263,6 +265,7 @@
       popSwitch() {
         this.popShow = false;
         this.searchBarFixed = false
+        this.projectList='active';
       },
       allActive(e, index) {
         let element = e.currentTarget
@@ -406,6 +409,9 @@
 
   .project-list {
     padding-bottom: 60px;
+    &.active{
+      overflow: hidden;
+    }
     header {
       height: 44px;
       line-height: 44px;
@@ -630,12 +636,14 @@
           touch-action: none;
         }
         .tabCon {
+          touch-action: none;
           z-index: 999;
           position: fixed;
           top: 85px;
           width: 100%;
           min-height: 150px;
           .content {
+            touch-action: none;
             background: #fff;
             text-align: left;
             padding: 10px 10px 16px;

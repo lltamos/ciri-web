@@ -129,11 +129,11 @@ import index from "../../../../router";
           </tbody>
         </table>
       </div>
-      <div v-if="projectAgentContact!=null&&projectAgentContact.contact!=null&&projectAgentContact.contact.length!=0"
+      <div v-if="this.projectAgentContact!=null"
            class="contact-info">
-        <div class="contact-title">【联系人信息】</div>
+        <div class="contact-title" v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0">【联系人信息】</div>
 
-        <table class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
+        <table v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0" class="merge-table" width="100%" border="1" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
             <td>姓名</td>
@@ -237,6 +237,7 @@ import index from "../../../../router";
         if (res.code == 200) {
           this.projectOwnerContact = res.projectOwnerContact;
           this.projectAgentContact = res.projectAgentContact;
+          console.log(this.projectAgentContact);
         }
       })
     },
@@ -418,7 +419,7 @@ import index from "../../../../router";
     }
     .merge-table {
       border: 1px solid #dedede;
-      margin: 10px 0 10px;
+      margin: 10px 0 0;
       font-size: 13px;
       color: #666;
       text-align: left;
