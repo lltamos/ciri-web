@@ -86,6 +86,11 @@
       },
       loginOut() {
         sessionStorage.clear();
+        this.$api.post('/app/sys/loginOut').then(r => {
+          if (r.code == 200) {
+          }
+        });
+        this.axios.defaults.headers.token = '';
         this.$router.replace({path: "/mine"});
       }
     },
