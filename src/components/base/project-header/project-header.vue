@@ -26,11 +26,12 @@
         </div>
         <div class="tip-news">
           <i class="loc"></i>
-          <span class="country">{{projAddress}}</span>
+          <span class="country">{{projAddress!=null&&projAddress.length>7?projAddress.substr(0,7):projAddress}}</span>
           <i class="indu"></i>
           <span class="industry">{{projType}}</span>
-          <i class="mold"></i>
-          <span class="genre">{{tag}}</span>
+          <!--绿地投资暂时隐藏-->
+          <!--<i class="mold"></i>
+          <span class="genre">{{tag}}</span>-->
           <span class="count" style="float:right;margin-right:0;">{{visit}}</span>
           <i class="view" style="float:right"></i>
 
