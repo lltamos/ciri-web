@@ -65,7 +65,7 @@
             <router-link tag="li" :to="{ path: '/project/project-detail/project-evaluation', query: {'projId': projId}}"
                          replace>项目评估
             </router-link>
-            <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId}}"
+            <router-link tag="li" :to="{ path: '/project/project-detail/project-progress', query: {'projId': projId,'projPhoto':projPhoto,'projName':projName}}"
                          replace>项目进展
             </router-link>
             <router-link tag="li" :to="{ path: '/project/project-detail/project-answering', query: {'projId': projId}}"
