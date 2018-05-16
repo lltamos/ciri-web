@@ -10,7 +10,7 @@ import index from "../../../../router";
         <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
-            <td>公司名称：</td>
+            <td style="position: relative;"><div class="pro-intro">公司名称：</div></td>
             <td>{{validateZH(projectOwnerContact.corpName)}}</td>
           </tr>
           <tr>
@@ -38,7 +38,7 @@ import index from "../../../../router";
             <td>{{validateZH(projectOwnerContact.corpSummary)}}</td>
           </tr>
           <tr>
-            <td>项目案例：</td>
+            <td style="position: relative;"><div class="pro-intro">项目案例：</div></td>
             <td>{{validateZH(projectOwnerContact.msgForInvestor)}}</td>
           </tr>
           </tbody>
@@ -95,7 +95,7 @@ import index from "../../../../router";
         <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
-            <td>公司名称：</td>
+            <td style="position: relative;"><div class="pro-intro">公司名称：</div></td>
             <td>{{validateZH(projectAgentContact.corpName)}}</td>
           </tr>
           <tr>
@@ -123,7 +123,7 @@ import index from "../../../../router";
             <td>{{validateZH(projectAgentContact.corpSummary)}}</td>
           </tr>
           <tr>
-            <td>项目案例：</td>
+            <td style="position: relative;"><div class="pro-intro">项目案例：</div></td>
             <td>{{validateZH(projectAgentContact.msgForInvestor)}}</td>
           </tr>
           </tbody>
