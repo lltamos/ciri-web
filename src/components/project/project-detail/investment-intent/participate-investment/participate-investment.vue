@@ -417,10 +417,10 @@
         tool.IndicatorOpen("正在提交");
         document.body.style.overflow='hidden';
         this.axios.post(tool.domind() + tool.path() + '/ah/s5/apply', param).then(r => {
+          tool.IndicatorClose();
+          document.body.style.overflow='auto';
           if (r.data.code == 200) {
-            tool.IndicatorClose();
             tool.toast('提交成功');
-            document.body.style.overflow='auto';
             this.$router.push({path:'/project/project-detail/investment-intent',query:{projId:this.projId}});
           } else
             tool.toast(r.data.msg);
