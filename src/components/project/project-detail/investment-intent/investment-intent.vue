@@ -73,7 +73,7 @@
           <div class="invest-wrap clearfix" v-if="projectProgress.leadInvestors != null && projectProgress.leadInvestors.length > 0"
                v-for="(companyProgress,index) in projectProgress.leadInvestors" :key="index">
             <div class="picture fl">
-              <img src="../../img/company.png">
+              <img class="resizeImg" src="../../img/company@3x.png">
             </div>
             <div class="content fl">
               <!-- <div class="company-name">{{companyProgress.companyName}}</div>-->
@@ -93,7 +93,7 @@
           <div class="invest-wrap clearfix" v-if="projectProgress.followInvestors != null && projectProgress.followInvestors.length > 0"
                v-for="(companyProgress,index) in projectProgress.followInvestors" :key="index">
             <div class="picture fl">
-              <img src="../../img/company.png">
+              <img class="resizeImg" src="../../img/company@3x.png">
             </div>
             <div class="content fl">
               <!--<div class="company-name">{{companyProgress.companyName}}</div>-->
@@ -270,6 +270,10 @@
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
   .intent{
+    .resizeImg{
+      width: 100%;
+      height: 100%;
+    }
     .left-line{
       position: absolute;
       display: block;
