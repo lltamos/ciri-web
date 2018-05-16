@@ -28,7 +28,7 @@ Vue.use(VueLazyload, {
   throttleWait: 300,
   preLoad: 1.3,
   attempt: 1,
-  error: require('@/assets/img/default.jpg'),
+  error: require('@/assets/img/error.png'),
   loading: require('@/assets/img/default.jpg')
 })
 Vue.use(Mint)

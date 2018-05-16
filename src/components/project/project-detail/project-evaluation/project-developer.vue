@@ -91,7 +91,7 @@ import index from "../../../../router";
       <h4>
         <i class="left-line"></i><span>项目代理</span>
       </h4>
-      <div class="company-msg">
+      <div v-if="this.projectAgentContact!=null" class="company-msg">
         <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
