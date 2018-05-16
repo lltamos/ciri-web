@@ -1,5 +1,5 @@
 <template>
-  <div class="article-warp">
+  <div class="article-warp" :class="[content?'':'no-content']">
     <div class="pro-article clearfix">
       <h4>
         <i class="left-line"></i><span>{{text}}</span>
@@ -92,82 +92,93 @@
   .article-warp {
     text-align: left;
 
-  h4 {
-    text-align: left;
-    overflow: hidden;
-    line-height: 1;
-    height: 16px;
-    padding: 12px 10px 12px 15px;
-    color: #333;
-    font-size: 16px;
-    font-weight: normal;
-  @include onepx('bottom');
+    h4 {
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      @include onepx('bottom');
 
-  .left-line {
-    position: absolute;
-    display: block;
-    width: 3px;
-    height: 15px;
-    background-color: #528de8;
-    left: 0;
-    top: 12px;
-  }
+      .left-line {
+        position: absolute;
+        display: block;
+        width: 3px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top: 12px;
+      }
 
-  }
-  .pro-article {
-    padding-bottom: 17px;
+    }
+    .pro-article {
+      padding-bottom: 17px;
 
-  .title {
-    font-size: 16px;
-    color: #666;
-    margin-top: 10px;
-  }
+      .title {
+        font-size: 16px;
+        color: #666;
+        margin-top: 10px;
+      }
 
-  .article {
-    margin-top: 10px;
-    padding: 0 10px;
-    font-size: 13px;
-    line-height: 22px;
-    color: #666;
-    /*text-indent: 2em;*/
-    max-height:330px;
-    overflow: hidden;
-    /*text-overflow: ellipsis;*/
-    /*display: -webkit-box;*/
-    /*-webkit-line-clamp: 15;*/
-    /*-webkit-box-orient: vertical;*/
+      .article {
+        margin-top: 10px;
+        padding: 0 10px;
+        font-size: 13px;
+        line-height: 22px;
+        color: #666;
+        /*text-indent: 2em;*/
+        max-height:330px;
+        overflow: hidden;
+        /*text-overflow: ellipsis;*/
+        /*display: -webkit-box;*/
+        /*-webkit-line-clamp: 15;*/
+        /*-webkit-box-orient: vertical;*/
 
-  &.active {
-    max-height:10000px;
-  }
+        &.active {
+          max-height:10000px;
+        }
 
-  }
-  .read-more {
-    font-size: 13px;
-    color: #3f80e9;
-    line-height: 1;
-    text-align: center;
-    float: right;
-    margin-top: 10px;
-    padding-right: 10px;
+      }
+      .read-more {
+        font-size: 13px;
+        color: #3f80e9;
+        line-height: 1;
+        text-align: center;
+        float: right;
+        margin-top: 10px;
+        padding-right: 10px;
 
-  i {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-size: 10px auto;
-  }
+        i {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          background-size: 10px auto;
+        }
 
-  i.icon-more {
-  @include bg-image("../../news/img/more");
-  }
+        i.icon-more {
+          @include bg-image("../../news/img/more");
+        }
 
-  i.pack-up {
-  @include bg-image("../../project/img/pack-up");
-  }
+        i.pack-up {
+          @include bg-image("../../project/img/pack-up");
+        }
 
+      }
+    }
   }
-  }
+  .no-content{
+    h4:after{
+      border: none;
+    }
+    .pro-article{
+      padding-bottom: 0px;
+    }
+    .article{
+      margin-top: 0px !important;
+    }
   }
 
 </style>
