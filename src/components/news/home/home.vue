@@ -160,13 +160,8 @@ export default {
     }
   },
   mounted() {
-    let param = tool.buildForm([
-      { key: "page", v: 1 },
-      { key: "rouCount", v: 4 },
-      { key: "level", v: 2001 }
-    ]);
     this.axios
-      .post(tool.domind() + "/gateway/app/news/article/getNewHomeBanner", param)
+      .post(tool.domind() + "/gateway/app/news/article/getNewHomeBanner")
       .then(res => {
         if (res.data.code === 200) {
           this.swipeObj = res.data.data;
