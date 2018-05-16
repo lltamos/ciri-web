@@ -74,7 +74,7 @@
     line-height: 22px;
     color: #666;
     /*text-indent: 2em;*/
-    max-height: 85px;
+    max-height: 200px;
     overflow: hidden;
     &.activeWord {
       max-height:10000px;
