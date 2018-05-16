@@ -414,10 +414,13 @@
         param.append('capitalInjectionFormNoteZh', this.chineseInt);
         param.append('capitalInjectionFormNoteEn', this.englishInt);
 
+        tool.IndicatorOpen("正在提交");
+        document.body.style.overflow='hidden';
         this.axios.post(tool.domind() + tool.path() + '/ah/s5/apply', param).then(r => {
+          tool.IndicatorClose();
+          document.body.style.overflow='auto';
           if (r.data.code == 200) {
-            gbus.$emit('emitRefreshDate', null);
-            tool.toast('提交成功')
+            tool.toast('提交成功');
             this.$router.push({path:'/project/project-detail/investment-intent',query:{projId:this.projId}});
           } else
             tool.toast(r.data.msg);

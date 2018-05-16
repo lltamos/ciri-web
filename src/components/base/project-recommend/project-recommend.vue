@@ -52,11 +52,12 @@
         </ul>
         <div class="tip-news">
           <i class="loc"></i>
-          <span class="country">{{project.countryName}}</span>
+          <span class="country">{{project.countryName!= null&&project.countryName.length>7 ? project.countryName.substr(0,7):project.countryName}}</span>
           <i class="indu"></i>
           <span class="industry">{{project.industryName}}</span>
-          <i class="mold"></i>
-          <span class="genre">{{project.constructionTypeName}}</span>
+          <!--绿地投资暂时隐藏-->
+         <!-- <i class="mold"></i>
+          <span class="genre">{{project.constructionTypeName}}</span>-->
           <i class="view"></i>
           <span class="count">{{project.visit}}</span>
         </div>
@@ -299,7 +300,7 @@
         border: 1px solid #dedede;
         border-radius: 20px;
         color: #999;
-        padding: 0 17px;
+        padding: 0 13px;
         font-size: 10px;
         position: absolute;
         right:10px;
@@ -310,6 +311,7 @@
         &.active {
           background: #4285f4;
           color: #fff;
+          border: 0px;
           .icon-dianzan {
             @include bg-image("../../index/img/thumb-uped");
           }

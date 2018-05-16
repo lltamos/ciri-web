@@ -100,7 +100,7 @@
             this.error = '手机号不能为空';
           }
         }).catch(err => {
-          alert(err);
+          tool.toast(err);
           console.log(err)
         })
         const TIME_COUNT = 60;
@@ -179,7 +179,7 @@
             this.error = '绑定失败';
           }
         }).catch(err => {
-          alert(err);
+          tool.toast(err);
           console.log(err)
         })
       }

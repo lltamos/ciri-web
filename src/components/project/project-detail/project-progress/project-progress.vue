@@ -16,10 +16,6 @@
               <li v-for="(item,index) in progressList" :key="index" v-if="progressList != null && progressList.length !=0">
                 <div class="time">{{item.time}}</div>
                 <h2><span>-</span>{{item.title.valueCn}}</h2>
-                <!--点击查看详情-->
-                <!--<router-link :to="{path:'/project/project-detail/progress-detail',query: {'projId': projId,'createTime':item.editInfo.createTime}}">
-                  <em>查看</em>
-                </router-link>-->
                 <span @click="seeDetail(projId,item.editInfo.editTime)">
                   <em>查看</em>
                   <i class="more"></i>
@@ -98,10 +94,12 @@
         methods: {
           switchShow(){
             this.askPop = false;
+            document.body.style.overflow='auto';
           },
           // 提问弹框
           askQuestion (){
             this.askPop = true;
+            document.body.style.overflow='hidden';
           },
           //权限弹框
           authorityHide () {
@@ -198,7 +196,9 @@
               }
             });
         },
-        mounted() {},
+        mounted() {
+
+        },
         destroyed() {
         }
     }

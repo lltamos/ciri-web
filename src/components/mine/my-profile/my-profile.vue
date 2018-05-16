@@ -112,7 +112,7 @@
               //刷新页面
               this.userInfo.portraitFileUrl=res.data.data[0].url;
             }else{
-              alert("上传用户头像失败")
+              tool.toast("上传用户头像失败")
             }
           });
 
@@ -123,9 +123,9 @@
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
           .then(res => {
             if (res.data.code === 200) {
-              alert("修改头像成功");
+              tool.toast("修改头像成功");
             }else {
-              alert("修改头像失败")
+              tool.toast("修改头像失败")
             }
           });
       }

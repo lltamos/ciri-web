@@ -306,6 +306,7 @@
           &.active {
             background: #4285f4;
             color: #fff;
+            border: 0px;
             .icon-dianzan {
               @include bg-image("../../index/img/thumb-uped");
             }
