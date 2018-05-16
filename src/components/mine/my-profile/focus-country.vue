@@ -79,7 +79,7 @@
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo",parms)
           .then(res => {
             if (res.data.code === 200) {
-              alert("修改成功");
+              tool.toast("修改成功");
               window.history.back();
             }
           });

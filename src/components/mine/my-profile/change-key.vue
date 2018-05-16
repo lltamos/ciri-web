@@ -38,10 +38,10 @@
           .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
           .then(res => {
             if (res.data.code === 200) {
-              alert("修改个人信息成功");
+              tool.toast("修改个人信息成功");
               window.history.back();
             }else {
-              alert("修改个人信息失败");
+              tool.toast("修改个人信息失败");
             }
           });
       }

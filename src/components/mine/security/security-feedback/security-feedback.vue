@@ -67,7 +67,7 @@
             this.homeContact = "";
           }
         }).catch(err => {
-          alert(err);
+          tool.toast(err);
         })
       }
     }
