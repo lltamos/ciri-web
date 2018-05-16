@@ -48,7 +48,7 @@
           </div>
         </router-link>
       </div>
-      <button @click="loadMore()" :disabled="this.disabled" class="more">
+      <button @click="loadMore()" :disabled="this.disabled" class="more" v-show="isIcon">
         <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
     </div>
@@ -436,7 +436,7 @@
     .more {
       font-size: 12px;
       color: #3f80e9;
-      margin-top: 20px;
+      margin: 20px 0px;
       text-align: center;
       background: #fff;
 
@@ -476,7 +476,6 @@
     }
     .content{
       .search-content{
-        padding-bottom: 20px;
       }
     }
     .search-recommend{
