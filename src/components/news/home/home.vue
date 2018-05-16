@@ -215,7 +215,7 @@ export default {
       text-overflow:ellipsis;
       white-space : nowrap;
       overflow : hidden;
-      background: rgba(51,51,51,.5);
+      /*background: rgba(51,51,51,.5);*/
       z-index: 11;
       position: relative;
     }
