@@ -12,7 +12,8 @@
         {{project.status}}
       </div>
       <div class="img">
-        <img class="item-pic" v-lazy="project.url" alt="" src="">
+        <!--v-lazy="project.url"-->
+        <img class="item-pic" :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
         <div class="icon-success" v-show="successShow"></div>
         <div class="title">
           <div class="icon-quality fl" v-if="project.cornerTag == 0">精品</div>
@@ -81,7 +82,7 @@
         disabled: false,
         notloading: true,
         isIcon: true,
-        successShow : true
+        successShow : true,
       }
     },
     props: {
@@ -163,6 +164,11 @@
           if (r.code == 200) {
           }
         });
+      },
+      defaultImg (index){
+        if(index){
+          return 'this.src="' + require('../../index/img/p_'+index+'.jpg') + '"'
+        }
       }
     },
     filters: {},
@@ -171,6 +177,7 @@
       this.loadMore();
     },
     mounted() {
+      this.defaultImg();
     },
     destroyed() {
     }

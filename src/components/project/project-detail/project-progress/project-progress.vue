@@ -4,10 +4,10 @@
         <div class="reminder">这里记录了项目发起人更新的项目进展，您可以提问了解更多项目相关细节。</div>
         <div class="project">
           <div class="img">
-            <img src="../../../news/img/p_1.jpg" alt="">
+            <img v-lazy="projPhoto" alt="">
           </div>
           <div class="main-news">
-            <h2>巴西卡坦杜瓦卡坦杜瓦卡坦杜瓦 卡坦杜瓦60MW 风电厂项目</h2>
+            <h2>{{projName}}</h2>
             <div class="small-btn" @click="askQuestion">我要提问</div>
           </div>
         </div>
@@ -88,7 +88,9 @@
               askFileList:[],  //提问的文件数组
               item: '',
               power:false,
-              askPop:false
+              askPop:false,
+              projPhoto: '',
+              projName: ''
             }
         },
         props: {},
@@ -180,6 +182,8 @@
         computed: {},
         created() {
           this.projId = parseInt(this.$route.query.projId);
+          this.projPhoto = this.$route.query.projPhoto;
+          this.projName = this.$route.query.projName;
           let param = {
             projId:this.projId
           };

@@ -21,7 +21,7 @@
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <li class="">
             <div class="img">
-              <img v-lazy="project.url" alt="">
+              <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
             </div>
             <div class="main-news">
               <h2>{{project.name}}</h2>
@@ -80,7 +80,7 @@
           <div class="pro-list">
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
-              <img v-lazy="project.url" alt="">
+              <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
             <div v-show="project.projVideoStatus" class="video fl"></div>
@@ -374,6 +374,11 @@
           if (r.code == 200) {
           }
         });
+      },
+      defaultImg (index){
+        if(index){
+          return 'this.src="' + require('../index/img/p_'+index+'.jpg') + '"'
+        }
       }
     },
     filters: {},
@@ -391,6 +396,8 @@
         this.notloading = false;
         this.weekProjects = r.data.list;
       });
+  // 默认图片
+      this.defaultImg();
     },
     created() {
       //页面滚动时
