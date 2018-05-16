@@ -106,9 +106,9 @@ export default {
       let a = username.indexOf('@');
       let b;
       if (a >= 4) {
-        b = username.substr(0, 4) + "****"
+        b = username.substr(0, 4) + "**"
       } else {
-        b = "****"
+        b = "**"
       }
       return b + username.substr(a, username.length);
     } else if (this.checkMobile(username)) {
