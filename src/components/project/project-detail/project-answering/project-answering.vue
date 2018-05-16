@@ -133,7 +133,7 @@
             </div>
             <!--当问题不存在时显示-->
             <div v-if="questions == null || questions.length == 0 ">
-              <img src="../../img/timer-none.png" alt="">
+              <img class="none-answering" src="../../img/none-answering@2x.png" alt="">
             </div>
           </div>
           <!--加载更多-->
@@ -249,7 +249,7 @@
             <CrossLine></CrossLine>
           </div>
           <div v-if="myQuestions == null || myQuestions.length == 0 ">
-            <img src="../../img/timer-none.png" alt="">
+            <img class="none-answering" src="../../img/none-answering@2x.png" alt="">
           </div>
 
           <!--点击加载更多我的问题-->
@@ -768,6 +768,10 @@
     text-align: left;
     .em-blue{
       color: #528de8;
+    }
+    .none-answering{
+      width: 100%;
+      height: 100%;
     }
     .answering-warp{
       .ask-warp{
