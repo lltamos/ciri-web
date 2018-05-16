@@ -257,11 +257,11 @@
       },
       reduceAmount(){
         if(this.investAmount>20){
-          this.investAmount -= 20;
+          this.investAmount = (this.investAmount-0) -20;
         }
       },
       addAmount(){
-        this.investAmount += 20;
+        this.investAmount = (this.investAmount-0)+ 20;
       },
       leadRadio(index) {
         this.isLead = index;
