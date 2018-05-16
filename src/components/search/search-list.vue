@@ -11,7 +11,7 @@
   </ul>
   <div class="content">
     <div class="img" v-if="this.projects == null || this.projects.length == '0'">
-      <img src="../project/img/timer-none.png" alt="">
+      <img class="none-answering" src="../project/img/none-search@2x.png" alt="">
     </div>
     <div class="search-content" v-else>
       <div class="pro-warp">
@@ -239,6 +239,10 @@
     @import '~@/assets/scss/reset.scss';
     @import '~@/assets/scss/mixin.scss';
   .search-list{
+    .none-answering{
+      width: 100%;
+      height: 100%;
+    }
     .pro-warp{
       padding: 0 10px;
       .pro-list {
