@@ -289,7 +289,6 @@
         </div>
       </div>
     </div>
-    <CrossLine></CrossLine>
   </div>
 </template>
 <script>
