@@ -208,7 +208,6 @@
 
   }
   .finance-info {
-    padding: 10px 0px 17px;
     .company-msg{
       padding: 15px;
       margin-bottom: 7px;
