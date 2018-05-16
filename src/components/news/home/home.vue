@@ -166,7 +166,7 @@ export default {
       { key: "level", v: 2001 }
     ]);
     this.axios
-      .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+      .post(tool.domind() + "/gateway/app/news/article/getNewHomeBanner", param)
       .then(res => {
         if (res.data.code === 200) {
           this.swipeObj = res.data.data;
