@@ -94,7 +94,7 @@
                             <img v-else  src="../../img/rep-def.png"  alt="">
                           </div>
                           <div class="fl">
-                            <div class="user-name">{{hiddenName(ask.userid)}}<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                            <div class="user-name">{{hiddenName(ask.userid)}}<em class="em-blue">{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                             <div class="delete" v-bind:class="[ask.oneselfInfo ? 'back-del' : '']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                             <div class="time small-time">{{ask.updateTime|time}}</div>
                           </div>
@@ -210,7 +210,7 @@
                           <img v-else  src="../../img/rep-def.png"  alt="">
                         </div>
                         <div class="fl">
-                          <div class="user-name" >hiddenName(ask.userid)<em>{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
+                          <div class="user-name" >hiddenName(ask.userid)<em class="em-blue">{{ask.isVisible==0?"":"(仅提问者可见)"}}</em></div>
                           <div class="delete" :class="[ask.oneselfInfo?'back-del':'']" @click="deleteAsk(ask.id,2)">{{ask.oneselfInfo == true?"删除" :""}}</div>
                           <div class="time small-time">{{ask.updateTime|time}}</div>
                           <!--回复点赞数量-->
@@ -766,6 +766,9 @@
   @import '~@/assets/scss/const.scss';
   .project-answering{
     text-align: left;
+    .em-blue{
+      color: #528de8;
+    }
     .answering-warp{
       .ask-warp{
         width:100%;
