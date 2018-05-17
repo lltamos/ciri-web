@@ -74,10 +74,11 @@
 
   }
   .gradient{
-    background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* 标准的语法 */
+    width: 100%;
+    height: 44px;
+    @include bg-image("../mine/img/header-bg");
+    background-repeat: no-repeat;
+    background-size: 100% 44px;
   }
 
   .tab{

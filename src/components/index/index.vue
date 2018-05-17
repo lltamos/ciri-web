@@ -301,6 +301,13 @@
       }
 
     }
+    .gradient {
+      width: 100%;
+      height: 44px;
+      @include bg-image("../mine/img/header-bg");
+      background-repeat: no-repeat;
+      background-size: 100% 44px;
+    }
     .slider {
       touch-action: none;
       height: 150px;
