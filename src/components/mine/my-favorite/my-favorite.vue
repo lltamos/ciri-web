@@ -99,7 +99,6 @@
 
       },
       back() {
-        this.unfavorite();
         window.history.back()
       },
       favorite(obj) {
@@ -133,6 +132,7 @@
             }
 
           });
+        this.unfavorite();
       }
 
     },
