@@ -5,7 +5,7 @@
         <div class="img">
           <img src="../news/img/p_new.png" alt=""/>
         </div>
-        <div class="search-warp" id="search-warp">
+        <div class="search-warp" id="search-warp" @touchmove.prevent>
           <div class="search" :class="scrollSearch">
             <i class="icon-search" @click="search"></i>
             <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
@@ -43,17 +43,17 @@
       <h4>
         <i class="left-line"></i><span>全部项目</span>
       </h4>
-      <div class="tab-warp" id="tab-warp">
-        <ul class="tab" :class="searchBarFixed == true ? 'isFixed' :''">
+      <div class="tab-warp" id="tab-warp" @touchmove.prevent>
+        <ul class="tab"  :class="searchBarFixed == true ? 'isFixed' :''">
           <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
             <span>{{item}}</span>
             <i></i>
           </li>
         </ul>
 
-        <div class="pop-bg" v-show="popShow" @click="popSwitch">
+        <div class="pop-bg" v-show="popShow" @click="popSwitch" @touchmove.prevent>
         </div>
-        <div class="tabCon" v-show="popShow">
+        <div class="tabCon" v-show="popShow" @touchmove.prevent>
           <div class="content" v-for='(itemCon,index) in tabContents'
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
@@ -207,7 +207,7 @@
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
           pageId: this.pageId,
-          pageSize: 5,
+          pageSize: 10,
           industry: this.i,
           country: this.c,
           mature: this.m,
