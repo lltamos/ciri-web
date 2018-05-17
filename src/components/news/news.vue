@@ -88,7 +88,7 @@
   }
   .tab{
     width: 100%;
-    height: 35px;
+    height: 37px;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -102,7 +102,7 @@
         color: #333;
         &.router-link-active {
           color: #3f83e6;
-          border-bottom: 2px solid #3f83e6;
+          border-bottom: 4px solid #3f83e6;
         }
       }
     }
