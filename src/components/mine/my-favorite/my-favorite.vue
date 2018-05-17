@@ -77,13 +77,13 @@
       }
     },
     beforeDestroy(){
-      this.unfavorite(e)
+      this.unfavorite()
       // while (!this.isFinish) {
       //   window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e));
       // }
     },
     methods: {
-      unfavorite(e) {
+      unfavorite() {
         this.proStr = '';
         for (let i = 0; i < this.proArray.length; i++) {
           this.proStr = this.proStr + ',' + this.proArray[i];
@@ -144,7 +144,7 @@
     },
     created() {
       this.loadMore();
-      window.addEventListener('beforeunload', e => this.unfavorite(e))
+      window.addEventListener('beforeunload', e => this.unfavorite())
       // window.onbeforeunload = function (e) {
       //
       //   this.unfavorite();
