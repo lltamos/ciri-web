@@ -168,7 +168,11 @@
                 sessionStorage.setItem("islogin", "true");
                 sessionStorage.setItem("userLevel", res.data.data.memberLevel);
                 this.axios.defaults.headers.token = res.data.data.token;
-                let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                let redirect = '';
+                if ( tool.isBank(this.$route.query.redirect))
+                  redirect = decodeURIComponent('/');
+                else
+                  redirect = decodeURIComponent(this.$route.query.redirect);
                 this.$router.replace({
                   path: redirect
                 });
