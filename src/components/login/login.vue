@@ -14,7 +14,7 @@
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
-        <div class="switch" @click="Switch">切换邮箱登录</div>
+        <div class="switch bor-left" @click="Switch">切换邮箱登录</div>
       </div>
       <div class="iconWrap" v-show="showEmail">
         <div class="mint-cell">
@@ -24,7 +24,7 @@
           </div>
         </div>
         <i class="iconImg icon-email"></i>
-        <div class="switch" @click="Switch">切换手机号登录</div>
+        <div class="switch bor-left" @click="Switch">切换手机号登录</div>
       </div>
       <div class="iconWrap">
         <div class="mint-cell">
@@ -262,6 +262,13 @@
           top: 10px;
           color: #333;
           font-size: 10px;
+        }
+        .bor-left{
+          height: 15px;
+          line-height: 15px;
+          text-align: right;
+          padding-left: 10px;
+          border-left: 1px solid #dedede;
         }
 
         .pswIcon {
