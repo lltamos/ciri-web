@@ -3,7 +3,7 @@
     <header-bar text="设置" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
-      <div class="section border">
+      <div class="section border-dash">
         <div class="img icon-loginpwd">
 
         </div>
@@ -18,7 +18,7 @@
           </router-link>
         </div>
       </div>
-      <div class="section border">
+      <div class="section border-dash">
         <div class="img icon-email">
 
         </div>
@@ -189,7 +189,7 @@
 
   }
   }
-  .border {
+  .border-dash {
     border-bottom: 1px dashed #dedede;
   }
 
