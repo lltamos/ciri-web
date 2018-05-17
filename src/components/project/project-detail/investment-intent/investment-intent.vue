@@ -21,7 +21,7 @@
             <div :class="isUserAuthed==true ? 'color-selected' : 'color-not-select'">签署协议</div>
           </div>
           <div class="process-remind" v-if="!isUserInCoInvest">
-            <p>发布投资意向钱需先完成实名认证、企业认证并签署服务协议</p>
+            <p>发布投资意向前需先完成实名认证、企业认证并签署服务协议</p>
             <p>以上操作请登录源合网(industryc2c.com)在线完成</p>
             <p>任何疑问请咨询客服经理 13601315595 (Mr Zhang)</p>
           </div>
