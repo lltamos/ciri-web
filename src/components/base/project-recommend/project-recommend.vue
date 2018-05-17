@@ -97,7 +97,6 @@
         this.industryCategory = val;
         this.notloading = true;
         this.loadMore();
-
       },
       tabPanel(val) {
         this.status = val == 1 ? [7] : [16]
@@ -106,7 +105,6 @@
         this.pageId = 1;
         this.notloading = true;
         this.loadMore();
-
       }
     },
     methods: {
