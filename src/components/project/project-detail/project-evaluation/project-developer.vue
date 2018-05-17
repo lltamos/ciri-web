@@ -70,7 +70,7 @@ import index from "../../../../router";
           </table>
           <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
         </div>
-        <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title">【企业资料】</div>
+        <div v-if="this.projectOwnerContact.campaignFile!=null" class="contact-title company-info">【企业资料】</div>
         <div v-if="this.projectOwnerContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectOwnerContact.campaignFile" :key="file.name">
             <div class="title">
@@ -91,7 +91,7 @@ import index from "../../../../router";
       <h4>
         <i class="left-line"></i><span>项目代理</span>
       </h4>
-      <div class="company-msg">
+      <div v-if="this.projectAgentContact!=null" class="company-msg">
         <table width="100%" cellspacing="0" cellpadding="0">
           <tbody>
           <tr>
@@ -138,9 +138,6 @@ import index from "../../../../router";
           <tr>
             <td>姓名</td>
             <td>{{projectAgentContact.contact[0].name.valueCn}}</td>
-            <td rowspan="4">
-              <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
-            </td>
           </tr>
           <tr>
             <td>职位</td>
@@ -156,8 +153,9 @@ import index from "../../../../router";
           </tr>
           </tbody>
         </table>
+        <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
 
-        <div class="contact-title">【企业资料】</div>
+        <div class="contact-title company-info">【企业资料】</div>
         <div v-if="this.projectAgentContact.campaignFile!=null" class="file-warp">
           <div class="file" v-for="file in this.projectAgentContact.campaignFile" :key="file.name">
             <div class="title">
@@ -302,11 +300,14 @@ import index from "../../../../router";
       }
     }
     .contact-info {
-      padding: 0 10px;
+      padding: 0 10px 17px;
 
       .contact-title {
         font-size: 14px;
         color: #333;
+      }
+      .company-info{
+        padding-top: 17px;
       }
       .file-warp {
         padding-top: 10px;

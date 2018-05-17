@@ -177,7 +177,7 @@
             this.errorShow = true;
           }
         }).catch(err => {
-          alert(err);
+          tool.toast(err);
           console.log(err)
         })
       }

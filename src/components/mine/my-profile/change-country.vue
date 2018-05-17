@@ -71,10 +71,10 @@
             .post(tool.domind() + "/gateway/user/updateUserBasicInfo" ,params)
             .then(res => {
               if (res.data.code === 200) {
-                alert("修改国家成功");
+                tool.toast("修改国家成功");
                 window.history.back();
               }else {
-                alert("修改国家失败,请重新选择");
+                tool.toast("修改国家失败,请重新选择");
               }
             });
         }

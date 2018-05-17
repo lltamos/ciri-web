@@ -178,7 +178,7 @@
               }
             })
             .catch(err => {
-              alert(err);
+              tool.toast(err);
             });
         } else {
           this.error = "账号或密码错误，请重新输入";

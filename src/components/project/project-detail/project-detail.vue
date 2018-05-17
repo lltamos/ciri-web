@@ -41,7 +41,7 @@
         <!--关注项目动态-->
         <div class="pro-focus">
           <!-- swiper -->
-          <swiper :options="swiperOption" class="slider">
+          <swiper :options="swiperOption" class="slider" v-if="potentialInvestor!=null">
             <swiper-slide v-for="(p, index) in potentialInvestor" :key="index" v-if="potentialInvestor!=null">
               <div class="img">
                 <img v-lazy="p.url" alt=""/>
@@ -383,6 +383,7 @@
           &.active {
             background: #4285f4;
             color: #fff;
+            border: 0px;
             .icon-dianzan {
               @include bg-image("../../index/img/thumb-uped");
             }
@@ -425,7 +426,6 @@
         .slider {
           border-bottom: 1px dashed #dedede;
           padding: 15px 0 10px;
-          margin-bottom: 10px;
 
           .img {
             width: 45px;
@@ -452,7 +452,7 @@
           font-size: 12px;
           color: #333;
           text-align: center;
-          margin-bottom: 10px;
+          margin: 10px 0px;
 
           .intro {
             line-height: 18px;
