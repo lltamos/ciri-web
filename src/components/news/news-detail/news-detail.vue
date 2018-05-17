@@ -1,6 +1,6 @@
 <template>
   <div class="news-detail">
-    <div class="header-bar" :class="{active:headerFixed}">
+    <div class="header-bar gradient" :class="{active:headerFixed}">
       <i class="icon-back" @click="back"></i>
       <h1 v-show="headerFixed">{{this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
     </div>
@@ -79,6 +79,13 @@
   @import "~@/assets/scss/reset.scss";
 
   .news-detail {
+    .gradient {
+      width: 100%;
+      height: 44px;
+      @include bg-image("../../mine/img/header-bg");
+      background-repeat: no-repeat;
+      background-size: 100% 44px;
+    }
     .header-bar {
       &.active{
         position: fixed;
@@ -93,27 +100,6 @@
       font-size: 14px;
       text-align: center;
       position: relative;
-      background: -webkit-linear-gradient(
-          left,
-          rgba(56, 185, 253, 1),
-          rgba(63, 132, 230, 0.65)
-      ); /* Safari 5.1 - 6.0 */
-      background: -o-linear-gradient(
-          right,
-          rgba(56, 185, 253, 1),
-          rgba(63, 132, 230, 0.65)
-      ); /* Opera 11.1 - 12.0 */
-      background: -moz-linear-gradient(
-          right,
-          rgba(56, 185, 253, 1),
-          rgba(63, 132, 230, 0.65)
-      ); /* Firefox 3.6 - 15 */
-      background: linear-gradient(
-          to right,
-          rgba(56, 185, 253, 1),
-          rgba(63, 132, 230, 0.65)
-      );
-
       /* 标准的语法 */
       h1 {
         color: #fff;
