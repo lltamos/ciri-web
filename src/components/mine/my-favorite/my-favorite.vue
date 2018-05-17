@@ -73,11 +73,17 @@
         pros: null,
         isMore: false,
         proArray: [],
-        proStr: null
+        proStr: null,
       }
     },
+    beforeDestroy(){
+      this.unfavorite(e)
+      // while (!this.isFinish) {
+      //   window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e));
+      // }
+    },
     methods: {
-      unfavorite() {
+      unfavorite(e) {
         this.proStr = '';
         for (let i = 0; i < this.proArray.length; i++) {
           this.proStr = this.proStr + ',' + this.proArray[i];
@@ -99,6 +105,7 @@
 
       },
       back() {
+        this.unfavorite();
         window.history.back()
       },
       favorite(obj) {
@@ -132,12 +139,17 @@
             }
 
           });
-        this.unfavorite();
       }
 
     },
     created() {
       this.loadMore();
+      window.addEventListener('beforeunload', e => this.unfavorite(e))
+      // window.onbeforeunload = function (e) {
+      //
+      //   this.unfavorite();
+      //   return "aaa";
+      // };
     }
   }
 </script>
