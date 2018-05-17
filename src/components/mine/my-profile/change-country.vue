@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="country-warp" v-show="show">
-        <div class="country" @click="choose($event,item)" v-for="item in country" :key="item">
+        <div class="country" @click="choose($event,item)"  v-for="(item,index) in country" :key="index">
           {{item.name}}
         </div>
       </div>
