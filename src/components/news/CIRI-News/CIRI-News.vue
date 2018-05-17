@@ -9,17 +9,17 @@
             <img v-lazy="host+topArticle.thumbnail"/>
           </div>
           <div class="title-warp">
-            <h2>{{topArticle.title.length>20 ? topArticle.title.substr(0,20)+'...' : topArticle.title}}</h2>
-            <div class="title-box">
+            <span class="news-title">{{topArticle.title.length>20 ? topArticle.title.substr(0,20)+'...' : topArticle.title}}</span>
+            <label class="view fr">
+              <i class="icon-view"></i>
+              <span class="count">{{topArticle.clickCount}}</span>
+            </label>
+            <!--<div class="title-box" style="display:none;">
               <div class="fl">
                 <span class="column">最新活动</span> | <span class="time">{{topArticle.updateTime|time}}</span>
                 <span class="author">CIRI</span>
               </div>
-
-              <div class="view fr">
-                <i class="icon-view"></i><span class="count">{{topArticle.clickCount}}</span>
-              </div>
-            </div>
+            </div>-->
           </div>
         </div>
       </router-link>
@@ -129,16 +129,20 @@
     text-align: center;
     display: flex;
     flex-direction: row;
+    margin: 8px 10px;
     li {
       flex: 1;
-      line-height: 35px;
+      line-height: 25px;
+      position: relative;
+      margin-right: 22px;
       a {
         display: block;
         font-size: 14px;
         color: #333;
+        border-radius: 3px;
         &.router-link-active {
-          color: #3f83e6;
-          border-bottom: 2px solid #3f83e6;
+          background: #3f83e6;
+          color:#fff;
         }
       }
     }
@@ -155,15 +159,28 @@
         position: absolute;
         bottom: 0;
         width: 100%;
-        height:55px;
-        h2 {
+        height:35px;
+        line-height: 35px;
+        text-align: left;
+        .news-title {
           font-size: 14px;
           color: #fff;
-          height: 16px;
-          line-height: 16px;
           overflow: hidden;
-          margin: 10px 10px 8px;
-          text-align: left;
+          padding-left: 10px;
+        }
+        .view {
+          font-size: 10px;
+          color: #fff;
+          padding: 0 10px;
+          i {
+            display: block;
+            float: left;
+            width: 12px;
+            height: 12px;
+            margin: 12px 5px 0px 0px;
+            @include bg-image("../img/view_white");
+            background-size: 12px auto;
+          }
         }
         .title-box {
           font-size: 10px;
@@ -172,19 +189,6 @@
           padding: 0 10px;
           &:after{
             border: none;
-          }
-          .view {
-            margin-top: -3px;
-            i {
-              display: block;
-              float: left;
-              width: 12px;
-              height: 12px;
-              margin: 3px 5px;
-              @include bg-image("../img/view_white");
-              background-size: 12px auto;
-            }
-
           }
         }
       }

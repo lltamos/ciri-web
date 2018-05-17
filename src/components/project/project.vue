@@ -5,7 +5,7 @@
         <div class="img">
           <img src="../news/img/p_new.png" alt=""/>
         </div>
-        <div class="search-warp" id="search-warp" @touchmove.prevent>
+        <div class="search-warp" id="search-warp">
           <div class="search" :class="scrollSearch">
             <i class="icon-search" @click="search"></i>
             <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
@@ -43,7 +43,7 @@
       <h4>
         <i class="left-line"></i><span>全部项目</span>
       </h4>
-      <div class="tab-warp" id="tab-warp" @touchmove.prevent>
+      <div class="tab-warp" id="tab-warp">
         <ul class="tab"  :class="searchBarFixed == true ? 'isFixed' :''">
           <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
             <span>{{item}}</span>
@@ -51,27 +51,33 @@
           </li>
         </ul>
 
-        <div class="pop-bg" v-show="popShow" @click="popSwitch" @touchmove.prevent>
-        </div>
-        <div class="tabCon" v-show="popShow" @touchmove.prevent>
-          <div class="content" v-for='(itemCon,index) in tabContents'
-               v-show=" index == num" :key="index">
-            <form @submit.prevent="submit">
-              <ul>
-                <!--:class="{active:activeSwitch}"-->
-                <li :id="all(index)" @click="allActive($event ,index)" class="active">全部
-                  <input type="checkbox" value="全部"/>
-                </li>
-                <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
-                    :key="t">{{item[1]}}
-                  <input type="checkbox"/>
-                </li>
-              </ul>
-              <div class="btn-warp clearfix">
-                <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
-                <button class="small-btn confirm fr" @click="init1">确定</button>
-              </div>
-            </form>
+        <div class="pop-bg" id="pop-bg" v-show="popShow">
+          <ul class="tab isFixed">
+            <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
+              <span>{{item}}</span>
+              <i></i>
+            </li>
+          </ul>
+          <div class="tabCon" v-show="popShow">
+            <div class="content" v-for='(itemCon,index) in tabContents'
+                 v-show=" index == num" :key="index">
+              <form @submit.prevent="submit">
+                <ul>
+                  <!--:class="{active:activeSwitch}"-->
+                  <li :id="all(index)" @click="allActive($event ,index)" class="active">全部
+                    <input type="checkbox" value="全部"/>
+                  </li>
+                  <li v-for='(item,t) in itemCon' @click="liActive($event,item[0] ,index)" :id="t" :name="'li'+index"
+                      :key="t">{{item[1]}}
+                    <input type="checkbox"/>
+                  </li>
+                </ul>
+                <div class="btn-warp clearfix">
+                  <button class="small-btn reset fl" @click="resetActive(index)">重置</button>
+                  <button class="small-btn confirm fr" @click="init1">确定</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -175,13 +181,11 @@
     watch:{
       popShow(newVal, oldVal) {
         if (newVal == true) {
-          let cssStr = "overflow-y: hidden;";
-          document.getElementsByTagName('html')[0].style.cssText = cssStr;
-          document.body.style.cssText = cssStr;
+          let cssStr = "overflow-y: hidden;height:100%;";
+          document.getElementById('pop-bg').style.overflow ='hidden';
+          // document.body.style.cssText = cssStr;
         } else {
-          let cssStr = "overflow-y: auto;";
-          document.getElementsByTagName('html')[0].style.cssText = cssStr;
-          document.body.style.cssText = cssStr;
+          document.getElementById('pop-bg').style.overflow ='auto';
         }
 
         // 下面需要这两行代码，兼容不同浏览器
@@ -268,7 +272,7 @@
         if(this.floatp){
           this.num = index;
           let searchWarp = document.getElementById('search-warp');
-          this.searchBarFixed = true
+          // this.searchBarFixed = true
           this.popShow = true;
           if (searchWarp != null) {
             searchWarp.style.background = 'rgba(82,141,232,1)';
