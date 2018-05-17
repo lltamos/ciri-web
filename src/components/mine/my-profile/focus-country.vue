@@ -1,6 +1,6 @@
 <template>
   <div :class="changeCountry">
-    <header-bar :text="headTitle" @back="back"></header-bar>
+    <header-bar :text="headTitle" btnShow="true" @back="back" @saveInfo="submit"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
       <div class="change">
@@ -20,9 +20,6 @@
               </i>
               <span>{{item.name.substr(0,8)}}</span>
             </div>
-          </div>
-          <div class="btn-warp">
-            <input class="btn focus-save" value="保存" type="submit"/>
           </div>
         </div>
       </form>

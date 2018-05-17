@@ -11,17 +11,17 @@
             <img v-lazy="pro.url" alt="" width="100%" height="100%">
             <i v-tap.prevent="{methods : favorite ,projId:pro.projId}" :id="'projId' + pro.projId" class="favorite icon-favorite"></i>
           </div>
+          <div class="video fl" v-show="pro.haveVideo"></div>
           <div class="main-news">
             <div class="title">
               <div class="icon-quality fl" v-if="pro.cornerTags != null && pro.cornerTags != ''">{{pro.cornerTags}}</div>
-              <h2 class="fl">{{pro.name.length>15 ? pro.name.substr(0,15)+'...' : pro.name }}</h2>
+              <h2 class="fl">{{pro.name.length>13 ? pro.name.substr(0,13)+'...' : pro.name }}</h2>
             </div>
-            <div class="tip">
+            <!--高收益等标签暂时隐藏-->
+            <div class="tip" style="display: none">
               <div v-if="pro.tags!=null" class="f1" v-for="tag in pro.tags">
                 <div class="fl red">{{tag}}</div>
               </div>
-
-              <div class="video fl" v-show="pro.haveVideo"></div>
             </div>
 
             <div class="tip-news">
@@ -99,7 +99,6 @@
 
       },
       back() {
-        this.unfavorite();
         window.history.back()
       },
       favorite(obj) {
@@ -133,6 +132,7 @@
             }
 
           });
+        this.unfavorite();
       }
 
     },
@@ -153,164 +153,164 @@
     margin-bottom: 65px;
     text-align: center;
 
-  i {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-  @include bg-image("../../news/img/more");
-    background-size: 12px auto;
-    margin-left: 6px;
-  }
+    i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      @include bg-image("../../news/img/more");
+      background-size: 12px auto;
+      margin-left: 6px;
+    }
 
   }
   .main {
 
-  .project {
-    padding: 14px 10px 14px 130px;
-    position: relative;
-  @include onepx("bottom");
+    .project {
+      padding: 14px 10px 14px 120px;
+      position: relative;
+      @include onepx("bottom");
 
-  .img {
-    width: 110px;
-    height: 71px;
-    position: absolute;
-    top: 14px;
-    left: 10px;
+      .img {
+        width: 100px;
+        height: 65px;
+        position: absolute;
+        top: 14px;
+        left: 10px;
 
-  .icon-state {
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    font-size: 9px;
-    color: #fff;
-    background: #27caa0;
-    border-radius: 3px;
-    padding: 1px 2px;
-    text-align: center;
-  }
+        .icon-state {
+          position: absolute;
+          left: 5px;
+          top: 5px;
+          font-size: 9px;
+          color: #fff;
+          background: #27caa0;
+          border-radius: 3px;
+          padding: 1px 2px;
+          text-align: center;
+        }
 
-  .favorite {
-    position: absolute;
-    right: 3px;
-    bottom: 3px;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-  @include bg-image("../img/favorite");
-    background-size: 20px auto;
-    background-position: center;
-  }
+        .favorite {
+          position: absolute;
+          right: 3px;
+          bottom: 3px;
+          width: 20px;
+          height: 20px;
+          background-repeat: no-repeat;
+          @include bg-image("../img/favorite");
+          background-size: 20px auto;
+          background-position: center;
+        }
 
-  .quit-favorite {
-  @include bg-image("../img/quit-favorite");
-  }
+        .quit-favorite {
+          @include bg-image("../img/quit-favorite");
+        }
 
-  }
-  .main-news {
-    height: 71px;
+      }
+      .video {
+        width: 12px;
+        height: 12px;
+        background-repeat: no-repeat;
+        @include bg-image("../../base/img/video-left");
+        background-size: 12px auto;
+        background-position: center;
+        position: absolute;
+        top: 63px;
+        left: 15px;
+      }
+      .main-news {
+        height: 65px;
 
-  .title {
-    overflow: hidden;
+        .title {
+          overflow: hidden;
 
-  .icon-quality {
-    color: #fff;
-    font-size: 10px;
-    background: #fdb140;
-    //padding: 1px 3px;
-    text-align: center;
-    margin-right: 5px;
-    border-radius: 3px;
-  }
+          .icon-quality {
+            color: #fff;
+            font-size: 10px;
+            background: #fdb140;
+            //padding: 1px 3px;
+            text-align: center;
+            margin-right: 5px;
+            border-radius: 3px;
+          }
 
-  h2 {
-    font-size: 14px;
-    color: #333;
-    height: 19px;
-    line-height: 19px;
-  }
+          h2 {
+            font-size: 14px;
+            color: #333;
+            height: 19px;
+            line-height: 19px;
+          }
 
-  }
-  .tip {
-    overflow: hidden;
-    font-size: 9px;
-    color: #333;
-    margin: 5px 0;
+        }
+        .tip {
+          overflow: hidden;
+          font-size: 9px;
+          color: #333;
+          margin: 5px 0;
 
-  .red {
-    height: 14px;
-    width: 50px;
-    line-height: 14px;
-    font-size: 9px;
-    margin-right: 5px;
-    text-align: center;
-    border: 1px solid #ff0000;
-  }
+          .red {
+            height: 14px;
+            width: 50px;
+            line-height: 14px;
+            font-size: 9px;
+            margin-right: 5px;
+            text-align: center;
+            border: 1px solid #ff0000;
+          }
 
-  .yellow {
-    height: 14px;
-    width: 50px;
-    line-height: 14px;
-    margin-right: 5px;
-    text-align: center;
-    border: 1px solid #fdb140;
+          .yellow {
+            height: 14px;
+            width: 50px;
+            line-height: 14px;
+            margin-right: 5px;
+            text-align: center;
+            border: 1px solid #fdb140;
 
-  }
+          }
 
-  .video {
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-  @include bg-image("../img/video");
-    background-size: 20px auto;
-    background-position: center;
-    margin-top: -3px;
+        }
+        .tip-news {
+          margin-top: 12px;
+          .proj-info {
+            display: flex;
+            flex-direction: row;
 
-  }
+            li {
+              flex: 1;
+              display: block;
+              color: #666;
+              position: relative;
 
-  }
-  .tip-news {
+              .count {
+                font-size: 13px;
+                height: 13px;
+                text-align: center;
 
-  .proj-info {
-    display: flex;
-    flex-direction: row;
+                span {
+                  color: #3f83e6;
+                }
 
-  li {
-    flex: 1;
-    display: block;
-    color: #666;
-    position: relative;
+              }
+              .line {
+                position: absolute;
+                right: 0;
+                top: 5px;
+                border-right: 1px solid #dedede;
+                width: 1px;
+                height: 22px;
+              }
 
-  .count {
-    font-size: 13px;
-    height: 13px;
-    text-align: center;
+              em {
+                font-size: 10px;
+                font-style: normal;
+                height: 10px;
+              }
 
-  span {
-    color: #3f83e6;
-  }
+            }
+          }
+        }
 
-  }
-  .line {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    border-right: 1px solid #dedede;
-    width: 1px;
-    height: 22px;
-  }
-
-  em {
-    font-size: 10px;
-    font-style: normal;
-    height: 10px;
-  }
-
-  }
-  }
-  }
-
-  }
-  }
+      }
+    }
 
   }
 

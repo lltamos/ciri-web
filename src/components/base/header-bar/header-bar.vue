@@ -4,6 +4,7 @@
   <div class="header-bar">
     <i class="icon-arrow_lift" @click="back"></i>
     <h1>{{text}}</h1>
+    <span v-show="btnShow" class="btn-save" @click="saveInfo">保存</span>
   </div>
 </template>
 
@@ -17,12 +18,19 @@
       text: {
         type: String,
         default: ''
-      }
+      },
+      btnShow: {
+        type: String,
+        default: ''
+      },
     },
     watch: {},
     methods: {
       back () {
         this.$emit('back')
+      },
+      saveInfo(){
+        this.$emit('saveInfo')
       }
     },
     filters: {},
@@ -63,6 +71,12 @@
       font-size: 18px;
       color: #333;
       margin-left: -15px;
+    }
+    .btn-save{
+      font-size: 16px;
+      color: #528de8;
+      position: absolute;
+      right: 20px;
     }
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div :class="changeCountry">
-    <header-bar text="修改国家" @back="back"></header-bar>
+    <header-bar text="修改国家" btnShow="true" @back="back" @saveInfo="updateUserInfo"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
       <div class="change">
@@ -15,10 +15,6 @@
         </div>
       </div>
     </div>
-    <div class="btn-warp">
-      <div class="btn change-save" @click="updateUserInfo">保存</div>
-    </div>
-
   </div>
 </template>
 
