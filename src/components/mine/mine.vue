@@ -155,7 +155,7 @@ export default {
   },
   computed: {},
   created() {
-    if (tool.islogin() == "true" && tool.getuser() && tool.gettoken() != '' && tool.gettoken() != null) {
+    if (tool.islogin() == "true" && tool.getuser() != null && tool.gettoken() != '' && typeof tool.gettoken() != undefined ) {
       this.axios
         .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
         .then(res => {
