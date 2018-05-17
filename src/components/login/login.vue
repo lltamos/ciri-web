@@ -45,7 +45,7 @@
         <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
       </div>
 
-      <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
+      <mt-button :class="loginClass" size="large" @click="login" :disabled="isDisable">登录</mt-button>
       <router-link to="/authcode" class="fs13">验证码登录</router-link>
     </div>
   </div>
@@ -75,11 +75,13 @@
         password: this.password,
         loginData: [],
         position: "",
-        aisle: 0
+        aisle: 0,
+        isDisable: false
       };
     },
     props: {},
-    watch: {},
+    watch: {
+    },
     methods: {
       back() {
         window.history.back()
@@ -87,7 +89,7 @@
       //input获取焦点时执行
       Focus() {
         this.loginClass = "loginBtnActive";
-        this.position = "staticImg";
+        this.isDisable = false;
       },
       //切换邮箱手机号登录
       Switch() {
@@ -147,6 +149,7 @@
       },
       //初始化数据
       login() {
+        this.isDisable = true
         let tag = false;
         if (this.showPhone) {
           tag = tool.checkMobile(this.phone);
@@ -179,6 +182,7 @@
               } else {
                 this.error = "账号或密码错误，请重新输入";
                 this.errorShow = true;
+                this.isDisable = false;
               }
             })
             .catch(err => {
