@@ -29,7 +29,7 @@
       <div class="error">
         <div v-show="errorShow" class="errorText">{{error}}</div>
       </div>
-      <mt-button :class="loginClass" size="large" @click="login">登录</mt-button>
+      <mt-button :class="loginClass" size="large" @click="login" :disabled="isDisable">登录</mt-button>
     </div>
   </div>
 </template>
@@ -55,7 +55,8 @@
         errorShow: false,
         aisle: 1,
         authcode: null,
-        error:'账号或验证码错误，请重新输入'
+        error:'账号或验证码错误，请重新输入',
+        isDisable: false
       }
     },
     props: {},
@@ -63,7 +64,7 @@
     methods: {
       //初始化数据
       login() {
-
+        this.isDisable = true
         let tag = tool.checkMobile(this.phone);
 
         if (tag) {
@@ -88,6 +89,7 @@
             } else {
               this.error = '账号或密码错误，请重新输入'
               this.errorShow = true;
+              this.isDisable = false;
             }
           }).catch(err => {
             console.log(err)
@@ -102,7 +104,7 @@
       //input获取焦点时执行
       Focus() {
         this.loginClass = 'loginBtnActive';
-        this.position = 'staticImg';
+        this.isDisable = false;
       },
       getCode() {
         let tag = tool.checkMobile(this.phone);

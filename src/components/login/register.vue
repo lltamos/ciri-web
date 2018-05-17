@@ -59,7 +59,7 @@
       <div class="agreement">
         <span><input type="checkbox" name="agreement" :checked="checkedbox"/>我同意《<router-link to="/deal" class="deal">用户注册协议</router-link>》</span>
       </div>
-      <mt-button :class="registerClass" size="large" @click="register">注册</mt-button>
+      <mt-button :class="registerClass" size="large" @click="register" :disabled="isDisable">注册</mt-button>
       <div class="error">
         <div v-show="errorShow" class="errorText" v-text="error"></div>
       </div>
@@ -95,13 +95,15 @@ export default {
       errorShow: false,
       checkedbox: false,
       number_registered: false,
-      checked: ""
+      checked: "",
+      isDisable: false
     };
   },
   props: {},
   watch: {},
   methods: {
     register() {
+      this.isDisable = true
       let tag = false;
       tag = tool.checkMobile(this.phone);
       if (this.checked === "") {
@@ -144,9 +146,11 @@ export default {
           } else if(res.data.code === 101){
             this.error = res.data.msg;
             this.errorShow = true;
+            this.isDisable = false;
           }else {
             this.error = "账号或密码错误，请重新输入";
             this.errorShow = true;
+            this.isDisable = false;
           }
         })
         .catch(err => {
@@ -159,7 +163,7 @@ export default {
     //input获取焦点时执行
     Focus() {
       this.registerClass = "registerBtnActive";
-      this.position = "staticImg";
+      this.isDisable = false;
     },
     getCode() {
       let tag = tool.checkMobile(this.phone);

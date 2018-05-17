@@ -51,7 +51,7 @@
         <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
       </div>
 
-      <mt-button :class="loginClass" size="large" @click="restpswd">提交</mt-button>
+      <mt-button :class="loginClass" size="large" @click="restpswd" :disabled="isDisable">提交</mt-button>
     </div>
   </div>
 </template>
@@ -84,6 +84,7 @@
         password: this.password,
         loginData: [],
         position: '',
+        isDisable: false
 
       }
     },
@@ -92,7 +93,7 @@
     methods: {
       //初始化数据
       restpswd() {
-
+        this.isDisable = true
         let tag = false;
         if (this.aisle === 0) {
           tag = tool.checkMobile(this.phone);
@@ -112,6 +113,7 @@
             }else{
               this.error = '账号或密码错误，请重新输入'
               this.errorShow = true;
+              this.isDisable = false;
             }
           }).catch(err => {
           })
@@ -125,7 +127,7 @@
       //input获取焦点时执行
       Focus() {
         this.loginClass = 'loginBtnActive';
-        this.position = 'staticImg';
+        this.isDisable = false;
       },
       //切换邮箱手机号登录
       Switch() {
