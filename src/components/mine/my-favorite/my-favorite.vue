@@ -15,7 +15,7 @@
           <div class="main-news">
             <div class="title">
               <div class="icon-quality fl" v-if="pro.cornerTags != null && pro.cornerTags != ''">{{pro.cornerTags}}</div>
-              <h2 class="fl">{{pro.name.length>13 ? pro.name.substr(0,13)+'...' : pro.name }}</h2>
+              <h2 class="fl">{{pro.name.length>11 ? pro.name.substr(0,11)+'...' : pro.name }}</h2>
             </div>
             <!--高收益等标签暂时隐藏-->
             <div class="tip" style="display: none">
