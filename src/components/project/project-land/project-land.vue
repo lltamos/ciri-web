@@ -10,7 +10,9 @@
                    :setProjVideo="setProjVideo"
                    :projPhoto="projPhoto"
                    :projAddress="projAddress"
-                   :projMaturity="projMaturity" text="看好项目 上源合网"></projectHeader>
+                   :projMaturity="projMaturity"
+                   :industryId="industryId"
+                   text="看好项目 上源合网"></projectHeader>
     <div class="project-intro">
       <h4>
         <div class="border"></div>
@@ -107,6 +109,7 @@
         tags: null,
         setProjVideo: false,
         projPhoto: '',
+        industryId:null,
         url: '/project/project-detail?projId=',
         isLikes: null,
         collected: false,
@@ -169,6 +172,7 @@
           this.projAbstract = res.data.projAbstract
           this.projName = res.data.projName
           this.projPhoto = res.data.projPhoto
+          this.industryId = res.data.industryId
           this.share();
           this.likes = parseInt(res.data.likes)
           this.collects = res.data.collects

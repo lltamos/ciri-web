@@ -1,47 +1,49 @@
 <template>
   <div class="project-list" :class="projectList">
-    <div class="banner" id="bannerScroll">
-      <div class="img">
-        <img src="../news/img/p_new.png" alt=""/>
-      </div>
-      <div class="search-warp" id="search-warp">
-        <div class="search" :class="scrollSearch">
-          <i class="icon-search" @click="search"></i>
-          <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
+    <div class="tab-offset" ref="tabOffset" id="tab-offset">
+      <div class="banner">
+        <div class="img">
+          <img src="../news/img/p_new.png" alt=""/>
+        </div>
+        <div class="search-warp" id="search-warp">
+          <div class="search" :class="scrollSearch">
+            <i class="icon-search" @click="search"></i>
+            <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
+          </div>
         </div>
       </div>
-    </div>
-    <!--本周推荐-->
-    <div class="project-rec">
-      <h4>
-        <i class="left-line"></i><span>本周推荐</span>
-      </h4>
-      <ul class="recommdnd-warp clearfix">
-        <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
-                     :to="{path:'/project/project-land',query: {projId: project.projId}}">
-          <li class="">
-            <div class="img">
-              <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
-            </div>
-            <div class="main-news">
-              <h2>{{project.name}}</h2>
-              <div class="tip-news">
-                <i class="indu fl"></i>
-                <span class="industry fl">{{project.industryName}}</span>
-                <span class="count fr">{{project.visit}}</span>
-                <i class="view fr"></i>
+      <!--本周推荐-->
+      <div class="project-rec">
+        <h4>
+          <i class="left-line"></i><span>本周推荐</span>
+        </h4>
+        <ul class="recommdnd-warp clearfix">
+          <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
+                       :to="{path:'/project/project-land',query: {projId: project.projId}}">
+            <li class="">
+              <div class="img">
+                <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
               </div>
-            </div>
-          </li>
-        </router-link>
-      </ul>
-      <CrossLine></CrossLine>
+              <div class="main-news">
+                <h2>{{project.name}}</h2>
+                <div class="tip-news">
+                  <i class="indu fl"></i>
+                  <span class="industry fl">{{project.industryName}}</span>
+                  <span class="count fr">{{project.visit}}</span>
+                  <i class="view fr"></i>
+                </div>
+              </div>
+            </li>
+          </router-link>
+        </ul>
+        <CrossLine></CrossLine>
+      </div>
     </div>
     <div class="project">
       <h4>
         <i class="left-line"></i><span>全部项目</span>
       </h4>
-      <div class="tab-warp">
+      <div class="tab-warp" id="tab-warp">
         <ul class="tab" :class="searchBarFixed == true ? 'isFixed' :''">
           <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
             <span>{{item}}</span>
@@ -49,9 +51,9 @@
           </li>
         </ul>
 
-        <div class="pop-bg" v-show="popShow" @click="popSwitch" @touchmove.prevent>
+        <div class="pop-bg" v-show="popShow" @click="popSwitch">
         </div>
-        <div class="tabCon" v-show="popShow" @touchmove.prevent>
+        <div class="tabCon" v-show="popShow">
           <div class="content" v-for='(itemCon,index) in tabContents'
                v-show=" index == num" :key="index">
             <form @submit.prevent="submit">
@@ -160,6 +162,7 @@
         notloading: true,
         countryList: [],
         indestryList: [],
+        floatp : false,
         CornerTag: 1,
         i: [],
         c: [],
@@ -169,6 +172,24 @@
       }
     },
     props: {},
+    watch:{
+      popShow(newVal, oldVal) {
+        if (newVal == true) {
+          let cssStr = "overflow-y: hidden;";
+          document.getElementsByTagName('html')[0].style.cssText = cssStr;
+          document.body.style.cssText = cssStr;
+        } else {
+          let cssStr = "overflow-y: auto;";
+          document.getElementsByTagName('html')[0].style.cssText = cssStr;
+          document.body.style.cssText = cssStr;
+        }
+
+        // 下面需要这两行代码，兼容不同浏览器
+        // document.body.scrollTop = this.pageScrollYoffset;
+        // window.scroll(0, this.pageScrollYoffset);
+      }
+
+    },
     methods: {
       search() {
         let path = '/search'
@@ -241,15 +262,20 @@
         }
       },
       tab(index) {
-        this.num = index;
-        let searchWarp = document.getElementById('search-warp');
-        this.searchBarFixed = true
-        this.popShow = true;
-        if (searchWarp != null) {
-          searchWarp.style.background = 'rgba(82,141,232,1)';
+        let d = this.$refs.tabOffset;
+        scrollTo(0,d.offsetHeight);
+        this.floatp=true;
+        if(this.floatp){
+          this.num = index;
+          let searchWarp = document.getElementById('search-warp');
+          this.searchBarFixed = true
+          this.popShow = true;
+          if (searchWarp != null) {
+            searchWarp.style.background = 'rgba(82,141,232,1)';
+          }
+          this.projectList='active';
+          this.floatp=false;
         }
-        this.projectList='active';
-
       },
       liActive(e, v, index) {
         let all=document.getElementById('all'+index);
@@ -647,17 +673,14 @@
         .pop-bg {
           z-index: 998;
           padding: 0;
-          touch-action: none;
         }
         .tabCon {
-          touch-action: none;
           z-index: 999;
           position: fixed;
           top: 85px;
           width: 100%;
           min-height: 150px;
           .content {
-            touch-action: none;
             background: #fff;
             text-align: left;
             padding: 10px 10px 16px;

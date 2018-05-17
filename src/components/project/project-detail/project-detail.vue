@@ -11,6 +11,7 @@
                      :setProjVideo="setProjVideo"
                      :projPhoto="projPhoto"
                      :projAddress="projAddress"
+                     :industryId="industryId"
                      :projMaturity="projMaturity" text="项目详情"></projectHeader>
       <div class="project-intro">
         <h4>
@@ -170,6 +171,7 @@
         tags: null,
         setProjVideo: false,
         projPhoto: '',
+        industryId:null,
         url: '/project/project-detail?projId=',
         isLikes: false,
         collected: false,
@@ -182,6 +184,7 @@
     methods: {
       fiexdScrollv() {
         let d = this.$refs.fixedHeardvisit;
+        console.log(d.offsetHeight)
         if (this.floatp) {
           scrollTo(0, d.offsetHeight-37);
         }
@@ -264,6 +267,7 @@
             this.tags = res.data.tags
             this.setProjVideo = res.data.setProjVideo
             this.projPhoto = res.data.projPhoto
+            this.industryId = res.data.industryId
             this.isLikes = res.data.isLikes         //todo 是否点赞 控制 点赞图标的样式
             this.collected = res.data.collected //todo  是否收藏 控制收藏图标的样式
             this.projAddress = res.data.projAddress

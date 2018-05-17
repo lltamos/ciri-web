@@ -8,7 +8,7 @@
     <div class="project">
       <div class="img">
         <div class="icon-state">{{status}}</div>
-        <img v-lazy="projPhoto" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
+        <img :src="projUrl" :data="defalutImg(industryId)" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
       <div class="project-number">编号 <span>{{this.$route.query.projId}}</span></div>
       <div class="main-news">
         <div class="title">
@@ -60,6 +60,7 @@
       tags: Array,
       setProjVideo: Boolean,
       projPhoto: String,
+      industryId: Number,
       projAddress: String,
       projMaturity: Number,
       text: {
@@ -68,7 +69,10 @@
       }
     },
     data() {
-      return {};
+      return {
+        projUrl:'',
+        induId:null
+      };
     },
     methods: {
       back() {
@@ -76,12 +80,21 @@
       },
       search() {
         this.$router.push({path: "/search"});
+      },
+      defalutImg(index){
+        if(!this.projUrl){
+          if(index){
+            this.projUrl= require('../../index/img/p_'+index+'.jpg');
+          }
+        }
       }
     },
     created() {
       console.log(this.$route.query.projId);
+      this.projUrl=this.projPhoto;
     },
     mounted() {
+      this.defalutImg();
     }
   };
 </script>
