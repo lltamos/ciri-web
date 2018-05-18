@@ -69,34 +69,33 @@
       return {
         pageSize: 5,
         pageNum: 1,
-        total: null,
         pros: null,
         isMore: false,
         proArray: [],
         proStr: null,
+        tolerance: 0,
+        proId: '',
+        operationFlag: false,
       }
     },
     beforeDestroy(){
-      this.unfavorite()
+      //this.unfavorite()
       // while (!this.isFinish) {
       //   window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e));
       // }
     },
     methods: {
       unfavorite() {
-        this.proStr = '';
-        for (let i = 0; i < this.proArray.length; i++) {
-          this.proStr = this.proStr + ',' + this.proArray[i];
-        }
-        if (this.proStr.length === 0) {
-          return;
-        }
-        this.proStr = this.proStr.substring(1);
         let param = new URLSearchParams();
         param.append('name', tool.getuser());
-        param.append('projectIdsStr', this.proStr);
+        param.append('projectIdsStr', this.proId);
         param.append('typeFlag', 1);
-        param.append('operationFlag', false);
+        param.append('operationFlag', this.operationFlag);
+        if (this.operationFlag){
+          this.tolerance = ++this.tolerance;
+        }else {
+          this.tolerance = --this.tolerance;
+        }
         this.axios.post(tool.domind() + '/gateway/user/batchDealWithUserCollect', param)
           .then(res => {
             if (res.data.code === 200) {
@@ -105,17 +104,20 @@
 
       },
       back() {
-        this.unfavorite();
+        //this.unfavorite();
         window.history.back()
       },
       favorite(obj) {
-        let projId = obj.projId;
-        let element = document.getElementById('projId' + projId);
+        this.proId = obj.projId;
+        let element = document.getElementById('projId' + this.proId);
         if (element.classList.contains('quit-favorite')) {
-          this.proArray.pop(projId);
+          this.operationFlag = true
+          this.proArray.pop(this.proId);
         } else {
-          this.proArray.push(projId);
+          this.operationFlag = false;
+          this.proArray.push(this.proId);
         }
+        this.unfavorite();
         element.classList.toggle('quit-favorite');
         element.classList.toggle('icon-favorite');
       },
@@ -123,8 +125,9 @@
       loadMore() {
         let param = new URLSearchParams();
         param.append('name', tool.getuser());
-        param.append('pageSize', this.pageSize);//todo
+        param.append('pageSize', this.pageSize);
         param.append('pageNum', this.pageNum);
+        param.append('tolerance', this.tolerance);
         this.axios.post(tool.domind() + '/gateway/user/userCollectProjectInfo', param)
           .then(res => {
             if (res.data.code === 200) {
@@ -132,9 +135,8 @@
                 this.pros = res.data.data;
               } else {
                 this.pros = this.pros.concat(res.data.data);
-                this.total = res.data.total;
               }
-              this.isMore = this.pros.length < res.data.total;
+              this.isMore = res.data.haveNext;
               this.pageNum = this.pageNum + 1;
             }
 
@@ -144,7 +146,7 @@
     },
     created() {
       this.loadMore();
-      window.addEventListener('beforeunload', e => this.unfavorite())
+      //window.addEventListener('beforeunload', e => this.unfavorite())
       // window.onbeforeunload = function (e) {
       //
       //   this.unfavorite();
