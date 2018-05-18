@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="feasibility-analysis" v-if="memberLevel">
-      <Article text="项目现场勘查" :content="this.InfraInfo"></Article>
+      <Article text="项目现场勘查" v-if="this.InfraInfo!=null && this.InfraPhoto!=null" :content="this.InfraInfo"></Article>
       <BigImg v-if="this.InfraPhoto!=null" :content="this.InfraPhoto"></BigImg>
-      <CrossLine></CrossLine>
-      <Article text="项目技术与工程方案" :content="this.riskInfo"></Article>
-      <CrossLine></CrossLine>
-      <Article text="项目行业与市场分析" :content="this.rawMaterialSalesPlan"></Article>
-      <CrossLine></CrossLine>
+      <CrossLine v-if="this.InfraInfo!=null"></CrossLine>
+      <Article text="项目技术与工程方案" v-if="this.riskInfo!=null" :content="this.riskInfo"></Article>
+      <CrossLine v-if="this.riskInfo!=null"></CrossLine>
+      <Article text="项目行业与市场分析" v-if="this.rawMaterialSalesPlan!=null" :content="this.rawMaterialSalesPlan"></Article>
+      <CrossLine v-if="this.rawMaterialSalesPlan!=null"></CrossLine>
       <div class="finance-info">
         <h4>
           <i class="left-line"></i><span>项目融资分析</span>
@@ -44,14 +44,15 @@
         </div>
         <div class="article-warp">
           <div class="pro-article clearfix">
-            <p class="title">【项目投资概算】</p>
+            <p class="title" v-if="this.marketAnalysis!=null">【项目投资概算】</p>
             <div v-if="this.marketAnalysis!=null" class="article">
               {{this.marketAnalysis}}
             </div>
-            <p class="title">【项目财务评估】</p>
-            <div v-if="this.competitionAdvantage" class="article">
+            <p class="title" v-if="this.competitionAdvantage!=null && this.estimatePhoto!=null">【项目财务评估】</p>
+            <div v-if="this.competitionAdvantage!=null" class="article">
               {{this.competitionAdvantage}}
             </div>
+            <BigImg v-if="this.estimatePhoto!=null" :content="this.estimatePhoto"></BigImg>
           </div>
         </div>
       </div>
@@ -59,9 +60,8 @@
       <Article text="项目担保方式" :content="guaranteeType(this.guaranteeId)" :content2="this.guaranteeNote"
                :secondShow="true"></Article>
       <CrossLine></CrossLine>
-      <Article text="融资规划" :content="this.summary"></Article>
-      <CrossLine></CrossLine>
-      <BigImg v-if="this.estimatePhoto!=null" :content="this.InfraPhoto"></BigImg>
+      <Article text="融资规划" v-if="this.summary!=null&& this.summary.length!= 0" :content="this.summary"></Article>
+      <CrossLine v-if="this.summary!=null&& this.summary.length!= 0"></CrossLine>
     </div>
     <div v-if="!memberLevel">
       <!--权限弹框-->
