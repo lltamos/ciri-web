@@ -2,7 +2,7 @@
   <div class="news-detail">
     <div class="header-bar gradient" :class="{active:headerFixed}">
       <i class="icon-back" @click="back"></i>
-      <h1 v-show="headerFixed">{{this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
+      <h1 v-show="headerFixed">{{this.content.title != null&&this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
     </div>
     <div class="main">
       <h2>{{this.content.title}}</h2>
