@@ -36,6 +36,7 @@ import ChangeKey from '@/components/mine/my-profile/change-key'
 import ChangeCountry from '@/components/mine/my-profile/change-country'
 import FocusCountry from '@/components/mine/my-profile/focus-country'
 import MemberCenter from '@/components/mine/member-center/member-center'
+import Recharge from '@/components/mine/recharge/recharge'
 import Security from '@/components/mine/security/security'
 import AboutUs from '@/components/mine/security/about-us/about-us'
 import BrazilBranch from '@/components/mine/security/about-us/brazil-branch'
@@ -349,6 +350,14 @@ export default new Router({
         requireAuth: true,
       },
       component: MemberCenter
+    },
+    //充值页
+    {
+      path: '/mine/recharge',
+      meta: {
+        requireAuth: true,
+      },
+      component: Recharge
     },
     //会员等级
     {
