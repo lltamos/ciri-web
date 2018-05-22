@@ -12,7 +12,7 @@
       <div class="count fr">+588</div>
     </div>
 
-    <div class="bill-item clearfix">
+    <div class="bill-item clearfix" >
       <div class="detail fl">
         <div>充值</div>
         <div class="time">2018-05-22 16:49</div>
