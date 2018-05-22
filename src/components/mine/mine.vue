@@ -85,8 +85,6 @@
         <div class="favorite clearfix amount-content">
           <div class="fl card">
             <router-link to="/mine/recharge">
-              <h2>{{userId?'100':'—'}}</h2>
-            <router-link to="">
               <h2>{{memberGold}}</h2>
               <h3>我的金币</h3>
             </router-link>
@@ -94,8 +92,6 @@
           </div>
           <div class="fr card">
             <router-link to="/mine/scores">
-              <h2>{{userId?'8':'—'}}</h2>
-            <router-link to="">
               <h2>{{memberIntegral}}</h2>
               <h3>我的积分</h3>
             </router-link>
