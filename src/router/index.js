@@ -38,6 +38,8 @@ import FocusCountry from '@/components/mine/my-profile/focus-country'
 import MemberCenter from '@/components/mine/member-center/member-center'
 import Recharge from '@/components/mine/recharge/recharge'
 import BillDetail from '@/components/mine/recharge/bill-detail'
+import Scores from '@/components/mine/scores/scores'
+import ScoresDetail from '@/components/mine/scores/scores-detail'
 import Security from '@/components/mine/security/security'
 import AboutUs from '@/components/mine/security/about-us/about-us'
 import BrazilBranch from '@/components/mine/security/about-us/brazil-branch'
@@ -367,6 +369,22 @@ export default new Router({
         requireAuth: true,
       },
       component: BillDetail
+    },
+    //积分页
+    {
+      path: '/mine/scores',
+      meta: {
+        requireAuth: true,
+      },
+      component: Scores
+    },
+    //积分明细
+    {
+      path: '/mine/scores/scores-detail',
+      meta: {
+        requireAuth: true,
+      },
+      component: ScoresDetail
     },
     //会员等级
     {
