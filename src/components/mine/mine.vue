@@ -85,14 +85,14 @@
         <div class="favorite clearfix amount-content">
           <div class="fl card">
             <router-link to="">
-              <h2>{{userId?'100':'—'}}</h2>
+              <h2>{{memberGold}}</h2>
               <h3>我的金币</h3>
             </router-link>
             <div class="separator"></div>
           </div>
           <div class="fr card">
             <router-link to="">
-              <h2>{{userId?'8':'—'}}</h2>
+              <h2>{{memberIntegral}}</h2>
               <h3>我的积分</h3>
             </router-link>
           </div>
@@ -170,7 +170,9 @@ export default {
       yhw:false,
       xmk:false,
       userAuthCode:0,
-      identityTitle:'未认证'
+      identityTitle:'未认证',
+      memberGold:0.00,  //金币数量
+      memberIntegral:0 //积分数量
     };
   },
   props: {},
@@ -187,6 +189,10 @@ export default {
         .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
+            if(res.data.userInfo != null && res.data.userInfo !=""){
+              this.memberGold = res.data.userInfo.memberGold.toFixed(2);//两位小数
+              this.memberIntegral = parseInt(res.data.userInfo.memberIntegral);//取整
+            }
             if(res.data.data.portraitUrl!=null&&res.data.data.portraitUrl!=''){
               this.portraitUrl = res.data.data.portraitUrl;
             }
