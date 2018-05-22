@@ -14,75 +14,108 @@
       </div>
     </div>
     <div class="main">
-      <div class="member-item project">
-        <div class="member-detail">
-          <div class="img">
-            <img src="../img/logo-project.png" alt="" width="100%" height="100%">
-          </div>
-          <div class="clearfix">
-            <div class="info fl">
-              <p class="info-level">项目库会员</p>
+      <!--项目库会员-->
+      <div class="member-item-warp">
+        <div class="current-state">您现在是：</div>
+        <div class="member-item project">
+          <div class="member-detail">
+            <div class="img">
+              <img src="../img/logo-project.png" alt="" width="100%" height="100%">
+              <!--项目库会员图标-->
+              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
-            <div class="handel fr">
-              <div class="member-btn">购买</div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">项目库会员</p>
+              </div>
+              <div class="handel fr" v-if="false">
+                <div class="member-btn">购买</div>
+              </div>
+            </div>
+            <div class="kaitong">已开通</div>
+            <div class="function-warp clearfix" v-if="false">
+              <div class="func-name fl">基础功能：</div>
+              <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+            </div>
+
+            <div class="handel-right fr">
+              <p class="count">0</p>
+              <p class="count-word">剩余天数</p>
+              <div class="renewals-btn">续费</div>
             </div>
           </div>
-          <div class="function-warp clearfix">
-            <div class="func-name fl">基础功能：</div>
-            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+          <div class="bottom">
+            <span>进入会员权益</span>
+            <i class="see-rights"></i>
           </div>
-        </div>
-        <div class="bottom">
-          <span>进入会员权益</span>
-          <i class="see-rights"></i>
         </div>
       </div>
 
-      <div class="member-item yuanhe">
-        <div class="member-detail">
-          <div class="img">
-            <img src="../img/logo-yuanhe.png" alt="" width="100%" height="100%">
-          </div>
-          <div class="clearfix">
-            <div class="info fl">
-              <p class="info-level">源合网员</p>
+      <!--源合网会员-->
+      <div class="member-item-warp">
+        <div class="current-state">您现在是：</div>
+        <!--todo:判断这里显示什么-->
+        <div v-if="false" class="current-state">可购买：</div>
+        <div class="member-item yuanhe">
+          <div class="member-detail">
+            <div class="img">
+              <img src="../img/logo-yuanhe.png" alt="" width="100%" height="100%">
+              <!--源合网会员图标-->
+              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
-            <div class="handel fr">
-              <div class="member-btn">购买</div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">源合网员</p>
+              </div>
+              <div class="handel fr">
+                <div class="member-btn">购买</div>
+              </div>
+            </div>
+            <!--todo:判断是否有这句话-->
+            <div class="share">享有项目库会员服务</div>
+            <div class="function-warp clearfix">
+              <div class="func-name fl">升级功能：</div>
+              <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
             </div>
           </div>
-          <div class="function-warp clearfix">
-            <div class="func-name fl">升级功能：</div>
-            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+          <div class="bottom">
+            <span>进入会员权益</span>
+            <i class="see-rights"></i>
           </div>
-        </div>
-        <div class="bottom">
-          <span>进入会员权益</span>
-          <i class="see-rights"></i>
         </div>
       </div>
 
-      <div class="member-item vip">
-        <div class="member-detail">
-          <div class="img">
-            <img src="../img/logo-vip.png" alt="" width="100%" height="100%">
-          </div>
-          <div class="clearfix">
-            <div class="info fl">
-              <p class="info-level">VIP会员</p>
+      <!--VIP会员-->
+      <div class="member-item-warp">
+        <div class="current-state">您现在是：</div>
+        <!--todo:判断这里显示什么-->
+        <div v-if="false" class="current-state">可购买：</div>
+        <div class="member-item vip">
+          <div class="member-detail">
+            <div class="img">
+              <img src="../img/logo-vip.png" alt="" width="100%" height="100%">
+              <!--VIP会员图标-->
+              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
-            <div class="handel fr">
-              <div class="member-btn">购买</div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">VIP会员</p>
+              </div>
+              <div class="handel fr">
+                <div class="member-btn">购买</div>
+              </div>
+            </div>
+            <!--todo:判断是否有这句话-->
+            <div class="share">享有源合网会员服务</div>
+            <div class="function-warp clearfix">
+              <div class="func-name fl">升级功能：</div>
+              <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
             </div>
           </div>
-          <div class="function-warp clearfix">
-            <div class="func-name fl">升级功能：</div>
-            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+          <div class="bottom">
+            <span>进入会员权益</span>
+            <i class="see-rights"></i>
           </div>
-        </div>
-        <div class="bottom">
-          <span>进入会员权益</span>
-          <i class="see-rights"></i>
         </div>
       </div>
 
@@ -105,7 +138,8 @@
     },
     data() {
       return {
-        servicePop: false
+        servicePop: false,
+        isLogin:false,
       }
     },
     methods: {
@@ -121,6 +155,11 @@
 
     },
     created() {
+      this.isLogin = sessionStorage.getItem("islogin");
+
+    },
+    mounted() {
+
 
     }
   }
@@ -203,91 +242,140 @@
 
     .main{
       padding: 0 12px;
-      .member-item{
-        width: 100%;
-        height: 128px;
+      .member-item-warp{
         margin-top: 25px;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        position: relative;
         &:first-child{
           margin-top: 20px;
         }
-        .member-detail{
-          padding-left: 80px;
-          position: relative;
-          height: 90px;
-          .img{
-            width: 50px;
-            height: 50px;
-            position: absolute;
-            top: 20px;
-            left: 15px;
-          }
-          .info{
-            text-align: left;
-            padding-top: 25px;
-            color: #fff;
-            .info-level{
-              font-size: 18px;
-              line-height: 18px;
-            }
-          }
-          .handel{
-            padding: 22px 10px 0px 0px;
-            text-align: right;
-            .member-btn{
-              width: 69px;
-              height: 25px;
-              line-height: 25px;
-              color: #fff;
-              font-size: 13px;
-              border: 1px solid #fff;
-              border-radius: 3px;
-              text-align: center;
-            }
-          }
-          .function-warp{
-            text-align: left;
-            font-size: 11px;
-            color: #fff;
-            margin-top: 5px;
-            .func-name{
-              width: 60px;
-
-            }
-            .func-detail{
-              width: 180px;
-
-            }
-
-          }
-        }
-        .bottom{
-          height: 38px;
-          line-height: 38px;
-          @include onepx('top');
-          position: relative;
-          padding: 0px 10px;
-          font-size: 15px;
+        .current-state{
           text-align: left;
-          span{
-            color: #fff;
-          }
-          .see-rights{
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            position: absolute;
-            right: 5px;
-            top: 9px;
-            background-repeat: no-repeat;
-            background-size: auto 100%;
-            @include bg-image("../img/look-more");
-          }
-
+          font-size: 15px;
+          margin-bottom: 15px;
+          color: #333;
         }
+        .member-item{
+          width: 100%;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          position: relative;
+          .member-detail{
+            padding-left: 80px;
+            position: relative;
+            .img{
+              width: 50px;
+              height: 50px;
+              position: absolute;
+              top: 20px;
+              left: 15px;
+            }
+            .info{
+              text-align: left;
+              padding-top: 25px;
+              color: #fff;
+              .info-level{
+                font-size: 18px;
+                line-height: 18px;
+              }
+            }
+            .handel{
+              padding: 22px 10px 0px 0px;
+              text-align: right;
+              .member-btn{
+                width: 69px;
+                height: 25px;
+                line-height: 25px;
+                color: #fff;
+                font-size: 13px;
+                border: 1px solid #fff;
+                border-radius: 3px;
+                text-align: center;
+              }
+            }
+            .share{
+              text-align: left;
+              color: #fff;
+            }
+            .kaitong{
+              text-align: left;
+              color: #fff;
+              height: 40px;
+              padding-top: 6px;
+            }
+            .handel-right{
+              width: 80px;
+              height: 75px;
+              position: absolute;
+              top: 8px;
+              right: 10px;
+              text-align: right;
+              .count{
+                font-size: 20px;
+                color: #528de8;
+                line-height: 20px;
+              }
+              .count-word{
+                font-size: 12px;
+                color: #fff;
+                margin-top: 6px;
+              }
+              .renewals-btn{
+                width: 69px;
+                height: 25px;
+                line-height: 25px;
+                color: #fff;
+                font-size: 13px;
+                border: 1px solid #fff;
+                border-radius: 3px;
+                text-align: center;
+                margin-top: 5px;
+                position: relative;
+                left: 8px;
+              }
+            }
+            .function-warp{
+              text-align: left;
+              font-size: 11px;
+              color: #fff;
+              margin: 5px 0 8px 0;
+              .func-name{
+                width: 60px;
+
+              }
+              .func-detail{
+                width: 180px;
+
+              }
+
+            }
+          }
+          .bottom{
+            height: 38px;
+            line-height: 38px;
+            @include onepx('top');
+            position: relative;
+            padding: 0px 10px;
+            font-size: 15px;
+            text-align: left;
+            span{
+              color: #fff;
+            }
+            .see-rights{
+              width: 20px;
+              height: 20px;
+              display: inline-block;
+              position: absolute;
+              right: 5px;
+              top: 9px;
+              background-repeat: no-repeat;
+              background-size: auto 100%;
+              @include bg-image("../img/look-more");
+            }
+
+          }
+        }
+
       }
+
       .project{
         @include bg-image("../img/bg-project");
 

@@ -76,7 +76,7 @@
         <div class="member-center">
           <h2>个人账户</h2>
           <div class="look-more">
-            <router-link to="">
+            <router-link to="/mine/recharge">
               <span>充值</span>
               <i class="icon-more"></i>
             </router-link>
