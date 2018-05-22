@@ -13,89 +13,81 @@
         <div class="know-btn" @click="quitService">我知道了</div>
       </div>
     </div>
-    <!--banner区-->
-    <div class="meber_user">
-      <div class="user-warp">
-        <div class="img">
-          <img v-lazy="portraitUrl" alt=""/>
-        </div>
-        <p class="account">{{username}}</p>
-      </div>
-    </div>
-    <cross-line></cross-line>
     <div class="main">
-      <div class="title">会员特权</div>
-      <ul class="member-classify">
-        <li>
-          <div class="img fl">
-            <i class="icon-project" v-bind:class="{active:xmk}"></i>
+      <div class="member-item project">
+        <div class="member-detail">
+          <div class="img">
+            <img src="../img/logo-project.png" alt="" width="100%" height="100%">
           </div>
-          <div class="classify fl">
-            <span>项目库会员</span>
-            <em>一年特权</em>
+          <div class="clearfix">
+            <div class="info fl">
+              <p class="info-level">项目库会员</p>
+            </div>
+            <div class="handel fr">
+              <div class="member-btn">购买</div>
+            </div>
           </div>
-        </li>
-        <li>
-          <div class="img fl">
-            <i class="icon-yuanhe" v-bind:class="{active:yhw}"></i>
+          <div class="function-warp clearfix">
+            <div class="func-name fl">基础功能：</div>
+            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
           </div>
-          <div class="classify fl">
-            <span>源合网会员</span>
-            <em>一年特权</em>
-          </div>
-        </li>
-        <li>
-          <div class="img fl">
-            <i class="icon-vip" v-bind:class="{active:vip}"></i>
-          </div>
-          <div class="classify fl">
-            <span>VIP会员</span>
-            <em>一年特权</em>
-          </div>
-        </li>
-      </ul>
-      <cross-line></cross-line>
-      <div class="title">未开通会员特权</div>
-      <div class="member-dredge">
-        <div class="img fl">
-          <i class="icon-project active"></i>
         </div>
-        <div class="member-detail fl">
-          <h2>项目库会员</h2>
-          <p>查阅项目信息/业主信息等</p>
-          <p>一年特权</p>
-        </div>
-        <div class="btn-warp fr">
-          <div class="member-btn " @click="dredge">开通</div>
+        <div class="bottom">
+          <span>进入会员权益</span>
+          <i class="see-rights"></i>
         </div>
       </div>
-      <div class="member-dredge">
-        <div class="img fl">
-          <i class="icon-yuanhe active"></i>
+
+      <div class="member-item yuanhe">
+        <div class="member-detail">
+          <div class="img">
+            <img src="../img/logo-yuanhe.png" alt="" width="100%" height="100%">
+          </div>
+          <div class="clearfix">
+            <div class="info fl">
+              <p class="info-level">源合网员</p>
+            </div>
+            <div class="handel fr">
+              <div class="member-btn">购买</div>
+            </div>
+          </div>
+          <div class="function-warp clearfix">
+            <div class="func-name fl">升级功能：</div>
+            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+          </div>
         </div>
-        <div class="member-detail fl">
-          <h2>源合网会员</h2>
-          <p>查阅项目信息/实时项目通知/线下活动</p>
-          <p>一年特权</p>
-        </div>
-        <div class="btn-warp fr">
-          <div class="member-btn " @click="dredge">开通</div>
-        </div>
-      </div>
-      <div class="member-dredge">
-        <div class="img fl">
-          <i class="icon-vip active"></i>
-        </div>
-        <div class="member-detail fl">
-          <h2>VIP会员</h2>
-          <p>成为您专属的海外事业部</p>
-          <p>一年特权</p>
-        </div>
-        <div class="btn-warp fr">
-          <div class="member-btn " @click="dredge">开通</div>
+        <div class="bottom">
+          <span>进入会员权益</span>
+          <i class="see-rights"></i>
         </div>
       </div>
+
+      <div class="member-item vip">
+        <div class="member-detail">
+          <div class="img">
+            <img src="../img/logo-vip.png" alt="" width="100%" height="100%">
+          </div>
+          <div class="clearfix">
+            <div class="info fl">
+              <p class="info-level">VIP会员</p>
+            </div>
+            <div class="handel fr">
+              <div class="member-btn">购买</div>
+            </div>
+          </div>
+          <div class="function-warp clearfix">
+            <div class="func-name fl">升级功能：</div>
+            <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+          </div>
+        </div>
+        <div class="bottom">
+          <span>进入会员权益</span>
+          <i class="see-rights"></i>
+        </div>
+      </div>
+
     </div>
+
   </div>
 
 </template>
@@ -113,12 +105,7 @@
     },
     data() {
       return {
-        servicePop: false,
-        portraitUrl: require('../img/user_face.png'),
-        username: '请用户登录',
-        vip: false,
-        yhw: false,
-        xmk: false
+        servicePop: false
       }
     },
     methods: {
@@ -130,49 +117,11 @@
       },
       quitService() {
         this.servicePop = false;
-      },
-      dredge() {
-        this.$router.push({path: "/mine/member-dredge"});
       }
 
     },
     created() {
-      if (tool.islogin() === "true") {
-        this.axios
-          .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
-          .then(res => {
-            if (res.data.code === 200) {
-              if (res.data.data.portraitUrl != null && res.data.data.portraitUrl != '') {
-                this.portraitUrl = res.data.data.portraitUrl;
-              }
-              if (res.data.data.name != null && res.data.data.name != '') {
-                this.username = res.data.data.name;
-              }
-              //
-              var level = res.data.data.memberLevelId;
-              switch(level){
-                case 2:
-                  this.vip=true;
-                  break;
-                case 3:
-                  this.xmk=true;
-                  break;
-                case 5:
-                  this.yhw=true;
-                  break;
-              }
-              // if (level >= 2) {
-              //   this.vip = true;
-              //   if (level >= 3) {
-              //     this.xmk = true;
-              //     if (level >= 5) {
-              //       this.yhw = true;
-              //     }
-              //   }
-              // }
-            }
-          });
-      }
+
     }
   }
 </script>
@@ -182,241 +131,175 @@
   @import '~@/assets/scss/const.scss';
 
   .member-center {
-    position: relative;
+    .header-bar {
+      height: 44px;
+      line-height: 44px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      position: relative;
+      @include bg-image("../img/member-bg");
 
-  .header-bar {
-    height: 44px;
-    line-height: 44px;
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
-    position: relative;
-  @include bg-image("../img/member-bg");
+      h1 {
+        color: #fff;
+        font-size: 20px;
+      }
 
-  h1 {
-    color: #fff;
-    font-size: 20px;
-  }
+      .icon-back {
+        display: block;
+        float: left;
+        width: 22px;
+        height: 22px;
+        margin: 11px auto;
+        @include bg-image("../img/back");
+        background-size: 22px auto;
+      }
 
-  .icon-back {
-    display: block;
-    float: left;
-    width: 22px;
-    height: 22px;
-    margin: 11px auto;
-  @include bg-image("../img/back");
-    background-size: 22px auto;
-  }
+    }
+    .service {
+      position: absolute;
+      right: 10px;
+      top: 14px;
+      z-index: 11;
+      font-size: 15px;
+      height: 15px;
+      line-height: 15px;
+      color: #fff;
+    }
 
-  }
-  .service {
-    position: absolute;
-    right: 10px;
-    top: 14px;
-    z-index: 11;
-    font-size: 15px;
-    height: 15px;
-    line-height: 15px;
-    color: #fff;
-  }
+    .service-warp {
+      background: #fff;
+      padding: 20px 0;
+      width: 84%;
+      position: fixed;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      height: 90px;
 
-  .service-warp {
-    background: #fff;
-    padding: 20px 0;
-    width: 84%;
-    position: fixed;
-    margin: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    height: 90px;
+      p {
+        font-size: 14px;
+        color: #333;
+        height: 14px;
+        line-height: 14px;
+        margin-bottom: 10px;
+      }
 
-  p {
-    font-size: 14px;
-    color: #333;
-    height: 14px;
-    line-height: 14px;
-    margin-bottom: 10px;
-  }
+      .know-btn {
+        display: table;
+        margin: 2px auto 0;
+        font-size: 14px;
+        width: 121px;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        color: #3f84e6;
+        border: 2px solid #3f84e6;
+      }
 
-  .know-btn {
-    display: table;
-    margin: 2px auto 0;
-    font-size: 14px;
-    width: 121px;
-    height: 38px;
-    line-height: 38px;
-    text-align: center;
-    color: #3f84e6;
-    border: 2px solid #3f84e6;
-  }
+    }
 
-  }
-  .meber_user {
-    width: 100%;
-    height: 185px;
-  @include bg-image("../img/member_user");
-    background-size: 100% auto;
-    background-position: bottom center;
+    .main{
+      padding: 0 12px;
+      .member-item{
+        width: 100%;
+        height: 128px;
+        margin-top: 25px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        &:first-child{
+          margin-top: 20px;
+        }
+        .member-detail{
+          padding-left: 80px;
+          position: relative;
+          height: 90px;
+          .img{
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 20px;
+            left: 15px;
+          }
+          .info{
+            text-align: left;
+            padding-top: 25px;
+            color: #fff;
+            .info-level{
+              font-size: 18px;
+              line-height: 18px;
+            }
+          }
+          .handel{
+            padding: 22px 10px 0px 0px;
+            text-align: right;
+            .member-btn{
+              width: 69px;
+              height: 25px;
+              line-height: 25px;
+              color: #fff;
+              font-size: 13px;
+              border: 1px solid #fff;
+              border-radius: 3px;
+              text-align: center;
+            }
+          }
+          .function-warp{
+            text-align: left;
+            font-size: 11px;
+            color: #fff;
+            margin-top: 5px;
+            .func-name{
+              width: 60px;
 
-  .user-warp {
-    display: table;
-    margin: auto;
-    padding-top: 43px;
+            }
+            .func-detail{
+              width: 180px;
 
-  .img {
-    width: 71px;
-    height: 71px;
-    border-radius: 50%;
-    margin: auto;
+            }
 
-  /*img{
-    width: 100%;
-    height:100%;
-  }*/
-  img {
-    height: 100%;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-  }
+          }
+        }
+        .bottom{
+          height: 38px;
+          line-height: 38px;
+          @include onepx('top');
+          position: relative;
+          padding: 0px 10px;
+          font-size: 15px;
+          text-align: left;
+          span{
+            color: #fff;
+          }
+          .see-rights{
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            position: absolute;
+            right: 5px;
+            top: 9px;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            @include bg-image("../img/look-more");
+          }
 
-  }
-  .account {
-    font-size: 16px;
-    color: #fff;
-    height: 16px;
-    line-height: 16px;
-    margin-top: 12px;
-  }
+        }
+      }
+      .project{
+        @include bg-image("../img/bg-project");
 
-  }
+      }
+      .yuanhe{
+        @include bg-image("../img/bg-yuanhe");
 
-  }
-  .main {
-    text-align: left;
+      }
+      .vip{
+        @include bg-image("../img/bg-vip");
+      }
 
-  .title {
-    height: 45px;
-    line-height: 45px;
-    color: #333;
-    font-size: 16px;
-    padding-left: 10px;
-  @include onepx("bottom");
-  }
-
-  i {
-    width: 50px;
-    height: 50px;
-    display: block;
-    background-size: 50px auto;
-  }
-
-  .icon-vip {
-  @include bg-image("../img/vip-member");
-  }
-
-  .icon-vip.active {
-  @include bg-image("../img/vip-active");
-  }
-
-  .icon-yuanhe {
-  @include bg-image("../img/yuanhe-member");
-  }
-
-  .icon-yuanhe.active {
-  @include bg-image("../img/yuanhe-active");
-  }
-
-  .icon-project {
-  @include bg-image("../img/project-member");
-  }
-
-  .icon-project.active {
-  @include bg-image("../img/project-active");
-  }
-
-  .member-classify {
-    padding: 16px 10px 0;
-    overflow: hidden;
-
-  li {
-    float: left;
-    width: 50%;
-    margin-bottom: 16px;
-
-  .img {
-    margin-right: 12px;
-  }
-
-  .classify {
-
-  span {
-    font-size: 14px;
-    color: #333;
-    display: block;
-    height: 14px;
-    line-height: 14px;
-    margin: 8px 0;
-  }
-
-  em {
-    font-size: 12px;
-    color: #666;
-  }
-
-  }
-  }
-  }
-  .member-dredge {
-    padding: 20px 10px;
-    border-bottom: 1px dashed #dedede;
-    overflow: hidden;
-
-  .img {
-    margin-right: 12px;
-  }
-
-  .member-detail {
-
-  h2 {
-    font-size: 16px;
-    color: #333;
-    height: 16px;
-    line-height: 16px;
-    margin-bottom: 10px;
-    font-weight: normal;
-  }
-
-  p {
-    font-size: 12px;
-    color: #666;
-    height: 12px;
-    margin-top: 5px;
-    line-height: 12px;
-  }
-
-  }
-  .btn-warp {
-    height: 23px;
-    padding: 13.5px 0;
-
-  .member-btn {
-    width: 50px;
-    height: 23px;
-    line-height: 23px;
-    text-align: center;
-    background: #4081e8;
-    border-radius: 3px;
-    color: #fff;
-    font-size: 12px;
-  }
-
-  }
-
-  }
-
-  }
+    }
   }
 </style>
