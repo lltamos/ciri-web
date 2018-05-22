@@ -18,32 +18,41 @@
       <div class="member-item-warp">
         <div class="current-state">您现在是：</div>
         <div class="member-item project">
-          <div class="member-detail">
+          <div class="member-detail" v-if="false">
             <div class="img">
               <img src="../img/logo-project.png" alt="" width="100%" height="100%">
-              <!--项目库会员图标-->
-              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
             <div class="clearfix">
               <div class="info fl">
                 <p class="info-level">项目库会员</p>
               </div>
-              <div class="handel fr" v-if="false">
+              <div class="handel fr">
                 <div class="member-btn">购买</div>
               </div>
             </div>
-            <div class="kaitong">已开通</div>
-            <div class="function-warp clearfix" v-if="false">
+            <div class="function-warp clearfix">
               <div class="func-name fl">基础功能：</div>
               <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
             </div>
-
+          </div>
+          <!--如果开通了项目库会员显示下面这个member-detail-->
+          <div class="member-detail">
+            <div class="img">
+              <img src="../img/vip-active.png" alt="" width="100%" height="100%">
+            </div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">项目库会员</p>
+              </div>
+            </div>
+            <div class="kaitong">已开通</div>
             <div class="handel-right fr">
               <p class="count">0</p>
               <p class="count-word">剩余天数</p>
               <div class="renewals-btn">续费</div>
             </div>
           </div>
+
           <div class="bottom">
             <span>进入会员权益</span>
             <i class="see-rights"></i>
@@ -60,8 +69,6 @@
           <div class="member-detail">
             <div class="img">
               <img src="../img/logo-yuanhe.png" alt="" width="100%" height="100%">
-              <!--源合网会员图标-->
-              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
             <div class="clearfix">
               <div class="info fl">
@@ -78,6 +85,25 @@
               <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
             </div>
           </div>
+
+          <!--如果开通了源合网会员显示下面这个member-detail-->
+          <div class="member-detail" v-if="false">
+            <div class="img">
+              <img src="../img/vip-active.png" alt="" width="100%" height="100%">
+            </div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">项目库会员</p>
+              </div>
+            </div>
+            <div class="kaitong">已开通</div>
+            <div class="handel-right fr">
+              <p class="count">0</p>
+              <p class="count-word">剩余天数</p>
+              <div class="renewals-btn">续费</div>
+            </div>
+          </div>
+
           <div class="bottom">
             <span>进入会员权益</span>
             <i class="see-rights"></i>
@@ -94,8 +120,6 @@
           <div class="member-detail">
             <div class="img">
               <img src="../img/logo-vip.png" alt="" width="100%" height="100%">
-              <!--VIP会员图标-->
-              <!--<img src="../img/vip-active.png" alt="" width="100%" height="100%">-->
             </div>
             <div class="clearfix">
               <div class="info fl">
@@ -112,6 +136,25 @@
               <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
             </div>
           </div>
+
+          <!--如果开通了VIP会员显示下面这个member-detail-->
+          <div class="member-detail"  v-if="false">
+            <div class="img">
+              <img src="../img/vip-active.png" alt="" width="100%" height="100%">
+            </div>
+            <div class="clearfix">
+              <div class="info fl">
+                <p class="info-level">项目库会员</p>
+              </div>
+            </div>
+            <div class="kaitong">已开通</div>
+            <div class="handel-right fr">
+              <p class="count">0</p>
+              <p class="count-word">剩余天数</p>
+              <div class="renewals-btn">续费</div>
+            </div>
+          </div>
+
           <div class="bottom">
             <span>进入会员权益</span>
             <i class="see-rights"></i>
@@ -298,7 +341,7 @@
             .kaitong{
               text-align: left;
               color: #fff;
-              height: 40px;
+              height: 41px;
               padding-top: 6px;
             }
             .handel-right{
@@ -310,7 +353,7 @@
               text-align: right;
               .count{
                 font-size: 20px;
-                color: #528de8;
+                color: #fff;
                 line-height: 20px;
               }
               .count-word{
