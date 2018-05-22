@@ -4,7 +4,7 @@
       <i class="icon-back" @click="back"></i>
       <h1>我的账户</h1>
     </div>
-    <div class="service" @click="">账单明细</div>
+    <div class="service" @click="toBillDetail">账单明细</div>
 
     <div class="overage">
       <h4>
@@ -84,6 +84,9 @@
       back() {
         window.history.back()
       },
+      toBillDetail(){
+        this.$router.push({ path: "/mine/recharge/bill-detail" });
+      }
 
     },
     created() {
