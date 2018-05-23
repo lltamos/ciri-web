@@ -27,7 +27,12 @@
         </div>
       </div>
     </div>
+    <!--todo:如果支付失败按钮显示重新支付-->
     <div class="btn" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
+
+    <!--重新支付提示信息-->
+    <div class="pay-again" v-show="false">支付失败，请您重新支付</div>
+
   </div>
 
 </template>
@@ -240,6 +245,11 @@
       &.active{
         background-color: #528de8;
       }
+    }
+    .pay-again{
+      margin-top: 20px;
+      font-size: 15px;
+      color: #ff6a6a;
     }
 
   }
