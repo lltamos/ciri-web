@@ -13,26 +13,36 @@
     </div>
 
     <div class="income-warp" :class="{active:tabActive==1}">
-      <div class="scores-item clearfix" >
-        <div class="detail fl">
-          <div>签到</div>
-          <div class="time">2018-05-22 16:49</div>
+      <div>
+        <div class="scores-item clearfix" >
+          <div class="detail fl">
+            <div>签到</div>
+            <div class="time">2018-05-22 16:49</div>
+          </div>
+          <div class="count fr">+2</div>
         </div>
-        <div class="count fr">+2</div>
-      </div>
-      <div class="scores-item clearfix">
-        <div class="detail fl">
-          <div>签到</div>
-          <div class="time">2018-05-22 16:49</div>
+        <div class="scores-item clearfix">
+          <div class="detail fl">
+            <div>签到</div>
+            <div class="time">2018-05-22 16:49</div>
+          </div>
+          <div class="count fr">+2</div>
         </div>
-        <div class="count fr">+2</div>
       </div>
+
+      <!--积分收入无数据显示-->
+      <div class="no-info"  v-if="false">
+        <img class="no-img" src="../img/no-scores-in.png" alt="">
+      </div>
+
     </div>
+
 
     <div class="out-warp" :class="{active:tabActive==2}">
-      暂无积分支出
+      <div class="no-info">
+        <img class="no-img" src="../img/no-scores-out.png" alt="">
+      </div>
     </div>
-
 
   </div>
 
@@ -79,6 +89,15 @@
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
   .scores{
+    .no-info{
+      width: 200px;
+      height: 170px;
+      margin: 30% auto;
+      .no-img{
+        width: 100%;
+        height: 100%;
+      }
+    }
     .header-bar {
       height: 44px;
       line-height: 44px;
