@@ -78,7 +78,6 @@
         this.$router.push({path:"/mine/recharge/payment"});
       },
       selectMoney(e,index){
-        console.log(index);
         let element = e.currentTarget;
         if(element.classList.contains('active')){
           element.classList.remove('active');
