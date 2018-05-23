@@ -193,15 +193,17 @@
       },
       quitService() {
         this.servicePop = false;
-      }
-
+      },
     },
     created() {
       this.isLogin = sessionStorage.getItem("islogin");
 
     },
     mounted() {
+        /*
+        购买跳转路由： this.$router.push({path: "/mine/member-center/open-member"});
 
+        * */
 
     }
   }
