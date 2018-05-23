@@ -1,0 +1,247 @@
+<template>
+  <div class="recharge">
+    <div class="header-bar">
+      <i class="icon-back" @click="back"></i>
+      <h1>我的账户</h1>
+    </div>
+    <div class="service" @click="toBillDetail">账单明细</div>
+
+    <div class="overage">
+      <h4>
+        <i class="left-line"></i><span>金币余额</span>
+      </h4>
+      <div class="count-warp">
+        <span class="count">600</span>&nbsp;金币
+      </div>
+      <div class="bottom-line border"></div>
+    </div>
+    <div class="recharge-warp">
+      <h4>
+        <i class="left-line"></i><span>充值</span>
+      </h4>
+
+      <ul class="item-warp">
+        <li class="recharge-item">
+          <div class="gold">66金币</div>
+          <div class="money">66元</div>
+        </li>
+        <li class="recharge-item">
+          <div class="gold">188金币</div>
+          <div class="money">188元</div>
+        </li>
+        <li class="recharge-item">
+          <div class="gold">299金币</div>
+          <div class="money">299元</div>
+        </li>
+        <li class="recharge-item">
+          <div class="gold">588金币</div>
+          <div class="money">588元</div>
+        </li>
+        <li class="recharge-item">
+          <div class="gold">888金币</div>
+          <div class="money">888元</div>
+        </li>
+        <li class="recharge-item">
+          <div class="gold">1888金币</div>
+          <div class="money">1888元</div>
+        </li>
+      </ul>
+      <div class="btn">支付</div>
+      <div class="bottom-line border"></div>
+    </div>
+
+    <div class="introduction">
+      <h4>
+        <i class="left-line"></i><span>支付说明</span>
+      </h4>
+      <div class="paragraph-warp">
+        <p class="paragraph">1.购买的金币支持办理各个等级会员及购买平台其他服务。</p>
+        <p class="paragraph">2.购买金币后不支持线上退款，若购买金币后未进行任何消费，可在1小时内联系客服13601315595进行协商退款。</p>
+        <p class="paragraph">3.目前支付方式仅为微信支付，请安装6.0.2及以上版本的客户端进行充值操作。</p>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  import HeaderBar from '@/components/base/header-bar/header-bar'
+  import CrossLine from '@/components/base/cross-line/cross-line'
+  import tool from "@/api/tool";
+
+  export default {
+    components: {
+      HeaderBar,
+      CrossLine,
+      tool
+    },
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+      back() {
+        window.history.back()
+      },
+      toBillDetail(){
+        this.$router.push({ path: "/mine/recharge/bill-detail" });
+      }
+
+    },
+    created() {
+
+    },
+    mounted() {
+
+    }
+  }
+</script>
+
+<style type="text/scss" lang="scss" scoped>
+  @import '~@/assets/scss/mixin.scss';
+  @import '~@/assets/scss/const.scss';
+  .recharge{
+    .header-bar {
+      height: 44px;
+      line-height: 44px;
+      font-size: 14px;
+      text-align: center;
+      position: relative;
+      @include onepx('bottom');
+      h1 {
+        font-size: 20px;
+      }
+
+      .icon-back {
+        display: block;
+        float: left;
+        width: 22px;
+        height: 22px;
+        margin: 11px auto;
+        @include bg-image("../../base/header-bar/icon-arrow_lift");
+        background-size: 22px auto;
+      }
+
+    }
+    .service {
+      position: absolute;
+      right: 10px;
+      top: 14px;
+      z-index: 11;
+      font-size: 15px;
+      height: 15px;
+      line-height: 15px;
+      color: #528de8;
+    }
+    h4{
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      position: relative;
+      .left-line{
+        position: absolute;
+        display: block;
+        width: 4px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top:12px;
+      }
+
+    }
+    .bottom-line{
+      margin: 30px 10px 0px;
+    }
+    .overage{
+      padding: 20px 0px;
+
+      .count-warp{
+        text-align: left;
+        padding-left: 40px;
+        margin-top: 5px;
+        .count{
+          color: #528de8;
+          font-size: 20px;
+        }
+        .count-right{
+          color: #666;
+          font-size: 15px;
+        }
+      }
+
+    }
+    .recharge-warp{
+      text-align: left;
+      width: 100%;
+      .item-warp{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 8px;
+        .recharge-item{
+          width: 98px;
+          height: 48px;
+          line-height: 25px;
+          border: 1px solid #528de8;
+          margin-bottom: 20px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          &.active{
+            background-color: #528de8;
+            .gold{
+              color: #fff;
+            }
+            .money{
+              color: #fff;
+            }
+          }
+          .gold{
+            font-size: 14px;
+            color: #528de8;
+            line-height: 14px;
+          }
+          .money{
+            font-size: 12px;
+            color: #72aaff;
+            line-height: 12px;
+            margin-top: 5px;
+          }
+
+        }
+
+      }
+      .btn{
+        width: 355px;
+        margin: 0 auto;
+      }
+    }
+    .introduction{
+      padding: 20px 0px;
+      text-align: left;
+      font-size: 13px;
+      color: #333;
+      .paragraph-warp{
+        padding: 0 10px;
+        .paragraph{
+          line-height: 21px;
+          margin-top: 26px;
+          &:first-child{
+            margin-top: 10px;
+          }
+        }
+
+      }
+    }
+
+  }
+
+</style>

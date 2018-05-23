@@ -97,7 +97,7 @@
         <li class="recommdnd-card" @click="gotoProjLand(f.projId)"
             v-if="fetprojectsList != null" v-for="(f, index) in fetprojectsList" :key="index">
           <div class="img">
-            <img v-lazy="f.url" alt="">
+            <img :src="f.url" :onerror="defaultImg(f.industryId)" alt="">
           </div>
           <div class="main-news">
             <h2>{{f.name}}</h2>
@@ -182,6 +182,11 @@
       }
     },
     methods: {
+      defaultImg (index){
+        if(index){
+          return 'this.src="' + require('../../index/img/p_'+index+'.jpg') + '"'
+        }
+      },
       fiexdScrollv() {
         let d = this.$refs.fixedHeardvisit;
         console.log(d.offsetHeight)
@@ -289,7 +294,8 @@
       }
     },
     mounted() {
-
+      // 默认图片
+      this.defaultImg();
     },
     created() {
       window.scrollTo(0, 0);

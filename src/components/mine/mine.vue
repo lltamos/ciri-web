@@ -74,6 +74,33 @@
       </div>
       <div class="section">
         <div class="member-center">
+          <h2>个人账户</h2>
+          <div class="look-more">
+            <router-link to="/mine/recharge">
+              <span>充值</span>
+              <i class="icon-more"></i>
+            </router-link>
+          </div>
+        </div>
+        <div class="favorite clearfix amount-content">
+          <div class="fl card">
+            <router-link to="/mine/recharge">
+              <h2>{{memberGold}}</h2>
+              <h3>我的金币</h3>
+            </router-link>
+            <div class="separator"></div>
+          </div>
+          <div class="fr card">
+            <router-link to="/mine/scores">
+              <h2>{{memberIntegral}}</h2>
+              <h3>我的积分</h3>
+            </router-link>
+          </div>
+        </div>
+
+        <cross-line></cross-line>
+
+        <div class="member-center">
           <h2>会员中心</h2>
           <div class="look-more">
             <router-link to="/mine/member-center">
@@ -143,7 +170,9 @@ export default {
       yhw:false,
       xmk:false,
       userAuthCode:0,
-      identityTitle:'未认证'
+      identityTitle:'未认证',
+      memberGold:0.00,  //金币数量
+      memberIntegral:0 //积分数量
     };
   },
   props: {},
@@ -160,6 +189,10 @@ export default {
         .get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
         .then(res => {
           if (res.data.code === 200) {
+            if(res.data.userInfo != null && res.data.userInfo !=""){
+              this.memberGold = res.data.userInfo.memberGold.toFixed(2);//两位小数
+              this.memberIntegral = parseInt(res.data.userInfo.memberIntegral);//取整
+            }
             if(res.data.data.portraitUrl!=null&&res.data.data.portraitUrl!=''){
               this.portraitUrl = res.data.data.portraitUrl;
             }
@@ -365,34 +398,34 @@ body {
           }
         }
       }
-      .favorite {
-        overflow: hidden;
-        .card {
-          width: 50%;
-          height: 65px;
+    }
+    .favorite {
+      overflow: hidden;
+      .card {
+        width: 50%;
+        height: 65px;
+        font-size: 15px;
+        text-align: center;
+        position: relative;
+        .separator {
+          position: absolute;
+          right: 0;
+          bottom: 13px;
+          background: #dedede;
+          width: 1px;
+          height: 17px;
+        }
+        h2 {
+          color: #333;
+          font-weight: normal;
+          margin-bottom: 13px;
           font-size: 15px;
-          text-align: center;
-          position: relative;
-          .separator {
-            position: absolute;
-            right: 0;
-            bottom: 13px;
-            background: #dedede;
-            width: 1px;
-            height: 17px;
-          }
-          h2 {
-            color: #333;
-            font-weight: normal;
-            margin-bottom: 13px;
-            font-size: 15px;
-          }
-          h3 {
-            color: #666;
-            font-weight: normal;
-            margin-bottom: 13px;
-            font-size: 15px;
-          }
+        }
+        h3 {
+          color: #666;
+          font-weight: normal;
+          margin-bottom: 13px;
+          font-size: 15px;
         }
       }
     }
@@ -434,6 +467,18 @@ body {
             background-repeat: no-repeat;
             background-position: center;
           }
+        }
+      }
+      .amount-content{
+        background: #fff;
+        width: 100%;
+        padding: 20px 0px 23px 0px;
+        h2{
+          font-size: 20px;
+          color: #528de8;
+        }
+        .separator{
+          height: 34px;
         }
       }
       .member {
