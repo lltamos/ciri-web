@@ -1,5 +1,5 @@
 <template>
-  <div class="payment">
+  <div class="payment" id="payment">
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
       <h1>源合币支付</h1>
@@ -20,17 +20,14 @@
       </div>
       <div class="content clearfix">
         <div class="wexin-word fl">微信支付</div>
-        <!--radio的选中状态在这个div上添加active属性-->
-        <div class="item fr">
+        <div class="item fr" @click.prevent="selected($event)">
           <i class="icon-radio">
             <input type="radio" name=""/>
           </i>
         </div>
       </div>
     </div>
-    <!--todo:如果支付失败，这边显示重新支付-->
-    <div class="btn" @click="">确认支付</div>
-
+    <div class="btn" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
   </div>
 
 </template>
@@ -38,7 +35,8 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import tool from "@/api/tool";
+  import tool from "@/api/tool"
+  import { MessageBox } from 'mint-ui'
 
   export default {
     components: {
@@ -48,13 +46,55 @@
     },
     data() {
       return {
-
+        isSelected:false,
+        content:'在微信中打开链接吗？'
       }
     },
     methods: {
       back() {
         window.history.back()
       },
+      selected(e){
+        let element = e.currentTarget;
+        if(element.classList.contains('active')){
+          element.classList.remove('active');
+          this.isSelected = false;
+        }else{
+          element.classList.add('active');
+          this.isSelected = true;
+        }
+
+      },
+      confirmPay(){
+        if(!this.isSelected){
+          return;
+        }else{
+          //打开微信弹窗
+          /*MessageBox({
+            title: '提示',
+            message: '在微信中打开连接吗?',
+            showCancelButton: true
+          }).then(action=>{
+            if(action == 'confirm'){
+              alert('可以打开微信啦~');
+            }
+          }).catch(err=>{
+
+          });*/
+          //支付确认弹窗
+          MessageBox({
+            message: '<div style="position: relative; top: -20px; font-weight: 600;">支付确认</div>请在微信内完成支付，如果您已支付成功，请点击完成按钮',
+            confirmButtonText:'完成',
+            showCancelButton: true
+          }).then(action=>{
+            if(action == 'confirm'){
+
+            }
+          }).catch(err=>{
+
+          });
+        }
+      }
 
     },
     created() {
@@ -201,6 +241,7 @@
         background-color: #528de8;
       }
     }
+
   }
 
 </style>
