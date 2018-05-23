@@ -20,33 +20,18 @@
         <i class="left-line"></i><span>充值</span>
       </h4>
 
-      <ul class="item-warp">
-        <li class="recharge-item">
-          <div class="gold">66金币</div>
-          <div class="money">66元</div>
-        </li>
-        <li class="recharge-item">
-          <div class="gold">188金币</div>
-          <div class="money">188元</div>
-        </li>
-        <li class="recharge-item">
-          <div class="gold">299金币</div>
-          <div class="money">299元</div>
-        </li>
-        <li class="recharge-item">
-          <div class="gold">588金币</div>
-          <div class="money">588元</div>
-        </li>
-        <li class="recharge-item">
-          <div class="gold">888金币</div>
-          <div class="money">888元</div>
-        </li>
-        <li class="recharge-item">
-          <div class="gold">1888金币</div>
-          <div class="money">1888元</div>
+      <ul class="item-warp" id="">
+        <li class="recharge-item"
+            v-if="rechargeArr!=null&&rechargeArr.length>0"
+            v-for="(item,index) in rechargeArr"
+            :key="index"
+            :class="[resultNum === index?'active':'']"
+            @click="selectMoney($event,index) ">
+          <div class="gold">{{item.gold}}</div>
+          <div class="money">{{item.money}}</div>
         </li>
       </ul>
-      <div class="btn">支付</div>
+      <div class="btn" @click="toPayment">支付</div>
       <div class="bottom-line border"></div>
     </div>
 
@@ -77,6 +62,8 @@
     },
     data() {
       return {
+        num:'',
+        rechargeArr: [{gold:'66金币',money:'66元'},{gold:'188金币',money:'188元'},{gold:'299金币',money:'299元'},{gold:'588金币',money:'588元'},{gold:'888金币',money:'888元'},{gold:'1888金币',money:'1888元'}]
 
       }
     },
@@ -86,6 +73,19 @@
       },
       toBillDetail(){
         this.$router.push({ path: "/mine/recharge/bill-detail" });
+      },
+      toPayment(){
+        this.$router.push({path:"/mine/recharge/payment"});
+      },
+      selectMoney(e,index){
+        console.log(index);
+        let element = e.currentTarget;
+        if(element.classList.contains('active')){
+          element.classList.remove('active');
+        }else{
+          element.classList.add('active');
+        }
+        this.num = index;
       }
 
     },
@@ -94,6 +94,11 @@
     },
     mounted() {
 
+    },
+    computed:{
+      resultNum(){
+        return this.num;
+      }
     }
   }
 </script>
