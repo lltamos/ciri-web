@@ -38,6 +38,7 @@ import FocusCountry from '@/components/mine/my-profile/focus-country'
 import MemberCenter from '@/components/mine/member-center/member-center'
 import Recharge from '@/components/mine/recharge/recharge'
 import BillDetail from '@/components/mine/recharge/bill-detail'
+import Payment from '@/components/mine/recharge/payment'
 import Scores from '@/components/mine/scores/scores'
 import ScoresDetail from '@/components/mine/scores/scores-detail'
 import Security from '@/components/mine/security/security'
@@ -369,6 +370,14 @@ export default new Router({
         requireAuth: true,
       },
       component: BillDetail
+    },
+    //支付页
+    {
+      path: '/mine/recharge/payment',
+      meta: {
+        requireAuth: true,
+      },
+      component: Payment
     },
     //积分页
     {
