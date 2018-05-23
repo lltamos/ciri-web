@@ -38,7 +38,7 @@
           <!--如果开通了项目库会员显示下面这个member-detail-->
           <div class="member-detail">
             <div class="img">
-              <img src="../img/vip-active.png" alt="" width="100%" height="100%">
+              <img src="../img/project-active.png" alt="" width="100%" height="100%">
             </div>
             <div class="clearfix">
               <div class="info fl">
@@ -63,8 +63,9 @@
       <!--源合网会员-->
       <div class="member-item-warp">
         <div class="current-state">您现在是：</div>
-        <!--todo:判断这里显示什么-->
+        <!--todo:判断这里显示您现在是，还是可购买-->
         <div v-if="false" class="current-state">可购买：</div>
+
         <div class="member-item yuanhe">
           <div class="member-detail">
             <div class="img">
@@ -78,7 +79,6 @@
                 <div class="member-btn">购买</div>
               </div>
             </div>
-            <!--todo:判断是否有这句话-->
             <div class="share">享有项目库会员服务</div>
             <div class="function-warp clearfix">
               <div class="func-name fl">升级功能：</div>
@@ -89,7 +89,7 @@
           <!--如果开通了源合网会员显示下面这个member-detail-->
           <div class="member-detail" v-if="false">
             <div class="img">
-              <img src="../img/vip-active.png" alt="" width="100%" height="100%">
+              <img src="../img/yuanhe-active.png" alt="" width="100%" height="100%">
             </div>
             <div class="clearfix">
               <div class="info fl">
@@ -114,7 +114,7 @@
       <!--VIP会员-->
       <div class="member-item-warp">
         <div class="current-state">您现在是：</div>
-        <!--todo:判断这里显示什么-->
+        <!--todo:判断这里显示您现在是，还是可购买-->
         <div v-if="false" class="current-state">可购买：</div>
         <div class="member-item vip">
           <div class="member-detail">
@@ -129,7 +129,6 @@
                 <div class="member-btn">购买</div>
               </div>
             </div>
-            <!--todo:判断是否有这句话-->
             <div class="share">享有源合网会员服务</div>
             <div class="function-warp clearfix">
               <div class="func-name fl">升级功能：</div>
