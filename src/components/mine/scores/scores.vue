@@ -5,42 +5,24 @@
       <h1>我的积分</h1>
     </div>
     <div class="service" @click="toScoresDetail">明细</div>
-    <div class="tab-warp">
-      <div class="tab-scores">
-        <div class="income tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">积分收入</div>
-        <div class="out tab-box" :class="{active:tabActive==2}" @click="changePanel(2)">积分支出</div>
+
+    <div class="overage">
+      <h4>
+        <i class="left-line"></i><span>当前积分</span>
+      </h4>
+      <div class="count-warp">
+        <span class="count">1000</span>&nbsp;积分
       </div>
+      <div class="bottom-line border"></div>
     </div>
 
-    <div class="income-warp" :class="{active:tabActive==1}">
-      <div>
-        <div class="scores-item clearfix" >
-          <div class="detail fl">
-            <div>签到</div>
-            <div class="time">2018-05-22 16:49</div>
-          </div>
-          <div class="count fr">+2</div>
-        </div>
-        <div class="scores-item clearfix">
-          <div class="detail fl">
-            <div>签到</div>
-            <div class="time">2018-05-22 16:49</div>
-          </div>
-          <div class="count fr">+2</div>
-        </div>
-      </div>
-
-      <!--积分收入无数据显示-->
-      <div class="no-info"  v-if="false">
-        <img class="no-img" src="../img/no-scores-in.png" alt="">
-      </div>
-
-    </div>
-
-
-    <div class="out-warp" :class="{active:tabActive==2}">
-      <div class="no-info">
-        <img class="no-img" src="../img/no-scores-out.png" alt="">
+    <div class="introduction">
+      <h4>
+        <i class="left-line"></i><span>使用与获得</span>
+      </h4>
+      <div class="paragraph-warp">
+        <p class="paragraph">1.积分仅可以在源合网使用，如用户账号暂停使用，源合网将取消该用户账号内积分相关使用权限。</p>
+        <p class="paragraph">2.每日登陆源合网，可获得积分，连续登陆可获得额外积分赠送。</p>
       </div>
     </div>
 
@@ -61,7 +43,7 @@
     },
     data() {
       return {
-        tabActive:1
+
       }
     },
     methods: {
@@ -71,9 +53,6 @@
       toScoresDetail(){
         this.$router.push({ path: "/mine/scores/scores-detail" });
       },
-      changePanel(tab){
-        this.tabActive = tab;
-      }
 
     },
     created() {
@@ -89,15 +68,6 @@
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
   .scores{
-    .no-info{
-      width: 200px;
-      height: 170px;
-      margin: 30% auto;
-      .no-img{
-        width: 100%;
-        height: 100%;
-      }
-    }
     .header-bar {
       height: 44px;
       line-height: 44px;
@@ -108,7 +78,6 @@
       h1 {
         font-size: 20px;
       }
-
       .icon-back {
         display: block;
         float: left;
@@ -130,73 +99,63 @@
       line-height: 15px;
       color: #528de8;
     }
-    .tab-warp {
-      @include onepx('bottom');
-
-      .tab-scores {
-        height: 40px;
-        line-height: 40px;
-        font-size: 17px;
-        display: flex;
-        flex-direction: row;
-        .tab-box {
-          color: #333;
-          flex: 1;
-          &.active {
-            color: #528de8;
-            @include bottom-bar();
-            &:before{
-              right:40%;
-              margin-right: -14px;
-              height:3px;
-              background:#528de8;
-              width: 68px;
-            }
-          }
-        }
-        .income {
-          @include right-bar();
-          margin-right: 0;
-          &:after{
-            right:0;
-          }
-        }
-
-        .out {
-          margin-left: 0px;
-
-        }
-
-      }
-    }
-    .income-warp{
-      display: none;
-      &.active{
+    h4{
+      text-align: left;
+      overflow: hidden;
+      line-height: 1;
+      height: 16px;
+      padding: 12px 10px 12px 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      position: relative;
+      .left-line{
+        position: absolute;
         display: block;
+        width: 4px;
+        height: 15px;
+        background-color: #528de8;
+        left: 0;
+        top:12px;
       }
-      .scores-item{
-        padding: 20px;
-        height: 38px;
+
+    }
+    .bottom-line{
+      margin: 30px 10px 0px;
+    }
+    .overage{
+      padding: 20px 0px;
+
+      .count-warp{
         text-align: left;
-        font-size: 15px;
-        color: #333;
-        border-bottom: 1px solid #dedede;
-        .time{
-          font-size: 13px;
-          color: #666;
-          line-height: 23px;
-        }
+        padding-left: 40px;
+        margin-top: 5px;
         .count{
-          line-height: 38px;
           color: #528de8;
-          font-size: 16px;
+          font-size: 20px;
+        }
+        .count-right{
+          color: #666;
+          font-size: 15px;
         }
       }
+
     }
-    .out-warp{
-      display: none;
-      &.active{
-        display: block;
+    .introduction{
+      padding: 20px 0px;
+      text-align: left;
+      font-size: 13px;
+      color: #333;
+      .paragraph-warp{
+        padding: 0 10px;
+        .paragraph{
+          line-height: 21px;
+          margin-top: 26px;
+          &:first-child{
+            margin-top: 10px;
+          }
+        }
+
       }
     }
   }
