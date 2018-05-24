@@ -37,6 +37,7 @@ import ChangeCountry from '@/components/mine/my-profile/change-country'
 import FocusCountry from '@/components/mine/my-profile/focus-country'
 import MemberCenter from '@/components/mine/member-center/member-center'
 import OpenMember from '@/components/mine/member-center/open-member'
+import MemberInduction from '@/components/mine/member-center/member-induction'
 import Recharge from '@/components/mine/recharge/recharge'
 import BillDetail from '@/components/mine/recharge/bill-detail'
 import Payment from '@/components/mine/recharge/payment'
@@ -363,6 +364,14 @@ export default new Router({
         requireAuth: true,
       },
       component: OpenMember
+    },
+    //会员介绍
+    {
+      path: '/mine/member-center/member-induction',
+      meta: {
+        requireAuth: true,
+      },
+      component: MemberInduction
     },
     //充值页
     {
