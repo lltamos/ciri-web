@@ -188,6 +188,7 @@
         flex-wrap: wrap;
         justify-content: space-around;
         margin-top: 8px;
+        padding: 0 8px;
         .recharge-item{
           width: 98px;
           height: 48px;
@@ -224,7 +225,7 @@
 
       }
       .btn{
-        width: 355px;
+        width: 91%;
         margin: 0 auto;
       }
     }
