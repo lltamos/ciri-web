@@ -150,7 +150,7 @@
       }
     }
     .btn{
-      width: 355px;
+      width: 94.6%;
       margin: 20px auto;
     }
 
