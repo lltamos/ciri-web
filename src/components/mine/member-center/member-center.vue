@@ -55,7 +55,7 @@
 
           <div class="bottom">
             <span>进入会员权益</span>
-            <i class="see-rights"></i>
+            <i class="see-rights" @click="toMemberInduction"></i>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
             <div class="share">享有项目库会员服务</div>
             <div class="function-warp clearfix">
               <div class="func-name fl">升级功能：</div>
-              <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+              <div class="func-detail fl">海外项目、企业展示、企业建站、海外投研</div>
             </div>
           </div>
 
@@ -132,7 +132,7 @@
             <div class="share">享有源合网会员服务</div>
             <div class="function-warp clearfix">
               <div class="func-name fl">升级功能：</div>
-              <div class="func-detail fl">项目收藏、项目约谈、项目答疑、项目在线路演</div>
+              <div class="func-detail fl">海外投研、法律税务、融资税务、项目尽调、金融保险、属地商务</div>
             </div>
           </div>
 
@@ -160,7 +160,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -194,6 +193,9 @@
       quitService() {
         this.servicePop = false;
       },
+      toMemberInduction(){
+        this.$router.push({path:'/mine/member-center/member-induction'});
+      }
     },
     created() {
       this.isLogin = sessionStorage.getItem("islogin");
