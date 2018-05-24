@@ -117,8 +117,8 @@
       background-size: 22px auto;
     }
     .main{
-      width: 375px;
-      background-size: 375px auto;
+      width: 100%;
+      background-size: 100% auto;
       color: #fff;
       &.main-project{
         height: 833px;
@@ -146,10 +146,10 @@
 
     }
     .bottom{
-      width: 375px;
+      width: 100%;
       height: 49px;
       line-height: 49px;
-      background-size: 375px auto;
+      background-size: 1000% auto;
       font-size: 16px;
       color: #fff;
       &.bottom-project{
