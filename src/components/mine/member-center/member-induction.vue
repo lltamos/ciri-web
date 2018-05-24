@@ -2,17 +2,14 @@
   <div class="recharge">
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
-      <!--判断这边是哪个会员-->
-      <h1>项目库会员介绍</h1>
+      <h1>{{header}}</h1>
       <i class="service"></i>
     </div>
-    <div class="main">
-      <!--判断这边是哪个会员，多少money-->
-      <div class="name">项目库会员</div>
-      <div class="money">￥298元/年</div>
+    <div class="main" :class="bgImg">
+      <div class="name">{{name}}</div>
+      <div class="money">{{money}}</div>
     </div>
-    <!--判断这边是立即开通还是续费-->
-    <div class="bottom" @click="openMember">
+    <div class="bottom" :class="bottomImg" @click="openMember">
         立即开通
     </div>
   </div>
@@ -32,6 +29,11 @@
     },
     data() {
       return {
+        header:'',
+        name:'',
+        money:'',
+        bgImg:'',
+        bottomImg:''
 
       }
     },
@@ -45,7 +47,27 @@
 
     },
     created() {
+      if(this.$route.query.memLevel == "project"){
+        this.header = "项目库会员介绍";
+        this.name = "项目库会员";
+        this.money = "￥298元/年";
+        this.bgImg = "main-project";
+        this.bottomImg = "bottom-project";
 
+      }else if(this.$route.query.memLevel == "yuanhe"){
+        this.header = "源合网会员介绍";
+        this.name = "源合网会员";
+        this.money = "￥980元/年";
+        this.bgImg = "main-yuanhe";
+        this.bottomImg = "bottom-yuanhe";
+
+      }else if(this.$route.query.memLevel == "vip"){
+        this.header = "VIP会员介绍";
+        this.name = "VIP会员";
+        this.money = "按需定制";
+        this.bgImg = "main-vip";
+        this.bottomImg = "bottom-vip";
+      }
     },
     mounted() {
 
@@ -96,19 +118,19 @@
     }
     .main{
       width: 375px;
-      height: 833px;
-      @include bg-image("../img/intro-project");
       background-size: 375px auto;
       color: #fff;
+      &.main-project{
+        height: 833px;
+        @include bg-image("../img/intro-project");
+      }
       &.main-yuanhe{
         height: 1234px;
         @include bg-image("../img/intro-yuanhe");
-        background-size: 375px auto;
       }
       &.main-vip{
         height: 2080px;
         @include bg-image("../img/intro-vip");
-        background-size: 375px auto;
       }
       .name{
         font-size: 40px;
@@ -127,10 +149,12 @@
       width: 375px;
       height: 49px;
       line-height: 49px;
-      @include bg-image("../img/bottom-project");
       background-size: 375px auto;
       font-size: 16px;
       color: #fff;
+      &.bottom-project{
+        @include bg-image("../img/bottom-project");
+      }
       &.bottom-yuanhe{
         @include bg-image("../img/bottom-yuanhe");
       }
