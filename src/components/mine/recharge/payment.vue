@@ -239,7 +239,7 @@
     }
     .btn{
       margin: 20px auto;
-      width: 355px;
+      width: 94.6%;
       background-color: #ccc;
       color: #fff;
       &.active{
