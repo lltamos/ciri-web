@@ -11,7 +11,7 @@
         <i class="left-line"></i><span>当前积分</span>
       </h4>
       <div class="count-warp">
-        <span class="count">1000</span>&nbsp;积分
+        <span class="count">{{myIntegral}}</span>&nbsp;积分
       </div>
       <div class="bottom-line border"></div>
     </div>
@@ -43,6 +43,7 @@
     },
     data() {
       return {
+        myIntegral:0
 
       }
     },
@@ -56,6 +57,12 @@
 
     },
     created() {
+      this.$api.get(tool.domind() + "/gateway/ah/s0/userAccoutInfo", {userId: tool.getuser()})
+        .then(res => {
+          if (res.code === 200) {
+            this.myIntegral = res.data.memberIntegral;
+          }
+        });
 
     },
     mounted() {

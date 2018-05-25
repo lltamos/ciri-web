@@ -62,9 +62,9 @@
     },
     data() {
       return {
-        num:'',
+        num: '',
         rechargeList: null, //充值li
-        goldBalance:0 //金币余额
+        goldBalance: 0 //金币余额
 
       }
     },
@@ -72,17 +72,17 @@
       back() {
         window.history.back()
       },
-      toBillDetail(){
-        this.$router.push({ path: "/mine/recharge/bill-detail" });
+      toBillDetail() {
+        this.$router.push({path: "/mine/recharge/bill-detail"});
       },
-      toPayment(){
-        this.$router.push({path:"/mine/recharge/payment"});
+      toPayment() {
+        this.$router.push({path: "/mine/recharge/payment"});
       },
-      selectMoney(e,index){
+      selectMoney(e, index) {
         let element = e.currentTarget;
-        if(element.classList.contains('active')){
+        if (element.classList.contains('active')) {
           element.classList.remove('active');
-        }else{
+        } else {
           element.classList.add('active');
         }
         this.num = index;
@@ -91,25 +91,24 @@
     },
     created() {
       this.$api.get(tool.domind() + "/gateway/pb/p/member/rechargeStandard")
-        .then(res=>{
+        .then(res => {
           if (res.code === 200) {
             this.rechargeList = res.data;
           }
         });
-      this.$api.get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
-        .then(res=>{
+      this.$api.get(tool.domind() + "/gateway/ah/s0/userAccoutInfo", {userId: tool.getuser()})
+        .then(res => {
           if (res.code === 200) {
-            if(res.userInfo != null && res.userInfo !=""){
-              this.goldBalance = res.userInfo.memberGold.toFixed(2);//两位小数
-            }
+            this.goldBalance = res.data.memberGold.toFixed(2);//两位小数
           }
         });
+
     },
     mounted() {
 
     },
-    computed:{
-      resultNum(){
+    computed: {
+      resultNum() {
         return this.num;
       }
     }
@@ -119,7 +118,8 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
-  .recharge{
+
+  .recharge {
     .header-bar {
       height: 44px;
       line-height: 44px;
@@ -152,7 +152,7 @@
       line-height: 15px;
       color: #528de8;
     }
-    h4{
+    h4 {
       text-align: left;
       overflow: hidden;
       line-height: 1;
@@ -162,48 +162,48 @@
       font-size: 16px;
       font-weight: normal;
       position: relative;
-      .left-line{
+      .left-line {
         position: absolute;
         display: block;
         width: 4px;
         height: 15px;
         background-color: #528de8;
         left: 0;
-        top:12px;
+        top: 12px;
       }
 
     }
-    .bottom-line{
+    .bottom-line {
       margin: 30px 10px 0px;
     }
-    .overage{
+    .overage {
       padding: 20px 0px;
 
-      .count-warp{
+      .count-warp {
         text-align: left;
         padding-left: 40px;
         margin-top: 5px;
-        .count{
+        .count {
           color: #528de8;
           font-size: 20px;
         }
-        .count-right{
+        .count-right {
           color: #666;
           font-size: 15px;
         }
       }
 
     }
-    .recharge-warp{
+    .recharge-warp {
       text-align: left;
       width: 100%;
-      .item-warp{
+      .item-warp {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         margin-top: 8px;
         padding: 0 8px;
-        .recharge-item{
+        .recharge-item {
           width: 98px;
           height: 48px;
           line-height: 25px;
@@ -214,21 +214,21 @@
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          &.active{
+          &.active {
             background-color: #528de8;
-            .gold{
+            .gold {
               color: #fff;
             }
-            .money{
+            .money {
               color: #fff;
             }
           }
-          .gold{
+          .gold {
             font-size: 14px;
             color: #528de8;
             line-height: 14px;
           }
-          .money{
+          .money {
             font-size: 12px;
             color: #72aaff;
             line-height: 12px;
@@ -238,22 +238,22 @@
         }
 
       }
-      .btn{
+      .btn {
         width: 91%;
         margin: 0 auto;
       }
     }
-    .introduction{
+    .introduction {
       padding: 20px 0px;
       text-align: left;
       font-size: 13px;
       color: #333;
-      .paragraph-warp{
+      .paragraph-warp {
         padding: 0 10px;
-        .paragraph{
+        .paragraph {
           line-height: 21px;
           margin-top: 26px;
-          &:first-child{
+          &:first-child {
             margin-top: 10px;
           }
         }
