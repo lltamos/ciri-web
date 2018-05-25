@@ -13,8 +13,8 @@
     </div>
 
     <div class="income-warp" :class="{active:tabActive==1}">
-      <div>
-        <div class="scores-item clearfix" v-if="scoresList!=null && scoresList.length>0" v-for="(score,index) in scoresList">
+      <div v-if="scoresList!=null && scoresList.length>0" >
+        <div class="scores-item clearfix" v-for="(score,index) in scoresList">
           <div class="detail fl">
             <div>{{score.typeStr}}</div>
             <div class="time">{{score.createTime|time}}</div>
