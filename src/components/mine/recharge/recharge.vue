@@ -11,7 +11,7 @@
         <i class="left-line"></i><span>金币余额</span>
       </h4>
       <div class="count-warp">
-        <span class="count">600</span>&nbsp;金币
+        <span class="count">{{goldBalance}}</span>&nbsp;金币
       </div>
       <div class="bottom-line border"></div>
     </div>
@@ -22,13 +22,13 @@
 
       <ul class="item-warp" id="">
         <li class="recharge-item"
-            v-if="rechargeArr!=null&&rechargeArr.length>0"
-            v-for="(item,index) in rechargeArr"
+            v-if="rechargeList!=null && rechargeList.length>0"
+            v-for="(item,index) in rechargeList"
             :key="index"
             :class="[resultNum === index?'active':'']"
             @click="selectMoney($event,index) ">
-          <div class="gold">{{item.gold}}</div>
-          <div class="money">{{item.money}}</div>
+          <div class="gold">{{item.gold}}金币</div>
+          <div class="money">{{item.amount}}元</div>
         </li>
       </ul>
       <div class="btn" @click="toPayment">支付</div>
@@ -63,7 +63,8 @@
     data() {
       return {
         num:'',
-        rechargeArr: [{gold:'66金币',money:'66元'},{gold:'188金币',money:'188元'},{gold:'299金币',money:'299元'},{gold:'588金币',money:'588元'},{gold:'888金币',money:'888元'},{gold:'1888金币',money:'1888元'}]
+        rechargeList: null, //充值li
+        goldBalance:0 //金币余额
 
       }
     },
@@ -89,7 +90,20 @@
 
     },
     created() {
-
+      this.$api.get(tool.domind() + "/gateway/pb/p/member/rechargeStandard")
+        .then(res=>{
+          if (res.code === 200) {
+            this.rechargeList = res.data;
+          }
+        });
+      this.$api.get(tool.domind() + "/gateway/user/getUser?name=" + tool.getuser())
+        .then(res=>{
+          if (res.code === 200) {
+            if(res.userInfo != null && res.userInfo !=""){
+              this.goldBalance = res.userInfo.memberGold.toFixed(2);//两位小数
+            }
+          }
+        });
     },
     mounted() {
 
