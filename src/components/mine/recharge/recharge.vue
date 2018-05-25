@@ -74,8 +74,8 @@
       toBillDetail(){
         this.$router.push({ path: "/mine/recharge/bill-detail" });
       },
-      toPayment(){
-        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.api.bjciri.com%2F#%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+      toPayment(){//http%3A%2F%2Ftest.bjciri.com%2F?#%2Fmine%2Frecharge%2Fpayment
+        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.bjciri.com%2F?%23%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
         //this.$router.push({path:"/mine/recharge/payment"});
       },
       selectMoney(e,index){
