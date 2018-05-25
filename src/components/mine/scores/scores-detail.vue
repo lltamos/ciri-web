@@ -28,7 +28,7 @@
       </div>
 
       <!--积分收入无数据显示-->
-      <div class="no-info" v-if="false">
+      <div class="no-info" v-if="scoresList==null || scoresList.length== '0'">
         <img class="no-img" src="../img/no-scores-in.png" alt="">
       </div>
     </div>
