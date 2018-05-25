@@ -4,7 +4,7 @@
       <i class="icon-back" @click="back"></i>
       <h1>账单明细</h1>
     </div>
-    <div class="bill-item clearfix" v-if="billList!=null && billList.length>0" v-for="(bill,index) in billList">
+    <div class="bill-item clearfix" v-if="billList!=null && billList.length>0" v-for="(bill,index) in billList" :key="index">
       <div class="detail fl">
         <div>{{bill.typeStr}}</div>
         <div class="time">{{bill.createTime|time}}</div>
