@@ -352,65 +352,41 @@ export default new Router({
     //会员中心
     {
       path: '/mine/member-center',
-      meta: {
-        requireAuth: true,
-      },
       component: MemberCenter
     },
     //开通会员
     {
       path: '/mine/member-center/open-member',
-      meta: {
-        requireAuth: true,
-      },
       component: OpenMember
     },
     //会员介绍
     {
       path: '/mine/member-center/member-induction',
-      meta: {
-        requireAuth: true,
-      },
       component: MemberInduction
     },
     //充值页
     {
       path: '/mine/recharge',
-      meta: {
-        requireAuth: true,
-      },
       component: Recharge
     },
     //账单明细
     {
       path: '/mine/recharge/bill-detail',
-      meta: {
-        requireAuth: true,
-      },
       component: BillDetail
     },
     //支付页
     {
       path: '/mine/recharge/payment',
-      meta: {
-        requireAuth: true,
-      },
       component: Payment
     },
     //积分页
     {
       path: '/mine/scores',
-      meta: {
-        requireAuth: true,
-      },
       component: Scores
     },
     //积分明细
     {
       path: '/mine/scores/scores-detail',
-      meta: {
-        requireAuth: true,
-      },
       component: ScoresDetail
     },
     //会员等级

@@ -18,7 +18,6 @@
       <member level="project" @toMemInduc="toMemInduc('project')"></member>
       <!--源合网会员-->
       <member level="yuanhe" @toMemInduc="toMemInduc('yuanhe')"></member>
-
       <!--VIP会员-->
       <member level="vip" @toMemInduc="toMemInduc('vip')"></member>
     </div>

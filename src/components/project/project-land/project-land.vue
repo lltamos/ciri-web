@@ -137,7 +137,6 @@
           }
         );
       },
-
       gotoDetail() {
         this.$router.replace({path: this.url})
       },

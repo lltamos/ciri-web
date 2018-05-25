@@ -4,21 +4,18 @@
       <i class="icon-back" @click="back"></i>
       <h1>账单明细</h1>
     </div>
-    <div class="bill-item clearfix">
+    <div class="bill-item clearfix" v-if="billList!=null && billList.length>0" v-for="(bill,index) in billList" :key="index">
       <div class="detail fl">
-        <div>充值</div>
-        <div class="time">2018-05-22 16:49</div>
+        <div>{{bill.typeStr}}</div>
+        <div class="time">{{bill.createTime|time}}</div>
       </div>
-      <div class="count fr">+588</div>
+      <div class="count fr"><span>{{bill.operatingStr=='增加'?'+':'-'}}</span>{{bill.amount}}</div>
     </div>
 
-    <div class="bill-item clearfix" >
-      <div class="detail fl">
-        <div>充值</div>
-        <div class="time">2018-05-22 16:49</div>
-      </div>
-      <div class="count fr">+188</div>
+    <div class="more">
+      <span @click='seeMoreBill' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
     </div>
+
   </div>
 
 </template>
@@ -36,20 +33,50 @@
     },
     data() {
       return {
-
+        page: 1,
+        pageSize: 20,
+        billList: null,
+        moreText: '查看更多',
+        isIcon: true
       }
     },
     methods: {
       back() {
         window.history.back()
       },
+      seeMoreBill() {
+        this.$api.post(tool.domind() + "/gateway/ah/s0/member/getGoldDetailsByUser", {
+          pageId: this.page,
+          pageSize: this.pageSize
+        }).then(res => {
+            if (res.code === 200) {
+              if (this.page == "1") {
+                this.billList = res.data;
+              } else {
+                this.billList = this.billList.concat(res.data);
+              }
+              if (this.billList.length < res.total) {
+                this.moreText = '查看更多';
+              } else {
+                this.moreText = '没有更多了';
+                this.isIcon = false;
+              }
+            }
+            this.page += 1;
+          });
+      }
 
     },
     created() {
 
     },
     mounted() {
-
+      this.seeMoreBill();
+    },
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD HH:MM:SS");
+      }
     }
   }
 </script>
@@ -57,7 +84,8 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
-  .bill-detail{
+
+  .bill-detail {
     .header-bar {
       height: 44px;
       line-height: 44px;
@@ -80,22 +108,39 @@
       }
 
     }
-    .bill-item{
-      padding: 20px;
+    .bill-item {
+      padding: 20px 10px 20px 20px;
       height: 38px;
       text-align: left;
       font-size: 15px;
       color: #333;
       border-bottom: 1px solid #dedede;
-      .time{
+      .time {
         font-size: 13px;
         color: #666;
         line-height: 23px;
       }
-      .count{
+      .count {
         line-height: 38px;
         color: #528de8;
         font-size: 16px;
+        text-align: left;
+        width: 60px;
+      }
+    }
+    .more {
+      font-size: 12px;
+      color: #3f80e9;
+      margin-top: 20px;
+      text-align: center;
+
+      i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        @include bg-image("../../news/img/more");
+        background-size: 12px auto;
+        margin-left: 6px;
       }
     }
 
