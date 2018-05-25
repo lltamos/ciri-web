@@ -62,7 +62,7 @@
                 this.isIcon = false;
               }
             }
-            this.page = this.page + 1;
+            this.page += 1;
           });
       }
 

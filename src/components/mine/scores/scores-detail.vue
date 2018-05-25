@@ -14,21 +14,19 @@
 
     <div class="income-warp" :class="{active:tabActive==1}">
       <div>
-        <div class="scores-item clearfix" >
+        <div class="scores-item clearfix" v-if="scoresList!=null && scoresList.length>0" v-for="(score,index) in scoresList">
           <div class="detail fl">
-            <div>签到</div>
-            <div class="time">2018-05-22 16:49</div>
+            <div>{{score.typeStr}}</div>
+            <div class="time">{{score.createTime|time}}</div>
           </div>
-          <div class="count fr">+2</div>
+          <div class="count fr"><span>{{score.operatingStr=="增加" ? '+':'-'}}</span>{{score.amount}}</div>
         </div>
-        <div class="scores-item clearfix">
-          <div class="detail fl">
-            <div>签到</div>
-            <div class="time">2018-05-22 16:49</div>
-          </div>
-          <div class="count fr">+2</div>
+
+        <div class="more">
+          <span @click='seeMoreScores' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
         </div>
       </div>
+
       <!--积分收入无数据显示-->
       <div class="no-info" v-if="false">
         <img class="no-img" src="../img/no-scores-in.png" alt="">
@@ -56,7 +54,12 @@
     },
     data() {
       return {
-        tabActive:1
+        tabActive:1,
+        page:1,
+        pageSize:20,
+        scoresList:null,
+        moreText:'查看更多',
+        isIcon:true
       }
     },
     methods: {
@@ -65,6 +68,28 @@
       },
       changePanel(tab){
         this.tabActive = tab;
+      },
+      seeMoreScores(){
+        this.$api.post(tool.domind()+ '/gateway/ah/s0/member/getIntegralDetailsByUser',{
+          ageId: this.page,
+          pageSize: this.pageSize
+        }).then(res=>{
+          if(res.code === 200){
+            if(this.page=="1"){
+              this.scoresList = res.data;
+            }else{
+              this.scoresList = this.scoresList.concat(res.data);
+            }
+            if (this.scoresList.length < res.total) {
+              this.moreText = '查看更多';
+            } else {
+              this.moreText = '没有更多了';
+              this.isIcon = false;
+            }
+          }
+          this.page += 1;
+        })
+
       }
 
     },
@@ -72,7 +97,12 @@
 
     },
     mounted() {
-
+      this.seeMoreScores();
+    },
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD HH:MM:SS");
+      }
     }
   }
 </script>
@@ -211,6 +241,22 @@
       display: none;
       &.active{
         display: block;
+      }
+    }
+
+    .more {
+      font-size: 12px;
+      color: #3f80e9;
+      margin-top: 20px;
+      text-align: center;
+
+      i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        @include bg-image("../../news/img/more");
+        background-size: 12px auto;
+        margin-left: 6px;
       }
     }
 
