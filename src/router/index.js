@@ -41,6 +41,7 @@ import MemberInduction from '@/components/mine/member-center/member-induction'
 import Recharge from '@/components/mine/recharge/recharge'
 import BillDetail from '@/components/mine/recharge/bill-detail'
 import Payment from '@/components/mine/recharge/payment'
+import paySuccessful from '@/components/mine/recharge/pay-successful'
 import Scores from '@/components/mine/scores/scores'
 import ScoresDetail from '@/components/mine/scores/scores-detail'
 import Security from '@/components/mine/security/security'
@@ -378,6 +379,11 @@ export default new Router({
     {
       path: '/mine/recharge/payment',
       component: Payment
+    },
+    //支付成功
+    {
+      path: '/mine/recharge/pay-successful',
+      component: paySuccessful
     },
     //积分页
     {
