@@ -82,6 +82,10 @@
           param.append('code', this.code);
           param.append('state', this.state);
           this.axios.post(tool.domind() + tool.path() + '/wx/unifuiedOrder', param).then(r => {
+            if (r === null){
+              tool.toast("预订单生成失败！！！请检查参数")
+              return;
+            }
             WeixinJSBridge.invoke(
               'getBrandWCPayRequest', {
                 "appId" : r.data.appId,     //公众号名称，由商户传入
