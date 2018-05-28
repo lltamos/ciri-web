@@ -11,7 +11,7 @@
         <i class="left-line"></i><span>金币余额</span>
       </h4>
       <div class="count-warp">
-        <span class="count">{{goldBalance}}</span>&nbsp;金币
+        <span class="count">600</span>&nbsp;金币
       </div>
       <div class="bottom-line border"></div>
     </div>
@@ -22,16 +22,16 @@
 
       <ul class="item-warp" id="">
         <li class="recharge-item"
-            v-if="rechargeList!=null && rechargeList.length>0"
-            v-for="(item,index) in rechargeList"
+            v-if="rechargeArr!=null&&rechargeArr.length>0"
+            v-for="(item,index) in rechargeArr"
             :key="index"
             :class="[resultNum === index?'active':'']"
-            @click="selectMoney($event,index,item.amount) ">
-          <div class="gold">{{item.gold}}金币</div>
-          <div class="money">{{item.amount}}元</div>
+            @click="selectMoney($event,index) ">
+          <div class="gold">{{item.gold}}</div>
+          <div class="money">{{item.money}}</div>
         </li>
       </ul>
-      <div class="btn" @click="toPayment" :disabled="!this.num">支付</div>
+      <div class="btn" @click="toPayment">支付</div>
       <div class="bottom-line border"></div>
     </div>
 
@@ -62,51 +62,41 @@
     },
     data() {
       return {
-        num: '',
-        rechargeList: null, //充值li
-        goldBalance: 0, //金币余额
-        selectedMoney: '66',
-        payFlag:false,
+        num:'',
+        rechargeArr: [{gold:'66金币',money:'66元'},{gold:'188金币',money:'188元'},{gold:'299金币',money:'299元'},{gold:'588金币',money:'588元'},{gold:'888金币',money:'888元'},{gold:'1888金币',money:'1888元'}]
+
       }
     },
     methods: {
       back() {
         window.history.back()
       },
-      toBillDetail() {
-        this.$router.push({path: "/mine/recharge/bill-detail"});
+      toBillDetail(){
+        this.$router.push({ path: "/mine/recharge/bill-detail" });
       },
-      toPayment() {
-        if(!this.num){
-          tool.toast("请选择一种支付金额");
-          return;
+      toPayment(){//http%3A%2F%2Ftest.bjciri.com%2F?#%2Fmine%2Frecharge%2Fpayment
+        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.bjciri.com%2F?%23%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+        //this.$router.push({path:"/mine/recharge/payment"});
+      },
+      selectMoney(e,index){
+        let element = e.currentTarget;
+        if(element.classList.contains('active')){
+          element.classList.remove('active');
+        }else{
+          element.classList.add('active');
         }
-        this.$router.push({path: "/mine/recharge/payment",query:{payMoney:this.selectedMoney}});
-      },
-      selectMoney(e, index, count) {
         this.num = index;
-        this.selectedMoney = count;
       }
+
     },
     created() {
-      this.$api.get(tool.domind() + "/gateway/pb/p/member/rechargeStandard")
-        .then(res => {
-          if (res.code === 200) {
-            this.rechargeList = res.data;
-          }
-        });
-      this.$api.get(tool.domind() + "/gateway/ah/s0/userAccoutInfo", {userId: tool.getuser()})
-        .then(res => {
-          if (res.code === 200) {
-            this.goldBalance = res.data.memberGold.toFixed(2);//两位小数
-          }
-        });
+
     },
     mounted() {
 
     },
-    computed: {
-      resultNum() {
+    computed:{
+      resultNum(){
         return this.num;
       }
     }
@@ -116,8 +106,7 @@
 <style type="text/scss" lang="scss" scoped>
   @import '~@/assets/scss/mixin.scss';
   @import '~@/assets/scss/const.scss';
-
-  .recharge {
+  .recharge{
     .header-bar {
       height: 44px;
       line-height: 44px;
@@ -150,7 +139,7 @@
       line-height: 15px;
       color: #528de8;
     }
-    h4 {
+    h4{
       text-align: left;
       overflow: hidden;
       line-height: 1;
@@ -160,48 +149,48 @@
       font-size: 16px;
       font-weight: normal;
       position: relative;
-      .left-line {
+      .left-line{
         position: absolute;
         display: block;
         width: 4px;
         height: 15px;
         background-color: #528de8;
         left: 0;
-        top: 12px;
+        top:12px;
       }
 
     }
-    .bottom-line {
+    .bottom-line{
       margin: 30px 10px 0px;
     }
-    .overage {
+    .overage{
       padding: 20px 0px;
 
-      .count-warp {
+      .count-warp{
         text-align: left;
         padding-left: 40px;
         margin-top: 5px;
-        .count {
+        .count{
           color: #528de8;
           font-size: 20px;
         }
-        .count-right {
+        .count-right{
           color: #666;
           font-size: 15px;
         }
       }
 
     }
-    .recharge-warp {
+    .recharge-warp{
       text-align: left;
       width: 100%;
-      .item-warp {
+      .item-warp{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         margin-top: 8px;
         padding: 0 8px;
-        .recharge-item {
+        .recharge-item{
           width: 98px;
           height: 48px;
           line-height: 25px;
@@ -212,21 +201,21 @@
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          &.active {
+          &.active{
             background-color: #528de8;
-            .gold {
+            .gold{
               color: #fff;
             }
-            .money {
+            .money{
               color: #fff;
             }
           }
-          .gold {
+          .gold{
             font-size: 14px;
             color: #528de8;
             line-height: 14px;
           }
-          .money {
+          .money{
             font-size: 12px;
             color: #72aaff;
             line-height: 12px;
@@ -236,22 +225,22 @@
         }
 
       }
-      .btn {
+      .btn{
         width: 91%;
         margin: 0 auto;
       }
     }
-    .introduction {
+    .introduction{
       padding: 20px 0px;
       text-align: left;
       font-size: 13px;
       color: #333;
-      .paragraph-warp {
+      .paragraph-warp{
         padding: 0 10px;
-        .paragraph {
+        .paragraph{
           line-height: 21px;
           margin-top: 26px;
-          &:first-child {
+          &:first-child{
             margin-top: 10px;
           }
         }

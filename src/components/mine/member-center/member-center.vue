@@ -28,7 +28,7 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import Member from '@/components/base/Member/Member'
+  import Member from '@/components/base/member/member'
   import tool from "@/api/tool";
 
   export default {

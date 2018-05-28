@@ -6,7 +6,7 @@
     </div>
     <div class="need">
       需支付：
-      <span class="right-money">￥{{this.$route.query.payMoney}}</span>
+      <span class="right-money">￥299</span>
     </div>
     <div class="pay-way">
       <h4>
@@ -28,10 +28,10 @@
       </div>
     </div>
     <!--todo:如果支付失败按钮显示重新支付-->
-    <div class="btn" :disabled="!isSelected" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
+    <div class="btn" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
 
     <!--重新支付提示信息-->
-    <div class="pay-again" v-show="false">支付失败，请您重新支付</div>
+    <div class="pay-again" v-show="payFail" @click="confirmPay">支付失败，请您重新支付</div>
 
   </div>
 
@@ -51,29 +51,57 @@
     },
     data() {
       return {
-        isSelected:false,
-        content:'在微信中打开链接吗？'
+        isSelected: false,
+        content: '在微信中打开链接吗？',
+        code: null,
+        state: null,
+        payFail: false,
       }
     },
     methods: {
       back() {
         window.history.back()
       },
-      selected(e){
+      selected(e) {
         let element = e.currentTarget;
-        if(element.classList.contains('active')){
+        if (element.classList.contains('active')) {
           element.classList.remove('active');
           this.isSelected = false;
-        }else{
+        } else {
           element.classList.add('active');
           this.isSelected = true;
         }
 
       },
-      confirmPay(){
-        if(!this.isSelected){
+      confirmPay() {
+        this.payFail = false;
+        if (!this.isSelected) {
           return;
-        }else{
+        } else {
+          let param = new URLSearchParams();
+          param.append('code', this.code);
+          param.append('state', this.state);
+          this.axios.post(tool.domind() + tool.path() + '/wx/unifuiedOrder', param).then(r => {
+            WeixinJSBridge.invoke(
+              'getBrandWCPayRequest', {
+                "appId" : r.data.appId,     //公众号名称，由商户传入
+                "timeStamp" : r.data.timeStamp,         //时间戳，自1970年以来的秒数
+                "nonceStr" : r.data.nonceStr, //随机串
+                "package" : r.data.package,
+                "signType" : r.data.signType,         //微信签名方式：
+                "paySign" : r.data.paySign //微信签名
+              },
+              function(res){
+                if(res.err_msg === "get_brand_wcpay_request:ok" ) {
+                  tool.toast("支付成功！");
+                }else {
+                  tool.toast("支付失败！");
+                  this.payFail = true;
+                }
+              })
+
+          });
+
           //打开微信弹窗
           /*MessageBox({
             title: '提示',
@@ -86,26 +114,30 @@
           }).catch(err=>{
 
           });*/
-          //支付确认弹窗
-          MessageBox({
-            message: '<div style="position: relative; top: -20px; font-weight: 600;">支付确认</div>请在微信内完成支付，如果您已支付成功，请点击完成按钮',
-            confirmButtonText:'完成',
-            showCancelButton: true
-          }).then(action=>{
-            if(action == 'confirm'){
-
-            }
-          }).catch(err=>{
-
-          });
+          //   //支付确认弹窗
+          //   MessageBox({
+          //     message: '<div style="position: relative; top: -20px; font-weight: 600;">支付确认</div>请在微信内完成支付，如果您已支付成功，请点击完成按钮',
+          //     confirmButtonText:'完成',
+          //     showCancelButton: true
+          //   }).then(action=>{
+          //     if(action == 'confirm'){
+          //
+          //     }
+          //   }).catch(err=>{
+          //
+          //   });
+          // }
         }
       }
-
     },
     created() {
+      let url = window.location.href//.split('/?&').split('#/').split('#');
+      //url = 'http://test.bjciri.com/?&code=123123123&state=qwe#/mine/recharge';
+      url = url.split('/?&')[1].split('#/')[0].split('&');
+      this.code = url[0].split('=')[1];
+      this.state = url[1].split('=')[1];
     },
     mounted() {
-
     }
   }
 </script>
