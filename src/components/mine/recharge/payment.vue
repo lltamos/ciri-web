@@ -81,6 +81,7 @@
           let param = new URLSearchParams();
           param.append('code', this.code);
           param.append('state', this.state);
+          param.append('body', "源合币充值");
           this.axios.post(tool.domind() + tool.path() + '/wx/unifuiedOrder', param).then(r => {
             if (r === null){
               tool.toast("预订单生成失败！！！请检查参数")
