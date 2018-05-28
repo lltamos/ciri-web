@@ -6,7 +6,7 @@
     </div>
     <div class="need">
       需支付：
-      <span class="right-money">￥299</span>
+      <span class="right-money">￥{{this.$route.query.payMoney}}</span>
     </div>
     <div class="pay-way">
       <h4>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <!--todo:如果支付失败按钮显示重新支付-->
-    <div class="btn" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
+    <div class="btn" :disabled="!isSelected" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
 
     <!--重新支付提示信息-->
     <div class="pay-again" v-show="false">支付失败，请您重新支付</div>
@@ -103,7 +103,6 @@
 
     },
     created() {
-
     },
     mounted() {
 

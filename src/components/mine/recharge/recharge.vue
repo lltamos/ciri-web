@@ -26,12 +26,12 @@
             v-for="(item,index) in rechargeList"
             :key="index"
             :class="[resultNum === index?'active':'']"
-            @click="selectMoney($event,index) ">
+            @click="selectMoney($event,index,item.amount) ">
           <div class="gold">{{item.gold}}金币</div>
           <div class="money">{{item.amount}}元</div>
         </li>
       </ul>
-      <div class="btn" @click="toPayment">支付</div>
+      <div class="btn" @click="toPayment" :disabled="!this.num">支付</div>
       <div class="bottom-line border"></div>
     </div>
 
@@ -64,8 +64,9 @@
       return {
         num: '',
         rechargeList: null, //充值li
-        goldBalance: 0 //金币余额
-
+        goldBalance: 0, //金币余额
+        selectedMoney: '66',
+        payFlag:false,
       }
     },
     methods: {
@@ -76,18 +77,16 @@
         this.$router.push({path: "/mine/recharge/bill-detail"});
       },
       toPayment() {
-        this.$router.push({path: "/mine/recharge/payment"});
-      },
-      selectMoney(e, index) {
-        let element = e.currentTarget;
-        if (element.classList.contains('active')) {
-          element.classList.remove('active');
-        } else {
-          element.classList.add('active');
+        if(!this.num){
+          tool.toast("请选择一种支付金额");
+          return;
         }
+        this.$router.push({path: "/mine/recharge/payment",query:{payMoney:this.selectedMoney}});
+      },
+      selectMoney(e, index, count) {
         this.num = index;
+        this.selectedMoney = count;
       }
-
     },
     created() {
       this.$api.get(tool.domind() + "/gateway/pb/p/member/rechargeStandard")
@@ -102,7 +101,6 @@
             this.goldBalance = res.data.memberGold.toFixed(2);//两位小数
           }
         });
-
     },
     mounted() {
 
