@@ -13,7 +13,7 @@
       <div class="count-warp">
         <span class="count">{{goldBalance}}</span>&nbsp;金币
       </div>
-      <div class="bottom-line border"></div>
+      <div class="split"></div>
     </div>
     <div class="recharge-warp">
       <h4>
@@ -32,7 +32,7 @@
         </li>
       </ul>
       <div class="btn" @click="toPayment" :disabled="!this.num">支付</div>
-      <div class="bottom-line border"></div>
+      <div class="split"></div>
     </div>
 
     <div class="introduction">
@@ -82,7 +82,7 @@
           return;
         }
         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.bjciri.com%2F?%23%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state='+this.selectedMoney+'#wechat_redirect';
-      },
+        },
       selectMoney(e, index, count) {
         this.num = index;
         this.selectedMoney = count;
@@ -172,8 +172,9 @@
       }
 
     }
-    .bottom-line{
+    .split{
       margin: 30px 10px 0px;
+      @include onepx();
     }
     .overage{
       padding: 20px 0px;
