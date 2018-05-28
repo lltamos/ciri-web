@@ -6,7 +6,7 @@
     </div>
     <div class="need">
       需支付：
-      <span class="right-money">￥299</span>
+      <span class="right-money">￥{{this.state}}</span>
     </div>
     <div class="pay-way">
       <h4>
