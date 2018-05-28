@@ -31,7 +31,7 @@
     <div class="btn" :class="[isSelected? 'active':'']" @click="confirmPay">确认支付</div>
 
     <!--重新支付提示信息-->
-    <div class="pay-again" v-show="false">支付失败，请您重新支付</div>
+    <div class="pay-again" v-show="payFail" @click="confirmPay">支付失败，请您重新支付</div>
 
   </div>
 
@@ -54,7 +54,8 @@
         isSelected: false,
         content: '在微信中打开链接吗？',
         code: null,
-        state: null
+        state: null,
+        payFail: false,
       }
     },
     methods: {
@@ -73,6 +74,7 @@
 
       },
       confirmPay() {
+        this.payFail = false;
         if (!this.isSelected) {
           return;
         } else {
@@ -90,7 +92,12 @@
                 "paySign" : r.data.paySign //微信签名
               },
               function(res){
-                alert(res)
+                if(res.err_msg === "get_brand_wcpay_request:ok" ) {
+                  tool.toast("支付成功！");
+                }else {
+                  tool.toast("支付失败！");
+                  this.payFail = true;
+                }
               })
 
           });
