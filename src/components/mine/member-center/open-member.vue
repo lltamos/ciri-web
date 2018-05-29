@@ -6,11 +6,11 @@
     </div>
     <div class="member-level">
       <div class="level">项目库会员</div>
-      <div class="money">待付款：<span class="count">188</span><span class="gold">&nbsp;金币</span></div>
+      <div class="money">待付款：<span class="count">{{this.$route.query.money}}</span><span class="gold">&nbsp;金币</span></div>
     </div>
     <div class="balance clearfix">
-      <span class="balance-word fl">项目库会员</span>
-      <span class="balance-money fr">600金币</span>
+      <span class="balance-word fl">账户余额</span>
+      <span class="balance-money fr">{{goldBalance}}金币</span>
     </div>
     <div class="btn" @click="pay">立即支付</div>
 
@@ -33,6 +33,7 @@
     data() {
       return {
         isSelected:false,
+        goldBalance:0,
         content:'在微信中打开链接吗？'
       }
     },
@@ -81,6 +82,12 @@
       }
     },
     created() {
+      this.$api.get(tool.domind() + "/gateway/ah/s0/userAccoutInfo", {userId: tool.getuser()})
+        .then(res => {
+          if (res.code === 200) {
+            this.goldBalance = res.data.memberGold.toFixed(2);//两位小数
+          }
+        });
 
     },
     mounted() {

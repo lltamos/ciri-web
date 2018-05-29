@@ -7,7 +7,8 @@
     </div>
     <div class="main" :class="bgImg">
       <div class="name">{{name}}</div>
-      <div class="money">{{money}}</div>
+      <div class="money" v-if='this.$route.query.memLevel != "vip"'>￥{{money}}元/年</div>
+      <div class="money" v-else>{{money}}</div>
     </div>
     <div class="bottom" :class="bottomImg" @click="openMember">
         立即开通
@@ -42,7 +43,7 @@
         window.history.back()
       },
       openMember(){
-        this.$router.push({path:'/mine/member-center/open-member'});
+        this.$router.push({path:'/mine/member-center/open-member',query:{money:this.money}});
       }
 
     },
@@ -50,14 +51,14 @@
       if(this.$route.query.memLevel == "project"){
         this.header = "项目库会员介绍";
         this.name = "项目库会员";
-        this.money = "￥298元/年";
+        this.money = "298";
         this.bgImg = "main-project";
         this.bottomImg = "bottom-project";
 
       }else if(this.$route.query.memLevel == "yuanhe"){
         this.header = "源合网会员介绍";
         this.name = "源合网会员";
-        this.money = "￥980元/年";
+        this.money = "980";
         this.bgImg = "main-yuanhe";
         this.bottomImg = "bottom-yuanhe";
 
