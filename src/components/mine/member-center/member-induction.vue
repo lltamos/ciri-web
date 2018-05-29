@@ -2,13 +2,13 @@
   <div class="recharge">
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
-      <h1>{{header}}</h1>
+      <h1>{{name}}介绍</h1>
       <i class="service"></i>
     </div>
     <div class="main" :class="bgImg">
       <div class="name">{{name}}</div>
-      <div class="money" v-if='this.$route.query.memLevel != "vip"'>￥{{money}}元/年</div>
-      <div class="money" v-else>{{money}}</div>
+      <div class="money" v-if='this.$route.query.memLevel != "2"'>￥{{money}}元/年</div>
+      <div class="money" v-if='this.$route.query.memLevel == "2"'>按需定制</div>
     </div>
     <div class="bottom" :class="bottomImg" @click="openMember">
         立即开通
@@ -32,7 +32,7 @@
       return {
         header:'',
         name:'',
-        money:'',
+        money:0,
         bgImg:'',
         bottomImg:''
 
@@ -43,29 +43,29 @@
         window.history.back()
       },
       openMember(){
-        this.$router.push({path:'/mine/member-center/open-member',query:{money:this.money}});
+        this.$router.push({path:'/mine/member-center/open-member',query:{memLevel:this.$route.query.memLevel}});
       }
 
     },
     created() {
-      if(this.$route.query.memLevel == "project"){
-        this.header = "项目库会员介绍";
-        this.name = "项目库会员";
-        this.money = "298";
+      //根据会员等级获取金额信息
+      this.$api.post(tool.domind() + "/gateway/pb/p/member/queryMemberStandardByLevel", {level:this.$route.query.memLevel})
+        .then(res => {
+          if (res.code === 200) {
+            this.name = res.data.desc;
+            this.money = res.data.amount;
+          }
+        });
+
+      if(this.$route.query.memLevel == "3"){
         this.bgImg = "main-project";
         this.bottomImg = "bottom-project";
 
-      }else if(this.$route.query.memLevel == "yuanhe"){
-        this.header = "源合网会员介绍";
-        this.name = "源合网会员";
-        this.money = "980";
+      }else if(this.$route.query.memLevel == "5"){
         this.bgImg = "main-yuanhe";
         this.bottomImg = "bottom-yuanhe";
 
-      }else if(this.$route.query.memLevel == "vip"){
-        this.header = "VIP会员介绍";
-        this.name = "VIP会员";
-        this.money = "按需定制";
+      }else if(this.$route.query.memLevel == "2"){
         this.bgImg = "main-vip";
         this.bottomImg = "bottom-vip";
       }
@@ -122,15 +122,15 @@
       background-size: 100% auto;
       color: #fff;
       &.main-project{
-        height: 833px;
+        height: 883px;
         @include bg-image("../img/intro-project");
       }
       &.main-yuanhe{
-        height: 1234px;
+        height: 1284px;
         @include bg-image("../img/intro-yuanhe");
       }
       &.main-vip{
-        height: 2080px;
+        height: 2130px;
         @include bg-image("../img/intro-vip");
       }
       .name{
@@ -153,6 +153,10 @@
       background-size: 1000% auto;
       font-size: 16px;
       color: #fff;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 199;
       &.bottom-project{
         @include bg-image("../img/bottom-project");
       }
