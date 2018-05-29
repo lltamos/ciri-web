@@ -15,11 +15,11 @@
     </div>
     <div class="main">
       <!--项目库会员-->
-      <member level="project" @toMemInduc="toMemInduc('project')"></member>
+      <member level="3" @toMemInduc="toMemInduc('3')"></member>
       <!--源合网会员-->
-      <member level="yuanhe" @toMemInduc="toMemInduc('yuanhe')"></member>
+      <member level="5" @toMemInduc="toMemInduc('5')"></member>
       <!--VIP会员-->
-      <member level="vip" @toMemInduc="toMemInduc('vip')"></member>
+      <member level="2" @toMemInduc="toMemInduc('2')"></member>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
     },
     methods: {
       back() {
-        window.history.back()
+        this.$router.push({path:'/mine'});
       },
       service() {
         this.servicePop = true;

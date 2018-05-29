@@ -82,7 +82,7 @@
     filters: {},
     computed: {},
     created() {
-      if( this.initLevel == "project"){
+      if( this.initLevel == "3"){
         this.infoLevel = "项目库会员";
         this.bgImg = 'project';
         this.logoSrc = require("../../mine/img/logo-project.png");
@@ -90,7 +90,7 @@
         this.funcName = "基础功能：";
         this.funcDetail = "项目收藏、项目约谈、项目答疑、项目在线路演";
 
-      }else if(this.initLevel == "yuanhe"){
+      }else if(this.initLevel == "5"){
         this.infoLevel = "源合网会员";
         this.bgImg = 'yuanhe';
         this.logoSrc = require("../../mine/img/logo-yuanhe.png");
@@ -98,7 +98,7 @@
         this.funcName = "升级功能：";
         this.funcDetail = "海外项目、企业展示、企业建站、海外投研";
 
-      }else if(this.initLevel == "vip"){
+      }else if(this.initLevel == "2"){
         this.infoLevel = "VIP会员";
         this.bgImg = 'vip';
         this.logoSrc = require("../../mine/img/logo-vip.png");
