@@ -98,7 +98,7 @@
               },
               function(res){
                 if(res.err_msg === "get_brand_wcpay_request:ok" ) {
-                  tool.toast("支付成功！");
+                  this.$router.replace({ path: '/mine/recharge/pay-successful'})
                 }else {
                   tool.toast("支付失败！");
                   this.payFail = true;
