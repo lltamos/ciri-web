@@ -62,6 +62,7 @@
               this.$api.post(tool.domind() + "/gateway/ah/s0/openMember", {level:this.$route.query.memLevel})
                 .then(res => {
                   if (res.code === 200) {
+                    //支付成功之后更新session中的会员等级
                     sessionStorage.removeItem("userLevel");
                     let newLevel = res.level;
                     sessionStorage.setItem("userLevel", newLevel);
