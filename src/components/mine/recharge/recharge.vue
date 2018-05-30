@@ -81,7 +81,7 @@
           tool.toast('请选择一种充值金额');
           return;
         }
-        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.bjciri.com%2F?%23%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state='+(this.selectedMoney * 100)+'#wechat_redirect';
+        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx28d44097b0f145cb&redirect_uri=http%3A%2F%2Ftest.bjciri.com%2F?%23%2Fmine%2Frecharge%2Fpayment&response_type=code&scope=snsapi_base&state='+ this.selectedMoney +'#wechat_redirect';
         },
       selectMoney(e, index, count) {
         this.num = index;
