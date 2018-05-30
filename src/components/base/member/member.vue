@@ -1,12 +1,10 @@
 <template>
   <div class="member">
     <div class="member-item-warp">
-      <div class="current-state">您现在是：</div>
-      <!--todo:判断这里显示您现在是，还是可购买-->
-      <div v-if="false" class="current-state">可购买：</div>
-
+      <div class="current-state">{{currentWord}}</div>
       <div class="member-item" :class="bgImg">
-        <div class="member-detail">
+        <!--未开通会员显示这个member-detail-->
+        <div class="member-detail" v-if="!showLastDay">
           <div class="img">
             <img :src="logoSrc" alt="" width="100%" height="100%">
           </div>
@@ -25,8 +23,8 @@
           </div>
         </div>
 
-        <!--如果开通了源合网会员显示下面这个member-detail-->
-        <div class="member-detail" v-if="false">
+        <!--开通了会员显示下面这个member-detail-->
+        <div class="member-detail" v-if="showLastDay">
           <div class="img">
             <img :src="activeSrc" alt="" width="100%" height="100%">
           </div>
@@ -37,9 +35,9 @@
           </div>
           <div class="kaitong">已开通</div>
           <div class="handel-right fr">
-            <p class="count">0</p>
+            <p class="count">{{lastNumber}}</p>
             <p class="count-word">剩余天数</p>
-            <div class="renewals-btn">续费</div>
+            <div class="renewals-btn" @click="toMemInduc">续费</div>
           </div>
         </div>
 
@@ -64,12 +62,21 @@
         infoLevel:'',
         funcName: '',
         funcDetail:'',
-        bgImg:''
+        bgImg:'',
       }
     },
     props: {
       level: {
         type: String
+      },
+      currentWord: {
+        type: String
+      },
+      showLastDay:{
+        type: Boolean
+      },
+      lastNumber:{
+        type:Number
       }
     },
     watch: {},
@@ -82,7 +89,7 @@
     filters: {},
     computed: {},
     created() {
-      if( this.initLevel == "project"){
+      if( this.initLevel == "3"){
         this.infoLevel = "项目库会员";
         this.bgImg = 'project';
         this.logoSrc = require("../../mine/img/logo-project.png");
@@ -90,7 +97,7 @@
         this.funcName = "基础功能：";
         this.funcDetail = "项目收藏、项目约谈、项目答疑、项目在线路演";
 
-      }else if(this.initLevel == "yuanhe"){
+      }else if(this.initLevel == "5"){
         this.infoLevel = "源合网会员";
         this.bgImg = 'yuanhe';
         this.logoSrc = require("../../mine/img/logo-yuanhe.png");
@@ -98,7 +105,7 @@
         this.funcName = "升级功能：";
         this.funcDetail = "海外项目、企业展示、企业建站、海外投研";
 
-      }else if(this.initLevel == "vip"){
+      }else if(this.initLevel == "2"){
         this.infoLevel = "VIP会员";
         this.bgImg = 'vip';
         this.logoSrc = require("../../mine/img/logo-vip.png");
@@ -121,11 +128,11 @@
   .member{
 
     .member-item-warp{
-      margin-top: 20px;
+      margin-top: 15px;
       .current-state{
         text-align: left;
         font-size: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: #333;
       }
       .member-item{

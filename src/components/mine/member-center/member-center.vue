@@ -15,11 +15,11 @@
     </div>
     <div class="main">
       <!--项目库会员-->
-      <member level="project" @toMemInduc="toMemInduc('project')"></member>
+      <member level="3" :currentWord="proWord" :showLastDay="proLast" :lastNumber="proNumber" @toMemInduc="toMemInduc('3',proLast)"></member>
       <!--源合网会员-->
-      <member level="yuanhe" @toMemInduc="toMemInduc('yuanhe')"></member>
+      <member level="5" :currentWord="yuanheWord" :showLastDay="yuanheLast" :lastNumber="yuanheNumber" @toMemInduc="toMemInduc('5',yuanheLast)"></member>
       <!--VIP会员-->
-      <member level="vip" @toMemInduc="toMemInduc('vip')"></member>
+      <member level="2" :currentWord="vipWord" :showLastDay="vipLast" :lastNumber="vipNumber" @toMemInduc="toMemInduc('2',vipLast)"></member>
     </div>
   </div>
 
@@ -42,11 +42,21 @@
       return {
         servicePop: false,
         isLogin:false,
+        proWord:'可购买：',
+        proLast: false,
+        proNumber:0,
+        yuanheWord:'可购买：',
+        yuanheLast:false,
+        yuanheNumber:0,
+        vipWord:'可购买：',
+        vipLast:false,
+        vipNumber:0
+
       }
     },
     methods: {
       back() {
-        window.history.back()
+        this.$router.push({path:'/mine'});
       },
       service() {
         this.servicePop = true;
@@ -54,12 +64,40 @@
       quitService() {
         this.servicePop = false;
       },
-      toMemInduc(mem){
-        this.$router.push({path:'/mine/member-center/member-induction',query:{memLevel:mem}});
+      toMemInduc(mem,isLast){
+        this.$router.push({path:'/mine/member-center/member-induction',query:{memLevel:mem,showLast:isLast}});
       }
     },
     created() {
       this.isLogin = sessionStorage.getItem("islogin");
+      //获取会员等级、查询会员剩余天数
+      this.$api.get(tool.domind() + "/gateway/ah/s0/getUserLevel")
+        .then(res => {
+          if (res.code === 200) {
+            for(let item of res.data){
+              if(item.level && item.lastMembersDay){
+                if(item.level == '3'){
+                  this.proWord = '您现在是：';
+                  this.proLast = true;
+                  this.proNumber = item.lastMembersDay;
+
+                }else if(item.level == '5'){
+                  this.yuanheWord = '您现在是：';
+                  this.yuanheLast = true;
+                  this.yuanheNumber = item.lastMembersDay;
+
+                }else if(item.level == '2'){
+                  this.vipWord = '您现在是：';
+                  this.vipLast = true;
+                  this.vipNumber = item.lastMembersDay;
+
+                }
+              }
+            }
+
+          }
+        });
+
 
     },
     mounted() {

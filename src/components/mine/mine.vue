@@ -215,21 +215,27 @@ export default {
             }else{
               this.identityTitle = '未认证'
             }
-            //
-            var level=res.data.data.memberLevelId;
-            switch(level){
-              case 2:
-                this.vip=true;
-                break;
-              case 3:
-                this.xmk=true;
-                break;
-              case 5:
-                this.yhw=true;
-                break;
-            }
           }
         });
+      //获取会员等级
+      this.$api.get(tool.domind() + "/gateway/ah/s0/getUserLevel")
+        .then(res => {
+          if (res.code === 200) {
+            for(let item of res.data){
+              if(item.level && item.lastMembersDay){
+                if(item.level == '2'){
+                  this.vip=true;
+                }else if(item.level == '3'){
+                  this.xmk=true;
+                }else if(item.level == '5'){
+                  this.yhw=true;
+                }
+              }
+            }
+
+          }
+        });
+
       //获取收藏的投资方
       this.axios
         .get(
@@ -265,7 +271,12 @@ export default {
   },
   mounted() {
   },
-  destroyed() {}
+  destroyed() {},
+  filters: {
+    time(time) {
+      return moment(time).format("YYYY-MM-DD HH:MM:SS");
+    }
+  }
 };
 </script>
 
