@@ -70,6 +70,9 @@
         this.tabActive = tab;
       },
       seeMoreScores(){
+        if(!this.isIcon){
+          return
+        }
         this.$api.post(tool.domind()+ '/gateway/ah/s0/member/getIntegralDetailsByUser',{
           ageId: this.page,
           pageSize: this.pageSize

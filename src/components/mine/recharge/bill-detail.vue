@@ -46,6 +46,9 @@
         window.history.back()
       },
       seeMoreBill() {
+        if(!this.isIcon){
+          return
+        }
         this.$api.post(tool.domind() + "/gateway/ah/s0/member/getGoldDetailsByUser", {
           pageId: this.page,
           pageSize: this.pageSize
