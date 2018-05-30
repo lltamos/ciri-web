@@ -62,6 +62,9 @@
               this.$api.post(tool.domind() + "/gateway/ah/s0/openMember", {level:this.$route.query.memLevel})
                 .then(res => {
                   if (res.code === 200) {
+                    sessionStorage.removeItem("userLevel");
+                    let newLevel = res.level;
+                    sessionStorage.setItem("userLevel", newLevel);
                     //支付成功弹窗
                     MessageBox({
                       message: '支付成功',
@@ -75,6 +78,7 @@
                       console.log(err);
                     });
                   }else{
+                    //支付失败弹窗
                     MessageBox({
                       message: '支付失败，请重新操作',
                       showCancelButton: false
