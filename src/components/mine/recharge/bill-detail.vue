@@ -23,7 +23,8 @@
 <script>
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line'
-  import tool from "@/api/tool";
+  import tool from "@/api/tool"
+  import moment from 'moment'
 
   export default {
     components: {
@@ -75,7 +76,7 @@
     },
     filters: {
       time(time) {
-        return moment(time).format("YYYY-MM-DD HH:MM:SS");
+        return moment(time).format("YYYY-MM-DD HH:mm:ss");
       }
     }
   }
