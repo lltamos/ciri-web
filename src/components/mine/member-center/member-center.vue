@@ -14,12 +14,17 @@
       </div>
     </div>
     <div class="main">
-      <!--项目库会员-->
-      <member level="3" :currentWord="proWord" :showLastDay="proLast" :lastNumber="proNumber" @toMemInduc="toMemInduc('3',proLast)"></member>
-      <!--源合网会员-->
-      <member level="5" :currentWord="yuanheWord" :showLastDay="yuanheLast" :lastNumber="yuanheNumber" @toMemInduc="toMemInduc('5',yuanheLast)"></member>
-      <!--VIP会员-->
-      <member level="2" :currentWord="vipWord" :showLastDay="vipLast" :lastNumber="vipNumber" @toMemInduc="toMemInduc('2',vipLast)"></member>
+      <div class="current-state" v-show="purchaseList.length != '3'">您现在是：</div>
+      <div v-if="openList != null && openList.length>0" v-for="open in openList" :key="open.level">
+        <member :level="open.level" :list="open"  @toMemInduc="toMemInduc(open.level,openList)"></member>
+      </div>
+
+      <div class="current-state" v-show="openList.length != '3'">可购买：</div>
+     <!--为了352顺序显示，这里不能用for循环-->
+      <member v-show="purchaseList.indexOf(3)!= '-1'" :level="3" :list="null"  @toMemInduc="toMemInduc(3,!openList)"></member>
+      <member v-show="purchaseList.indexOf(5)!= '-1'" :level="5" :list="null"  @toMemInduc="toMemInduc(5,!openList)"></member>
+      <member v-show="purchaseList.indexOf(2)!= '-1'" :level="2" :list="null"  @toMemInduc="toMemInduc(2,!openList)"></member>
+
     </div>
   </div>
 
@@ -42,15 +47,10 @@
       return {
         servicePop: false,
         isLogin:false,
-        proWord:'可购买：',
-        proLast: false,
-        proNumber:0,
-        yuanheWord:'可购买：',
+        openList:'', //已开通
+        purchaseList:[],//可购买
         yuanheLast:false,
-        yuanheNumber:0,
-        vipWord:'可购买：',
         vipLast:false,
-        vipNumber:0
 
       }
     },
@@ -74,27 +74,20 @@
       this.$api.get(tool.domind() + "/gateway/ah/s0/getUserLevel")
         .then(res => {
           if (res.code === 200) {
+            this.openList = res.data;
+            //获取可购买的等级
+            let levelArr = [];
+            let fullArr = [2,3,5];
             for(let item of res.data){
               if(item.level && item.lastMembersDay){
-                if(item.level == '3'){
-                  this.proWord = '您现在是：';
-                  this.proLast = true;
-                  this.proNumber = item.lastMembersDay;
-
-                }else if(item.level == '5'){
-                  this.yuanheWord = '您现在是：';
-                  this.yuanheLast = true;
-                  this.yuanheNumber = item.lastMembersDay;
-
-                }else if(item.level == '2'){
-                  this.vipWord = '您现在是：';
-                  this.vipLast = true;
-                  this.vipNumber = item.lastMembersDay;
-
-                }
+                levelArr.push(item.level);
               }
             }
-
+            for(let it of fullArr){
+              if(levelArr.indexOf(it) == '-1' ){
+                this.purchaseList.push(it);
+              }
+            }
           }
         });
 
@@ -182,6 +175,12 @@
 
     .main{
       padding: 0 12px;
+      .current-state{
+        text-align: left;
+        font-size: 15px;
+        color: #333;
+        padding-top: 20px;
+      }
     }
   }
 </style>
