@@ -15,7 +15,7 @@
               <div class="member-btn" @click="toMemInduc">购买</div>
             </div>
           </div>
-          <div class="share">享有项目库会员服务</div>
+          <div class="share">{{power}}</div>
           <div class="function-warp clearfix">
             <div class="func-name fl">{{funcName}}</div>
             <div class="func-detail fl">{{funcDetail}}</div>
@@ -62,6 +62,7 @@
         funcName: '',
         funcDetail:'',
         bgImg:'',
+        power:''
       }
     },
     props: {
@@ -90,6 +91,7 @@
         this.bgImg = 'project';
         this.logoSrc = require("../../mine/img/logo-project.png");
         this.activeSrc = require("../../mine/img/project-active.png");
+        this.power = '';
         this.funcName = "基础功能：";
         this.funcDetail = "项目收藏、项目约谈、项目答疑、项目在线路演";
 
@@ -98,6 +100,7 @@
         this.bgImg = 'yuanhe';
         this.logoSrc = require("../../mine/img/logo-yuanhe.png");
         this.activeSrc = require("../../mine/img/yuanhe-active.png");
+        this.power = '享有项目库会员服务';
         this.funcName = "升级功能：";
         this.funcDetail = "海外项目、企业展示、企业建站、海外投研";
 
@@ -106,6 +109,7 @@
         this.bgImg = 'vip';
         this.logoSrc = require("../../mine/img/logo-vip.png");
         this.activeSrc = require("../../mine/img/vip-active.png");
+        this.power = '享有源合网会员服务';
         this.funcName = "升级功能：";
         this.funcDetail = "海外投研、法律税务、融资税务、项目尽调、金融保险、属地商务";
 
