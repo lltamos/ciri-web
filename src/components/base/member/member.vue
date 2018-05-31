@@ -1,10 +1,9 @@
 <template>
   <div class="member">
     <div class="member-item-warp">
-      <div class="current-state">{{currentWord}}</div>
       <div class="member-item" :class="bgImg">
         <!--未开通会员显示这个member-detail-->
-        <div class="member-detail" v-if="!showLastDay">
+        <div class="member-detail" v-if="!list">
           <div class="img">
             <img :src="logoSrc" alt="" width="100%" height="100%">
           </div>
@@ -24,7 +23,7 @@
         </div>
 
         <!--开通了会员显示下面这个member-detail-->
-        <div class="member-detail" v-if="showLastDay">
+        <div class="member-detail" v-if="list">
           <div class="img">
             <img :src="activeSrc" alt="" width="100%" height="100%">
           </div>
@@ -35,7 +34,7 @@
           </div>
           <div class="kaitong">已开通</div>
           <div class="handel-right fr">
-            <p class="count">{{lastNumber}}</p>
+            <p class="count">{{list.lastMembersDay}}</p>
             <p class="count-word">剩余天数</p>
             <div class="renewals-btn" @click="toMemInduc">续费</div>
           </div>
@@ -67,16 +66,13 @@
     },
     props: {
       level: {
-        type: String
+        type: Number
       },
-      currentWord: {
-        type: String
-      },
-      showLastDay:{
-        type: Boolean
-      },
-      lastNumber:{
-        type:Number
+      list:{
+        type:Object,
+        default: function(){
+          return {};
+        }
       }
     },
     watch: {},
@@ -116,8 +112,10 @@
       }
     },
     mounted() {
+
     },
     destroyed() {
+
     }
   }
 </script>
@@ -129,12 +127,6 @@
 
     .member-item-warp{
       margin-top: 15px;
-      .current-state{
-        text-align: left;
-        font-size: 15px;
-        margin-bottom: 10px;
-        color: #333;
-      }
       .member-item{
         width: 100%;
         background-repeat: no-repeat;
