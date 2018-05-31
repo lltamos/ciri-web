@@ -29,7 +29,7 @@
           </div>
           <div class="clearfix">
             <div class="info fl">
-              <p class="info-level">项目库会员</p>
+              <p class="info-level">{{infoLevel}}</p>
             </div>
           </div>
           <div class="kaitong">已开通</div>
