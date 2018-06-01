@@ -8,7 +8,7 @@
     <div class="main" :class="bgImg">
       <div class="name">{{name}}</div>
       <div class="money" v-if='this.$route.query.memLevel != "2"'>￥{{money}}元/年</div>
-      <div class="money" v-if='this.$route.query.memLevel == "2"' style="padding-top: 20px;">按需定制</div>
+      <div class="money" v-if='this.$route.query.memLevel == "2"' style="padding-top: 15px;">按需定制</div>
     </div>
     <div v-if='this.$route.query.memLevel != "2" && !this.$route.query.showLast' class="bottom" :class="bottomImg" @click="openMember">
       立即开通
