@@ -1,6 +1,6 @@
 <template>
     <div class="pop-up" v-show="authorityShow">
-      <p class="title">此页面仅限 项目库会员 及更高等级会员查看，<br/>您当前会员等级为<span>注册会员</span>！</p>
+      <p class="title">此页面仅限 项目库会员 及更高等级会员查看，<br/>您当前会员等级为<span>{{this.levelWord}}</span>！</p>
       <div class="btn-warp clearfix">
         <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
         <!--<div class="upgrade fr" @click="upgrade">升级</div>-->
@@ -15,6 +15,7 @@
     components: {},
     data() {
       return {
+        levelWord: '注册会员'
       }
     },
     props: {
@@ -35,8 +36,15 @@
     filters: {},
     computed: {},
     created() {
+
     },
     mounted() {
+      let level = sessionStorage.getItem('userLevel');
+      if(level == '1'){
+        this.levelWord = '注册会员';
+      }else if(level == '3'){
+        this.levelWord = '项目库会员';
+      }
     },
     destroyed() {
     }
