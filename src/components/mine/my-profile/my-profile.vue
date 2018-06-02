@@ -94,6 +94,7 @@
       },
       uploadHead(e){
         var files = e.target.files || e.dataTransfer.files;
+        console.log(e.target.files);
         if (!files.length)
           return;
 
@@ -108,6 +109,7 @@
               params.append("name",tool.getuser());
               params.append("portraitFileSize",res.data.data[0].fileSize);
               params.append("portraitFileId",res.data.data[0].fileId);
+              tool.toast("正在上传...");
               this.updateUserInfo(params);
               //刷新页面
               this.userInfo.portraitFileUrl=res.data.data[0].url;
