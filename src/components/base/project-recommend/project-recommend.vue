@@ -32,7 +32,7 @@
           <div v-for="tag in project.tags" :key="tag" class="f1">
             <div class="fl yellow">{{tag}}</div>
           </div>
-          <div class="video fl" v-show="project.url!=null"></div>
+          <div class="video fl" v-show="project.projVideoStatus"></div>
         </div>
         <ul class="proj-info" :class="{active:project.tags==null && project.url==null}">
           <li>
