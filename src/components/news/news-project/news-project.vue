@@ -95,7 +95,6 @@ export default {
         { key: "page", v: this.page },
         { key: "rouCount", v: 10 },
         { key: "cid", v: 1008 },
-        { key: "level", v: 2004}
       ]);
       this.axios
         .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
