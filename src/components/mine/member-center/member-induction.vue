@@ -3,7 +3,6 @@
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
       <h1>{{name}}介绍</h1>
-      <i class="service"></i>
     </div>
     <div class="main" :class="bgImg">
       <div class="name">{{name}}</div>
