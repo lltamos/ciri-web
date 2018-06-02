@@ -215,7 +215,7 @@
           });
 
           let level = sessionStorage.getItem('userLevel');
-          if(level=='5' || level=='2'|| level=='6'|| level=='7'){
+          if(level=='5' || level=='2'){
             this.authority = true;
             this.authorityShow = false;
             //项目合投前流程
