@@ -98,7 +98,7 @@
               },
               function(res){
                 if(res.err_msg === "get_brand_wcpay_request:ok" ) {
-                  this.$router.replace({ path: '/mine/recharge/pay-successful'})
+                  window.location.href="http://test.bjciri.com/#/mine/recharge/pay-successful"
                 }else {
                   tool.toast("支付失败！");
                   this.payFail = true;
