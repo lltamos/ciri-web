@@ -2,8 +2,6 @@
     <div class="pop-up" v-show="authorityShow">
       <p class="title">此页面仅限 项目库会员 及更高等级会员查看，<br/>您当前会员等级为<span>{{this.levelWord}}</span>！</p>
       <div class="btn-warp clearfix">
-        <!--  <div class="cancel fl" @click="authorityHide">取消</div>-->
-        <!--<div class="upgrade fr" @click="upgrade">升级</div>-->
         <mt-button size="small" type="primary" class="upgrade fr" @click="upgrade">升级</mt-button>
       </div>
     </div>
