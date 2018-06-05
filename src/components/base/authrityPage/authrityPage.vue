@@ -44,7 +44,7 @@
         this.powerWord = '项目库会员';
       }else if(level == '3'){
         this.levelWord = '项目库会员';
-        this.powerWord = 'VIP会员';
+        this.powerWord = '源合网会员';
       }
     },
     destroyed() {
