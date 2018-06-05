@@ -60,7 +60,7 @@
     },
     methods: {
       back() {
-        window.history.back()
+        this.$router.push('/mine/recharge');
       },
       selected(e) {
         let element = e.currentTarget;

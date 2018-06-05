@@ -71,7 +71,7 @@
     },
     methods: {
       back() {
-        window.history.back()
+        this.$router.push('/mine');
       },
       toBillDetail(){
         this.$router.push({ path: "/mine/recharge/bill-detail" });
