@@ -153,7 +153,7 @@ import index from "../../../../router";
           </tr>
           </tbody>
         </table>
-        <div class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
+        <div v-if="this.projectAgentContact.contact!=null&&this.projectAgentContact.contact.length!=0" class="recommend"><a shape="rect" class="btn">在线沟通</a></div>
 
         <div class="contact-title company-info">【企业资料】</div>
         <div v-if="this.projectAgentContact.campaignFile!=null" class="file-warp">
