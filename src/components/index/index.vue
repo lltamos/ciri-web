@@ -7,9 +7,7 @@
     <div  class="slider" id="sliderIndex1">
       <mt-swipe :auto="3000" v-if="topsbanner!=null">
         <mt-swipe-item  v-for="banner in topsbanner" :key="banner.id">
-          <router-link :to="{path:'/news/news-detail/',query: {id: banner.id}}">
-            <img v-lazy="host+banner.thumbnail" alt=""/>
-          </router-link>
+            <img :src="banner.pic" alt=""/>
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -157,7 +155,24 @@
         host: tool.oos(),
         animate: false,
         lastnotify: [],
-        topsbanner: [],
+        topsbanner: [
+          {
+            pic: require('./img/index-banner1.png')
+          },
+          {
+            pic: require('./img/index-banner2.png')
+          },
+          {
+            pic: require('./img/index-banner3.png')
+          },
+          {
+            pic: require('./img/index-banner4.png')
+          },
+          {
+            pic: require('./img/index-banner5.png')
+          },
+
+        ],
         items : [],
         swiperOption: {
           slidesPerView: 3.5,
@@ -200,7 +215,7 @@
         for(var i in r.data.lastnotify){
           this.items.push(r.data.lastnotify[i].title);
         }
-        this.topsbanner = r.data.topsbanner;
+        // this.topsbanner = r.data.topsbanner;
       });
 
       this.weekNew();
