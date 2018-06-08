@@ -250,7 +250,7 @@
     .more {
       font-size: 12px;
       color: #3f80e9;
-      margin-top: 20px;
+      margin: 20px 0;
       text-align: center;
 
       i {
