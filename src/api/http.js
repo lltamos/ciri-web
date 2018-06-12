@@ -16,10 +16,14 @@ axios.interceptors.response.use(response => {
   if (response.data.code == 401) {
     sessionStorage.clear()
     console.log(router.path);
-    router.replace({
-      path: '/login',
-      // query: {redirect: router.currentRoute.fullPath}
-    })
+    if(router.currentRoute.fullPath.indexOf("redirect")==-1){
+      router.replace({
+        path: '/login',
+        query: {redirect: router.currentRoute.fullPath}
+      });
+    }
+    console.log(this.$route);
+    console.log(router.currentRoute.fullPath);
   }
   return response
 }, error => {
