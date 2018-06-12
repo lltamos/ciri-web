@@ -15,9 +15,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   if (response.data.code == 401) {
     sessionStorage.clear()
+    console.log(router.path);
     router.replace({
       path: '/login',
-      query: {redirect: router.currentRoute.fullPath}
+      // query: {redirect: router.currentRoute.fullPath}
     })
   }
   return response
