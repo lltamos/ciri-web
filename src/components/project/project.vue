@@ -166,8 +166,8 @@
         tag: [101001, 101002],
         disabled: false,
         notloading: true,
-        countryList: [],
-        indestryList: [],
+        countryList: [[15364, "伊朗"], [14398, "哈萨克斯坦"], [14860, "乌兹别克斯坦"], [73076, "巴西"], [12764, "泰国"], [12104, "缅甸"]],
+        indestryList: [[1, "新能源"], [8, "市政环保"], [9, "农林牧渔"]],
         floatp : false,
         CornerTag: 1,
         i: [],
@@ -433,8 +433,8 @@
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
       this.loadMore(this.pageId);
-      this.country('getAllCountry', this.countryList);
-      this.country('getAllIndustry', this.indestryList);
+      // this.country('getAllCountry', this.countryList);
+      // this.country('getAllIndustry', this.indestryList);
       this.tabContents.unshift(this.countryList, this.indestryList)
     },
     destroyed() {
