@@ -128,14 +128,17 @@
       &.main-project {
         height: 873px;
         @include bg-image("../img/intro-project");
+        background-size: 100% 833px;
       }
       &.main-yuanhe {
         height: 1274px;
         @include bg-image("../img/intro-yuanhe");
+        background-size: 100% 1234px;
       }
       &.main-vip {
         height: 2120px;
         @include bg-image("../img/intro-vip");
+        background-size: 100% 2080px;
       }
       .name {
         font-size: 40px;

@@ -75,7 +75,8 @@
         }
         this.$api.post(tool.domind()+ '/gateway/ah/s0/member/getIntegralDetailsByUser',{
           ageId: this.page,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          operating: 201   // 201积分收入  202积分支出
         }).then(res=>{
           if(res.code === 200){
             if(this.page=="1"){
@@ -250,7 +251,7 @@
     .more {
       font-size: 12px;
       color: #3f80e9;
-      margin-top: 20px;
+      margin: 20px 0;
       text-align: center;
 
       i {
