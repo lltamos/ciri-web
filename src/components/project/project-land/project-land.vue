@@ -64,7 +64,8 @@
     </div>
     <project-bottom :collects="collects"
                     :collected="collected"
-                    :projId="projId"></project-bottom>
+                    :projId="projId"
+                    :projPhoto="projPhoto"></project-bottom>
   </div>
 </template>
 
