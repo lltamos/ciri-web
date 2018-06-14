@@ -83,9 +83,11 @@
         this.$router.push({path: "/search"});
       },
       defalutImg(index){
+        if(!this.projPhoto){
           if(index){
             this.projPhoto= require('../../index/img/p_'+index+'.jpg');
           }
+        }
       }
     },
     created() {
