@@ -1,11 +1,12 @@
-import {Toast, MessageBox ,Indicator} from 'mint-ui';
+import {Toast, MessageBox, Indicator} from 'mint-ui';
 import moment from 'moment'
 
 export default {
   domind: function () {
     // return 'http://60.205.7.211:8816'
-     return 'http://127.0.0.1:8080'
+    //  return 'http://127.0.0.1:8080'
     //return 'http://test.api.bjciri.com'
+    return 'http://api.bjciri.com'
   },
   path: function () {
     return '/gateway'
@@ -123,7 +124,7 @@ export default {
   },
 
   // 正在加载进度条
-  IndicatorOpen(msg){
+  IndicatorOpen(msg) {
     Indicator.open({
       text: msg,
       spinnerType: 'fading-circle'
@@ -131,7 +132,7 @@ export default {
     // document.body.style.overflow='hidden';
   },
   //关闭加载进度条
-  IndicatorClose(){
+  IndicatorClose() {
     Indicator.close();
     // document.body.style.overflow='auto';
   }
