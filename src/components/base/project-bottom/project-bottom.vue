@@ -5,7 +5,7 @@
         <i class="icon-back"></i>
         <span>返回</span>
       </li>
-      <li v-bind:class="[collected ? 'favorited' : 'favorite' ,'']" @click="collect">
+      <li :name="collected1" v-bind:class="[collected1 ? 'favorited' : 'favorite' ,'']" @click="collect">
         <i class="icon-fav"></i>
         <span>{{collects}}人已收藏</span>
       </li>
@@ -49,7 +49,7 @@
     },
     props: {
       collects: String,
-      collected: Boolean,
+      collected1: Boolean,
       projId: Number
     },
     methods: {
@@ -62,8 +62,8 @@
           this.$router.replace({path: '/login'})
         }
         this.$api.post('/user/batchDealWithUserCollect',
-          {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.collected, name: tool.getuser()}).then(res => {
-          if (this.collected) {
+          {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.collected1, name: tool.getuser()}).then(res => {
+          if (this.collected1) {
             if (parseInt(this.collects) > 0) {
               this.collects = parseInt(this.collects) - 1
             }else {
@@ -76,7 +76,7 @@
               this.collects = '999+'
             }
           }
-          this.collected = !this.collected
+          this.collected1 = !this.collected1
         })
       },
       appoint() {

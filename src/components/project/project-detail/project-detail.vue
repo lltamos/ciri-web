@@ -116,7 +116,7 @@
     <project-manager></project-manager>
     <project-bottom :collects="collects"
                     :shares="shares"
-                    :collected="collected"
+                    :collected1="collected"
                     :projId="projId"></project-bottom>
   </div>
 </template>

@@ -63,7 +63,7 @@
       <img src="../img/manager-bottom@2x.jpg"/>
     </div>
     <project-bottom :collects="collects"
-                    :collected="collected"
+                    :collected1="collected"
                     :projId="projId"
                     :projPhoto="projPhoto"></project-bottom>
   </div>
