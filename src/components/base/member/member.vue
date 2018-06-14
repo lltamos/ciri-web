@@ -1,11 +1,11 @@
 <template>
   <div class="member">
     <div class="member-item-warp">
-      <div class="member-item" :class="bgImg">
+      <div class="member-item" v-lazy:background-image="bgImg">
         <!--未开通会员显示这个member-detail-->
         <div class="member-detail" v-if="!list">
           <div class="img">
-            <img :src="logoSrc" alt="" width="100%" height="100%">
+            <img v-lazy="logoSrc" alt="" width="100%" height="100%">
           </div>
           <div class="clearfix">
             <div class="info fl">
@@ -25,7 +25,7 @@
         <!--开通了会员显示下面这个member-detail-->
         <div class="member-detail" v-if="list">
           <div class="img">
-            <img :src="activeSrc" alt="" width="100%" height="100%">
+            <img v-lazy="activeSrc" alt="" width="100%" height="100%">
           </div>
           <div class="clearfix">
             <div class="info fl">
@@ -88,7 +88,7 @@
     created() {
       if( this.initLevel == "3"){
         this.infoLevel = "项目库会员";
-        this.bgImg = 'project';
+        this.bgImg = require("../../mine/img/bg-project.png");
         this.logoSrc = require("../../mine/img/logo-project.png");
         this.activeSrc = require("../../mine/img/project-active.png");
         this.power = '';
@@ -97,7 +97,7 @@
 
       }else if(this.initLevel == "5"){
         this.infoLevel = "源合网会员";
-        this.bgImg = 'yuanhe';
+        this.bgImg = require("../../mine/img/bg-yuanhe.png");
         this.logoSrc = require("../../mine/img/logo-yuanhe.png");
         this.activeSrc = require("../../mine/img/yuanhe-active.png");
         this.power = '享有项目库会员服务';
@@ -106,7 +106,7 @@
 
       }else if(this.initLevel == "2"){
         this.infoLevel = "VIP会员";
-        this.bgImg = 'vip';
+        this.bgImg = require("../../mine/img/bg-vip.png");
         this.logoSrc = require("../../mine/img/logo-vip.png");
         this.activeSrc = require("../../mine/img/vip-active.png");
         this.power = '享有源合网会员服务';
@@ -252,18 +252,6 @@
         }
       }
 
-    }
-
-    .project{
-      @include bg-image("../../mine/img/bg-project");
-
-    }
-    .yuanhe{
-      @include bg-image("../../mine/img/bg-yuanhe");
-
-    }
-    .vip{
-      @include bg-image("../../mine/img/bg-vip");
     }
 
 

@@ -4,7 +4,7 @@
       <i class="icon-back" @click="back"></i>
       <h1>{{name}}介绍</h1>
     </div>
-    <div class="main" :class="bgImg">
+    <div class="main" v-lazy:background-image="bgImg" :class="bgSize">
       <div class="name">{{name}}</div>
       <div class="money" v-if='this.$route.query.memLevel != "2"'>￥{{money}}元/年</div>
       <div class="money" v-if='this.$route.query.memLevel == "2"' style="padding-top: 15px;">按需定制</div>
@@ -40,6 +40,7 @@
         name: '',
         money: 0,
         bgImg: '',
+        bgSize:'',
         bottomImg: ''
 
       }
@@ -63,15 +64,18 @@
         });
 
       if (this.$route.query.memLevel == "3") {
-        this.bgImg = "main-project";
+        this.bgSize='main-project';
+        this.bgImg = require("../img/intro-project.jpg");
         this.bottomImg = "bottom-project";
 
       } else if (this.$route.query.memLevel == "5") {
-        this.bgImg = "main-yuanhe";
+        this.bgSize='main-yuanhe';
+        this.bgImg = require("../img/intro-yuanhe.jpg");
         this.bottomImg = "bottom-yuanhe";
 
       } else if (this.$route.query.memLevel == "2") {
-        this.bgImg = "main-vip";
+        this.bgSize='main-vip';
+        this.bgImg = require("../img/intro-vip.jpg");
         this.bottomImg = "bottom-vip";
       }
     },
@@ -127,17 +131,14 @@
       color: #fff;
       &.main-project {
         height: 873px;
-        @include bg-image("../img/intro-project");
         background-size: 100% 833px;
       }
       &.main-yuanhe {
         height: 1274px;
-        @include bg-image("../img/intro-yuanhe");
         background-size: 100% 1234px;
       }
       &.main-vip {
         height: 2120px;
-        @include bg-image("../img/intro-vip");
         background-size: 100% 2080px;
       }
       .name {
