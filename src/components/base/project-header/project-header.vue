@@ -8,7 +8,7 @@
     <div class="project">
       <div class="img">
         <div class="icon-state">{{status}}</div>
-        <img :src="projPhoto" :data="defalutImg(industryId)" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
+        <img :src="projPhoto"  :onerror="defalutImg(industryId)" alt="" width="100%" height="100%"> <i class="favorite icon-favorite"></i></div>
       <div class="project-number">编号 <span>{{this.$route.query.projId}}</span></div>
       <div class="main-news">
         <div class="title">
@@ -83,9 +83,9 @@
         this.$router.push({path: "/search"});
       },
       defalutImg(index){
-        if(!this.projPhoto){
+        if(!this.projUrl){
           if(index){
-            this.projPhoto= require('../../index/img/p_'+index+'.jpg');
+            this.projUrl= require('../../index/img/p_'+index+'.jpg');
           }
         }
       }
