@@ -114,10 +114,7 @@
     </div>
     <!--客户经理-->
     <project-manager></project-manager>
-    <project-bottom :collects="collects"
-                    :shares="shares"
-                    :collected1="collected"
-                    :projId="projId"></project-bottom>
+    <project-bottom :projId="projId"></project-bottom>
   </div>
 </template>
 

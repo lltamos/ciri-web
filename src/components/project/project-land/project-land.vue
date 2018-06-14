@@ -62,10 +62,7 @@
     <div class="man-warp">
       <img src="../img/manager-bottom@2x.jpg"/>
     </div>
-    <project-bottom :collects="collects"
-                    :collected1="collected"
-                    :projId="projId"
-                    :projPhoto="projPhoto"></project-bottom>
+    <project-bottom :projId="projId"></project-bottom>
   </div>
 </template>
 

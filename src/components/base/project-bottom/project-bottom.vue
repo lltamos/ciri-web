@@ -39,40 +39,45 @@
     components: {
       tool
     },
-    data(){
-      return{
+    data() {
+      return {
         // projid:this.$route.query.projId,
-        appointShow : false,
-        phone:"",
-        talkDate:""
+        appointShow: false,
+        phone: "",
+        talkDate: "",
+        collects: "",
+        collected1: false,
       }
     },
     props: {
-      collects: String,
-      collected1: Boolean,
       projId: Number
     },
     methods: {
       //返回到列表页
-      backProject(){
+      backProject() {
         this.$router.push('/project');
       },
-      collect () {
+      collect() {
         if (tool.getuser() === null) {
           this.$router.replace({path: '/login'})
         }
         this.$api.post('/user/batchDealWithUserCollect',
-          {typeFlag: 1, projectIdsStr: this.projId, operationFlag: !this.collected1, name: tool.getuser()}).then(res => {
+          {
+            typeFlag: 1,
+            projectIdsStr: this.projId,
+            operationFlag: !this.collected1,
+            name: tool.getuser()
+          }).then(res => {
           if (this.collected1) {
             if (parseInt(this.collects) > 0) {
               this.collects = parseInt(this.collects) - 1
-            }else {
+            } else {
               this.collects = '0'
             }
-          }else {
+          } else {
             if (parseInt(this.collects) < 999) {
               this.collects = parseInt(this.collects) + 1
-            }else {
+            } else {
               this.collects = '999+'
             }
           }
@@ -82,32 +87,44 @@
       appoint() {
         this.appointShow = true;
       },
-      appointExit(){
+      appointExit() {
         this.appointShow = false;
       },
-      talk(){
+      talk() {
         let flag = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if(this.phone==null||!flag.test(this.phone)){
+        if (this.phone == null || !flag.test(this.phone)) {
           tool.toast("手机号格式不正确");
           return;
         }
-        if(this.talkDate == ""){
+        if (this.talkDate == "") {
           tool.toast("预约时间不能为空");
           return;
         }
         this.$api.post('/pb/talk/add',
-          {phone: this.phone, projid: this.projId,talkTime:this.talkDate}).then(res => {
+          {phone: this.phone, projid: this.projId, talkTime: this.talkDate}).then(res => {
           if (res.code === 200) {
             tool.toast("预约成功");
-          }else {
+          } else {
             tool.toast("预约失败请重试");
           }
           this.appointShow = false;
         });
 
+      },
+      init() {
+        this.$api.post('/pb/p/getProjectHeadInfo', {username: tool.getuser(), projId: this.projId})
+          .then(res => {
+            if (res.code === 200) {
+              this.collects = res.data.collects
+              this.shares = res.data.shares
+              this.collected1 = res.data.collected
+            }
+          })
       }
+    },
+    created() {
+      this.init();
     }
-
   }
 </script>
 
