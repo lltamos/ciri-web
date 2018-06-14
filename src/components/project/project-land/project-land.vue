@@ -387,6 +387,7 @@
         margin: auto;
         display: table;
         margin-bottom: 15px;
+        background:#3f83e6 ;
       }
 
     }
