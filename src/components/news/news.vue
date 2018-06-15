@@ -3,7 +3,6 @@
 <template>
   <div class="news">
     <header class="gradient">资讯</header>
-    <tab-bar></tab-bar>
     <div class="main">
       <ul class="tab">
         <li>
@@ -23,6 +22,7 @@
         <router-view></router-view>
       </keep-alive>
     </div>
+    <tab-bar></tab-bar>
   </div>
 </template>
 

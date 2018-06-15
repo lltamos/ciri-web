@@ -24,7 +24,6 @@
         </div>
       </router-link>
     </div>
-    <!--<tab-bar></tab-bar>-->
     <div class="main">
       <ul class="tab">
         <li>
@@ -48,14 +47,12 @@
 </template>
 
 <script>
-  import TabBar from "@/components/base/tab-bar/tab-bar";
   import CrossLine from "@/components/base/cross-line/cross-line";
   import tool from "@/api/tool";
   import moment from 'moment'
 
   export default {
     components: {
-      TabBar,
       CrossLine
     },
     data() {

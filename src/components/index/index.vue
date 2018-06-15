@@ -126,7 +126,9 @@
         <p class="mb16">合作邮箱：support@bjciri.com</p>
       </div>
       <div class="fr qr-warp">
-        <div class="qrimg"></div>
+        <div class="qrimg">
+          <img src="./img/icon-qr.png" alt=""/>
+        </div>
         <div class="qr-des">源合网订阅号</div>
       </div>
     </div>
@@ -679,8 +681,10 @@
           display: inline-block;
           height: 89px;
           width: 89px;
-          @include bg-image('./img/icon-qr');
-          background-size: 89px auto;
+          img{
+            width:100%;
+            height:100%;
+          }
         }
 
         .qr-des {

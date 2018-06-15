@@ -18,8 +18,9 @@
       <div class="pop-up">
         <p class="title">约谈</p>
         <div class="input-warp">
+          <input type="text" placeholder="姓名（必填）" v-model="talkDate">
           <input type="text" placeholder="您的手机号码（必填）" v-model="phone">
-          <input type="text" placeholder="预约时间（如本周三）（必填）" v-model="talkDate">
+
         </div>
         <p class="msg">我们将会在第一时间和您取得联系，感谢支持！</p>
         <div class="btn-warp clearfix">
