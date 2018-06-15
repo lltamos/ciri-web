@@ -6,7 +6,7 @@
       <mt-swipe-item v-for="item in swipeObj" :key="item.id">
          <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
            <img v-lazy="host+item.thumbnail">
-           <p id="slider2">{{item.title.length>15 ? item.title.substr(0,15) +'...' : item.title}} </p>
+           <p id="slider2">{{item.title.length>14 ? item.title.substr(0,14) +'...' : item.title}} </p>
            <div class="bg-slider"></div>
          </router-link>
       </mt-swipe-item>
