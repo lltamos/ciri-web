@@ -121,7 +121,6 @@
 
   .tab {
     @include onepx("bottom");
-    width: 100%;
     height: 35px;
     text-align: center;
     display: flex;
@@ -132,6 +131,9 @@
       line-height: 25px;
       position: relative;
       margin-right: 22px;
+      &:last-child{
+        margin-right: 0;
+      }
       a {
         display: block;
         font-size: 14px;
