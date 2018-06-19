@@ -169,7 +169,7 @@
       },
       //点亮注册按钮
       renderBtnColor() {
-        if(this.checked != '' && this.phone!='' && this.verifyCode != '' && this.password1 != '' && this.password2 != ''){
+        if(this.checked != '' && this.phone!='' && this.verifyCode != '' && this.password1 != '' && this.password2 != '' && this.password1 == this.password2){
           this.isDisable = false;
           return "registerBtnActive";
         }
