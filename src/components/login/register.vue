@@ -143,6 +143,12 @@ export default {
         .then(res => {
           if (res.data.code === 200) {
             this.$router.replace({ path: "/login" });
+            this.checked = '';
+            this.phone = '';
+            this.password1 = '';
+            this.password2 = '';
+            this.verifyCode = '';
+
           } else if(res.data.code === 101){
             this.error = res.data.msg;
             this.errorShow = true;
@@ -152,6 +158,10 @@ export default {
             this.errorShow = true;
             this.isDisable = false;
           }
+          if(res.data.code === 104){
+            this.error = "验证码错误";
+          }
+
         })
         .catch(err => {
           console.log(err);
@@ -287,7 +297,8 @@ export default {
   filters: {},
   computed: {},
   created() {},
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
