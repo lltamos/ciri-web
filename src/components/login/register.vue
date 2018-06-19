@@ -92,7 +92,7 @@
         checkedbox: true,
         number_registered: false,
         checked: "1",
-        isDisable: false
+        isDisable: true
       };
     },
     props: {},
@@ -100,79 +100,77 @@
     methods: {
       register() {
         //验证角色
-        if (this.checked !== "") {
-          //验证手机号
-          let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-          if (this.phone == "" || !reg.test(this.phone)) {
-            tool.toast("请填写正确的手机号！");
-
-          } else {
-            //验证验证码
-            let reg = new RegExp(/^\d{6}$/);
-            if (this.verifyCode == "" || !reg.test(this.verifyCode)) {
-              tool.toast("验证码错误！");
-
-            } else {
-              //验证密码
-              if (!this.password1) {
-                tool.toast("密码不能为空！");
-
-              } else {
-                //验证再次输入密码
-                if (this.password1 !== this.password2) {
-                  tool.toast("两次输入的密码不一致！");
-
-                } else {
-                  this.axios
-                    .post(tool.domind() + "/gateway/app/sys/regist", {
-                      'roleId': this.checked,
-                      'name': this.phone,
-                      'password': this.password1,
-                      'verifyCode': this.verifyCode
-                    })
-                    .then(res => {
-                      if (res.data.code == 200) {
-                        tool.toast("注册成功！");
-                        this.$router.replace({path: "/login"});
-                        this.checked = '';
-                        this.phone = '';
-                        this.password1 = '';
-                        this.password2 = '';
-                        this.verifyCode = '';
-
-                      } else if (res.data.code == 101 || res.data.code == 102 || res.data.code == 103) {
-                        tool.toast('账号已存在！');
-
-                      } else if(res.data.code === 104){
-                        tool.toast('验证码错误！');
-
-                      }else{
-                        tool.toast('注册失败，请稍后重试！');
-                      }
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
-
-                }
-
-              }
-
-
-            }
-
-          }
-
-        } else {
+        if (this.checked == "") {
           tool.toast("请选择角色！");
+          return;
         }
+
+        //验证手机号
+        let regPhone = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if (this.phone == "" || !regPhone.test(this.phone)) {
+          tool.toast("请填写正确的手机号！");
+          return;
+        }
+
+        //验证验证码
+        let regCode = new RegExp(/^\d{6}$/);
+        if (this.verifyCode == "" || !regCode.test(this.verifyCode)) {
+          tool.toast("验证码错误！");
+          return;
+        }
+
+        //验证密码
+        if (!this.password1) {
+          tool.toast("密码不能为空！");
+          return;
+        }
+
+        //再次验证密码
+        if (this.password1 !== this.password2) {
+          tool.toast("两次输入的密码不一致！");
+          return;
+        }
+
+        this.axios
+          .post(tool.domind() + "/gateway/app/sys/regist", {
+            'roleId': this.checked,
+            'name': this.phone,
+            'password': this.password1,
+            'verifyCode': this.verifyCode
+          })
+          .then(res => {
+
+            if (res.data.code == 200) {
+              tool.toast("注册成功！");
+              this.$router.replace({path: "/login"});
+              this.checked = '';
+              this.phone = '';
+              this.password1 = '';
+              this.password2 = '';
+              this.verifyCode = '';
+
+            } else if (res.data.code == 101 || res.data.code == 102 || res.data.code == 103) {
+              tool.toast('账号已存在！');
+
+            } else if(res.data.code === 104){
+              tool.toast('验证码错误！');
+
+            }else{
+              tool.toast('注册失败，请稍后重试！');
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
       },
       back() {
         window.history.back()
       },
       //点亮注册按钮
       renderBtnColor() {
-        if(this.checked != '' && this.phone!='' && this.verifyCode != '' && this.password1 != '' && this.password2 != ''){
+        if(this.checked != '' && this.phone!='' && this.verifyCode != '' && this.password1 != '' && this.password2 != '' && this.password1 == this.password2){
+          this.isDisable = false;
           return "registerBtnActive";
         }
       },
@@ -425,6 +423,13 @@
           font-size: 12px;
         }
       }
+      .error {
+        text-align: center;
+        color: #f81717;
+        font-size: 10px;
+        padding: 15px 0 15px;
+        height: 10px;
+      }
       .mint-button {
         margin: 0px auto 0px;
         font-size: 15px;
@@ -448,4 +453,3 @@
     }
   }
 </style>
-

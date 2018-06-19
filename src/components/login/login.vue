@@ -9,8 +9,7 @@
       <div class="iconWrap" v-show="showPhone">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone"
-                   @focus="Focus">
+            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @focus="Focus">
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
@@ -19,7 +18,7 @@
       <div class="iconWrap" v-show="showEmail">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email" @blur="verifyEmail"
+            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email"
                    @focus="Focus">
           </div>
         </div>
@@ -29,7 +28,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="psw"
+            <input placeholder="请输入密码" :type="pswTypeChange" v-model="password" class="mint-field-core"
                    @focus="Focus">
           </div>
         </div>
@@ -40,9 +39,6 @@
       <div class="regiPwd">
         <router-link to="/register" class="fl fs12">免费注册</router-link>
         <router-link to="/resetpwd" class="fr fs12">忘记密码？</router-link>
-      </div>
-      <div class="error">
-        <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
       </div>
 
       <mt-button :class="loginClass" size="large" @click="login" :disabled="isDisable">登录</mt-button>
@@ -68,11 +64,9 @@
         showEmail: false,
         pswTypeChange: "password",
         pswIcon: "switch pswIcon pswIconClose",
-        error: "账号错误，请重新输入",
-        errorShow: false,
-        phone: this.phone,
-        email: this.email,
-        password: this.password,
+        phone: '',
+        email: '',
+        password: '',
         loginData: [],
         position: "",
         aisle: 0,
@@ -94,7 +88,6 @@
       //切换邮箱手机号登录
       Switch() {
         this.phone = this.email = this.password = "";
-        this.errorShow = false;
         this.showPhone = !this.showPhone;
         this.showEmail = !this.showEmail;
       },
@@ -107,57 +100,35 @@
           this.pswIcon = "switch pswIcon pswIconClose";
         }
       },
-      //验证手机号码部分
-      verifyPhone() {
-        this.position = "fixImg";
-        let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if (this.phone == "") {
-          this.errorShow = true;
-          this.error = "账号错误，请重新输入";
-        } else if (!reg.test(this.phone)) {
-          this.errorShow = true;
-          this.error = "账号错误，请重新输入";
-        } else {
-          this.errorShow = false;
-        }
-      },
-      verifyEmail() {
-        this.position = "fixImg";
-        let flag = /^.*\@.*\.com/;
-        if (this.email == "") {
-          this.errorShow = true;
-          this.error = "账号错误，请重新输入";
-        } else if (!flag.test(this.email)) {
-          this.errorShow = true;
-          this.error = "账号错误，请重新输入";
-        } else {
-          this.errorShow = false;
-        }
-      },
-      //验证密码不为空
-      psw() {
-        this.position = "fixImg";
-        if (this.password == "") {
-          this.errorShow = true;
-          this.error = "密码错误，请重新输入";
-        } else {
-          this.errorShow = false;
-        }
-      },
       fixImg() {
         this.position = "fixImg";
       },
       //初始化数据
       login() {
-        this.isDisable = true
-        let tag = false;
+        this.isDisable = true;
+
+        //验证手机号或者邮箱
         if (this.showPhone) {
-          tag = tool.checkMobile(this.phone);
+          let regPhone = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+          if (this.phone == "" || !regPhone.test(this.phone)) {
+            tool.toast("请填写正确的手机号！");
+            return;
+          }
         } else {
-          tag = tool.checkEmail(this.email);
+          let regEmail = /^.*\@.*\.com/;
+          if (this.email == "" || !regEmail.test(this.email)) {
+            tool.toast("请输入正确的邮箱号！");
+            return;
+          }
+
+        }
+        //验证密码
+        if (!this.password) {
+          tool.toast("密码不能为空！");
+          return;
         }
 
-        if (tag && this.password !== "") {
+        if (this.password !== "") {
           let params = new URLSearchParams();
           params.append("key", this.showEmail ? this.email : this.phone);
           params.append("pwd", this.password);
@@ -180,8 +151,7 @@
                   path: redirect
                 });
               } else {
-                this.error = "账号或密码错误，请重新输入";
-                this.errorShow = true;
+                tool.toast("账号或密码错误，请重新输入！");
                 this.isDisable = false;
               }
             })
@@ -189,8 +159,7 @@
               tool.toast(err);
             });
         } else {
-          this.error = "账号或密码错误，请重新输入";
-          this.errorShow = true;
+          tool.toast("账号或密码错误，请重新输入！");
         }
       }
     },
@@ -313,7 +282,7 @@
       }
 
       .mint-button {
-        margin: 0px auto 15px;
+        margin: 60px auto 15px;
         font-size: 15px;
         height: 34px;
       }
