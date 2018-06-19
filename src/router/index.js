@@ -431,7 +431,8 @@ export default new Router({
     // 注册页面
     {
       path: '/register',
-      component: Register
+      component: Register,
+      meta: {keepAlive: true}
     },
     // 找回密码页面
     {
