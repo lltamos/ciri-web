@@ -64,6 +64,7 @@
   import More from '@/components/base/more/more';
   import BorderLine from '@/components/base/border-line/border-line';
   import tool from '@/api/tool'
+  import { Indicator } from 'mint-ui';
 
   export default {
     components: {
@@ -97,6 +98,17 @@
         console.log(e.target.files);
         if (!files.length)
           return;
+        // console.log(files[0].size);
+
+        if(files[0].size>1*1024*1024){
+          tool.toast("您上传图片过大,请重新上传");
+          e.target.value='';
+          return;
+        }
+        Indicator.open({
+          text: '正在上传文件...',
+          spinnerType: 'fading-circle'
+        });
 
         var imgFormData = new FormData();
         imgFormData.append('img', files[0]);
@@ -109,8 +121,9 @@
               params.append("name",tool.getuser());
               params.append("portraitFileSize",res.data.data[0].fileSize);
               params.append("portraitFileId",res.data.data[0].fileId);
-              tool.toast("正在上传...");
+              // tool.toast("正在上传...");
               this.updateUserInfo(params);
+              Indicator.close();
               //刷新页面
               this.userInfo.portraitFileUrl=res.data.data[0].url;
             }else{

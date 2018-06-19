@@ -61,6 +61,7 @@
   import HeaderBar from '@/components/base/header-bar/header-bar'
   import CrossLine from '@/components/base/cross-line/cross-line';
   import tool from '@/api/tool';
+  import { Indicator } from 'mint-ui';
 
   export default {
     components: {
@@ -96,6 +97,15 @@
         var files = e.target.files || e.dataTransfer.files;
         if (!files.length)
           return;
+        if(files[0].size>1*1024*1024){
+          tool.toast("您上传图片过大,请重新上传");
+          e.target.value='';
+          return;
+        }
+        Indicator.open({
+          text: '正在上传文件...',
+          spinnerType: 'fading-circle'
+        });
         var imgFormData = new FormData();
         imgFormData.append('img', files[0]);
         let config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -126,6 +136,7 @@
                   this.nameCardBackFileId = temp.fileId;
                   break;
               }
+              Indicator.close();
             }
           });
 
