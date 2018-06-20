@@ -1,7 +1,7 @@
 <!-- news -->
 
 <template>
-  <div class="news">
+  <div class="news bg-blank">
     <header class="gradient">资讯</header>
     <div class="main">
       <ul class="tab">

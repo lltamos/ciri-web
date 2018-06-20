@@ -1,6 +1,6 @@
 <!-- 登录 组件 -->
 <template>
-  <div class="login">
+  <div class="login ping-blank">
     <header-bar text="手机号登录" @back="back"></header-bar>
     <!-- 横线分隔条 -->
     <cross-line></cross-line>

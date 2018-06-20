@@ -1,5 +1,5 @@
 <template>
-  <div class="security">
+  <div class="security ping-blank">
     <header-bar text="手机绑定" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">

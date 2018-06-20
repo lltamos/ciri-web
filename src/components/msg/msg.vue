@@ -1,7 +1,7 @@
 <!-- news -->
 
 <template>
-  <div class="msg">
+  <div class="msg bg-blank">
     <header class="gradient">我的消息
     </header>
     <div class="main">

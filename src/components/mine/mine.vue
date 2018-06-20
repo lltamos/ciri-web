@@ -1,5 +1,5 @@
 <template>
-  <div class="mine">
+  <div class="mine bg-blank">
     <header class="gradient">
       个人中心
       <router-link to="/mine/security"><i class="icon-setting"></i></router-link>

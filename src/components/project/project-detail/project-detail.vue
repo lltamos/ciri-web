@@ -1,5 +1,5 @@
 <template>
-  <div class="project-detail">
+  <div class="project-detail bg-blank">
     <div ref="fixedHeardvisit" id="fixedHeardvisit">
       <projectHeader :visit="visit"
                      :projName="projName"

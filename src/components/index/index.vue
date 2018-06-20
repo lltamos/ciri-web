@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index bg-blank">
     <header class="gradient">INDUSTRYC2C
       <i class="icon_search" @click="search"></i>
     </header>
