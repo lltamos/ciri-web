@@ -150,8 +150,14 @@
                 this.$router.replace({
                   path: redirect
                 });
+              }else if(res.data.code === 500){
+                tool.toast("账号不存在！");
+                this.isDisable = false;
+              }else if(res.data.code === 101){
+                tool.toast("密码不正确！");
+                this.isDisable = false;
               } else {
-                tool.toast("账号或密码错误，请重新输入！");
+                tool.toast("登录失败，请重试！");
                 this.isDisable = false;
               }
             })

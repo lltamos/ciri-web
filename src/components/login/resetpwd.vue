@@ -9,8 +9,7 @@
       <div class="iconWrap" v-show="showPhone">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone"
-                   @focus="Focus">
+            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone">
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
@@ -19,8 +18,7 @@
       <div class="iconWrap" v-show="showEmail">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email" @blur="verifyEmail"
-                   @focus="Focus">
+            <input placeholder="请输入邮箱" type="email" class="mint-field-core" v-model="email">
           </div>
         </div>
         <i class="iconImg icon-email"></i>
@@ -29,8 +27,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="verifyCode" @blur="fixImg"
-                   @focus="Focus">
+            <input placeholder="请输入验证码" type="text" class="mint-field-core" v-model="verifyCode" @blur="fixImg">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
@@ -40,18 +37,13 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg"
-                   @focus="Focus">
+            <input placeholder="请输入新密码" :type="pswTypeChange" v-model="password" class="mint-field-core" @blur="fixImg">
           </div>
         </div>
         <i class="iconImg icon-password"></i>
         <div :class="pswIcon" @click="pswShow"></div>
       </div>
-      <div class="error">
-        <div v-text="error" v-show="errorShow" class="errorText">手机号错误，请重新输入</div>
-      </div>
-
-      <mt-button :class="loginClass" size="large" @click="restpswd" :disabled="isDisable">提交</mt-button>
+      <mt-button class="loginBtn" :class="renderBtnColor()" size="large" @click="restpswd" :disabled="isDisable">提交</mt-button>
     </div>
   </div>
 </template>
@@ -73,15 +65,13 @@
         showEmail: false,
         pswTypeChange: 'password',
         pswIcon: 'switch pswIcon pswIconClose',
-        error: '手机号错误，请重新输入',
-        errorShow: false,
         showCode: true,
         count: '',
         aisle: 0,
-        verifyCode: this.verifyCode,
-        phone: this.phone,
-        email: this.email,
-        password: this.password,
+        verifyCode: '',
+        phone: '',
+        email: '',
+        password: '',
         loginData: [],
         position: '',
         isDisable: false
@@ -93,42 +83,66 @@
     methods: {
       //初始化数据
       restpswd() {
-        this.isDisable = true
-        let tag = false;
+        this.isDisable = true;
+
+        //验证手机号或者邮箱
         if (this.aisle === 0) {
-          tag = tool.checkMobile(this.phone);
+          let regPhone = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+          if (this.phone == "" || !regPhone.test(this.phone)) {
+            tool.toast("请填写正确的手机号！");
+            return;
+          }
         } else {
-          tag = tool.checkEmail(this.email);
+          let regEamil = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
+          if (this.email == "" || !regEamil.test(this.email)) {
+            tool.toast("请填写正确的手机号！");
+            return;
+          }
         }
 
-        if (tag) {
-          this.axios.post(tool.domind() + '/gateway/app/sys/restpswd', {
-            name: this.aisle === 0 ? this.phone : this.email,
-            password: this.password,
-            verifyCode: this.verifyCode,
-            code: this.code
-          }).then(res => {
-            if(res.data.code === 200){
-              this.$router.replace({ path: '/login'})
-            }else{
-              this.error = '账号或密码错误，请重新输入'
-              this.errorShow = true;
-              this.isDisable = false;
-            }
-          }).catch(err => {
-          })
-        } else {
-          this.error = '请输入帐号';
+        //验证验证码
+        let regCode = new RegExp(/^\d{6}$/);
+        if (this.verifyCode == "" || !regCode.test(this.verifyCode)) {
+          tool.toast("验证码错误！");
+          return;
         }
+
+        //验证密码
+        if (!this.password) {
+          tool.toast("密码不能为空！");
+          return;
+        }
+
+        this.axios.post(tool.domind() + '/gateway/app/sys/restpswd', {
+          name: this.aisle === 0 ? this.phone : this.email,
+          password: this.password,
+          verifyCode: this.verifyCode,
+          code: this.code
+        }).then(res => {
+          if(res.data.code === 200){
+            tool.toast("修改成功！");
+            this.$router.replace({ path: '/login'})
+          }else if(res.data.code === 500){
+            tool.toast("更新失败！");
+          }else if(res.data.code === 101){
+            tool.toast("用户不存在！");
+
+          }else if(res.data.code === 102){
+            tool.toast("验证码不正确！");
+
+          }else{
+            tool.toast("服务器异常，请稍后重试！");
+          }
+        }).catch(err => {
+
+        })
+
+
       },
       back() {
         window.history.back()
       },
-      //input获取焦点时执行
-      Focus() {
-        this.loginClass = 'loginBtnActive';
-        this.isDisable = false;
-      },
+
       //切换邮箱手机号登录
       Switch() {
         this.phone = this.email = this.password = this.code = '';
@@ -156,39 +170,36 @@
         }
 
       },
-      //验证手机号码部分
-      verifyPhone() {
-        this.position = 'fixImg';
-        let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if (this.phone === '') {
-          this.errorShow = true;
-        } else this.errorShow = !reg.test(this.phone);
-      },
-      verifyEmail() {
-        this.position = 'fixImg';
-        let flag = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
-        if (this.phone === '') {
-          this.errorShow = true;
-        } else this.errorShow = !flag.test(this.phone);
-      },
       fixImg() {
         this.position = 'fixImg';
       },
       //验证码
       getCode() {
-        let tag=tool.checkEmail(this.email)||tool.checkMobile(this.phone);
-        if (!tag){
-              return
+
+        //发送验证码的是验证手机和邮箱号
+        if (this.aisle === 0) {
+          let regPhone = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+          if (this.phone == "" || !regPhone.test(this.phone)) {
+            tool.toast("请填写正确的手机号！");
+            return;
+          }
+        } else {
+          let regEamil = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/g;
+          if (this.email == "" || !regEamil.test(this.email)) {
+            tool.toast("请填写正确的手机号！");
+            return;
+          }
         }
+
         let param = new URLSearchParams();
 
         param.append('name', this.aisle === 0 ? this.phone : this.email);
-        if (tag) {
-          this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-          }).catch(err => {
-            console.log(err)
-          })
-        }
+
+        this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
+        }).catch(err => {
+          console.log(err)
+        });
+
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -203,6 +214,22 @@
             }
           }, 1000)
         }
+      },
+      //点亮登录按钮
+      renderBtnColor() {
+        if (this.aisle === 0) {
+          if(this.phone != '' && this.verifyCode!='' && this.password !=''){
+            this.isDisable = false;
+            return "loginBtnActive";
+          }
+        }else{
+          if(this.email != '' && this.verifyCode!='' && this.password!=''){
+            this.isDisable = false;
+            return "loginBtnActive";
+          }
+
+        }
+
       },
     },
     filters: {},
@@ -285,11 +312,11 @@
 
   .getCodeBg {
     width: 62px;
-    padding: 5px 0;
+    padding: 5px 6px;
     text-align: center;
     background: #f5f5f5;
     border-radius: 3px;
-    top: 7px;
+    top: 4px;
   }
 
   .pswIcon {
@@ -326,7 +353,7 @@
   }
 
   .mint-button {
-    margin: 0px auto 15px;
+    margin: 60px auto 15px;
     font-size: 15px;
     height: 34px;
   }
