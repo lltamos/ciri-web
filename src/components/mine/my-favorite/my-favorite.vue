@@ -1,5 +1,5 @@
 <template>
-  <div class="my-favorite">
+  <div class="my-favorite bg-blank">
     <header-bar text="收藏的项目" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="main">
@@ -166,6 +166,7 @@
     margin-top: 20px;
     margin-bottom: 65px;
     text-align: center;
+    padding-bottom: 20px;
 
     i {
       display: inline-block;

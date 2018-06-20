@@ -1,6 +1,6 @@
 <!-- 注册 组件 -->
 <template>
-  <div class="register">
+  <div class="register ping-blank">
     <header-bar text="注册" @back="back"></header-bar>
     <!-- 横线分隔条 -->
     <cross-line></cross-line>

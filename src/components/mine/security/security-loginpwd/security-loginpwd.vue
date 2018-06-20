@@ -1,5 +1,5 @@
 <template>
-<div class="security-loginpwd">
+<div class="security-loginpwd ping-blank">
   <header-bar text="修改密码" @back="back"></header-bar>
   <cross-line style="margin-top: 44px;"></cross-line>
   <div class="main">

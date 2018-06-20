@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="heart">
+  <div class="heart ping-blank">
     <header-bar text="意见反馈" @back="back"></header-bar>
     <cross-line style="margin-top: 44px;"></cross-line>
     <div class="hear_txt clearfix">

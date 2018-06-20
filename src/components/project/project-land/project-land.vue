@@ -1,5 +1,5 @@
 <template>
-  <div class="project-land">
+  <div class="project-land bg-blank">
     <projectHeader :visit="visit"
                    :projName="projName"
                    :cornerTag="cornerTag"

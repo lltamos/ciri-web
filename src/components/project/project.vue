@@ -1,5 +1,5 @@
 <template>
-  <div class="project-list" :class="projectList">
+  <div class="project-list bg-blank" :class="projectList">
     <div class="tab-offset" ref="tabOffset" id="tab-offset">
       <div class="banner">
         <div class="img">
