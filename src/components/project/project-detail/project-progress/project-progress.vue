@@ -165,7 +165,7 @@
             }
           },
           seeDetail(id,time){
-            let level = sessionStorage.getItem("userLevel");
+            let level = localStorage.getItem("userLevel");
             if(!this.power && level>=2){
               this.$router.push({path:'/project/project-detail/progress-detail',query: {'projId': id,'editTime':time}});
               this.authorityShow = false;

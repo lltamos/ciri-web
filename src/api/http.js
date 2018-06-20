@@ -14,7 +14,7 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(response => {
   if (response.data.code == 401) {
-    sessionStorage.clear()
+    localStorage.clear()
     console.log(router.path);
     if(router.currentRoute.fullPath.indexOf("redirect")==-1){
       router.replace({

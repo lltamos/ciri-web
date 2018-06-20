@@ -165,7 +165,7 @@
             this.$router.push({path:'/project/project-detail/investment-intent/participate-investment',query:{projId:this.projId}});
           },
           showInvestDetail(companyId,status){
-            let level = sessionStorage.getItem("userLevel");
+            let level = localStorage.getItem("userLevel");
             if(level=='5' || level=='2'|| level=='6'|| level=='7'){
               //合投信息处于同意情况才可以被查看
               if(status == 2){
@@ -214,7 +214,7 @@
             }
           });
 
-          let level = sessionStorage.getItem('userLevel');
+          let level = localStorage.getItem('userLevel');
           if(level=='5' || level=='2'){
             this.authority = true;
             this.authorityShow = false;

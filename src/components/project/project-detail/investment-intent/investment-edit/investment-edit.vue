@@ -45,7 +45,7 @@
         if(this.word==''){
           this.word=" ";
         }
-        sessionStorage.setItem(this.key, this.word);
+        localStorage.setItem(this.key, this.word);
         window.history.back();
       },
       fill() {
@@ -55,8 +55,8 @@
     props: {},
     created() {
       this.key = this.$route.query.key;
-      if(sessionStorage.getItem(this.key) != null){
-        this.word = sessionStorage.getItem(this.key);
+      if(localStorage.getItem(this.key) != null){
+        this.word = localStorage.getItem(this.key);
       }
     },
     mounted() {

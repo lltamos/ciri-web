@@ -85,7 +85,7 @@
         window.history.back()
       },
       loginOut() {
-        sessionStorage.clear();
+        localStorage.clear();
         this.$api.post('/app/sys/loginOut').then(r => {
           if (r.code == 200) {
           }

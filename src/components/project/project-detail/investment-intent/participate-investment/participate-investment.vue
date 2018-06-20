@@ -234,19 +234,19 @@
       var path=from.path;
       //不是从编辑页面跳转来的
       if(path.lastIndexOf("investment-edit") == -1){
-        sessionStorage.setItem("fromStatus", 1);
+        localStorage.setItem("fromStatus", 1);
       }else {
-        sessionStorage.setItem("fromStatus", 2);
+        localStorage.setItem("fromStatus", 2);
       }
       next();
     },
     beforeRouteLeave(to,from,next){
       // 不是跳转到编辑页面...终止页面
       if(to.path.lastIndexOf("investment-edit") == -1){  //这里写下你的条件
-        sessionStorage.setItem("intCh", "");
-        sessionStorage.setItem("intEn", "");
-        sessionStorage.setItem("advCh", "");
-        sessionStorage.setItem("advEn", "");
+        localStorage.setItem("intCh", "");
+        localStorage.setItem("intEn", "");
+        localStorage.setItem("advCh", "");
+        localStorage.setItem("advEn", "");
         Object.assign(this.$data, this.$options.data())
       }
       next();
@@ -427,7 +427,7 @@
         })
       },
       fillAdv() {
-        let cont = sessionStorage.getItem("advCh");
+        let cont = localStorage.getItem("advCh");
         if (cont == "" || cont == "undefined" || cont == null) {
         } else {
           this.chineseAdv = cont;
@@ -441,7 +441,7 @@
 
       },
       fillAdvEn() {
-        let cont = sessionStorage.getItem("advEn");
+        let cont = localStorage.getItem("advEn");
         if (cont === "" || cont === "undefined" || cont === null) {
         } else {
           this.englishAdv = cont;
@@ -455,7 +455,7 @@
         }
       },
       fillInt() {
-        let cont = sessionStorage.getItem("intCh");
+        let cont = localStorage.getItem("intCh");
         if (cont === "" || cont === "undefined" || cont === null) {
         } else {
           this.chineseInt = cont;
@@ -470,7 +470,7 @@
 
       },
       fillIntEn() {
-        let contEn = sessionStorage.getItem("intEn");
+        let contEn = localStorage.getItem("intEn");
         if (contEn === "" || contEn === "undefined" || contEn === null) {
         } else {
           this.englishInt = contEn;
@@ -489,7 +489,7 @@
     activated() {
       this.projId = this.$route.query.projId;
       //判读是否是从编辑页面 跳转来的 是的话不发送请求 用缓存显示数据
-      if (sessionStorage.getItem("fromStatus") == 1) {
+      if (localStorage.getItem("fromStatus") == 1) {
         this.$api.post('/ah/s0/getCorpsByName', {}).then(r => {
           if (r.code == 200) {
             this.isLeadQualified = r.isLeadQualified;
@@ -516,11 +516,11 @@
                   //项目投资意向函信息中英文
                   if (order.capitalInjectionFormNote.setValueCn) {
                     this.chineseInt = order.capitalInjectionFormNote.valueCn;
-                    sessionStorage.setItem("intCh", this.chineseInt);
+                    localStorage.setItem("intCh", this.chineseInt);
                   }
                   if (order.capitalInjectionFormNote.setValueEn) {
                     this.englishInt = order.capitalInjectionFormNote.valueEn;
-                    sessionStorage.setItem("intEn", this.englishInt);
+                    localStorage.setItem("intEn", this.englishInt);
                   }
                   if (!order.capitalInjectionFormNote.setValueCn && order.capitalInjectionFormNote.setValueEn) {
                     this.intentActive = 2;
@@ -529,11 +529,11 @@
                   //项目企业优势信息中英文
                   if (order.advantageNote.setValueCn) {
                     this.chineseAdv = order.advantageNote.valueCn;
-                    sessionStorage.setItem("advCh", this.chineseAdv);
+                    localStorage.setItem("advCh", this.chineseAdv);
                   }
                   if (order.advantageNote.setValueEn) {
                     this.englishAdv = order.advantageNote.valueEn;
-                    sessionStorage.setItem("advEn", this.englishAdv);
+                    localStorage.setItem("advEn", this.englishAdv);
                   }
                   if (!order.advantageNote.setValueCn && order.advantageNote.setValueEn) {
                     this.advActive = 2;

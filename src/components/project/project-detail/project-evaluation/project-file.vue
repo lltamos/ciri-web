@@ -106,7 +106,7 @@
         projectId: window.location.href.split('?')[1].split('=')[1]
         // projectId: this.projectId
       };
-      let level = sessionStorage.getItem("userLevel");
+      let level = localStorage.getItem("userLevel");
       if (level === '1') {
         this.memberLevel = false;
       } else {

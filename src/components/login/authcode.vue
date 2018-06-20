@@ -80,9 +80,9 @@
 
         this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
           if (res.data.code === 200) {
-            sessionStorage.setItem("token", res.data.data.token);
-            sessionStorage.setItem("username", res.data.data.username);
-            sessionStorage.setItem("islogin", "true");
+            localStorage.setItem("token", res.data.data.token);
+            localStorage.setItem("username", res.data.data.username);
+            localStorage.setItem("islogin", "true");
             this.axios.defaults.headers.token = res.data.data.token;
             this.$router.replace({path: '/index'})
           } else if(res.data.code === 500){

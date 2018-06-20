@@ -38,7 +38,7 @@
 
     },
     mounted() {
-      let level = sessionStorage.getItem('userLevel');
+      let level = localStorage.getItem('userLevel');
       if(level == '1'){
         this.levelWord = '注册会员';
         this.powerWord = '项目库会员';

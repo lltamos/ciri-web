@@ -51,7 +51,7 @@ export default {
     return param
   },
   getuser: function () {
-    let username = sessionStorage.getItem('username')
+    let username = localStorage.getItem('username')
     if (typeof username === 'undefined' || username === '')
       return null
     else
@@ -65,10 +65,10 @@ export default {
     return arr === null || arr.length != 0;
   },
   islogin: function () {
-    return sessionStorage.getItem('islogin')
+    return localStorage.getItem('islogin')
   },
   gettoken: function () {
-    return sessionStorage.getItem('token') === null ? '' : sessionStorage.getItem('token')
+    return localStorage.getItem('token') === null ? '' : localStorage.getItem('token')
   },
   substr: function (string, count) {
     return string.length > count ? string.substr(0, count) + '...' : string;

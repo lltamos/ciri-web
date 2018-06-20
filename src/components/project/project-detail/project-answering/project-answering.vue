@@ -743,7 +743,7 @@
     },
     computed: {},
     created() {
-      let level = sessionStorage.getItem("userLevel");
+      let level = localStorage.getItem("userLevel");
       if (level == '1' || level == '3') {
         this.memberLevel = false;
       } else {

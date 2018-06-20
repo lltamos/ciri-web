@@ -143,7 +143,7 @@
     filters: {},
     computed: {},
     created() {
-      let level = sessionStorage.getItem("userLevel");
+      let level = localStorage.getItem("userLevel");
       if(level <2){
         this.memberLevel = false;
         this.authorityShow = true;

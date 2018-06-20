@@ -69,7 +69,7 @@
       }
     },
     created() {
-      this.isLogin = sessionStorage.getItem("islogin");
+      this.isLogin = localStorage.getItem("islogin");
       //获取会员等级、查询会员剩余天数
       this.$api.get(tool.domind() + "/gateway/ah/s0/getUserLevel")
         .then(res => {

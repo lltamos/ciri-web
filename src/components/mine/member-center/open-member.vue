@@ -63,9 +63,9 @@
                 .then(res => {
                   if (res.code === 200) {
                     //支付成功之后更新session中的会员等级
-                    sessionStorage.removeItem("userLevel");
+                    localStorage.removeItem("userLevel");
                     let newLevel = res.level;
-                    sessionStorage.setItem("userLevel", newLevel);
+                    localStorage.setItem("userLevel", newLevel);
                     //支付成功弹窗
                     MessageBox({
                       message: '支付成功',
