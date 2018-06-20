@@ -9,8 +9,7 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone" @blur="verifyPhone"
-                   @focus="Focus">
+            <input placeholder="请输入手机号" type="tel" class="mint-field-core" v-model="phone">
           </div>
         </div>
         <i class="iconImg icon-phone"></i>
@@ -18,18 +17,14 @@
       <div class="iconWrap">
         <div class="mint-cell">
           <div class="mint-cell-wrapper">
-            <input v-model="authcode" placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg"
-                   @focus="Focus">
+            <input v-model="authcode" placeholder="请输入验证码" type="text" class="mint-field-core" @blur="fixImg">
           </div>
         </div>
         <i class="iconImg icon-authcode"></i>
         <div class="switch getCodeBg" v-show="showCode" @click="getCode">发送验证码</div>
         <div class="switch getCodeBg" v-show="!showCode">{{count}} s</div>
       </div>
-      <div class="error">
-        <div v-show="errorShow" class="errorText">{{error}}</div>
-      </div>
-      <mt-button :class="loginClass" size="large" @click="login" :disabled="isDisable">登录</mt-button>
+      <mt-button class="loginBtn" :class="renderBtnColor()" size="large" @click="login" :disabled="isDisable">登录</mt-button>
     </div>
   </div>
 </template>
@@ -51,12 +46,10 @@
         count: '',
         timer: null,
         position: '',
-        phone: this.phone,
-        errorShow: false,
+        phone: '',
         aisle: 1,
-        authcode: null,
-        error:'账号或验证码错误，请重新输入',
-        isDisable: false
+        authcode: '',
+        isDisable: true
       }
     },
     props: {},
@@ -64,61 +57,68 @@
     methods: {
       //初始化数据
       login() {
-        this.isDisable = true
-        let tag = tool.checkMobile(this.phone);
+        this.isDisable = true;
 
-        if (tag) {
-          if (tool.isBank(this.authcode)) {
-
-            this.error = '验证码不能为空，请重新输入'
-            this.errorShow = true;
-            return
-          }
-          let params = new URLSearchParams();
-          params.append('key', this.phone);
-          params.append('pwd', this.authcode);
-          params.append('aisle', this.aisle + '');
-
-          this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
-            if (res.data.code === 200) {
-              sessionStorage.setItem("token", res.data.data.token);
-              sessionStorage.setItem("username", res.data.data.username);
-              sessionStorage.setItem("islogin", "true");
-              this.axios.defaults.headers.token = res.data.data.token;
-              this.$router.replace({path: '/index'})
-            } else {
-              this.error = '账号或密码错误，请重新输入'
-              this.errorShow = true;
-              this.isDisable = false;
-            }
-          }).catch(err => {
-            console.log(err)
-          })
-        } else {
-          this.error = '请输入正确帐号';
+        //验证手机号
+        let regPhone = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if (this.phone == "" || !regPhone.test(this.phone)) {
+          tool.toast("请填写正确的手机号！");
+          return;
         }
+
+        //验证验证码
+        let regCode = new RegExp(/^\d{6}$/);
+        if (this.authcode == "" || !regCode.test(this.authcode)) {
+          tool.toast("验证码错误！");
+          return;
+        }
+
+        let params = new URLSearchParams();
+        params.append('key', this.phone);
+        params.append('pwd', this.authcode);
+        params.append('aisle', this.aisle + '');
+
+        this.axios.post(tool.domind() + '/gateway/app/sys/login', params).then(res => {
+          if (res.data.code === 200) {
+            sessionStorage.setItem("token", res.data.data.token);
+            sessionStorage.setItem("username", res.data.data.username);
+            sessionStorage.setItem("islogin", "true");
+            this.axios.defaults.headers.token = res.data.data.token;
+            this.$router.replace({path: '/index'})
+          } else if(res.data.code === 500){
+            tool.toast("账号不存在！");
+            this.isDisable = false;
+          }else if(res.data.code === 102){
+            tool.toast('验证码错误！');
+          }else {
+            tool.toast("登录失败，请重试！");
+            this.isDisable = false;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+
       },
       back() {
         window.history.back()
       },
       //input获取焦点时执行
-      Focus() {
-        this.loginClass = 'loginBtnActive';
-        this.isDisable = false;
-      },
       getCode() {
-        let tag = tool.checkMobile(this.phone);
-        if (!tag) {
-          return
+        //获取验证码时判断手机号是否正确
+        let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if (this.phone == "" || !reg.test(this.phone)) {
+          tool.toast("请填写正确的手机号！");
+          return;
         }
+
         let param = new URLSearchParams();
         param.append('name', this.phone);
-        if (tag) {
-          this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
-          }).catch(err => {
-            console.log(err)
-          })
-        }
+
+        this.axios.post(tool.domind() + '/gateway/app/sms/verify/other', param).then(res => {
+        }).catch(err => {
+          console.log(err)
+        });
+
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -134,21 +134,16 @@
           }, 1000)
         }
       },
-      //验证手机号码部分
-      verifyPhone() {
-        this.position = 'fixImg';
-        let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-        if (this.phone == '') {
-          this.errorShow = true;
-        } else if (!reg.test(this.phone)) {
-          this.errorShow = true;
-        } else {
-          this.errorShow = false;
-        }
-      },
       fixImg() {
         this.position = 'fixImg';
-      }
+      },
+      //点亮登录按钮
+      renderBtnColor() {
+        if(this.checked != '' && this.authcode!=''){
+          this.isDisable = false;
+          return "loginBtnActive";
+        }
+      },
     },
     filters: {},
     computed: {},
@@ -210,11 +205,11 @@
         }
         .getCodeBg {
           width: 62px;
-          padding: 5px 0;
+          padding: 5px 6px;
           text-align: center;
           background: #f5f5f5;
           border-radius: 3px;
-          top: 7px;
+          top: 4px;
         }
       }
       .regiPwd {
@@ -232,13 +227,16 @@
         height: 10px;
       }
       .mint-button {
-        margin: 0px auto 15px;
+        margin: 60px auto 15px;
         font-size: 15px;
         height: 34px;
       }
       .loginBtn {
         background: #eeeeee;
         color: #333333;
+        .mint-button-text{
+          color: #333333;
+        }
       }
       .loginBtnActive {
         background: #3f83e6;
