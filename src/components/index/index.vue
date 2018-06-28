@@ -393,6 +393,17 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            @media screen and (min-device-width: 414px) and (max-width: 799px) {
+              width: 240px;
+            }
+
+            @media screen and (min-device-width: 375px) and (max-width: 413px) {
+              width: 240px;
+            }
+
+            @media screen and (min-width: 320px) and (max-width: 374px) {
+              width: 200px;
+            }
           }
 
         }
@@ -655,6 +666,13 @@
 
       .msg {
         text-align: left;
+        @media screen and (min-device-width: 375px) and (max-width: 413px) {
+          width: auto;
+        }
+
+        @media screen and (min-width: 320px) and (max-width: 374px) {
+          width: 200px;
+        }
 
         .logo {
           display: inline-block;
