@@ -415,12 +415,14 @@
           color: #666;
           height: 35px;
           line-height: 35px;
+          overflow: hidden;
         }
         .time {
           font-size: 12px;
           color: #3f83e6;
           height: 20px;
           line-height: 20px;
+          overflow: hidden;
         }
       }
     }
