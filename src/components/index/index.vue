@@ -24,17 +24,6 @@
       </div>
     </div>
     <CrossLine></CrossLine>
-    <!-- swiper -->
-    <swiper :options="swiperOption2" id="slider3"
-            v-if="weekList !=null && weekList.length > 0 ">
-      <swiper-slide v-if="weekList !=null && weekList.length > 0 " v-for="(week,index) in weekList"  :key="index" >
-        <div class="invest-finance" @click="lookWeek(week.id)">
-          <h3>投融资周报</h3>
-          <div class="time">{{week.title}}</div>
-        </div>
-      </swiper-slide>
-    </swiper>
-    <CrossLine v-if="weekList !=null && weekList.length > 0 "></CrossLine>
     <div class="tab-warp">
       <div class="tab-project">
         <div class="recommend tab-box" :class="{active:tabActive==1}" @click="changePanel(1)">项目推荐</div>

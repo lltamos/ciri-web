@@ -12,15 +12,6 @@
       </mt-swipe-item>
     </mt-swipe>
   </div>
-  <!-- swiper -->
-  <swiper :options="swiperOption" ref="mySwiper" id="slider3">
-    <swiper-slide if="weekList !=null && weekList.length > 0 " v-for="(week,index) in weekList"  :key="index">
-      <div class="invest-finance"  @click="lookWeek(week.id)">
-        <h3>投融资周报</h3>
-        <div class="time">{{week.title}}</div>
-      </div>
-    </swiper-slide>
-  </swiper>
   <div class="cross-line"></div>
 
      <div class="project" v-for="(article,index) in articles" :key="article.id">
