@@ -13,7 +13,7 @@ export default {
   },
 
   oos: function () {
-    return 'http://ciri-prod.oss-cn-beijing.aliyuncs.com/'
+    return 'http://ciri-prod-pb.oss-cn-beijing.aliyuncs.com/'
   },
 
   generatorUrl: function (url) {
