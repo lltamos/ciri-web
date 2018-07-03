@@ -1,6 +1,6 @@
 <template>
   <div class="news-detail">
-    <div class="header-bar gradient" :class="{active:headerFixed}">
+    <div class="header-bar" :class="{active:headerFixed}">
       <i class="icon-back" @click="back"></i>
       <h1 v-show="headerFixed">{{this.content.title != null&&this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
     </div>
@@ -45,12 +45,7 @@
       //页面滚动时
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        // let searchWarp = document.getElementById('search-warp');
         this.headerFixed = scrollTop >44;
-        // let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
-        // if (searchWarp != null) {
-        //   searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
-        // }
       },
     },
     props: {},
@@ -79,14 +74,9 @@
   @import "~@/assets/scss/reset.scss";
 
   .news-detail {
-    .gradient {
-      width: 100%;
-      height: 44px;
-      @include bg-image("../../mine/img/header-bg");
-      background-repeat: no-repeat;
-      background-size: 100% 44px;
-    }
     .header-bar {
+      @include onepx('bottom');
+      background-color: #ffffff;
       &.active{
         position: fixed;
         top:0;
@@ -102,7 +92,7 @@
       position: relative;
       /* 标准的语法 */
       h1 {
-        color: #fff;
+        color: #333333;
         font-size: 20px;
         text-align: center;
       }
@@ -113,7 +103,7 @@
         width: 22px;
         height: 22px;
         margin: 11px auto;
-        @include bg-image("../img/back");
+        @include bg-image("../../base/header-bar/icon-arrow_lift");
         background-size: 22px auto;
       }
 
