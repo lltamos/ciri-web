@@ -13,7 +13,7 @@
     </div>
     <div class="today-announce">
       <i class="icon-anno"></i>
-      <div class="anno">
+      <div class="anno" id="anno">
         <em>今日公告：</em>
         <div id="box">
           <ul id="con1" ref="con1" :class="{anim:animate==true}">
@@ -201,9 +201,20 @@
     },
     mounted() {
       //今日公告
-      setInterval(this.scroll, 2000);
+      let timer=setInterval(this.scroll, 2000);
       this.$api.post('/pb/i/fethomescene', {lang: 0, rouCount: 5}).then(r => {
         this.lastnotify = r.data.lastnotify;
+        console.log(this.lastnotify.length);
+        if(this.items){
+          if(this.lastnotify.length==1){
+            clearInterval(timer)
+            // 解决ios兼容性问题
+            // let anno=document.getElementById('anno')
+            // anno.style.verticalAlign='top';
+          }else {
+            console.log('11');
+          }
+        }
         for(var i in r.data.lastnotify){
           this.items.push(r.data.lastnotify[i].title);
         }
@@ -223,7 +234,7 @@
           this.items.push(this.items[0]);  // 将数组的第一个元素添加到数组的
           this.items.shift();//  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
           this.animate = false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-        }, 1000)
+        }, 500)
       },
       changeIndustry(category) {
         this.category = category;
@@ -349,6 +360,7 @@
         line-height: 30px;
         padding-left: 65px;
         position: relative;
+        vertical-align: top;
 
         em {
           font-style: italic;
