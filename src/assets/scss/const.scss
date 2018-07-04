@@ -95,8 +95,9 @@ em{
 #slider1 .mint-swipe-indicators {
   right: 10px;
   left: initial;
-  bottom:8px;
   z-index: 99;
+  height: 35px;
+  line-height: 35px;
   background: none;
   transform: none;
 }

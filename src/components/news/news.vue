@@ -10,9 +10,10 @@
           <mt-swipe-item v-for="item in swipeObj" :key="item.id">
             <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
               <img v-lazy="host+item.thumbnail">
-              <!--<p id="slider2">{{item.title.length>14 ? item.title.substr(0,14) +'...' : item.title}} </p>-->
-              <p id="slider2">{{item.title}} </p>
-              <div class="bg-slider"></div>
+
+              <div class="bg-slider">
+                <p id="slider2">{{item.title}} </p>
+              </div>
             </router-link>
           </mt-swipe-item>
         </mt-swipe>
@@ -119,6 +120,7 @@
         swipeObj: [],
         swiperOption: {
           slidesPerView: 3,
+          autoplay:false,
           spaceBetween: 30,
           freeMode: true,
           on:{
@@ -250,9 +252,8 @@
       #slider2 {
         font-size: 15px;
         color: #fff;
-        height: 36px;
-        line-height: 18px;
-        margin-top: -34px;
+        height: 35px;
+        line-height: 35px;
         padding-left: 10px;
         text-align: left;
         width: 260px;
@@ -260,7 +261,6 @@
         white-space : nowrap;
         overflow : hidden;
         z-index: 11;
-        position: relative;
       }
     }
     #slider1 {
