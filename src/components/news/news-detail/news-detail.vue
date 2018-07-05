@@ -1,6 +1,6 @@
 <template>
   <div class="news-detail">
-    <div class="header-bar" :class="{active:headerFixed}">
+    <div class="header-bar">
       <i class="icon-back" @click="back"></i>
       <h1 v-show="headerFixed">{{this.content.title != null&&this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
     </div>
@@ -77,23 +77,20 @@
     .header-bar {
       @include onepx('bottom');
       background-color: #ffffff;
-      &.active{
-        position: fixed;
-        top:0;
-        left: 0;
-        right:0;
-        z-index: 999;
-      }
+      position: fixed;
+      top:0;
+      left: 0;
+      right:0;
+      z-index: 999;
       height: 44px;
       line-height: 44px;
       color: #fff;
       font-size: 14px;
       text-align: center;
-      position: relative;
       /* 标准的语法 */
       h1 {
         color: #333333;
-        font-size: 20px;
+        font-size: 18px;
         text-align: center;
       }
 
@@ -111,26 +108,28 @@
     .main {
       padding-top: 7px;
       text-align: left;
+      margin-top: 44px;
 
       h2 {
-        font-size: 15px;
+        font-size: 17px;
+        font-weight: 600;
         color: #333;
-        line-height: 20px;
+        line-height: 24px;
         overflow: hidden;
         padding:0 10px;
         border-left:2px solid #3f83e6 ;
       }
 
       .title-box {
-        font-size: 10px;
-        color: #666;
+        font-size: 13px;
+        color: #999;
         height: 10px;
         padding: 10px 10px 15px;
         margin-bottom: 10px;
         @include onepx("bottom");
 
         .column {
-          color: #3f83e6;
+          color: #528de8;
         }
 
         .time {
@@ -164,12 +163,22 @@
 
       .section {
         padding: 0 10px;
-        font-size: 16px;
+        font-size: 14px;
+        color: #444;
+        line-height: 24px;
         p{
           font-size: 14px;
-          color: #333;
-          line-height: 18px;
+          color: #444;
+          line-height: 24px;
           margin: 10px 0;
+          strong{
+            font-size: 14px;
+            line-height: 24px;
+            color: #444;
+          }
+          img{
+            margin-bottom: 10px;
+          }
         }
 
         div{

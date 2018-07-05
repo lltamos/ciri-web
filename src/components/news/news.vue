@@ -23,13 +23,13 @@
       <div class="nav">
         <div class="sort-nav clearfix">
           <div class="fl">
-            <p>国际</p>
+            <p class="nav-title">国际</p>
             <div class="nav-img" @click="toNewsList(1009);">
               <img src="./img/international.png"/>
             </div>
           </div>
           <div class="fr">
-            <p>知识</p>
+            <p class="nav-title">知识</p>
             <div class="nav-img" @click="toNewsList(1008);">
               <img src="./img/knowledge.png"/>
             </div>
@@ -39,18 +39,18 @@
 
         <div class="sort-nav clearfix">
           <div class="fl">
-            <p>e点新能源</p>
+            <p class="nav-title">e点新能源</p>
             <div class="nav-img energy-img" @click="toNewsList('');">
               <img src="./img/energy.png"/>
             </div>
           </div>
           <div class="fr">
-            <p>投融资</p>
+            <p class="nav-title">投融资</p>
             <div class="nav-img invest" @click="toNewsList(1007);">
               <img src="./img/invest.png"/>
             </div>
 
-            <p>CIRI动态</p>
+            <p class="nav-title">CIRI动态</p>
             <div class="nav-img" @click="toNewsList(1004);">
               <img src="./img/dynamic.png"/>
             </div>
@@ -269,7 +269,7 @@
         right: 10px;
       }
       .bg-slider{
-        background: rgba(51,51,51,.5);
+        background: rgba(0,0,0,.7);
         position:absolute;
         bottom: 0;
         left: 0;
@@ -316,7 +316,8 @@
         font-size: 15px;
         color: #333;
         height: 40px;
-        line-height: 20px;
+        line-height: 22px;
+        font-weight: 600;
         overflow: hidden;
         margin: 10px;
       }
@@ -411,8 +412,11 @@
     }
 
     .nav{
-      font-size: 13px;
       color: #333333;
+      .nav-title{
+        font-size: 15px;
+        font-weight: 600;
+      }
       .sort-nav{
         padding: 20px 10px;
         p{
