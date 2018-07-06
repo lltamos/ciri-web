@@ -11,7 +11,7 @@
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl img-warp">
               <div class="img">
-                <img v-lazy="host+article.thumbnail"/>
+                <img v-lazy="host+article.iconUrl"/>
               </div>
             </div>
             <div class="fr main-news">
@@ -26,7 +26,7 @@
           </div>
           <div v-if="(index+1)%5===0" class="project1">
             <div class="img">
-              <img v-lazy="host+article.thumbnail"/>
+              <img v-lazy="host+article.iconUrl"/>
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
@@ -76,20 +76,20 @@
           return
         }
         let param = tool.buildForm([
-          { key: "page", v: this.page },
-          { key: "rouCount", v: 10 },
-          { key: "cid", v: this.$route.query.cid},
+          { key: "current", v: this.page },
+          { key: "size", v: 10 },
+          { key: "articleCid", v: this.$route.query.cid},
         ]);
         this.axios
-          .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+          .post(tool.domind() + "/gateway/app/article/getActicleListInfoByCategory", param)
           .then(res => {
             if (res.data.code === 200) {
               if (this.page === 1 || this.articles == null) {
-                this.articles = res.data.data;
+                this.articles = res.data.data.records;
               } else {
-                this.articles = this.articles.concat(res.data.data);
+                this.articles = this.articles.concat(res.data.data.records);
               }
-              if(this.articles.length != res.data.total){
+              if(this.articles.length != res.data.data.total){
                 this.moreText='查看更多'
               }else{
                 this.moreText='没有更多了'
@@ -101,19 +101,19 @@
       },
       handleTitle(){
         //渲染title
-        if(this.$route.query.cid == '1009'){
+        if(this.$route.query.cid == '1'){
           return '国际';
 
-        }else if(this.$route.query.cid == '1008'){
+        }else if(this.$route.query.cid == '2'){
           return '知识';
 
-        }else if(this.$route.query.cid == ''){
+        }else if(this.$route.query.cid == '3'){
           return 'e点新能源';
 
-        }else if(this.$route.query.cid == '1007'){
+        }else if(this.$route.query.cid == '4'){
           return '投融资';
 
-        }else if(this.$route.query.cid == '1004'){
+        }else if(this.$route.query.cid == '5'){
           return 'CIRI动态';
 
         }
@@ -166,7 +166,8 @@
       font-size: 15px;
       color: #333;
       height: 40px;
-      line-height: 20px;
+      line-height: 22px;
+      font-weight: 600;
       overflow: hidden;
       margin: 10px;
     }
@@ -235,7 +236,6 @@
           img {
             width: 100%;
             height: 100%;
-            border-radius: 3px;
           }
         }
       }

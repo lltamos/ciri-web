@@ -2,21 +2,21 @@
   <div class="news-detail">
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
-      <h1 v-show="headerFixed">{{this.content.title != null&&this.content.title.length >10 ?this.content.title.substr(0,10):this.content.title}}</h1>
+      <h1 v-show="headerFixed">{{content.articleBasic.title != null&&content.articleBasic.title.length >10 ?content.articleBasic.title.substr(0,10):content.articleBasic.title}}</h1>
     </div>
     <div class="main">
-      <h2>{{this.content.title}}</h2>
+      <h2>{{content.articleBasic.title}}</h2>
       <div class="title-box">
         <div class="fl">
-          <span class="column">项目情报</span> | <span class="time">2018年1月1日</span>
+          <span class="column">{{content.articleBasic.categoryName}}</span> | <span class="time">{{content.articleBasic.updateTime|time}}</span>
           <span class="author">CIRI</span>
         </div>
 
         <div class="view fr">
-          <i class="icon-view"></i><span class="count">{{this.content.clickCount}}</span>
+          <i class="icon-view"></i><span class="count">{{content.articleBasic.reads}}</span>
         </div>
       </div>
-      <div class="section" v-html="this.content.content"></div>
+      <div class="section" v-html="content.content"></div>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@
       //页面滚动时
       window.addEventListener('scroll', this.handleScroll);
       this.axios
-        .get(tool.domind() + "/gateway/app/news/article/" + this.$route.query.id)
+        .get(tool.domind() + "/gateway/app/article/getActicleAllInfo?articleId="+ this.$route.query.id)
         .then(res => {
           if (res.data.code === 200) {
             this.content = res.data.data;
@@ -65,6 +65,12 @@
 
     },
     mounted() {
+
+    },
+    filters: {
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      }
     }
   };
 </script>

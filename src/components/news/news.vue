@@ -9,7 +9,7 @@
         <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
           <mt-swipe-item v-for="item in swipeObj" :key="item.id">
             <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
-              <img v-lazy="host+item.thumbnail">
+              <img v-lazy="host+item.iconUrl">
 
               <div class="bg-slider">
                 <p id="slider2">{{item.title}} </p>
@@ -24,13 +24,13 @@
         <div class="sort-nav clearfix">
           <div class="fl">
             <p class="nav-title">国际</p>
-            <div class="nav-img" @click="toNewsList(1009);">
+            <div class="nav-img" @click="toNewsList(1);">
               <img src="./img/international.png"/>
             </div>
           </div>
           <div class="fr">
             <p class="nav-title">知识</p>
-            <div class="nav-img" @click="toNewsList(1008);">
+            <div class="nav-img" @click="toNewsList(2);">
               <img src="./img/knowledge.png"/>
             </div>
           </div>
@@ -40,18 +40,18 @@
         <div class="sort-nav clearfix">
           <div class="fl">
             <p class="nav-title">e点新能源</p>
-            <div class="nav-img energy-img" @click="toNewsList('');">
+            <div class="nav-img energy-img" @click="toNewsList(3);">
               <img src="./img/energy.png"/>
             </div>
           </div>
           <div class="fr">
             <p class="nav-title">投融资</p>
-            <div class="nav-img invest" @click="toNewsList(1007);">
+            <div class="nav-img invest" @click="toNewsList(4);">
               <img src="./img/invest.png"/>
             </div>
 
             <p class="nav-title">CIRI动态</p>
-            <div class="nav-img" @click="toNewsList(1004);">
+            <div class="nav-img" @click="toNewsList(5);">
               <img src="./img/dynamic.png"/>
             </div>
           </div>
@@ -65,7 +65,7 @@
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl img-warp">
               <div class="img">
-                <img v-lazy="host+article.thumbnail"/>
+                <img v-lazy="host+article.iconUrl"/>
               </div>
             </div>
             <div class="fr main-news">
@@ -80,7 +80,7 @@
           </div>
           <div v-if="(index+1)%5===0" class="project1">
             <div class="img">
-              <img v-lazy="host+article.thumbnail" alt=""/>
+              <img v-lazy="host+article.iconUrl" alt=""/>
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
@@ -118,34 +118,15 @@
       return {
         host: tool.oos(),
         swipeObj: [],
-        swiperOption: {
-          slidesPerView: 3,
-          autoplay:false,
-          spaceBetween: 30,
-          freeMode: true,
-          on:{
-            slidePrevTransitionEnd:()=>{
-              if(this.weekList != null && this.weekList.length >= 0 && this.weekList.length <this.weekTotal){
-                this.weekNew()
-              }
-            }
-          }
-        },
         page: 1,
         articles: null,
         moreText: '查看更多',
         isIcon: true,
-        weekPageSize:4,//投融资周报每页数据量
-        weekPage:1 ,//页码
-        weekList:[],
         weekTotal:0,//投融资总数据
         translate: null
       };
     },
     computed: {
-      swiper() {
-        return this.$refs.mySwiper.swiper
-      }
     },
     watch: {
     },
@@ -156,20 +137,20 @@
           return
         }
         let param = tool.buildForm([
-          { key: "page", v: this.page },
-          { key: "rouCount", v: 10 },
-          { key: "level", v: 2002 }
+          { key: "current", v: this.page },
+          { key: "size", v: 10 },
+          { key: "articleCid", v: '' }
         ]);
         this.axios
-          .post(tool.domind() + "/gateway/app/news/article/getLevelActive", param)
+          .post(tool.domind() + "/gateway/app/article/getActicleListInfoByCategory", param)
           .then(res => {
             if (res.data.code === 200) {
               if (this.page === 1 || this.articles == null) {
-                this.articles = res.data.data;
+                this.articles = res.data.data.records;
               } else {
-                this.articles = this.articles.concat(res.data.data);
+                this.articles = this.articles.concat(res.data.data.records);
               }
-              if(this.articles.length < res.data.total){
+              if(this.articles.length < res.data.data.total){
                 this.moreText='查看更多'
               }else{
                 this.moreText='没有更多了';
@@ -179,25 +160,6 @@
             this.page = this.page + 1;
           });
       },
-      weekNew(){
-        //发送请求分页查询数据
-        this.$api.post('/app/news/article/getLevelActive', {
-          page: this.weekPage,
-          rouCount: this.weekPageSize,
-          cid: "1007"
-        }).then(r => {
-          if (r.code == 200) {
-            console.log(this.weekList.length);
-            this.weekList=this.weekList.concat(r.data);
-            this.weekTotal=r.total;
-            this.weekPage += 1;
-          }
-        });
-      },
-      //查看投融资周报详情
-      lookWeek(articleId){
-        this.$router.push({path:'/news/news-detail/',query: {id: articleId}});
-      },
       //列表页
       toNewsList(id){
         this.$router.push({path:'/news/news-list',query: {cid: id}});
@@ -205,15 +167,13 @@
     },
     mounted() {
       this.axios
-        .post(tool.domind() + "/gateway/app/news/article/getNewHomeBanner")
+        .get(tool.domind() + "/gateway/app/article/getTopTitleList")
         .then(res => {
           if (res.data.code === 200) {
             this.swipeObj = res.data.data;
           }
         });
       this.loadMore();
-
-      this.weekNew();
     },
     activated() {},
     filters: {
