@@ -60,7 +60,7 @@
       </div>
 
       <!--资讯列表-->
-      <div class="project" v-for="(article,index) in articles" :key="article.id">
+      <div class="project" v-for="(article,index) in articles" :key="index">
         <router-link :to="{path:'/news/news-detail/',query: {id: article.id}}">
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl img-warp">
@@ -167,7 +167,7 @@
     },
     mounted() {
       this.axios
-        .get(tool.domind() + "/gateway/app/article/getTopTitleList")
+        .get(tool.domind() + "/gateway/app/article/getTopTitleList?number="+ '4')
         .then(res => {
           if (res.data.code === 200) {
             this.swipeObj = res.data.data;
@@ -277,7 +277,6 @@
         color: #333;
         height: 40px;
         line-height: 22px;
-        font-weight: 600;
         overflow: hidden;
         margin: 10px;
       }
