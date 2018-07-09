@@ -277,7 +277,6 @@
         color: #333;
         height: 40px;
         line-height: 22px;
-        font-weight: 600;
         overflow: hidden;
         margin: 10px;
       }
