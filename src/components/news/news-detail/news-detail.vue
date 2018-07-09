@@ -2,21 +2,21 @@
   <div class="news-detail">
     <div class="header-bar">
       <i class="icon-back" @click="back"></i>
-      <h1 v-show="headerFixed">{{content.articleBasic.title != null&&content.articleBasic.title.length >10 ?content.articleBasic.title.substr(0,10):content.articleBasic.title}}</h1>
+      <h1 v-show="headerFixed">{{content.title != null&&content.title.length >10 ?content.title.substr(0,10):content.title}}</h1>
     </div>
     <div class="main">
-      <h2>{{content.articleBasic.title}}</h2>
+      <h2>{{content.title}}</h2>
       <div class="title-box">
         <div class="fl">
-          <span class="column">{{content.articleBasic.categoryName}}</span> | <span class="time">{{content.articleBasic.updateTime|time}}</span>
+          <span class="column">{{content.categoryName}}</span> | <span class="time">{{content.updateTime|time}}</span>
           <span class="author">CIRI</span>
         </div>
 
         <div class="view fr">
-          <i class="icon-view"></i><span class="count">{{content.articleBasic.reads}}</span>
+          <i class="icon-view"></i><span class="count">{{content.reads}}</span>
         </div>
       </div>
-      <div class="section" v-html="content.content"></div>
+      <div class="section" v-html="contentHtml"></div>
     </div>
   </div>
 </template>
@@ -35,6 +35,7 @@
     data() {
       return {
         content: "",
+        contentHtml: "",
         headerFixed: false
       };
     },
@@ -56,7 +57,9 @@
         .get(tool.domind() + "/gateway/app/article/getActicleAllInfo?articleId="+ this.$route.query.id)
         .then(res => {
           if (res.data.code === 200) {
-            this.content = res.data.data;
+            this.content = res.data.data.articleBasic;
+            this.contentHtml = res.data.data.content;
+
           }
         });
     },
