@@ -22,13 +22,13 @@
       <!--分类导航-->
       <div class="nav">
         <div class="sort-nav clearfix">
-          <div class="fl">
+          <div class="left-warp fl">
             <p class="nav-title">国际</p>
             <div class="nav-img" @click="toNewsList(1);">
               <img src="./img/international.png"/>
             </div>
           </div>
-          <div class="fr">
+          <div class="right-warp fr">
             <p class="nav-title">知识</p>
             <div class="nav-img" @click="toNewsList(2);">
               <img src="./img/knowledge.png"/>
@@ -38,13 +38,13 @@
         <cross-line></cross-line>
 
         <div class="sort-nav clearfix">
-          <div class="fl">
+          <div class="left-warp fl">
             <p class="nav-title">e点新能源</p>
             <div class="nav-img energy-img" @click="toNewsList(3);">
               <img src="./img/energy.png"/>
             </div>
           </div>
-          <div class="fr">
+          <div class="right-warp fr">
             <p class="nav-title">投融资</p>
             <div class="nav-img invest" @click="toNewsList(4);">
               <img src="./img/invest.png"/>
@@ -375,16 +375,28 @@
       .nav-title{
         font-size: 15px;
         font-weight: 600;
+        width: 100%;
       }
       .sort-nav{
-        padding: 20px 10px;
+        padding: 20px 0;
+        .left-warp{
+          width: 45.3%;
+          margin-left: 2.7%;
+          margin-right: 4%;
+
+        }
+        .right-warp{
+          width: 45.3%;
+          margin-right: 2.7%;
+        }
         p{
           padding-bottom: 10px;
         }
         .nav-img{
+          width: 100%;
 
           img{
-            width: 170px;
+            width: 100%;
             height: 65px;
           }
         }
@@ -393,9 +405,9 @@
         }
         .energy-img{
           text-align: center;
-          width: 170px;
+          width: 100%;
           img{
-            width: 133px;
+            width: 78.2%;
             height: 172px;
           }
         }
