@@ -39,7 +39,7 @@
 
         <div class="sort-nav clearfix">
           <div class="left-warp fl">
-            <p class="nav-title">e点新能源</p>
+            <p class="nav-title">E点新能源</p>
             <div class="nav-img energy-img" @click="toNewsList(3);">
               <img src="./img/energy.png"/>
             </div>
@@ -374,6 +374,7 @@
       color: #333333;
       .nav-title{
         font-size: 15px;
+        line-height: 16px;
         font-weight: 600;
         width: 100%;
       }
