@@ -19,7 +19,7 @@
                :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
            'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-           'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+           'color-deal':msg.accessmode==2 || msg.accessmode==1}"
                :btnTitle='parseAccessMode(msg.accessmode)'
                :btnShow='msg.isApprove == 1 ? true : false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
         <button @click="loadMore()" :disabled="this.disabled" class="more">
@@ -31,7 +31,7 @@
                :typeIcon="{'icon-agree':msg.accessmode==3,'icon-refuse':msg.accessmode==4,
            'icon-already-see-no-deal':msg.accessmode==2,'icon-no-see-no-deal':msg.accessmode==1}"
                :btnColor="{'color-agree':msg.accessmode==3,'color-refuse':msg.accessmode==4,
-           'color-deal':msg.accessmode==2,'color-deal':msg.accessmode==1}"
+           'color-deal':msg.accessmode==2 || msg.accessmode==1}"
                :btnTitle='parseAccessMode(msg.accessmode)'
                :btnShow='false' :agreeBtn="msg.accessmode!=3 && msg.accessmode!=4"></Inbox>
         <button @click="loadMore()" :disabled="this.disabled" class="more">
