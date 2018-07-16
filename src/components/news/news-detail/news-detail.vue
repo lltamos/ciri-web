@@ -9,7 +9,7 @@
       <div class="title-box">
         <div class="fl">
           <span class="column">{{content.categoryName}}</span> | <span class="time">{{content.updateTime|time}}</span>
-          <span class="author">CIRI</span>
+          <span class="author">{{content.publisher}}</span>
         </div>
 
         <div class="view fr">
