@@ -18,46 +18,30 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-
       <!--分类导航-->
-      <div class="nav">
-        <div class="sort-nav clearfix">
-          <div class="left-warp fl">
-            <p class="nav-title">国际</p>
-            <div class="nav-img" @click="toNewsList(1);">
-              <img src="./img/international.png"/>
-            </div>
-          </div>
-          <div class="right-warp fr">
-            <p class="nav-title">知识</p>
-            <div class="nav-img" @click="toNewsList(2);">
-              <img src="./img/knowledge.png"/>
-            </div>
-          </div>
+      <div class="news-nav clearfix">
+        <div class="nav-item fl" @click="toNewsList(1);">
+          <img src="./img/nav-international.png"/>
+          <p>国际</p>
         </div>
-        <cross-line></cross-line>
-
-        <div class="sort-nav clearfix">
-          <div class="left-warp fl">
-            <p class="nav-title">E点新能源</p>
-            <div class="nav-img energy-img" @click="toNewsList(3);">
-              <img src="./img/energy.png"/>
-            </div>
-          </div>
-          <div class="right-warp fr">
-            <p class="nav-title">投融资</p>
-            <div class="nav-img invest" @click="toNewsList(4);">
-              <img src="./img/invest.png"/>
-            </div>
-
-            <p class="nav-title">CIRI动态</p>
-            <div class="nav-img" @click="toNewsList(5);">
-              <img src="./img/dynamic.png"/>
-            </div>
-          </div>
+        <div class="nav-item fl" @click="toNewsList(2);">
+          <img src="./img/nav-knowledge.png"/>
+          <p>知识</p>
         </div>
-        <cross-line></cross-line>
+        <div class="nav-item fl" @click="toNewsList(3);">
+          <img src="./img/nav-energy.png"/>
+          <p>E点新能源</p>
+        </div>
+        <div class="nav-item fl" @click="toNewsList(4);">
+          <img src="./img/nav-invest.png"/>
+          <p>投融资</p>
+        </div>
+        <div class="nav-item fl" @click="toNewsList(5);">
+          <img src="./img/nav-dynamic.png"/>
+          <p>CIRI动态</p>
+        </div>
       </div>
+      <cross-line></cross-line>
 
       <!--资讯列表-->
       <div class="project" v-for="(article,index) in articles" :key="index">
@@ -370,52 +354,28 @@
       height:75px;
     }
 
-    .nav{
-      color: #333333;
-      .nav-title{
-        font-size: 15px;
-        line-height: 16px;
-        font-weight: 600;
-        width: 100%;
-      }
-      .sort-nav{
-        padding: 20px 0;
-        .left-warp{
-          width: 45.3%;
-          margin-left: 2.7%;
-          margin-right: 4%;
-
+    .news-nav{
+      padding: 20px 0;
+      .nav-item{
+        width: 20%;
+        text-align: center;
+        &:first-child{
         }
-        .right-warp{
-          width: 45.3%;
-          margin-right: 2.7%;
+        img{
+          display: inline-block;
+          width: 49.33%;
+          height: auto;
         }
         p{
-          padding-bottom: 10px;
+          padding-top: 10px;
+          font-size: 13px;
+          line-height: 13px;
+          color: #333333;
         }
-        .nav-img{
-          width: 100%;
-
-          img{
-            width: 100%;
-            height: 65px;
-          }
-        }
-        .invest{
-          padding-bottom: 10px;
-        }
-        .energy-img{
-          text-align: center;
-          width: 100%;
-          img{
-            height: 172px;
-          }
-        }
-
 
       }
-
     }
+
   }
 
 
