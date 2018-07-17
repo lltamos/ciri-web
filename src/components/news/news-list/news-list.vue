@@ -11,7 +11,7 @@
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl img-warp">
               <div class="img">
-                <img v-lazy="host+article.iconUrl"/>
+                <img v-lazy="handleImgUrl(article.iconUrl)"/>
               </div>
             </div>
             <div class="fr main-news">
@@ -26,7 +26,7 @@
           </div>
           <div v-if="(index+1)%5===0" class="project1">
             <div class="img">
-              <img v-lazy="host+article.iconUrl"/>
+              <img v-lazy="handleImgUrl(article.iconUrl)"/>
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
@@ -98,6 +98,12 @@
             }
             this.page = this.page + 1;
           });
+      },
+      handleImgUrl(url){
+        if(url.indexOf('.') == -1 && url.indexOf('http') == -1 && url.indexOf('com') == -1){
+          return this.host + url;
+        }
+        return url;
       },
       handleTitle(){
         //渲染title

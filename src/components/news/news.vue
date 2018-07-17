@@ -9,7 +9,7 @@
         <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
           <mt-swipe-item v-for="item in swipeObj" :key="item.id">
             <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
-              <img v-lazy="host+item.iconUrl">
+              <img v-lazy="handleImgUrl(item.iconUrl)">
 
               <div class="bg-slider">
                 <p id="slider2">{{item.title}} </p>
@@ -49,7 +49,7 @@
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl img-warp">
               <div class="img">
-                <img v-lazy="host+article.iconUrl"/>
+                <img v-lazy="handleImgUrl(article.iconUrl)"/>
               </div>
             </div>
             <div class="fr main-news">
@@ -64,7 +64,7 @@
           </div>
           <div v-if="(index+1)%5===0" class="project1">
             <div class="img">
-              <img v-lazy="host+article.iconUrl" alt=""/>
+              <img v-lazy="handleImgUrl(article.iconUrl)" alt=""/>
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
@@ -148,6 +148,12 @@
       toNewsList(id){
         this.$router.push({path:'/news/news-list',query: {cid: id}});
       },
+      handleImgUrl(url){
+        if(url.indexOf('.') == -1 && url.indexOf('http') == -1 && url.indexOf('com') == -1){
+          return this.host + url;
+        }
+        return url;
+      }
     },
     mounted() {
       this.axios
@@ -164,7 +170,7 @@
       time(time) {
         return moment(time).format("YYYY-MM-DD");
       }
-    }
+    },
   };
 </script>
 
