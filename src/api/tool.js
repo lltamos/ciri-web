@@ -1,12 +1,12 @@
-import {Toast, MessageBox ,Indicator} from 'mint-ui';
+import {Toast, MessageBox, Indicator} from 'mint-ui'
 import moment from 'moment'
 
 export default {
   domind: function () {
     // return 'http://60.205.7.211:8816'
     //  return 'http://127.0.0.1:8080'
-      return 'http://test.api.bjciri.com'
-    // return 'http://api.bjciri.com'
+    //   return 'http://test.api.bjciri.com'
+    return 'http://api.bjciri.com'
   },
   path: function () {
     return '/gateway'
@@ -52,17 +52,14 @@ export default {
   },
   getuser: function () {
     let username = localStorage.getItem('username')
-    if (typeof username === 'undefined' || username === '')
-      return null
-    else
-      return username
+    if (typeof username === 'undefined' || username === '') { return null } else { return username }
   },
   isBank: function (str) {
-    return typeof str === 'undefined' || str === '' || str === null;
+    return typeof str === 'undefined' || str === '' || str === null
   },
   isBankArr: function (arr) {
-    alert(1);
-    return arr === null || arr.length != 0;
+    alert(1)
+    return arr === null || arr.length != 0
   },
   islogin: function () {
     return localStorage.getItem('islogin')
@@ -71,69 +68,69 @@ export default {
     return localStorage.getItem('token') === null ? '' : localStorage.getItem('token')
   },
   substr: function (string, count) {
-    return string.length > count ? string.substr(0, count) + '...' : string;
+    return string.length > count ? string.substr(0, count) + '...' : string
   },
   toast: function (msg) {
     Toast({
       message: msg,
       position: 'bottom',
       duration: 2000
-    });
+    })
   },
   MessageBox: function (msg) {
     return MessageBox({
       title: '提示',
       message: msg,
       showCancelButton: true
-    });
+    })
   },
   replaceAll: function (target, s1, s2) {
     if (this.isBank(target)) {
-      return null;
+      return null
     }
-    return target.replace(new RegExp(s1, "gm"), s2);
+    return target.replace(new RegExp(s1, 'gm'), s2)
   },
-  time(time) {
-    return moment(time).format("YYYY-MM-DD");
+  time (time) {
+    return moment(time).format('YYYY-MM-DD')
   },
   pxKey: function (str) {
-    let num = str.replace("px", "");
-    num = parseInt(num);
-    return num;
+    let num = str.replace('px', '')
+    num = parseInt(num)
+    return num
   },
-  /*隐藏用户名 中间加**  */
+  /* 隐藏用户名 中间加**  */
   hiddenName: function (username) {
     if (this.checkEmail(username)) {
-      let a = username.indexOf('@');
-      let b;
+      let a = username.indexOf('@')
+      let b
       if (a >= 4) {
-        b = username.substr(0, 4) + "**"
+        b = username.substr(0, 4) + '**'
       } else {
-        b = "**"
+        b = '**'
       }
-      return b + username.substr(a, username.length);
+      return b + username.substr(a, username.length)
     } else if (this.checkMobile(username)) {
-      return username.substr(0, 3) + "****" + username.substr(7, 4)
+      return username.substr(0, 3) + '****' + username.substr(7, 4)
     } else {
       if (username > 4) {
-        return username.substr(0, 2) + "****" + username.substr(username.length - 2, 2)
+        return username.substr(0, 2) + '****' + username.substr(username.length - 2, 2)
       } else {
-        return username;
+        return username
       }
     }
   },
 
   // 正在加载进度条
-  IndicatorOpen(msg){
+  IndicatorOpen (msg) {
     Indicator.open({
       text: msg,
       spinnerType: 'fading-circle'
-    });
+    })
     // document.body.style.overflow='hidden';
   },
-  //关闭加载进度条
-  IndicatorClose(){
-    Indicator.close();
+  // 关闭加载进度条
+  IndicatorClose () {
+    Indicator.close()
     // document.body.style.overflow='auto';
   }
 
