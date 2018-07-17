@@ -408,7 +408,6 @@
           text-align: center;
           width: 100%;
           img{
-            width: 78.2%;
             height: 172px;
           }
         }
