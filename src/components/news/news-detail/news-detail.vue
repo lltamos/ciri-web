@@ -50,6 +50,7 @@
         this.headerFixed = scrollTop >44;
       },
       share() {
+        alert("aa")
         let urlparm = window.location.href.split('#')[0]
         let url =window.location.href.split('#')[0] + '?#' + window.location.href.split('#')[1];
         this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
