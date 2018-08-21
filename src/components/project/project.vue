@@ -15,8 +15,8 @@
       <!--本周推荐-->
       <div class="project-rec">
         <!-- 轮播图 -->
-        <div class="slider" id="slider1">
-          <mt-swipe :auto="4000" :prevent="false">
+        <div class="slider project-slider" id="slider1">
+          <mt-swipe :auto="4000" :prevent="false" id="project-slider">
             <mt-swipe-item v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId">
               <router-link   :to="{path:'/project/project-land',query: {projId: project.projId}}">
                 <img :src="project.url" :onerror="defaultImg(project.industryId)">
@@ -259,8 +259,7 @@
 
           // searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
         if(scrollTop<=90 && this.popShow == false){
-          searchWarp.style.position = 'static';
-        }else {
+          searchWarp.style.position = 'static';       }else {
           searchWarp.style.position = 'fixed';
         }
 
@@ -424,7 +423,7 @@
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 2,
+        pageSize: 5,
         status: this.status,
         CornerTag: this.CornerTag,
         tag: this.tag,
@@ -432,6 +431,7 @@
       }).then(r => {
         this.notloading = false;
         this.weekProjects = r.data.list;
+
       });
       // 默认图片
       this.defaultImg();
@@ -1009,7 +1009,7 @@
       padding: 13.5px;
       border-radius: 50%;
       background-color: #fff;
-      border: 1px solid #ccc;
+      border: 1px solid #dedede;
       box-shadow: 1px 1px 20px 0 rgba(46,61,73,.2);
       em{
         width:20px;

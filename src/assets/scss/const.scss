@@ -112,6 +112,14 @@ em{
 #slider1 .mint-swipe-indicator.is-active{
   background: #3f83e6;
 }
+#project-slider .mint-swipe-indicators {
+  right:-44px;
+}
+#project-slider .mint-swipe-indicator{
+  width:15px;
+  margin-left: 6px;
+  margin-right: 0;
+}
 //渐变背景
 .gradient{
   background: -webkit-linear-gradient(left, rgba(56,185,253,1) ,rgba(63,132,230,0.65)); /* Safari 5.1 - 6.0 */
