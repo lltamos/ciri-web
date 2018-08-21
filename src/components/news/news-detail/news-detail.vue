@@ -23,7 +23,7 @@
           <i class="icon-view"></i><span class="count">{{content.reads}}</span>
         </div>
       </div>
-      <div class="summary">
+      <div class="summary" v-if="content.summary">
         <div class="content">{{content.summary}}</div>
         <div class="border-bottom"></div>
       </div>
@@ -238,6 +238,7 @@
           line-height: 1.5;
           max-height: 75px;
           overflow: hidden;
+          text-align: center;
         }
         .border-bottom{
           width: 42%;
