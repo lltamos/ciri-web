@@ -50,7 +50,6 @@
         this.headerFixed = scrollTop >44;
       },
       share() {
-        alert("aa")
         let urlparm = window.location.href.split('#')[0]
         let url =window.location.href.split('#')[0] + '?#' + window.location.href.split('#')[1];
         this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
@@ -61,7 +60,7 @@
               shareSDK.wxconfig.appId = res.data.appid;
               shareSDK.share(this.content.title, url,
                 "http://ciri-info.oss-cn-beijing.aliyuncs.com/bbs/909641-65d25934ecb35a833988b0479bb4139c",
-                this.contentHtml,
+                this.content.title,
                 shareSDK.wxconfig, {id: this.$route.query.id})
             }
           }
