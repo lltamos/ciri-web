@@ -77,6 +77,7 @@
           if (res.data.code === 200) {
             this.content = res.data.data.articleBasic;
             this.contentHtml = res.data.data.content;
+            this.share();
 
           }
         });
