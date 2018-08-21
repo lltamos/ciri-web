@@ -9,18 +9,17 @@
       <div v-if="articles!==null" class="project" v-for="(article,index) in articles" :key="article.id">
         <router-link :to="{path:'/news/news-detail/',query: {id: article.id}}">
           <div  v-if="(index+1)%5!==0" class="project2">
-            <div class="fl img-warp">
-              <div class="img">
-                <img v-lazy="handleImgUrl(article.iconUrl)"/>
-              </div>
-            </div>
-            <div class="fr main-news">
+            <div class="fl main-news">
               <h2>{{article.title}}</h2>
               <div class="title-box">
-                <div>
-                  <i class="news-time"></i>
-                  <span class="time">{{article.updateTime|time}}</span>
-                </div>
+                <span>{{article.categoryName}}</span>
+                <span>{{handleTime(article.updateTime)}}</span>
+                <span>{{article.publisher}}</span>
+              </div>
+            </div>
+            <div class="fr img-warp">
+              <div class="img">
+                <img v-lazy="handleImgUrl(article.iconUrl)"/>
               </div>
             </div>
           </div>
@@ -30,10 +29,9 @@
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
-              <div>
-                <i class="news-time"></i>
-                <span class="time">{{article.updateTime|time}}</span>
-              </div>
+              <span>{{article.categoryName}}</span>
+              <span>{{handleTime(article.updateTime)}}</span>
+              <span>{{article.publisher}}</span>
             </div>
           </div>
         </router-link>
@@ -44,6 +42,8 @@
       <div class="blank"></div>
 
     </div>
+
+    <div class="bottom-back" @click="back" v-if="showBottom"></div>
 
   </div>
 
@@ -63,7 +63,8 @@
         isMore: false,
         moreText:'查看更多',
         isIcon: true,
-        title: ''
+        title: '',
+        showBottom:false,
 
       };
     },
@@ -123,10 +124,39 @@
           return 'CIRI动态';
 
         }
-      }
+      },
+      //格式化时间
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      },
+      handleTime(t){
+        let current = new Date().getTime();
+        let ms = Math.abs(current-t);
+        let hours = Math.floor(ms / 1000 / 60 / 60);
+
+        if(hours<24){
+          return hours + '小时前';
+        }else if(hours>=24 && hours<48){
+          return '1天前';
+        }else if(hours>=48 && hours<72){
+          return '2天前';
+        }else{
+          return this.time(t);
+        }
+      },
+      handleScroll(){
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if(scrollTop > 200){
+          this.showBottom = true;
+        }else{
+          this.showBottom = false;
+        }
+
+      },
     },
     mounted() {
       this.loadMore();
+      window.addEventListener('scroll', this.handleScroll);//检测滚动条事件
     },
     created(){},
     updated() {},
@@ -134,7 +164,10 @@
       time(time) {
         return moment(time).format("YYYY-MM-DD");
       }
-    }
+    },
+    destroyed() {
+      window.removeEventListener("scroll", this.handleScroll);
+    },
   };
 </script>
 
@@ -194,53 +227,71 @@
         background-position: center center;
       }
     }
-    .project1 {
-      h2{
-        height: auto;
-      }
-      .title-box{
-        padding: 0px 10px 20px;
-      }
-      .img {
-        width: 100%;
-        height: 186px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .title-box {
-        @include onepx("bottom");
-      }
-    }
-    .project2 {
-      overflow: hidden;
-      clear: both;
-      @include onepx("bottom");
+    .project {
       h2 {
-        padding: 0;
-        margin: 12px 0 12px;
-      }
-      .main-news {
-        width: 62.6%;
-        margin-right: 2.7%;
+        font-size: 16px;
+        color: #333;
+        height: 40px;
+        line-height: 22px;
+        overflow: hidden;
+        margin: 10px;
       }
       .title-box {
-        padding-left: 0;
-        padding-right: 0;
+        font-size: 0;
+        padding: 22px 10px 15px;
+        span{
+          display: inline-block;
+          margin-right: 10px;
+          font-size: 12px;
+          line-height: 12px;
+          color: #999;
+        }
+
       }
-      .img-warp {
-        width: 29.3%;
-        margin-right: 2.7%;
-        margin-left: 2.7%;
+      .project1 {
+        margin-top: 14px;
         .img {
           width: 100%;
-          height: 71px;
-          margin: 14px 0;
+          height: 210px;
           img {
             width: 100%;
             height: 100%;
+          }
+        }
+        .title-box {
+          padding: 12px 10px 15px;
+          @include onepx("bottom");
+        }
+      }
+      .project2 {
+        overflow: hidden;
+        clear: both;
+        @include onepx("bottom");
+        h2 {
+          padding: 0;
+          margin: 12px 0 12px;
+        }
+        .main-news {
+          width: 59.4%;
+          margin-left: 2.7%;
+        }
+        .title-box {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .img-warp {
+          width: 31.2%;
+          margin-right: 2.7%;
+          margin-left: 4%;
+          .img {
+            width: 100%;
+            height: 83px;
             border-radius: 3px;
+            margin: 15px 0;
+            img {
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }
@@ -262,6 +313,15 @@
     .blank{
       height:25px;
     }
+  }
+  .bottom-back{
+    position: fixed;
+    bottom: 17px;
+    left: 10px;
+    width: 47px;
+    height: 47px;
+    @include bg-image("../img/bottom-back");
+    background-size: 100% 100%;
   }
 
 
