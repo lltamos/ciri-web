@@ -1,23 +1,35 @@
 <template>
   <div class="news-detail">
-    <div class="header-bar">
+    <div class="header-bar" v-show="headerFixed">
       <i class="icon-back" @click="back"></i>
-      <h1 v-show="headerFixed">{{content.title != null&&content.title.length >10 ?content.title.substr(0,10):content.title}}</h1>
+      <h1>{{content.title != null&&content.title.length >10 ?content.title.substr(0,10):content.title}}</h1>
     </div>
     <div class="main">
+      <div class="img-warp" v-if="content.iconUrl">
+        <img v-lazy="handleImgUrl(content.iconUrl)"/>
+        <div class="em-warp">
+          <em v-for="(item,index) in content.tagName.split(',')" :key="index" v-if="content.tagName">{{item}}</em>
+        </div>
+
+      </div>
       <h2>{{content.title}}</h2>
       <div class="title-box">
         <div class="fl">
-          <span class="column">{{content.categoryName}}</span> | <span class="time">{{content.updateTime|time}}</span>
           <span class="author">{{content.publisher}}</span>
+          <span class="time">{{content.updateTime|time}}</span>
         </div>
 
         <div class="view fr">
           <i class="icon-view"></i><span class="count">{{content.reads}}</span>
         </div>
       </div>
+      <div class="summary">
+        <div class="content">{{content.summary}}</div>
+        <div class="border-bottom"></div>
+      </div>
       <div class="section" v-html="contentHtml"></div>
     </div>
+    <div class="bottom-back" @click="back" v-if="showBottom"></div>
   </div>
 </template>
 
@@ -37,17 +49,27 @@
       return {
         content: "",
         contentHtml: "",
-        headerFixed: false
+        headerFixed: false,
+        showBottom:false,
+        host: tool.oos(),
       };
     },
     methods: {
       back() {
         window.history.back()
       },
+      handleImgUrl(url){
+        if(url.indexOf('.') == -1 && url.indexOf('http') == -1 && url.indexOf('com') == -1){
+          return this.host + url;
+        }
+        return url;
+      },
       //页面滚动时
-      handleScroll() {
+      handleScroll(){
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        this.headerFixed = scrollTop >44;
+        this.showBottom = scrollTop >200;
+        this.headerFixed = scrollTop >260;
+
       },
       share() {
         let urlparm = window.location.href.split('#')[0]
@@ -69,7 +91,7 @@
     },
     props: {},
     created() {
-      //页面滚动时
+      //页面滚动时标
       window.addEventListener('scroll', this.handleScroll);
       this.axios
         .get(tool.domind() + "/gateway/app/article/getActicleAllInfo?articleId="+ this.$route.query.id)
@@ -84,14 +106,13 @@
     },
     destroyed() {
       window.removeEventListener("scroll", this.handleScroll);
-
     },
     mounted() {
 
     },
     filters: {
       time(time) {
-        return moment(time).format("YYYY-MM-DD");
+        return moment(time).format("YYYY-MM-DD HH:mm");
       }
     }
   };
@@ -134,33 +155,55 @@
 
     }
     .main {
-      padding-top: 7px;
       text-align: left;
-      margin-top: 44px;
+      .img-warp{
+        width: 100%;
+        height: 210px;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .em-warp{
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          em{
+            display: inline-block;
+            margin-right: 10px;
+            color: white;
+            font-size: 11px;
+            padding: 3px 10px;
+            background: rgba(51,51,51,.5);
+            border: 1px solid #fff;
+            border-radius: 15px;
+          }
 
+        }
+
+      }
       h2 {
-        font-size: 17px;
+        font-size: 18px;
         font-weight: 600;
         color: #333;
         line-height: 24px;
         overflow: hidden;
         padding:0 10px;
-        border-left:2px solid #3f83e6 ;
+        margin-top: 11px;
       }
 
       .title-box {
-        font-size: 13px;
+        font-size: 0;
         color: #999;
         height: 10px;
         padding: 10px 10px 15px;
         margin-bottom: 10px;
-        @include onepx("bottom");
-
-        .column {
-          color: #528de8;
-        }
-
-        .time {
+        span{
+          display: inline-block;
+          margin-right: 10px;
+          font-size: 13px;
+          line-height: 13px;
+          color: #999;
         }
 
         .view {
@@ -168,11 +211,11 @@
           i {
             display: block;
             float: left;
-            width: 12px;
-            height: 12px;
+            width: 13px;
+            height: 13px;
             margin: 3px 5px;
             @include bg-image("../img/view");
-            background-size: 12px auto;
+            background-size: 13px auto;
             vertical-align: middle;
           }
 
@@ -183,6 +226,24 @@
             margin-top: 1px;
           }
 
+        }
+      }
+      .summary{
+        width: 73%;
+        margin: 15px auto 0;
+        .content{
+          font-size: 17px;
+          color: #999;
+          font-weight: 600;
+          line-height: 1.5;
+          max-height: 75px;
+          overflow: hidden;
+        }
+        .border-bottom{
+          width: 42%;
+          height: 2px;
+          background: #ccc;
+          margin: 20px auto 30px;
         }
       }
       .img {
@@ -240,6 +301,15 @@
         }
 
       }
+    }
+    .bottom-back{
+      position: fixed;
+      bottom: 17px;
+      left: 10px;
+      width: 47px;
+      height: 47px;
+      @include bg-image("../img/bottom-back");
+      background-size: 100% 100%;
     }
   }
 </style>

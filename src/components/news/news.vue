@@ -6,7 +6,7 @@
     <div class="main">
       <!-- 轮播图 -->
       <div class="slider" id="slider1">
-        <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
+        <mt-swipe :auto="400000000000" @change="handleChange" :prevent="false">
           <mt-swipe-item v-for="item in swipeObj" :key="item.id">
             <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
               <img v-lazy="handleImgUrl(item.iconUrl)">
@@ -47,18 +47,17 @@
       <div class="project" v-for="(article,index) in articles" :key="index">
         <router-link :to="{path:'/news/news-detail/',query: {id: article.id}}">
           <div  v-if="(index+1)%5!==0" class="project2">
-            <div class="fl img-warp">
-              <div class="img">
-                <img v-lazy="handleImgUrl(article.iconUrl)"/>
-              </div>
-            </div>
-            <div class="fr main-news">
+            <div class="fl main-news">
               <h2>{{article.title}}</h2>
               <div class="title-box">
-                <div>
-                  <i class="news-time"></i>
-                  <span class="time-span">{{article.updateTime|time}}</span>
-                </div>
+                <span>{{article.categoryName}}</span>
+                <span>{{handleTime(article.updateTime)}}</span>
+                <span>{{article.publisher}}</span>
+              </div>
+            </div>
+            <div class="fr img-warp">
+              <div class="img">
+                <img v-lazy="handleImgUrl(article.iconUrl)"/>
               </div>
             </div>
           </div>
@@ -68,10 +67,9 @@
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
-              <div class="fl">
-                <i class="news-time"></i>
-                <span class="time-span">{{article.updateTime|time}}</span>
-              </div>
+              <span>{{article.categoryName}}</span>
+              <span>{{handleTime(article.updateTime)}}</span>
+              <span>{{article.publisher}}</span>
             </div>
           </div>
         </router-link>
@@ -107,7 +105,8 @@
         moreText: '查看更多',
         isIcon: true,
         weekTotal:0,//投融资总数据
-        translate: null
+        translate: null,
+        timeFlag:true,
       };
     },
     computed: {
@@ -153,7 +152,27 @@
           return this.host + url;
         }
         return url;
-      }
+      },
+      //格式化时间
+      time(time) {
+        return moment(time).format("YYYY-MM-DD");
+      },
+      handleTime(t){
+        let current = new Date().getTime();
+        let ms = Math.abs(current-t);
+        let hours = Math.floor(ms / 1000 / 60 / 60);
+
+        if(hours<24){
+          return hours + '小时前';
+        }else if(hours>=24 && hours<48){
+          return '1天前';
+        }else if(hours>=48 && hours<72){
+          return '2天前';
+        }else{
+          return this.time(t);
+        }
+      },
+
     },
     mounted() {
       this.axios
@@ -169,7 +188,11 @@
     filters: {
       time(time) {
         return moment(time).format("YYYY-MM-DD");
-      }
+      },
+
+    },
+    destroyed() {
+      window.removeEventListener("scroll", this.handleScroll);
     },
   };
 </script>
@@ -191,7 +214,7 @@
     text-align: left;
     .slider {
       touch-action: none;
-      height: 186px;
+      height: 245px;
       font-size: 30px;
       text-align: center;
       overflow: hidden;
@@ -200,7 +223,7 @@
         height: 100%;
       }
       #slider2 {
-        font-size: 15px;
+        font-size: 16px;
         color: #fff;
         height: 35px;
         line-height: 35px;
@@ -263,7 +286,7 @@
     }
     .project {
       h2 {
-        font-size: 15px;
+        font-size: 16px;
         color: #333;
         height: 40px;
         line-height: 22px;
@@ -271,25 +294,14 @@
         margin: 10px;
       }
       .title-box {
-        font-size: 11px;
-        color: #666;
-        height: 10px;
-        padding: 5px 10px 15px;
-
-        .column {
-          color: #3f83e6;
-        }
-        .news-time{
+        font-size: 0;
+        padding: 22px 10px 15px;
+        span{
           display: inline-block;
-          width: 12px;
-          height: 12px;
-          @include bg-image("./img/news-time");
-          background-size: 12px auto;
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-        .time-span{
-          padding-left: 2px;
+          margin-right: 10px;
+          font-size: 12px;
+          line-height: 12px;
+          color: #999;
         }
 
       }
@@ -297,14 +309,14 @@
         margin-top: 14px;
         .img {
           width: 100%;
-          height: 186px;
-
+          height: 210px;
           img {
             width: 100%;
             height: 100%;
           }
         }
         .title-box {
+          padding: 12px 10px 15px;
           @include onepx("bottom");
         }
       }
@@ -317,22 +329,22 @@
           margin: 12px 0 12px;
         }
         .main-news {
-          width: 62.6%;
-          margin-right: 2.7%;
+          width: 59.4%;
+          margin-left: 2.7%;
         }
         .title-box {
           padding-left: 0;
           padding-right: 0;
         }
         .img-warp {
-          width: 29.3%;
+          width: 31.2%;
           margin-right: 2.7%;
-          margin-left: 2.7%;
+          margin-left: 4%;
           .img {
             width: 100%;
-            height: 71px;
+            height: 83px;
             border-radius: 3px;
-            margin: 14px 0;
+            margin: 15px 0;
             img {
               width: 100%;
               height: 100%;
