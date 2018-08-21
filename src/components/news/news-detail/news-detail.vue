@@ -37,6 +37,7 @@
   import HeaderBar from "@/components/base/header-bar/header-bar";
   import CrossLine from "@/components/base/cross-line/cross-line";
   import tool from "../../../api/tool";
+  import shareSDK from '@/api/wx';
 
   export default {
     name: "news-deail",
@@ -70,6 +71,23 @@
         this.headerFixed = scrollTop >260;
 
       },
+      share() {
+        let urlparm = window.location.href.split('#')[0]
+        let url =window.location.href.split('#')[0] + '?#' + window.location.href.split('#')[1];
+        this.$api.post('/app/wx/signatrue', {url: urlparm}).then(res => {
+            if (res.code == 200) {
+              shareSDK.wxconfig.timestamp = res.data.timestamp;
+              shareSDK.wxconfig.signature = res.data.signature;
+              shareSDK.wxconfig.nonceStr = res.data.noncestr;
+              shareSDK.wxconfig.appId = res.data.appid;
+              shareSDK.share(this.content.title, url,
+                "http://ciri-info.oss-cn-beijing.aliyuncs.com/bbs/909641-65d25934ecb35a833988b0479bb4139c",
+                this.content.title,
+                shareSDK.wxconfig, {id: this.$route.query.id})
+            }
+          }
+        );
+      },
     },
     props: {},
     created() {
@@ -81,6 +99,7 @@
           if (res.data.code === 200) {
             this.content = res.data.data.articleBasic;
             this.contentHtml = res.data.data.content;
+            this.share();
 
           }
         });
