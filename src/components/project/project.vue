@@ -2,47 +2,34 @@
   <div class="project-list bg-blank" :class="projectList">
     <div class="tab-offset" ref="tabOffset" id="tab-offset">
       <div class="banner">
-        <div class="img">
-          <img src="../news/img/p_new.png" alt=""/>
-        </div>
+        <h2>项目</h2>
         <div class="search-warp" id="search-warp">
-          <div class="search" :class="scrollSearch">
-            <i class="icon-search" @click="search"></i>
-            <input type="text" v-model="text" placeholder="搜索项目" @focus="popSwitch" @keyup.enter="search">
+          <div class="search" @click="searchFocus" :class="scrollSearch">
+            <div class="search-box">
+              <i class="icon-search" @click="search"></i>
+              <input type="text" v-model="text" ref="inputSearch" placeholder="请搜索您想要的项目" @focus="popSwitch" @keyup.enter="search">
+            </div>
           </div>
         </div>
       </div>
       <!--本周推荐-->
       <div class="project-rec">
-        <h4>
-          <i class="left-line"></i><span>本周推荐</span>
-        </h4>
-        <ul class="recommdnd-warp clearfix">
-          <router-link v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId"
-                       :to="{path:'/project/project-land',query: {projId: project.projId}}">
-            <li class="">
-              <div class="img">
-                <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
-              </div>
-              <div class="main-news">
-                <h2>{{project.name}}</h2>
-                <div class="tip-news">
-                  <i class="indu fl"></i>
-                  <span class="industry fl">{{project.industryName}}</span>
-                  <span class="count fr">{{project.visit}}</span>
-                  <i class="view fr"></i>
-                </div>
-              </div>
-            </li>
-          </router-link>
-        </ul>
-        <CrossLine></CrossLine>
+        <!-- 轮播图 -->
+        <div class="slider project-slider" id="slider1">
+          <mt-swipe :auto="4000" :prevent="false" id="project-slider">
+            <mt-swipe-item v-for="(project) in this.weekProjects" class="recommdnd-card" :key="project.projId">
+              <router-link   :to="{path:'/project/project-land',query: {projId: project.projId}}">
+                <img :src="project.url" :onerror="defaultImg(project.industryId)">
+                <div class="status" v-text="project.status"></div>
+                <p id="slider2">{{project.name.length>14 ? project.name.substr(0,14) +'...' : project.name}} </p>
+                <div class="bg-slider"></div>
+              </router-link>
+            </mt-swipe-item>
+          </mt-swipe>
+        </div>
       </div>
     </div>
     <div class="project">
-      <h4>
-        <i class="left-line"></i><span>全部项目</span>
-      </h4>
       <div class="tab-warp" id="tab-warp">
         <ul class="tab"  :class="searchBarFixed == true ? 'isFixed' :''">
           <li v-for="(item,index) in tabs" :class="{active:index == num}" @click="tab(index)">
@@ -86,42 +73,40 @@
         <router-link v-for="(project) in this.projects" :key="project.projId"
                      :to="{path:'/project/project-land',query: {projId: project.projId}}">
           <div class="pro-list">
+            <em class="icon-video" v-if="project.projVideoStatus"></em>
             <div class="img">
               <!--<div class="icon-state">认证中</div>-->
               <img :src="project.url" :onerror="defaultImg(project.industryId)" alt="">
               <i class="favorite icon-favorite"></i>
             </div>
-            <div v-show="project.projVideoStatus" class="video fl"></div>
             <div class="main-news">
               <div class="title">
                 <div class="icon-quality fl" v-if="project.cornerTagName != null && project.cornerTagName != '无'">
-                  {{project.cornerTagName}}
+                  {{project.cornerTagName!=null && project.cornerTagName != '无' ? project.cornerTagName.substr(0, 2):project.cornerTagName}}
                 </div>
-                <h2 class="fl">{{project.name.length>13?project.name.substr(0, 13) + '...' : project.name}}</h2></div>
-              <div class="maturity clearfix">
-                <p>项目成熟度：<em>{{project.mature}}</em></p>
-                <p>意向投资方：<em>{{project.investors}}位</em></p>
-              </div>
+                <h2 class="fl" :class="{active:project.cornerTagName != null && project.cornerTagName != '无'}">{{project.name.length>30 ? project.name.substr(0, 30) + '...' : project.name}}</h2></div>
               <div class="tip-news">
-                <i class="indu"></i>
-                <span class="industry">{{project.industryName}}</span>
+                <i class="coun"></i>
+                <span class="country">{{project.countryName.length>4 ? project.countryName.substr(0,4) : project.countryName}}</span>
                 <i class="mold"></i>
                 <span class="genre">{{project.constructionTypeName}}</span>
-                <i class="view"></i>
-                <span class="count">{{project.visit}}</span>
-                <div class="dz-wrap" :class="project.likesStatus==true?'active':''"
-                     v-tap.prevent="{methods : likeProject,project:project}">
-                  <i class="icon-thumbup fr icon-dz"></i>
-                  <span class="thumb-up fr dz-count" style="margin-right: 6px;">{{parseInt(project.likes)>999?'999+':project.likes}}</span>
-                </div>
+                <i class="shot"></i>
+                <span class="count">{{project.status}}</span>
               </div>
             </div>
           </div>
         </router-link>
       </div>
-      <button @click="loadMore()" :disabled="this.disabled" class="more">
+      <button @click="loadMore()" :disabled="this.disabled" class="more" v-show="isIcon">
         <span v-text="moreText">{{this.moreText}}</span><i v-show="isIcon"></i>
       </button>
+      <div class="tofooter" v-show="!isIcon">
+        <em></em>
+        <span>已经到底了，去别的栏目中逛逛吧</span>
+      </div>
+    </div>
+    <div class="to-top" v-show="totopShow" @click="toTop">
+      <em></em>
     </div>
     <tab-bar></tab-bar>
   </div>
@@ -146,6 +131,7 @@
         projectList:'active',
         scrollSearch: 'fixed',
         searchBarFixed: false,
+        totopShow:false,
         popShow: false,
         tabs: ["国别", "行业", "类型", "进度"],
         tabContents:
@@ -202,11 +188,20 @@
         }
         this.$router.push({path: path});
       },
+      toTop(){
+        window.scroll(0,0);
+      },
+      searchFocus(){
+        this.$refs.inputSearch.focus()
+      },
       init1() {
         this.pageId = 1
         this.loadMore()
         this.searchBarFixed = false
         this.popShow = false
+        let searchWarp = document.getElementById('search-warp');
+        searchWarp.style.position = 'static';
+
       },
       loadMore() {
         this.$api.post('/pb/i/fetprojects', {
@@ -260,9 +255,18 @@
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         let searchWarp = document.getElementById('search-warp');
         this.searchBarFixed = scrollTop > 350;
-        let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
-        if (searchWarp != null) {
-          searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
+        // let opcaity = (scrollTop / 350 > 1) ? 1 : scrollTop / 350;
+
+          // searchWarp.style.background = 'rgba(82,141,232,' + opcaity + ')';
+        if(scrollTop<=90 && this.popShow == false){
+          searchWarp.style.position = 'static';       }else {
+          searchWarp.style.position = 'fixed';
+        }
+
+        if (scrollTop>100){
+          this.totopShow=true;
+        }else {
+          this.totopShow=false;
         }
       },
       tab(index) {
@@ -275,10 +279,11 @@
           // this.searchBarFixed = true
           this.popShow = true;
           if (searchWarp != null) {
-            searchWarp.style.background = 'rgba(82,141,232,1)';
+            // searchWarp.style.background = 'rgba(82,141,232,1)';
           }
           this.projectList='active';
           this.floatp=false;
+          searchWarp.style.position = 'fixed';
         }
       },
       liActive(e, v, index) {
@@ -302,6 +307,7 @@
         this.popShow = false;
         this.searchBarFixed = false
         this.projectList='active';
+        searchWarp.style.position = 'static';
       },
       allActive(e, index) {
         console.log(index);
@@ -417,7 +423,7 @@
       // 本周推荐
       this.$api.post('/pb/i/fetprojects', {
         pageId: this.pageId,
-        pageSize: 2,
+        pageSize: 5,
         status: this.status,
         CornerTag: this.CornerTag,
         tag: this.tag,
@@ -425,8 +431,9 @@
       }).then(r => {
         this.notloading = false;
         this.weekProjects = r.data.list;
+
       });
-  // 默认图片
+      // 默认图片
       this.defaultImg();
     },
     created() {
@@ -452,7 +459,8 @@
   @import '~@/assets/scss/mixin.scss';
 
   .project-list {
-    padding-bottom: 60px;
+    min-height: 627px;
+    background:#f5f5f5 ;
     &.active{
       overflow: hidden;
     }
@@ -497,23 +505,27 @@
     }
     .banner {
       width: 100%;
-      height: 150px;
+      height: 100px;
       position: relative;
-      .img {
-        width: 100%;
-        height: 100%;
-        img {
-          width: 100%;
-          height: 100%;
-        }
+      background: #fff;
+      padding-top: 40px;
+      h2{
+        margin: 0 10px 0;
+        font-size: 30px;
+        line-height: 30px;
+        height:30px;
+        font-weight: bold;
+        color:#333;
+        text-align: left;
       }
       .search-warp {
-        position: fixed;
+        /*position: fixed;*/
         top: 0;
         z-index: 999;
         left: 0;
         right: 0;
-        padding: 10px 0;
+        padding: 20px 0 8px;
+        background: #fff;
       }
       .search {
         width: 94.7%;
@@ -522,105 +534,99 @@
         margin: auto;
         left: 0;
         right: 0;
-        background: #fff;
+        background: #f1f1f1;
         text-align: left;
-        .icon-search {
-          display: inline-block;
-          width: 15px;
-          height: 15px;
-          background-size: 15px auto;
-          background-repeat: no-repeat;
-          margin: 0 10px 0 12px;
-          @include bg-image('./img/icon-search');
-          position: relative;
-          top: 4px;
+        .search-box{
+          margin: auto;
+          display: table;
+          .icon-search {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            background-size: 13px auto;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            background-image: url('./img/search.png');
+            position: relative;
+            top: 2px;
+          }
+          input {
+            height: 30px;
+            width: 107px;
+            border: none;
+            outline: none;
+            background: #f1f1f1;
+            font-size: 12px;
+            color:#444;
 
-        }
-        input {
-          height: 30px;
-          width: 80%;
-          border: none;
-          outline: none;
-
+          }
+          input::-webkit-input-placeholder{
+            color:#999;
+          }
         }
       }
     }
     .project-rec {
-      h4 {
-        background: #fff;
-        &:after {
-          border-top: none;
+      padding: 0 10px 15px;
+      background: #fff;
+      .slider{
+        touch-action: none;
+        height: 199px;
+        font-size: 30px;
+        text-align: center;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .status{
+          position: absolute;
+          top:20px;
+          left:0;
+          height:19px;
+          padding: 4px 8px;
+          font-size: 11px;
+          color:#fff;
+          background: #fdb140;
+          border-radius: 0 38px 38px 0;
+
+        }
+        #slider2 {
+          font-size: 16px;
+          font-weight: 600;
+          color: #fff;
+          height: 36px;
+          line-height: 18px;
+          margin-top: -34px;
+          padding: 0px 10px;
+          text-align: left;
+          width: 214px;
+          text-overflow:ellipsis;
+          white-space : nowrap;
+          overflow : hidden;
+          /*background: rgba(51,51,51,.5);*/
+          z-index: 11;
+          position: relative;
         }
       }
-      .recommdnd-warp {
-        text-align: left;
-        padding: 0 10px;
-        height: 205px;
-        overflow: hidden;
-        .recommdnd-card {
-          /*border: 1px solid #dedede;*/
-          @include one-border();
-          box-sizing: border-box;
-          background: #fff;
-          width: 48.7%;
-          float: left;
-          position: relative;
-          margin-bottom: 10px;
-          &:nth-of-type(odd) {
-            margin-right: 2.6%;
-          }
-          .img {
-            height: 118px;
-            width: 100%;
-            img {
-              width: 100%;
-              height: 100%
-            }
-          }
-          .main-news {
-            padding: 10px;
-            h2 {
-              font-size: 13px;
-              color: #333;
-              height: 32px;
-              line-height: 16px;
-              overflow: hidden;
-              margin-bottom: 10px;
-              font-weight: normal;
-            }
-            .tip-news {
-              overflow: hidden;
-              width: 100%;
-              i {
-                display: block;
-                margin-right: 3px;
-                width: 10px;
-                height: 10px;
-                background-size: 10px auto;
-              }
-              .indu {
-                @include bg-image("../base/img/industry");
-              }
-              .view {
-                @include bg-image("../base/img/view");
-              }
-
-              span {
-                margin-right: 10px;
-                font-size: 10px;
-                line-height: 1;
-                color: #666;
-                margin-top: 1px;
-              }
-              span.count {
-                margin-right: 0;
-              }
-            }
-          }
+      #slider1 {
+        position: relative;
+        .mint-swipe-indicators {
+          right: 10px;
+        }
+        .bg-slider{
+          background: rgba(51,51,51,.5);
+          position:absolute;
+          bottom: 0;
+          left: 0;
+          width:100%;
+          height:35px;
+          z-index: 10;
         }
       }
     }
     .project {
+      background: #fff;
       .tab-warp {
         height: 35px;
         .tab {
@@ -638,12 +644,11 @@
             line-height: 25px;
             margin-top: 5px;
             border-radius: 25px;
-            box-shadow: 2px 2px 2px #ccc;
             &:last-child {
               margin-right: 0;
             }
             span {
-              font-size: 13px;
+              font-size: 14px;
               color: #333;
 
             }
@@ -745,14 +750,26 @@
       }
       .main {
         padding: 0 10px;
+        background: #fff;
         .pro-list {
-          padding: 15px 0 5px 96px;
+          padding: 15px 0 15px 132px;
           position: relative;
-          height: 76px;
+          height: 83px;
           @include onepx('bottom');
+          .icon-video{
+            width:12px;
+            height:12px;
+            display: block;
+            position: absolute;
+            bottom:20px;
+            left:5px;
+            background-size: 12px auto;
+            background-image: url("./img/icon-video.png");
+            z-index: 1;
+          }
           .img {
-            width: 87px;
-            height: 60px;
+            width: 118px;
+            height: 83px;
             position: absolute;
             top: 15px;
             left: 0;
@@ -788,22 +805,35 @@
             height: 76px;
             .title {
               overflow: hidden;
-
+              line-height: 24px;
+              height:48px;
+              position: relative;
+              text-align: left;
+              margin-bottom: 27px;
+              margin-top: -4px;
               .icon-quality {
                 color: #fff;
-                font-size: 10px;
+                font-size: 11px;
                 background: #fdb140;
-                padding: 1px 3px;
+                padding: 0px 3px;
+                height:16px;
+                line-height: 16px;
                 text-align: center;
                 margin-right: 5px;
-                border-radius: 3px;
+                margin-top: 4px;
+                border-radius: 2px;
+                position: absolute;
+                top:0;
+                left:0;
+
               }
 
               h2 {
-                font-size: 14px;
+                font-size: 16px;
                 color: #333;
-                height: 19px;
-                line-height: 19px;
+                &.active{
+                  text-indent:40px;
+                }
               }
 
             }
@@ -857,7 +887,7 @@
               }
             }
             .tip-news {
-              height: 10px;
+              height: 12px;
               position: absolute;
               left: 0;
               width: 100%;
@@ -865,21 +895,18 @@
                 display: block;
                 float: left;
                 margin-right: 3px;
-                width: 10px;
-                height: 10px;
-                background-size: 10px auto;
+                width: 12px;
+                height: 12px;
+                background-size: 12px auto;
               }
-              .loc {
-                @include bg-image("../base/img/location");
-              }
-              .indu {
-                @include bg-image("../base/img/industry");
+              .coun {
+                background-image: url("./img/country.png");
               }
               .mold {
-                @include bg-image("../base/img/mold");
+                background-image: url("./img/mold.png");
               }
-              .view {
-                @include bg-image("../base/img/view");
+              .shot {
+                background-image: url("./img/shot.png");
               }
               .dz-wrap {
                 border: 1px solid #dedede;
@@ -923,8 +950,8 @@
               span {
                 float: left;
                 margin-right: 10px;
-                font-size: 10px;
-                line-height: 1;
+                font-size: 12px;
+                line-height: 12px;
                 color: #666;
                 margin-top: 1px;
               }
@@ -938,6 +965,7 @@
         margin-top: 20px;
         text-align: center;
         background: #fff;
+        margin-bottom: 60px;
 
         i {
           display: inline-block;
@@ -947,6 +975,48 @@
           background-size: 12px auto;
           margin-left: 6px;
         }
+      }
+      .tofooter{
+        font-size: 11px;
+        color:#999;
+        height:11px;
+        line-height: 11px;
+        padding: 38px 0 93px;
+        background: #f5f5f5;
+        position: relative;
+        span{
+          padding: 0 5px;
+          background: #f5f5f5;
+          width: 200px;
+          display: table;
+          margin: -5px auto 0;
+        }
+        em{
+          margin-right: 20px;
+          border-bottom: 1px solid #eee;
+          display: block;
+          width: 100%;
+          z-index: 1;
+        }
+      }
+    }
+    .to-top{
+      width:20px;
+      height:20px;
+      position: fixed;
+      bottom:63px;
+      right:10px;
+      padding: 13.5px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid #dedede;
+      box-shadow: 1px 1px 20px 0 rgba(46,61,73,.2);
+      em{
+        width:20px;
+        height:20px;
+        display: block;
+        background-size: 20px auto;
+        background-image:url("./img/totop.png") ;
       }
     }
   }
