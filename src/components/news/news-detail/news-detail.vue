@@ -59,8 +59,8 @@
               shareSDK.wxconfig.nonceStr = res.data.noncestr;
               shareSDK.wxconfig.appId = res.data.appid;
               shareSDK.share(this.content.title, url,
-                "http://ciri-info.oss-cn-beijing.aliyuncs.com/bbs/909641-65d25934ecb35a833988b0479bb4139c",
-                this.content.title,
+                this.content.iconUrl,
+                this.content.summary,
                 shareSDK.wxconfig, {id: this.$route.query.id})
             }
           }
