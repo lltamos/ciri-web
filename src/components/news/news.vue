@@ -6,7 +6,7 @@
     <div class="main">
       <!-- 轮播图 -->
       <div class="slider" id="slider1">
-        <mt-swipe :auto="400000000000" @change="handleChange" :prevent="false">
+        <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
           <mt-swipe-item v-for="item in swipeObj" :key="item.id">
             <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
               <img v-lazy="handleImgUrl(item.iconUrl)">
