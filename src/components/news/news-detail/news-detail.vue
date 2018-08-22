@@ -18,10 +18,9 @@
           <span class="author">{{content.publisher}}</span>
           <span class="time">{{content.updateTime|time}}</span>
         </div>
-
-        <div class="view fr">
+        <!--<div class="view fr">
           <i class="icon-view"></i><span class="count">{{content.reads}}</span>
-        </div>
+        </div>-->
       </div>
       <div class="summary" v-if="content.summary">
         <div class="content">{{content.summary}}</div>
