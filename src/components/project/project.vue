@@ -987,7 +987,6 @@
         span{
           padding: 0 5px;
           background: #f5f5f5;
-          width: 200px;
           display: table;
           margin: -5px auto 0;
         }
