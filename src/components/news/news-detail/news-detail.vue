@@ -7,8 +7,8 @@
     <div class="main">
       <div class="img-warp" v-if="content.iconUrl">
         <img v-lazy="handleImgUrl(content.iconUrl)"/>
-        <div class="em-warp">
-          <em v-for="(item,index) in content.tagName.split(',')" :key="index" v-if="content.tagName">{{item}}</em>
+        <div class="em-warp" v-if="content.tagName!=null && content.tagName">
+          <em v-for="(item,index) in content.tagName.split(',')" :key="index">{{item}}</em>
         </div>
 
       </div>
