@@ -583,7 +583,6 @@
           position: absolute;
           top:20px;
           left:0;
-          height:19px;
           padding: 4px 8px;
           font-size: 11px;
           color:#fff;
