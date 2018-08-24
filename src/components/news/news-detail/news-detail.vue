@@ -7,8 +7,9 @@
     <div class="main">
       <div class="img-warp" v-if="content.iconUrl">
         <img v-lazy="handleImgUrl(content.iconUrl)"/>
-        <div class="em-warp">
-          <em v-for="(item,index) in content.tagName.split(',')" :key="index" v-if="content.tagName">{{item}}</em>
+        <div class="img-back" @click="back"></div>
+        <div class="em-warp" v-if="content.tagName!=null && content.tagName">
+          <em v-for="(item,index) in content.tagName.split(',')" :key="index">{{item}}</em>
         </div>
 
       </div>
@@ -18,10 +19,6 @@
           <span class="author">{{content.publisher}}</span>
           <span class="time">{{content.updateTime|time}}</span>
         </div>
-
-        <div class="view fr">
-          <i class="icon-view"></i><span class="count">{{content.reads}}</span>
-        </div>
       </div>
       <div class="summary" v-if="content.summary">
         <div class="content">{{content.summary}}</div>
@@ -29,7 +26,6 @@
       </div>
       <div class="section" v-html="contentHtml"></div>
     </div>
-    <div class="bottom-back" @click="back" v-if="showBottom"></div>
   </div>
 </template>
 
@@ -50,13 +46,12 @@
         content: "",
         contentHtml: "",
         headerFixed: false,
-        showBottom:false,
         host: tool.oos(),
       };
     },
     methods: {
       back() {
-        window.history.back()
+        window.history.back();
       },
       handleImgUrl(url){
         if(url.indexOf('.') == -1 && url.indexOf('http') == -1 && url.indexOf('com') == -1){
@@ -67,7 +62,6 @@
       //页面滚动时
       handleScroll(){
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        this.showBottom = scrollTop >200;
         this.headerFixed = scrollTop >260;
 
       },
@@ -163,6 +157,19 @@
         img {
           width: 100%;
           height: 100%;
+        }
+        .img-back{
+          position: absolute;
+          left: 10px;
+          top: 10px;
+          width: 28px;
+          height: 28px;
+          @include bg-image("../img/icon-im-back");
+          background-size: 22px auto;
+          background-color: rgba(51, 51, 51, 0.5);
+          background-repeat: no-repeat;
+          background-position: center;
+          border-radius: 50%;
         }
         .em-warp{
           position: absolute;

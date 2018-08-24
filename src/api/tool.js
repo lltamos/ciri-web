@@ -3,9 +3,9 @@ import moment from 'moment'
 
 export default {
   domind: function () {
-    // return 'http://60.205.7.211:8816'
     // return 'http://127.0.0.1:8080'
-       return 'http://test.api.bjciri.com'
+    // return 'http://test.api.bjciri.com'  //测试
+       return 'http://api.bjciri.com'       //线上
 
   },
   path: function () {
