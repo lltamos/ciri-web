@@ -93,24 +93,34 @@ em{
   background: none;
 }
 #slider1 .mint-swipe-indicators {
-  right:-50px;
+  right: 10px;
   left: initial;
-  bottom:8px;
   z-index: 99;
+  height: 35px;
+  line-height: 35px;
   background: none;
+  transform: none;
 }
 
 //修改资讯页面轮播样式
 #slider1 .mint-swipe-indicator{
-  width:20px;
+  width:15px;
   height:3px;
   background: #fff;
-  margin-left: 9px;
+  margin: 0 0 0 6px;
   opacity: 1;
   border-radius: initial;
 }
 #slider1 .mint-swipe-indicator.is-active{
-  background: #3f83e6;
+  background: #528de8;
+}
+#project-slider .mint-swipe-indicators {
+  right:10px;
+}
+#project-slider .mint-swipe-indicator{
+  width:15px;
+  margin-left: 6px;
+  margin-right: 0;
 }
 #project-slider .mint-swipe-indicators {
   right:-44px;

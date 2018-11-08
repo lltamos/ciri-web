@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/index/index'
 import News from '@/components/news/news'
+import NewsList from '@/components/news/news-list/news-list'
 import NewsDetail from '@/components/news/news-detail/news-detail'
 import CIRINews from '@/components/news/CIRI-News/CIRI-News'
 import goOut from '@/components/news/go-out/go-out'
@@ -95,8 +96,25 @@ export default new Router({
       },
       component: login,
     },
-    // 资讯
+    //资讯
     {
+      path: '/news',
+      component: News
+    },
+    //资讯列表
+    {
+      path: '/news/news-list',
+      component: NewsList
+    },
+    //资讯详情
+    {
+      path: '/news/news-detail',
+      component: NewsDetail
+    },
+
+
+    // 资讯
+    /*{
       path: '/news',
       redirect: '/news/home',
       component: News,
@@ -143,12 +161,15 @@ export default new Router({
           ]
         }
       ]
-    },
+    },*/
     // 资讯详情页
-    {
+    /*{
       path: '/news/news-detail',
       component: NewsDetail
-    },
+    },*/
+
+
+
     // 项目
     {
       path: '/project',

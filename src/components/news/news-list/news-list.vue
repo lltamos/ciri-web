@@ -1,50 +1,12 @@
-<!-- news -->
-
 <template>
-  <div class="news bg-blank">
-    <div class="header">资讯</div>
-    <div class="main">
-      <!-- 轮播图 -->
-      <div class="slider" id="slider1">
-        <mt-swipe :auto="4000" @change="handleChange" :prevent="false">
-          <mt-swipe-item v-for="item in swipeObj" :key="item.id">
-            <router-link   :to="{path:'/news/news-detail/',query: {id: item.id}}" style="background: rgba(51,51,51,.5)">
-              <img v-lazy="handleImgUrl(item.iconUrl)">
+  <div class="news-list">
+    <div class="header-bar">
+      <i class="icon-back" @click="back"></i>
+      <h1>{{handleTitle()}}</h1>
+    </div>
 
-              <div class="bg-slider">
-                <p id="slider2">{{item.title}} </p>
-              </div>
-            </router-link>
-          </mt-swipe-item>
-        </mt-swipe>
-      </div>
-      <!--分类导航-->
-      <div class="news-nav clearfix">
-        <div class="nav-item fl" @click="toNewsList(1);">
-          <img src="./img/nav-international.png"/>
-          <p>国际</p>
-        </div>
-        <div class="nav-item fl" @click="toNewsList(2);">
-          <img src="./img/nav-knowledge.png"/>
-          <p>知识</p>
-        </div>
-        <div class="nav-item fl" @click="toNewsList(3);">
-          <img src="./img/nav-energy.png"/>
-          <p>E点新能源</p>
-        </div>
-        <div class="nav-item fl" @click="toNewsList(4);">
-          <img src="./img/nav-invest.png"/>
-          <p>投融资</p>
-        </div>
-        <div class="nav-item fl" @click="toNewsList(5);">
-          <img src="./img/nav-dynamic.png"/>
-          <p>CIRI动态</p>
-        </div>
-      </div>
-      <cross-line></cross-line>
-
-      <!--资讯列表-->
-      <div class="project" v-for="(article,index) in articles" :key="index">
+    <div class="news-main">
+      <div v-if="articles!==null" class="project" v-for="(article,index) in articles" :key="article.id">
         <router-link :to="{path:'/news/news-detail/',query: {id: article.id}}">
           <div  v-if="(index+1)%5!==0" class="project2">
             <div class="fl main-news">
@@ -63,7 +25,7 @@
           </div>
           <div v-if="(index+1)%5===0" class="project1">
             <div class="img">
-              <img v-lazy="handleImgUrl(article.iconUrl)" alt=""/>
+              <img v-lazy="handleImgUrl(article.iconUrl)"/>
             </div>
             <h2>{{article.title}}</h2>
             <div class="title-box">
@@ -74,47 +36,42 @@
           </div>
         </router-link>
       </div>
-
       <div class="more">
         <span @click='loadMore' v-text="moreText">查看更多</span><i v-show="isIcon"></i>
       </div>
       <div class="blank"></div>
+
     </div>
 
-    <tab-bar></tab-bar>
+    <div class="bottom-back" @click="back" v-if="showBottom"></div>
+
   </div>
+
 </template>
 
 <script>
-  import TabBar from '@/components/base/tab-bar/tab-bar'
-  import CrossLine from '@/components/base/cross-line/cross-line'
-  import tool from "@/api/tool";
+  import tool from "../../../api/tool";
   import moment from 'moment'
 
   export default {
-    components: {
-      TabBar,
-      CrossLine
-    },
     data() {
       return {
-        host: tool.oos(),
-        swipeObj: [],
-        page: 1,
         articles: null,
-        moreText: '查看更多',
+        host: tool.oos(),
+        page: 1,
+        topArticle: null,
+        isMore: false,
+        moreText:'查看更多',
         isIcon: true,
-        weekTotal:0,//投融资总数据
-        translate: null,
-        timeFlag:true,
+        title: '',
+        showBottom:false,
+
       };
     },
-    computed: {
-    },
-    watch: {
-    },
     methods: {
-      handleChange(index) {},
+      back() {
+        window.history.back()
+      },
       loadMore() {
         if(!this.isIcon){
           return
@@ -122,7 +79,7 @@
         let param = tool.buildForm([
           { key: "current", v: this.page },
           { key: "size", v: 10 },
-          { key: "articleCid", v: '' }
+          { key: "articleCid", v: this.$route.query.cid},
         ]);
         this.axios
           .post(tool.domind() + "/gateway/app/article/getActicleListInfoByCategory", param)
@@ -133,25 +90,40 @@
               } else {
                 this.articles = this.articles.concat(res.data.data.records);
               }
-              if(this.articles.length < res.data.data.total){
+              if(this.articles.length != res.data.data.total){
                 this.moreText='查看更多'
               }else{
-                this.moreText='没有更多了';
+                this.moreText='没有更多了'
                 this.isIcon = false;
               }
             }
             this.page = this.page + 1;
           });
       },
-      //列表页
-      toNewsList(id){
-        this.$router.push({path:'/news/news-list',query: {cid: id}});
-      },
       handleImgUrl(url){
         if(url.indexOf('.') == -1 && url.indexOf('http') == -1 && url.indexOf('com') == -1){
           return this.host + url;
         }
         return url;
+      },
+      handleTitle(){
+        //渲染title
+        if(this.$route.query.cid == '1'){
+          return '国际';
+
+        }else if(this.$route.query.cid == '2'){
+          return '知识';
+
+        }else if(this.$route.query.cid == '3'){
+          return 'e点新能源';
+
+        }else if(this.$route.query.cid == '4'){
+          return '投融资';
+
+        }else if(this.$route.query.cid == '5'){
+          return 'CIRI动态';
+
+        }
       },
       //格式化时间
       time(time) {
@@ -172,24 +144,26 @@
           return this.time(t);
         }
       },
+      handleScroll(){
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if(scrollTop > 200){
+          this.showBottom = true;
+        }else{
+          this.showBottom = false;
+        }
 
+      },
     },
     mounted() {
-      this.axios
-        .get(tool.domind() + "/gateway/app/article/getTopTitleList?number="+ '4')
-        .then(res => {
-          if (res.data.code === 200) {
-            this.swipeObj = res.data.data;
-          }
-        });
       this.loadMore();
+      window.addEventListener('scroll', this.handleScroll);//检测滚动条事件
     },
-    activated() {},
+    created(){},
+    updated() {},
     filters: {
       time(time) {
         return moment(time).format("YYYY-MM-DD");
-      },
-
+      }
     },
     destroyed() {
       window.removeEventListener("scroll", this.handleScroll);
@@ -202,87 +176,56 @@
   @import "~@/assets/scss/reset.scss";
   @import "~@/assets/scss/const.scss";
 
-  .header{
-    height:44px;
+  .header-bar {
+    height: 44px;
     line-height: 44px;
-    color:#333333;
-    font-size: 20px;
+    font-size: 14px;
     text-align: center;
     position: relative;
+    @include onepx('bottom');
+    h1 {
+      font-size: 20px;
+    }
+    .icon-back {
+      display: block;
+      position: absolute;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      margin: 11px auto;
+      @include bg-image("../../base/header-bar/icon-arrow_lift");
+      background-size: 22px auto;
+    }
+
   }
-  .main {
+
+  .news-main {
     text-align: left;
-    .slider {
-      touch-action: none;
-      height: 245px;
-      font-size: 30px;
-      text-align: center;
+    h2 {
+      font-size: 15px;
+      color: #333;
+      height: 40px;
+      line-height: 22px;
       overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-      #slider2 {
-        font-size: 16px;
-        color: #fff;
-        height: 35px;
-        line-height: 35px;
-        padding-left: 10px;
-        text-align: left;
-        width: 260px;
-        text-overflow:ellipsis;
-        white-space : nowrap;
-        overflow : hidden;
-        z-index: 11;
-      }
+      margin: 10px;
     }
-    #slider1 {
-      position: relative;
-      .mint-swipe-indicators {
-        right: 10px;
-      }
-      .bg-slider{
-        background: rgba(0,0,0,.7);
-        position:absolute;
-        bottom: 0;
-        left: 0;
-        width:100%;
-        height:35px;
-        z-index: 10;
-      }
-    }
-    #slider3 {
-      padding-top: 17px;
-      padding-bottom: 13px;
-      .swiper-slide{width:110px; margin: 0 10px !important;}
-      .invest-finance {
-        width: 110px;
-        height: 55px;
-        padding-top: 20px;
-        @include bg-image("./img/slider-bg");
-        background-size: 110px auto;
-        text-align: center;
-        box-shadow: 0px 3px 7px #eee;
-        h3 {
-          font-size: 14px;
-          color: #666;
-          height: 35px;
-          line-height: 35px;
-          overflow: hidden;
-        }
-        .time {
-          font-size: 11px;
-          color: #3f83e6;
-          height: 20px;
-          line-height: 20px;
-          overflow: hidden;
-        }
-      }
-    }
-    .cross-line {
-      width: 100%;
+    .title-box {
+      font-size: 11px;
+      color: #666;
       height: 10px;
-      background-color: #f5f5f5;
+      padding: 5px 10px 15px;
+      .column {
+        color: #3f83e6;
+      }
+      .news-time{
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        @include bg-image("../img/news-time");
+        background-size: 12px auto;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
     }
     .project {
       h2 {
@@ -358,42 +301,27 @@
       color: #3f80e9;
       margin-top: 20px;
       text-align: center;
-
       i {
         display: inline-block;
         width: 12px;
         height: 12px;
-        @include bg-image("./img/more");
+        @include bg-image("../img/more");
         background-size: 12px auto;
         margin-left: 6px;
       }
     }
     .blank{
-      height:75px;
+      height:25px;
     }
-
-    .news-nav{
-      padding: 20px 0;
-      .nav-item{
-        width: 20%;
-        text-align: center;
-        &:first-child{
-        }
-        img{
-          display: inline-block;
-          width: 49.33%;
-          height: auto;
-        }
-        p{
-          padding-top: 10px;
-          font-size: 13px;
-          line-height: 13px;
-          color: #333333;
-        }
-
-      }
-    }
-
+  }
+  .bottom-back{
+    position: fixed;
+    bottom: 17px;
+    left: 10px;
+    width: 47px;
+    height: 47px;
+    @include bg-image("../img/bottom-back");
+    background-size: 100% 100%;
   }
 
 
